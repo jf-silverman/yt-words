@@ -357,6 +357,12 @@
           "sentiment": "caution",
           "segment": "opening_commentary",
           "note": "IPO priced at $135 but at risk of catastrophic blowout if syndicate desks lose control; retail mania and unguided market orders could spike it to 4\u20135 trillion valuation unsustainably. Monitor opening behavior closely; do not chase if it gaps violently higher."
+        },
+        {
+          "date": "2026-06-11",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "IPO priced at $1.75T; syndicate desk control is critical. Uncontrolled retail demand and index inclusion could spark unsustainable spike to $4-5T valuation, then correction\u2014avoid chasing."
         }
       ]
     },
@@ -379,6 +385,12 @@
           "sentiment": "strong_buy",
           "segment": "interview",
           "note": "Post-spin-off Honeywell Technologies is a pure-play automation company with secular growth in mission-critical verticals (data centers, hospitals, LNG). 2/3 of global LNG capacity, $1B+ backlog, and physical AI optionality. Long-cycle revenue, resilient to macro. Cramer's child trust holds a large position; seeks to increase."
+        },
+        {
+          "date": "2026-06-11",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Pure-play automation company post-aerospace spin-off; mission-critical markets (data centers, hotels, hospitals, LNG). 2/3 of global LNG supply, 3-year backlog, secular growth. Cramer's trust owns large position, wants bigger. Not expensive relative to growth path."
         }
       ]
     },
@@ -390,6 +402,12 @@
           "sentiment": "caution",
           "segment": "lightning_round",
           "note": "Gridscale battery storage with $5.5B signed contracts and strong backlog, but thin/inconsistent margins. Up 62% YTD. Cramer insists profitability must arrive before stock appreciates further; not a buy until margins inflect."
+        },
+        {
+          "date": "2026-06-11",
+          "sentiment": "hold",
+          "segment": "lightning_round",
+          "note": "Grid-scale battery storage and software play with strong $5.5B backlog, but inconsistent thin margins. Must achieve profitability before higher stock prices justified; caller up 62% since April."
         }
       ]
     },
@@ -401,6 +419,12 @@
           "sentiment": "strong_buy",
           "segment": "lightning_round",
           "note": "Industrial IoT pure-play with solid fundamentals. Cramer endorses a full position, recommending caller add the second half of his position. Terrific long-term holding."
+        },
+        {
+          "date": "2026-06-11",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Industrial internet exposure; strong fundamentals. Caller should add to half position and complete full holding."
         }
       ]
     },
@@ -412,6 +436,12 @@
           "sentiment": "neutral",
           "segment": "closing_commentary",
           "note": "Oil plays are paradoxical to time on Trump rhetoric: when he says talks are going well, oil weakens (sell); when he warns of escalation, oil rallies (buy). Today's Iran strike cancellation drove oil lower. Focus on fundamentals and domestic supply insulation rather than geopolitical headlines."
+        },
+        {
+          "date": "2026-06-11",
+          "sentiment": "neutral",
+          "segment": "closing_commentary",
+          "note": "Oil price volatile with Iran headlines. Trump's contradictory statements (seize Kharg Island vs. cancel strikes) create reverse-signal dynamics\u2014buy on bad news, sell on good news rhetoric."
         }
       ]
     },
@@ -767,6 +797,17 @@
           "sentiment": "concern",
           "segment": "closing_commentary",
           "note": "Down despite Middle East war turmoil because speculators liquidating to raise SpaceX IPO cash, not true hedging demand."
+        }
+      ]
+    },
+    "DNUT": {
+      "company": "Krispy Kreme",
+      "mentions": [
+        {
+          "date": "2026-06-11",
+          "sentiment": "mild_buy",
+          "segment": "caller_qa",
+          "note": "Insider buying (director purchased 1.5M shares) and government officials' stake suggest stock undervalued. Company appears worth more than market price, but Cramer declines to speculate on Berkshire Hathaway acquisition."
         }
       ]
     }
