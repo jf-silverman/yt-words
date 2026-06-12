@@ -1,0 +1,774 @@
+{
+  "_schema": {
+    "sentiment_values": [
+      "strong_buy",
+      "buy",
+      "buy_on_pullback",
+      "mild_buy",
+      "hold",
+      "wait",
+      "caution",
+      "neutral",
+      "concern",
+      "avoid",
+      "sell"
+    ],
+    "segment_values": [
+      "opening_commentary",
+      "caller_qa",
+      "interview",
+      "lightning_round",
+      "closing_commentary"
+    ]
+  },
+  "stocks": {
+    "NVDA": {
+      "company": "Nvidia",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "strong_buy",
+          "price_target": 160,
+          "segment": "opening_commentary",
+          "note": "Own it, don't trade it. China ban is worst-case already priced in; new chips ahead of current ones. Buy at $160."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "closing_commentary",
+          "note": "Don't take the selling personally; Cramer loves the stock and says own it, don't trade it. Selling driven by speculators raising cash for SpaceX/Anthropic/OpenAI, not fundamental weakness."
+        }
+      ]
+    },
+    "WFC": {
+      "company": "Wells Fargo",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy",
+          "price_level": 82,
+          "segment": "opening_commentary",
+          "note": "Stalled at $82 \u2014 entry point. Banks win structurally when short rates fall and long rates hold."
+        }
+      ]
+    },
+    "COF": {
+      "company": "Capital One Financial",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Post-Discover merger; default rate far lower than expected. Add more if you own it."
+        }
+      ]
+    },
+    "AXP": {
+      "company": "American Express",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Up 3% to all-time high the same day travel/leisure sold off \u2014 consumer spending thesis intact."
+        }
+      ]
+    },
+    "MAR": {
+      "company": "Marriott International",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy_on_pullback",
+          "segment": "opening_commentary",
+          "note": "Crushed today which Cramer says makes no sense. Oversold vs. AXP strength. No explicit buy call but tone is bullish."
+        }
+      ]
+    },
+    "HD": {
+      "company": "Home Depot",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "hold",
+          "segment": "opening_commentary",
+          "note": "Trust position, down 1% today. Needs bigger rate cuts to move meaningfully. Will go higher but slowly \u2014 don't sell, don't add yet."
+        }
+      ]
+    },
+    "CAT": {
+      "company": "Caterpillar",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Hit all-time high but Cramer cautious on cyclicals broadly unless tied to data center or aerospace."
+        }
+      ]
+    },
+    "FDX": {
+      "company": "FedEx",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "Reports earnings tomorrow. 25 bps cut won't move the needle for this cycle. Avoid ahead of print."
+        }
+      ]
+    },
+    "UPS": {
+      "company": "United Parcel Service",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "avoid",
+          "segment": "opening_commentary",
+          "note": "7.8% dividend yield is a red flag \u2014 market is saying don't trust the dividend. May not be sustainable despite management guidance."
+        }
+      ]
+    },
+    "MU": {
+      "company": "Micron Technology",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "wait",
+          "segment": "caller_qa",
+          "note": "CEO Sanjay Mehrotra is fabulous but prudent \u2014 may not deliver the hyperbolic language Wall Street wants after stock's +80% YTD run. Wait for post-earnings clarity."
+        }
+      ]
+    },
+    "GEV": {
+      "company": "GE Vernova",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "strong_buy",
+          "segment": "caller_qa",
+          "note": "Buy every dip. Wind headwinds are noise \u2014 this is fundamentally a natural gas story. Anti-wind policy created the entry point."
+        }
+      ]
+    },
+    "CRM": {
+      "company": "Salesforce",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "mild_buy",
+          "segment": "caller_qa",
+          "note": "Down 27% YTD at 21x forward earnings. Buy case better than sell case. OK to buy if you don't own any; will pound the table lower."
+        }
+      ]
+    },
+    "WDAY": {
+      "company": "Workday",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Elliott Management took $2B+ stake with rare supportive press release. $5B buyback, 97% gross retention, 75M users. AI is a tailwind not headwind. Management endorsed."
+        }
+      ]
+    },
+    "RL": {
+      "company": "Ralph Lauren",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "Investor Day 3-yr targets: mid-single-digit revenue CAGR, +100-150 bps op margin. Trading ~20x vs S&P at 25x with ~20% EPS growth. Still bullish, leaving competition behind."
+        }
+      ]
+    },
+    "CELH": {
+      "company": "Celsius Holdings",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "strong_buy",
+          "segment": "caller_qa",
+          "note": "Emphatic. Doing incredibly well. International growth just scratching the surface. Compared to Celsius pre-Pepsi distribution deal trajectory."
+        }
+      ]
+    },
+    "LULU": {
+      "company": "Lululemon Athletica",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "avoid",
+          "segment": "caller_qa",
+          "note": "Stopped liking after they sued Costco. American consumer wants bargains. Down 57% but still no interest. Prefers Gap/Athleta instead."
+        }
+      ]
+    },
+    "GPS": {
+      "company": "Gap Inc.",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "mild_buy",
+          "segment": "caller_qa",
+          "note": "Preferred over Lululemon. Athleta turnaround thesis."
+        }
+      ]
+    },
+    "FERG": {
+      "company": "Ferguson Enterprises",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Up 8% on big beat; +30% YTD. Non-res business grew 15% in the quarter on data center, reshoring, biotech/pharma construction. Stop overthinking it \u2014 just buy Ferguson."
+        }
+      ]
+    },
+    "STX": {
+      "company": "Seagate Technology",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "caution",
+          "segment": "lightning_round",
+          "note": "Top-3 S&P 500 performer YTD; at 20x earnings that's a lot for a storage company. Don't chase this high \u2014 wait for a pullback."
+        }
+      ]
+    },
+    "WLDN": {
+      "company": "Willdan Group",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "neutral",
+          "segment": "lightning_round",
+          "note": "Just another outsourced company. No strong dislike but no conviction either."
+        }
+      ]
+    },
+    "RBRK": {
+      "company": "Rubrik",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "mild_buy",
+          "segment": "lightning_round",
+          "note": "Last quarter was good; stock drop on earnings was unwarranted. Likes it."
+        }
+      ]
+    },
+    "OC": {
+      "company": "Owens Corning",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "mild_buy",
+          "segment": "lightning_round",
+          "note": "Preferred over Eagle Materials (EXP) for building materials exposure."
+        }
+      ]
+    },
+    "CLF": {
+      "company": "Cleveland-Cliffs",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "neutral",
+          "segment": "lightning_round",
+          "note": "Had a nice run but Cramer prefers Nucor (NUE) \u2014 better balance sheet, expansion plan, less leveraged to autos."
+        }
+      ]
+    },
+    "NUE": {
+      "company": "Nucor",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Preferred steel play over Cleveland-Cliffs. Strong balance sheet, expansion plan, less auto exposure."
+        }
+      ]
+    },
+    "SAP": {
+      "company": "SAP SE",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Christian Klein delivered a great quarter. Would buy SAP right here."
+        }
+      ]
+    },
+    "DD": {
+      "company": "DuPont de Nemours",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "hold",
+          "segment": "lightning_round",
+          "note": "Stuck in split-off limbo until November business separation. Fundamentals good, CEO Lori Koch terrific. Hold \u2014 do not sell."
+        }
+      ]
+    },
+    "FIGM": {
+      "company": "Figma",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "avoid",
+          "segment": "closing_commentary",
+          "note": "IPO at $33, parabolic to $142 intraday, now ~$54. Price/revenue multiple of 178x. Plain nuts. Anyone who paid the high had no idea what they were buying."
+        }
+      ]
+    },
+    "BULL": {
+      "company": "Bullish (crypto exchange)",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "avoid",
+          "segment": "closing_commentary",
+          "note": "IPO at $37, ran to $118, now ~$54. Unsustainable parabolic IPO move."
+        }
+      ]
+    },
+    "CRCL": {
+      "company": "Circle Internet",
+      "mentions": [
+        {
+          "date": "2025-09-17",
+          "sentiment": "avoid",
+          "segment": "closing_commentary",
+          "note": "IPO at $31, ran to $298, now ~$131. Still way too high. Stablecoin company; speculation not fundamentals."
+        }
+      ]
+    },
+    "SPACEX": {
+      "company": "SpaceX",
+      "mentions": [
+        {
+          "date": "2026-06-11",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "IPO priced at $135 but at risk of catastrophic blowout if syndicate desks lose control; retail mania and unguided market orders could spike it to 4\u20135 trillion valuation unsustainably. Monitor opening behavior closely; do not chase if it gaps violently higher."
+        }
+      ]
+    },
+    "DNUN": {
+      "company": "Krispy Kreme",
+      "mentions": [
+        {
+          "date": "2026-06-11",
+          "sentiment": "hold",
+          "segment": "caller_qa",
+          "note": "Insider buying by Cash Patel, Congressman Moore, and a director ($1.5M) is constructive; company appears undervalued. However, Cramer refuses to speculate on Berkshire Hathaway M&A and advises holding based on fundamentals, not acquisition rumor."
+        }
+      ]
+    },
+    "HON": {
+      "company": "Honeywell International",
+      "mentions": [
+        {
+          "date": "2026-06-11",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Post-spin-off Honeywell Technologies is a pure-play automation company with secular growth in mission-critical verticals (data centers, hospitals, LNG). 2/3 of global LNG capacity, $1B+ backlog, and physical AI optionality. Long-cycle revenue, resilient to macro. Cramer's child trust holds a large position; seeks to increase."
+        }
+      ]
+    },
+    "FLNC": {
+      "company": "Fluence Energy",
+      "mentions": [
+        {
+          "date": "2026-06-11",
+          "sentiment": "caution",
+          "segment": "lightning_round",
+          "note": "Gridscale battery storage with $5.5B signed contracts and strong backlog, but thin/inconsistent margins. Up 62% YTD. Cramer insists profitability must arrive before stock appreciates further; not a buy until margins inflect."
+        }
+      ]
+    },
+    "MCHP": {
+      "company": "Microchip Technology",
+      "mentions": [
+        {
+          "date": "2026-06-11",
+          "sentiment": "strong_buy",
+          "segment": "lightning_round",
+          "note": "Industrial IoT pure-play with solid fundamentals. Cramer endorses a full position, recommending caller add the second half of his position. Terrific long-term holding."
+        }
+      ]
+    },
+    "CVX": {
+      "company": "Chevron",
+      "mentions": [
+        {
+          "date": "2026-06-11",
+          "sentiment": "neutral",
+          "segment": "closing_commentary",
+          "note": "Oil plays are paradoxical to time on Trump rhetoric: when he says talks are going well, oil weakens (sell); when he warns of escalation, oil rallies (buy). Today's Iran strike cancellation drove oil lower. Focus on fundamentals and domestic supply insulation rather than geopolitical headlines."
+        }
+      ]
+    },
+    "AMAT": {
+      "company": "Applied Materials",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Semiconductor equipment supplier benefiting from chip shortage for storage/memory. Made new intraday high today; CEO Gary Dickerson well-aware of company's importance in food chain."
+        }
+      ]
+    },
+    "C": {
+      "company": "Citigroup",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "CEO Jane Frasier represents great management; she has cut costs, rationalized the bank, and made Citi a perennial litter pick. Stock made new intraday high despite closing in red."
+        }
+      ]
+    },
+    "PEAK": {
+      "company": "Health Peak Properties",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Healthcare REIT with strong yield under 6% and defensive healthcare facility portfolio (outpatient, continuing care). New high on defensive flight."
+        }
+      ]
+    },
+    "FRT": {
+      "company": "Federal Realty Investment Trust",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Shopping center REIT with mixed-use properties under longtime CEO Don Wood; safe 3.66% yield, stock up 23% YTD.",
+          "price_level": 3.66
+        }
+      ]
+    },
+    "FORY": {
+      "company": "Forive (formerly Verdive)",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Industrial precision instruments company spun from Danaher decade ago; made new high, caught Cramer by surprise. Nothing special fundamentally."
+        }
+      ]
+    },
+    "GL": {
+      "company": "Globe Life",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Supplemental health and life insurance (formerly Torch Mark); sells for 10x earnings representing true value, up 2% despite bad tape."
+        }
+      ]
+    },
+    "GWW": {
+      "company": "W.W. Grainger",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Industrial distributor of equipment contractors need; made new high possibly on housing data or retail M&A interest, but rationale unclear to Cramer."
+        }
+      ]
+    },
+    "HUM": {
+      "company": "Humana",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Managed care/health insurer; benefited from Trump administration Medicare Advantage premium lift and improved 2027 reimbursements. Textbook safety stock."
+        }
+      ]
+    },
+    "JCI": {
+      "company": "Johnson Controls",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "HVAC and data center infrastructure plays; second data center play on new-high list, doing well amid summer cooling season."
+        }
+      ]
+    },
+    "KMX": {
+      "company": "Kimco Realty",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "REIT owning strip malls and mixed-use properties with defensive 4% yield."
+        }
+      ]
+    },
+    "KLAC": {
+      "company": "KLA",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "Semiconductor capital equipment maker; second one on new-high list alongside AMAT, but Cramer warns chart looks risky post-purchase."
+        }
+      ]
+    },
+    "KO": {
+      "company": "Coca-Cola",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Classic defensive stock that rallied nearly 3% today despite market downturn under CEO RK Brun's continued growth ignition. Continue to buy on S&P weakness."
+        }
+      ]
+    },
+    "LIN": {
+      "company": "Linde",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Industrial gas distributor held by travel trust; makes rocket fuel for SpaceX. Made new intraday high but gave up gains in afternoon."
+        }
+      ]
+    },
+    "MET": {
+      "company": "MetLife",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Solid conservative run insurance company invested in right things; represents long-term value."
+        }
+      ]
+    },
+    "MNST": {
+      "company": "Monster Beverage",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "One of greatest growth stories since 1985; defensive energy drink with global reach. Buy into the tsunami\u2014it works."
+        }
+      ]
+    },
+    "PFG": {
+      "company": "Principal Financial",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Boring defensive financial with 3% yield."
+        }
+      ]
+    },
+    "SPG": {
+      "company": "Simon Property Group",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Best collection of shopping malls in America under late David Simon's legacy; now yields 4.15% with terrific record."
+        }
+      ]
+    },
+    "TJX": {
+      "company": "TJX Companies",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Value retailer held by travel trust; ideal for discount shopping, held up very nicely today. Not dollar stores but affordable quality."
+        }
+      ]
+    },
+    "UNH": {
+      "company": "United Health",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Managed care play up on same Medicare Advantage tailwinds as Humana; legendary CEO Steve Hemsley back turning around brutal prior management. Own it."
+        }
+      ]
+    },
+    "DKNG": {
+      "company": "DraftKings",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "caller_qa",
+          "note": "Has finally shown momentum after years of stagnation; people who avoided it are now stepping in inch by inch. Buy on this momentum."
+        }
+      ]
+    },
+    "CLAUDE": {
+      "company": "Anthropic (Claude AI)",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "100x data shows extraordinary 40% net purchase intent to use more (vs. 17% for second place). Can raise prices; this is the AI deal Cramer wants investors in."
+        }
+      ]
+    },
+    "OPENAI": {
+      "company": "OpenAI",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "concern",
+          "segment": "interview",
+          "note": "10% purchase intent (top 10% of all brands) but Cramer expresses worry about the company despite decent numbers."
+        }
+      ]
+    },
+    "JPM": {
+      "company": "JPMorgan Chase",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "wait",
+          "segment": "caller_qa",
+          "note": "Good company but timing is wrong; wait until after SpaceX IPO pricing before buying to allow more informed decision.",
+          "price_level": 309
+        }
+      ]
+    },
+    "BLAZE": {
+      "company": "Back Blaze",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "wait",
+          "segment": "in_depth_analysis",
+          "note": "Real company with solid revenues, big AI customers (76% YoY growth in AI customer count), and improving financials. Cloud storage up 24% YoY. But hardware costs up 30% YoY, heavy hyperscaler competition, and poor timing as speculators liquidate AI names for mega-IPOs. Valuation 3x sales, 50x forward earnings not compelling. Put a pin in it.",
+          "price_level": null
+        }
+      ]
+    },
+    "EQT": {
+      "company": "EQT Corporation",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Natural gas play; Cramer likes it very much alongside Devon energy story."
+        }
+      ]
+    },
+    "AAOI": {
+      "company": "Applied Optoelectronics",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "caution",
+          "segment": "lightning_round",
+          "note": "Data center optical play; Cramer prefers Corning given the charts look bad across all these names."
+        }
+      ]
+    },
+    "GLW": {
+      "company": "Corning",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Optical fiber and data center infrastructure; Cramer's preferred pick over AAOI despite poor chart environment."
+        }
+      ]
+    },
+    "BB": {
+      "company": "BlackBerry",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "mild_buy",
+          "segment": "lightning_round",
+          "note": "Actually interesting per Cramer (was planning piece on why BB may be interesting), but home-team Corning gets the nod."
+        }
+      ]
+    },
+    "ORCL": {
+      "company": "Oracle",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Down 6.6% after hours; not mentioned in new-high list, indicating market skepticism despite data center tailwinds."
+        }
+      ]
+    },
+    "AAPL": {
+      "company": "Apple",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "closing_commentary",
+          "note": "Don't take selling personally; Cramer loves Apple and says own it, don't trade it. Selling driven by speculators liquidating to raise SpaceX IPO cash. Apple spending next to nothing on AI via Alphabet deal."
+        }
+      ]
+    },
+    "BTC": {
+      "company": "Bitcoin",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "concern",
+          "segment": "closing_commentary",
+          "note": "Down sharply as speculators liquidate crypto holdings to raise cash for SpaceX/mega-IPOs. Crypto holders are speculators, not hedgers, willing to flip deals on day one."
+        }
+      ]
+    },
+    "GLD": {
+      "company": "Gold",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "concern",
+          "segment": "closing_commentary",
+          "note": "Down despite Middle East war turmoil because speculators liquidating to raise SpaceX IPO cash, not true hedging demand."
+        }
+      ]
+    }
+  }
+}
