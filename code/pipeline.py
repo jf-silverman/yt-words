@@ -65,10 +65,12 @@ OUTPUT_DIR = DATA_DIR / "output"
 DOCS_DIR = ROOT / "docs"
 SENTIMENTS_FILE = DATA_DIR / "stock_sentiments.json"
 PROCESSED_FILE = DATA_DIR / "processed_episodes.json"
+OVERCAST_CACHE_FILE = DATA_DIR / "overcast_episode_ids.json"
 RULES_FILE = ROOT / "prompts" / "mad_money_rules.md"
 
 CNBC_CHANNEL_ID = "UCrp_UI8XtuYfpiqluWLD7Lw"
 MAD_MONEY_RSS = "https://feeds.simplecast.com/TkQfZXMD"
+OVERCAST_PODCAST_URL = "https://overcast.fm/itunes147247199/"
 GITHUB_PAGES_BASE = "https://jf-silverman.github.io/yt-words"
 
 GMAIL_FROM = "joelfsilverman@gmail.com"
@@ -289,6 +291,94 @@ def yt_link(video_id: str, seconds: float) -> str:
     return f"https://youtu.be/{video_id}?t={int(seconds)}"
 
 
+def overcast_fm_link(episode_id: str, seconds: int) -> str:
+    """Build https://overcast.fm/+EPISODE_ID/[H:]M:SS universal link."""
+    total = int(seconds)
+    h, rem = divmod(total, 3600)
+    m, s = divmod(rem, 60)
+    if h:
+        return f"https://overcast.fm/+{episode_id}/{h}:{m:02d}:{s:02d}"
+    return f"https://overcast.fm/+{episode_id}/{m}:{s:02d}"
+
+
+def _load_overcast_cache() -> dict:
+    if OVERCAST_CACHE_FILE.exists():
+        return json.loads(OVERCAST_CACHE_FILE.read_text())
+    return {}
+
+
+def _save_overcast_cache(cache: dict) -> None:
+    OVERCAST_CACHE_FILE.write_text(json.dumps(cache, indent=2))
+
+
+def fetch_overcast_episode_id(date_str: str) -> str | None:
+    """
+    Log into Overcast, fetch the Mad Money podcast page, and return the
+    Overcast episode ID (e.g. 'AApaDLzNP6o') for the given date.
+    Caches results in data/overcast_episode_ids.json.
+    Returns None if credentials are missing or episode not found.
+    """
+    cache = _load_overcast_cache()
+    if date_str in cache:
+        return cache[date_str]
+
+    email = os.environ.get("OVERCAST_EMAIL")
+    password = os.environ.get("OVERCAST_PASSWORD")
+    if not email or not password:
+        print("  OVERCAST_EMAIL/OVERCAST_PASSWORD not set — using YouTube fallback links")
+        return None
+
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+    })
+
+    try:
+        resp = session.post(
+            "https://overcast.fm/login",
+            data={"email": email, "password": password, "then": "podcasts"},
+            timeout=15,
+            allow_redirects=True,
+        )
+        resp.raise_for_status()
+        # Overcast returns 200 on bad credentials but body contains the login form again
+        if 'name="password"' in resp.text:
+            print("  Overcast login failed — check OVERCAST_EMAIL and OVERCAST_PASSWORD")
+            return None
+    except Exception as e:
+        print(f"  Overcast login error: {e}")
+        return None
+
+    try:
+        resp = session.get(OVERCAST_PODCAST_URL, timeout=15)
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"  Overcast podcast page fetch failed: {e}")
+        return None
+
+    # Episode links look like: href="/+AApaDLzNP6o"
+    # Titles look like: "Mad Money w/ Jim Cramer 6/11/26"
+    target = datetime.fromisoformat(date_str)
+    date_patterns = [
+        target.strftime("%-m/%-d/%y"),    # "6/11/26"
+        target.strftime("%-m/%-d/%Y"),    # "6/11/2026"
+        target.strftime("%B %-d, %Y"),    # "June 11, 2026"
+        target.strftime("%b %-d, %Y"),    # "Jun 11, 2026"
+    ]
+
+    for match in re.finditer(r'href="/\+([A-Za-z0-9]+)"[^>]*>\s*([^<]+)', resp.text):
+        ep_id, title = match.group(1), match.group(2).strip()
+        for pat in date_patterns:
+            if pat in title:
+                cache[date_str] = ep_id
+                _save_overcast_cache(cache)
+                print(f"  Overcast episode ID: {ep_id}  (matched '{title}')")
+                return ep_id
+
+    print(f"  No Overcast episode found for {date_str} — using YouTube fallback links")
+    return None
+
+
 # ── 6. GitHub Pages redirect pages ────────────────────────────────────────────
 
 def _section_slug(name: str) -> str:
@@ -299,8 +389,7 @@ def _section_slug(name: str) -> str:
 
 
 def _redirect_page_html(section_name: str, date_label: str, time_label: str,
-                        audio_url: str, seconds: int) -> str:
-    overcast_url = f"overcast://x-callback-url/add?url={quote(audio_url)}&t={seconds}"
+                        overcast_url: str) -> str:
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -338,15 +427,18 @@ def _redirect_page_html(section_name: str, date_label: str, time_label: str,
 </html>"""
 
 
-def generate_redirect_pages(analysis: dict, audio_url: str | None,
-                             date_str: str) -> dict[str, str]:
+def generate_redirect_pages(analysis: dict, date_str: str,
+                             overcast_episode_id: str | None = None,
+                             audio_url: str | None = None) -> dict[str, str]:
     """
     Write one HTML redirect page per section (and subsection).
     Returns a dict mapping section start_seconds → GitHub Pages URL.
-    Only generates pages when audio_url is available (needed for Overcast link).
-    Falls back to YouTube links (handled in build_email_html) when audio_url is None.
+
+    Prefers Overcast universal links (https://overcast.fm/+ID/MM:SS) when
+    overcast_episode_id is provided; falls back to the RSS audio URL approach.
+    Returns {} if neither is available.
     """
-    if not audio_url:
+    if not overcast_episode_id and not audio_url:
         return {}
 
     dt = datetime.fromisoformat(date_str)
@@ -363,7 +455,11 @@ def generate_redirect_pages(analysis: dict, audio_url: str | None,
         if parent_slug:
             slug = f"{parent_slug}-{slug}"
         time_label = _fmt_seconds(secs)
-        html = _redirect_page_html(name, date_label, time_label, audio_url, secs)
+        if overcast_episode_id:
+            oc_url = overcast_fm_link(overcast_episode_id, secs)
+        else:
+            oc_url = f"overcast://x-callback-url/add?url={quote(audio_url)}&t={secs}"
+        html = _redirect_page_html(name, date_label, time_label, oc_url)
         page_path = redirect_dir / f"{slug}.html"
         page_path.write_text(html)
         pages[secs] = f"{GITHUB_PAGES_BASE}/redirect/{date_str}/{slug}.html"
@@ -424,9 +520,9 @@ def build_email_html(summaries: list[dict]) -> str:
 
     for ep in summaries:
         analysis = ep["analysis"]
-        audio_url = ep.get("audio_url")
         video_id = ep["video_id"]
         redirect_pages = ep.get("redirect_pages", {})
+        overcast_id = ep.get("overcast_episode_id")
         ep_date = analysis.get("episode_date", ep["date_str"])
         dt = datetime.fromisoformat(ep_date)
         date_label = dt.strftime("%A, %B %-d, %Y")
@@ -438,9 +534,17 @@ def build_email_html(summaries: list[dict]) -> str:
             secs = section.get("start_seconds", 0)
             ts_label = _fmt_seconds(secs)
             name = section.get("name", "")
-            # Prefer GitHub Pages redirect URL; fall back to YouTube
-            href = redirect_pages.get(secs) or yt_link(video_id, secs)
-            icon = "🎙" if secs in redirect_pages else "▶"
+            if overcast_id:
+                # Universal link — opens Overcast directly on iPhone from Gmail
+                href = overcast_fm_link(overcast_id, secs)
+                icon = "🎙"
+            elif secs in redirect_pages:
+                # GitHub Pages redirect page as fallback
+                href = redirect_pages[secs]
+                icon = "🎙"
+            else:
+                href = yt_link(video_id, secs)
+                icon = "▶"
             tag_open = '<div class="sub">' if indent else ""
             tag_close = "</div>" if indent else ""
             parts.append(
@@ -483,10 +587,14 @@ def build_email_html(summaries: list[dict]) -> str:
 
         parts.append('<br>')
 
-    has_overcast = any(ep.get("redirect_pages") for ep in summaries)
-    link_note = ("🎙 section links open a page that jumps to Overcast at that timestamp"
-                 if has_overcast else
-                 "▶ section links open on YouTube (podcast RSS not matched)")
+    has_overcast_id = any(ep.get("overcast_episode_id") for ep in summaries)
+    has_redirect = any(ep.get("redirect_pages") for ep in summaries)
+    if has_overcast_id:
+        link_note = "🎙 section links open directly in Overcast at that timestamp"
+    elif has_redirect:
+        link_note = "🎙 section links open a redirect page that jumps to Overcast"
+    else:
+        link_note = "▶ section links open on YouTube (Overcast episode ID not found)"
     parts.append(
         f'<div class="footer">Generated by Claude Haiku &middot; {link_note} &middot; '
         f'stock_sentiments.json updated</div>'
@@ -557,6 +665,51 @@ def commit_and_push(date_str: str) -> None:
         print(f"  Git push failed: {e} — links will use YouTube fallback until next push")
 
 
+# ── Redirect page repair utility ──────────────────────────────────────────────
+
+def fix_redirect_pages(date_str: str) -> None:
+    """
+    Re-generate redirect pages for an already-processed date using the
+    correct Overcast universal link format (https://overcast.fm/+ID/MM:SS).
+
+    Reads existing pages from docs/redirect/DATE/, extracts section names and
+    timestamps from the old HTML, fetches the Overcast episode ID, then rewrites
+    each page with the corrected URL.
+    """
+    redirect_dir = DOCS_DIR / "redirect" / date_str
+    if not redirect_dir.exists():
+        print(f"No redirect pages found for {date_str} — nothing to fix.")
+        return
+
+    overcast_episode_id = fetch_overcast_episode_id(date_str)
+    if not overcast_episode_id:
+        print("Cannot fix redirect pages without Overcast episode ID.")
+        return
+
+    dt = datetime.fromisoformat(date_str)
+    date_label = dt.strftime("%b %-d, %Y")
+
+    fixed = 0
+    for page in redirect_dir.glob("*.html"):
+        content = page.read_text()
+        # Extract seconds from old overcast://x-callback-url/add?...&t=SECONDS
+        m_t = re.search(r"[?&]t=(\d+)", content)
+        # Extract section name from <h1>
+        m_name = re.search(r"<h1>([^<]+)</h1>", content)
+        if not m_t or not m_name:
+            print(f"  Could not parse {page.name} — skipping")
+            continue
+        secs = int(m_t.group(1))
+        name = m_name.group(1)
+        time_label = _fmt_seconds(secs)
+        oc_url = overcast_fm_link(overcast_episode_id, secs)
+        page.write_text(_redirect_page_html(name, date_label, time_label, oc_url))
+        fixed += 1
+        print(f"  Fixed {page.name} → {oc_url}")
+
+    print(f"Fixed {fixed} redirect pages for {date_str}.")
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -567,7 +720,14 @@ def main() -> None:
                         help="Email delivery mode (default: smtp)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Analyze and format but do not send email")
+    parser.add_argument("--fix-redirects", metavar="DATE",
+                        help="Re-generate existing redirect pages for DATE (YYYY-MM-DD) "
+                             "with correct Overcast universal links")
     args = parser.parse_args()
+
+    if args.fix_redirects:
+        fix_redirect_pages(args.fix_redirects)
+        return
 
     episodes = discover_new_episodes(args.max_episodes)
     if not episodes:
@@ -600,11 +760,24 @@ def main() -> None:
 
         print("  Looking up podcast episode in RSS feed...")
         audio_url = find_podcast_episode(date_str)
-        link_mode = "Overcast" if audio_url else "YouTube (RSS not matched)"
+
+        print("  Looking up Overcast episode ID...")
+        overcast_episode_id = fetch_overcast_episode_id(date_str)
+
+        if overcast_episode_id:
+            link_mode = "Overcast universal links (https://overcast.fm/+ID/MM:SS)"
+        elif audio_url:
+            link_mode = "GitHub Pages redirect (audio URL)"
+        else:
+            link_mode = "YouTube fallback"
         print(f"  Links: {link_mode}")
 
         print("  Generating redirect pages...")
-        redirect_pages = generate_redirect_pages(analysis, audio_url, date_str)
+        redirect_pages = generate_redirect_pages(
+            analysis, date_str,
+            overcast_episode_id=overcast_episode_id,
+            audio_url=audio_url,
+        )
         print(f"  Redirect pages: {len(redirect_pages)}")
 
         summaries.append({
@@ -613,6 +786,7 @@ def main() -> None:
             "audio_url": audio_url,
             "video_id": video_id,
             "redirect_pages": redirect_pages,
+            "overcast_episode_id": overcast_episode_id,
         })
         processed.append({"video_id": video_id, "date": date_str})
 
