@@ -366,7 +366,11 @@ def fetch_overcast_episode_id(date_str: str) -> str | None:
         target.strftime("%b %-d, %Y"),    # "Jun 11, 2026"
     ]
 
-    for match in re.finditer(r'href="/\+([A-Za-z0-9]+)"[^>]*>\s*([^<]+)', resp.text):
+    # Title lives in <div class="title singleline"> inside each <a href="/+ID"> block
+    for match in re.finditer(
+        r'href="/\+([A-Za-z0-9]+)"[^>]*>.*?<div class="title singleline">([^<]+)</div>',
+        resp.text, re.S,
+    ):
         ep_id, title = match.group(1), match.group(2).strip()
         for pat in date_patterns:
             if pat in title:
