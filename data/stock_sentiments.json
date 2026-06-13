@@ -61,6 +61,18 @@
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
           "note": "Massive selling source for SpaceX IPO funding. Excellent company fundamentally; selling is forced liquidation. Own it, don't trade it. Will likely benefit when IPO capital redeploys into AI infrastructure."
+        },
+        {
+          "date": "2026-06-09",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Only mega-cap tech with pristine buyback and balance sheet; will benefit from all data center IPOs; being slaughtered unfairly and will snap back first out of the tech mass."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "strong_buy",
+          "segment": "closing_commentary",
+          "note": "Market linchpin; power behind generative AI, agents, training. Sovereign AI adoption (South Korea, Singapore, India, Japan, etc.) now 14% of revenue and growing, reducing hyperscaler-defection risk. Google paying $920M/month to SpaceX for Nvidia GPUs proves customer preference for Nvidia over in-house chips. Own it long-term, don't trade. Near-term IPO wave will pressure valuations, but Nvidia's strategic moat is intact."
         }
       ]
     },
@@ -117,6 +129,13 @@
           "sentiment": "hold",
           "segment": "opening_commentary",
           "note": "Trust position, down 1% today. Needs bigger rate cuts to move meaningfully. Will go higher but slowly \u2014 don't sell, don't add yet."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy",
+          "segment": "caller_qa",
+          "note": "Yielding 3%, a magical level. Fed rate cuts now unlikely, so stock depressed. Long-term holder since $30 should buy more. Stock at 20x spring-selling-season earnings.",
+          "price_level": null
         }
       ]
     },
@@ -227,6 +246,13 @@
           "sentiment": "avoid",
           "segment": "caller_qa",
           "note": "Stopped liking after they sued Costco. American consumer wants bargains. Down 57% but still no interest. Prefers Gap/Athleta instead."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "caution",
+          "segment": "in_depth_analysis",
+          "note": "Down 45% YTD, 65% in 12 months. Q missed, guidance dismal: North America same-store sales down 5\u20136%, expected low double-digit declines next Q. Margin pressure, tariffs, product refresh needed. Trades 10x forward earnings (vs. 30x historical). Bubble burst from pandemic demand pull-forward, explosive competition (Alo, Hoka, Nike, Adidas), style shift to baggier denim, lost pricing power. May be worth a look at much lower levels, not here.",
+          "price_level": null
         }
       ]
     },
@@ -238,6 +264,12 @@
           "sentiment": "mild_buy",
           "segment": "caller_qa",
           "note": "Preferred over Lululemon. Athleta turnaround thesis."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "caution",
+          "segment": "in_depth_analysis",
+          "note": "Athletic division net sales down 12%, same-store sales down 11%. Rebranding effort underway but early. Long turnaround project; trades 9x earnings. Athleisure weakness is secular, not cyclical."
         }
       ]
     },
@@ -393,6 +425,13 @@
           "sentiment": "caution",
           "segment": "closing_commentary",
           "note": "IPO reportedly 4x oversubscribed but Cramer wants to see 10x to be confident. Key risk: speculator cohort will flip shares on day one, creating oversupply and poor opening performance (like Figma, Cerebrus). Best IPO outcome: retail + early-stage institutions (non-sellers); worst: dominated by flippers. Warns allocation holders: be cautious if you get full ask or over-allocation."
+        },
+        {
+          "date": "2026-06-09",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "Risk of market-order-driven opening spike (valuation $5T) followed by sharp reversal like Cerebrus deal; retail inflows may be too hot; no near-term profitability; IPO execution risk high.",
+          "price_level": 5000000000000
         }
       ]
     },
@@ -472,6 +511,12 @@
           "sentiment": "neutral",
           "segment": "closing_commentary",
           "note": "Oil price volatile with Iran headlines. Trump's contradictory statements (seize Kharg Island vs. cancel strikes) create reverse-signal dynamics\u2014buy on bad news, sell on good news rhetoric."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Preferred large-cap oil play over BP."
         }
       ]
     },
@@ -1034,6 +1079,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Trust-owned. Ideal value shopping destination; held up very well in weak market. Secular disinflationary play vs. dollar stores. Defensive."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Cramer's long-term favorite in off-price retail; mentioned as beneficiary of same discount-retail thesis driving Ross success. Would love to own both if diversification rules allowed."
         }
       ]
     },
@@ -1069,6 +1120,12 @@
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
           "note": "Legendary CEO Steve Hemsley back after brutal mismanagement. Managed care play benefiting from Medicare Advantage. Cramer owned it in 1988 and crushed it; buy now."
+        },
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Healthcare insurance leader; part of emerging healthcare leadership group offering better growth and valuation than tech."
         }
       ]
     },
@@ -1138,6 +1195,12 @@
           "sentiment": "caution",
           "segment": "in_depth_analysis",
           "note": "10% net intent to use more (top 10% of all brands, solid). But Cramer worried about OpenAI vs. Anthropic's Claude dominance. Neutral to cautious stance; prefers Anthropic long-term."
+        },
+        {
+          "date": "2026-06-09",
+          "sentiment": "concern",
+          "segment": "closing_commentary",
+          "note": "Private valuations speculative; loses fortunes; may not survive transition to public markets given saturation of speculative capital; IPO timing risky."
         }
       ]
     },
@@ -1209,6 +1272,12 @@
           "sentiment": "buy",
           "segment": "lightning_round",
           "note": "Natural gas play; Cramer prefers EQT over Trans Ocean for energy exposure. Devon also noted positively."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Preferred natural gas play."
         }
       ]
     },
@@ -1313,6 +1382,12 @@
           "sentiment": "caution",
           "segment": "opening_commentary",
           "note": "Down 6.6% after close. Not on new highs list; facing headwinds from broader AI/data center rotation."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Got into data center business years ago to avoid AI capex trap. Results Wednesday will reveal if strategy is working; mixed outlook on feasibility."
         }
       ]
     },
@@ -1348,6 +1423,24 @@
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
           "note": "Heavy selling driven by portfolio liquidation for SpaceX allocations, not fundamentals. AI spending minimal due to Alphabet/Gemini deal. Own long-term, don't trade."
+        },
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Fantastic balance sheet, robust buyback, beloved products; still has scarcity characteristics despite broader tech oversupply fears."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "hold",
+          "segment": "opening_commentary",
+          "note": "Clean story but WWDC announcement disappointed traders. Siri improvements and AI integration real, but Apple's leadership position matters too much to lose. Wanted it to open down and rally instead; traders are the losers, not Apple."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Avoids massive AI capex by piggybacking off Alphabet's spending; with 2.5B active devices, competitive chatbot makers need access to Apple's audience. WWDC Monday should reveal Siri improvements."
         }
       ]
     },
@@ -1371,6 +1464,12 @@
           "sentiment": "caution",
           "segment": "closing_commentary",
           "note": "Collapsed along with gold as speculators liquidate to fund SpaceX allocations. Speculators treating it as risk asset, not hedge. Timing signal of broader market stress."
+        },
+        {
+          "date": "2026-06-09",
+          "sentiment": "concern",
+          "segment": "closing_commentary",
+          "note": "Relentless decline signals excessive speculation; charts are among worst Cramer has ever seen; leverage and 2x/3x ETF propping may not hold; potential for sharp further downside."
         }
       ]
     },
@@ -1525,6 +1624,12 @@
           "sentiment": "strong_buy",
           "segment": "in_depth_analysis",
           "note": "Claude AI platform shows 40% of users intend to increase usage vs. only 6% less\u2014extraordinary net +34 vs. 1% average brand. Cramer says this is the deal to own (vs. SpaceX or OpenAI). Pricing power evident; could raise prices without alienating users. Investment vehicle for AI upside."
+        },
+        {
+          "date": "2026-06-09",
+          "sentiment": "caution",
+          "segment": "closing_commentary",
+          "note": "Real enterprise revenue growing; but valuation concerns on transition to public markets; IPO timing adds risk to broader market stability."
         }
       ]
     },
@@ -1536,6 +1641,18 @@
           "sentiment": "hold",
           "segment": "closing_commentary",
           "note": "Apple's AI deal with Alphabet makes Google the default search engine and extends Gemini integration. Neutral to positive for Alphabet as a beneficiary of AI deals."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Equity issuance to fund unprofitable data-center buildout raises dilution fears. Though $920M/month SpaceX deal shows Google Cloud customers prefer Nvidia GPUs over internal TPUs\u2014a bullish signal for Nvidia offset by equity-supply concerns."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Just completed multi-billion fund raise for AI. Supply wave will impact stock in near term as investors raise cash."
         }
       ]
     },
@@ -1644,6 +1761,598 @@
           "sentiment": "buy",
           "segment": "lightning_round",
           "note": "Data center optical fiber and infrastructure play. Cramer prefers over AAOI despite poor chart. Better fundamentals; willing to hold through technical weakness."
+        }
+      ]
+    },
+    "JNJ": {
+      "company": "Johnson & Johnson",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Shedding slow-growth divisions; refocusing on fast-growing drugs; AAA balance sheet; emerging leadership stock in healthcare sector."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "hold",
+          "segment": "closing_commentary",
+          "note": "Core defensive holding in the charitable trust providing cushion during today's data-center meltdown. Strong new drug pipeline, triple-A balance sheet better than U.S. Preserved sanity during tsunami sell-off."
+        }
+      ]
+    },
+    "JM": {
+      "company": "J.M. Smucker Company",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Pet food, coffee, peanut butter portfolio has scarcity value and decent balance sheet; food stocks offer alternative leadership in uncertain times."
+        }
+      ]
+    },
+    "WSM": {
+      "company": "Williams-Sonoma",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Retail beneficiary of strong housing market; good housing sales support home-goods retailers; two thumbs up."
+        }
+      ]
+    },
+    "NFLX": {
+      "company": "Netflix",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "caller_qa",
+          "note": "Cramer wants to buy Netflix. Warner Bros. studio contemplation was prudent optionality review; down 13% is good entry; will outperform.",
+          "price_level": 13
+        }
+      ]
+    },
+    "AVGO": {
+      "company": "Broadcom",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "avoid",
+          "segment": "caller_qa",
+          "note": "Earnings missed badly; Cramer's trust lost heavily; compared to a weekend of hell in 1982; semiconductor oversupply headwind."
+        }
+      ]
+    },
+    "META": {
+      "company": "Meta Platforms",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Leading workforce development initiative (America's Workforce Academy) addressing skilled labor shortage; bullish on company vision and data center investment thesis."
+        },
+        {
+          "date": "2026-06-08",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Potential equity issuance to fund data-center capex could dilute shareholder base alongside Google and Amazon offerings, draining market liquidity pre-SpaceX IPO."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Considering colossal fund raise for AI ambitions (similar to Alphabet's multi-billion move). Supply of new stock flooding market is a headwind; investors must sell other holdings to fund purchases."
+        }
+      ]
+    },
+    "NET": {
+      "company": "Cloudflare",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Bot traffic exceeds human traffic; AI agents driving exponential internet growth; Cloudflare powers this infrastructure; layoffs were prudent restructuring; platform positioning strong for next 27 years of internet business model."
+        }
+      ]
+    },
+    "ETR": {
+      "company": "Entergy",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Secular growth utility (not just dividend staid); $67B capital plan doubled; Meta data center partnership; fair-share-plus model ensures customer balance; nuclear expansion potential; been recommending since 2012.",
+          "price_target": 35
+        }
+      ]
+    },
+    "TRI": {
+      "company": "Thomson Reuters",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Media sector decimated by AI; Cramer cannot get behind legacy publisher narrative regardless of Wall Street skepticism."
+        }
+      ]
+    },
+    "XER": {
+      "company": "Exorus",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Injectables play; Cramer approves for spec portfolios; one spec stock is all investors need to scratch that itch responsibly."
+        }
+      ]
+    },
+    "ODS": {
+      "company": "Onsas",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Military drone autonomous systems meme stock; too dangerous in this horrible market; meme stocks can rip lungs out; Cramer won't allow it."
+        }
+      ]
+    },
+    "NBIS": {
+      "company": "Nebius Group",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "wait",
+          "segment": "lightning_round",
+          "note": "Was favorite stock until market turned ugly; market facts changed; let it come down before reconsidering; no longer right coloration for speculation."
+        }
+      ]
+    },
+    "WIX": {
+      "company": "Wix",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "hold",
+          "segment": "lightning_round",
+          "note": "Cramer prefers other alternatives; no strong conviction on Wix itself relative to market conditions."
+        }
+      ]
+    },
+    "CCL": {
+      "company": "Carnival Corporation",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "hold",
+          "segment": "lightning_round",
+          "note": "Low multiple appeal but Cramer prefers Viking Cruises (VKG) long-term; Viking offers better 5-year outlook; Carnival reasonable hold but not best-in-class."
+        }
+      ]
+    },
+    "VKG": {
+      "company": "Viking Holdings",
+      "mentions": [
+        {
+          "date": "2026-06-09",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Preferred cruise line over Carnival for next 5 years; better fundamental positioning; Cramer recommends sailing with Viking."
+        }
+      ]
+    },
+    "AMZN": {
+      "company": "Amazon",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Developing Trainium and Trainium alternatives to reduce Nvidia chip reliance. If equity offering follows Google's, will dilute supply further just before SpaceX IPO."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "May do a fundraiser per Cramer's speculation. Supply could hit stock if they tap capital markets."
+        }
+      ]
+    },
+    "MSFT": {
+      "company": "Microsoft",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Equity dilution risk similar to Alphabet and Amazon if capital needs force secondary offerings before SpaceX IPO closes."
+        },
+        {
+          "date": "2026-06-05",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "May do a fundraiser per Cramer's speculation. Unknown if they'll need to raise capital for AI/infrastructure."
+        }
+      ]
+    },
+    "DGX": {
+      "company": "Cerebrus (IPO)",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "avoid",
+          "segment": "caller_qa",
+          "note": "Botched IPO pricing; opened at $370 vs. expected $170\u2013180 range and has collapsed since. Caller Angel underwater on recent purchase. Classic example of overallocation and mispricing Cramer fears for SpaceX this week."
+        }
+      ]
+    },
+    "NOW": {
+      "company": "ServiceNow",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "wait",
+          "segment": "caller_qa",
+          "note": "Expensive software-as-a-service company pivoting rapidly; mixed fundamentals. Better than most enterprise software peers, but not a buy at current levels in today's cautious environment."
+        }
+      ]
+    },
+    "INNIO": {
+      "company": "INNIO (Enphase Energy)",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "mild_buy",
+          "segment": "in_depth_analysis",
+          "note": "German distributed power-generation play for data centers; 7x backlog expansion and 60% order growth offset margin erosion from production ramp and raw-material costs. Enterprise EV/EBITDA multiple of 46 not cheap. Prefer entry around 29, but small position justified here.",
+          "price_level": 33.72
+        }
+      ]
+    },
+    "ROST": {
+      "company": "Ross Stores",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "CEO Jim Conroy's merchandising, marketing, and in-store improvements driving 17% comp growth, 20% revenue growth, 27% earnings growth. Best performer in off-price space; 47% gain since he arrived. Off-price retail is one of few retail sectors working. Worth owning.",
+          "price_target": null
+        }
+      ]
+    },
+    "COST": {
+      "company": "Costco",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy",
+          "segment": "caller_qa",
+          "note": "Trading at 47x earnings; buy some here, hope for pullback to 45x. Ladder in rather than chasing. Worst case opens up to $1025 and you exit.",
+          "price_target": 1025,
+          "price_level": 974
+        }
+      ]
+    },
+    "ELF": {
+      "company": "ELF Beauty",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "avoid",
+          "segment": "caller_qa",
+          "note": "Cosmetics group broadly challenged; can't buck sectoral weakness. Good company but sector too troubled to touch."
+        }
+      ]
+    },
+    "GLXY": {
+      "company": "Galaxy Digital",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Bitcoin/crypto holding company. If you want Bitcoin, buy Bitcoin. Mike Novogratz is solid and company has positive traits, but avoid the equity."
+        }
+      ]
+    },
+    "IBM": {
+      "company": "IBM",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Recommended over Galaxy Digital for quantum exposure; cleaner play than crypto-linked companies."
+        }
+      ]
+    },
+    "BP": {
+      "company": "British Petroleum",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "neutral",
+          "segment": "lightning_round",
+          "note": "Fine oil company but Chevron preferred for large-cap exposure; EQT preferred for natural gas."
+        }
+      ]
+    },
+    "CBOE": {
+      "company": "Cboe Global Markets",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "buy_on_pullback",
+          "segment": "lightning_round",
+          "note": "Stock broke down for no clear reason. Buy a little here, then add if it declines further. Chart became ugly but bounce opportunity exists."
+        }
+      ]
+    },
+    "TSCM": {
+      "company": "Tractor Supply",
+      "mentions": [
+        {
+          "date": "2026-06-08",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Numbers are bad. Possibly end of COVID-era urban-to-rural trade. Can't recommend until clarity returns; CEO Hal Lawton is solid but fundamentals unexplained."
+        }
+      ]
+    },
+    "CPB": {
+      "company": "Campbell Soup",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Down 22% YTD with 7.2% yield signaling dividend coverage concerns. Food industry needs consolidation or faces low-dollar stocks unable to maintain dividends; no growth, unhealthy, hit by GOP cuts, no pricing power. Reports Monday."
+        }
+      ]
+    },
+    "MTR": {
+      "company": "Vail Resorts",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "Rebounding recently but faces headwind from high gasoline ($110 fill-up noted). Discretionary travel vulnerable if fuel stays elevated."
+        }
+      ]
+    },
+    "SJM": {
+      "company": "JM Smucker",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "Last report saw stock jump on okay quarter then get smashed. Rally in offbeat names like this may reverse when it reports Tuesday; owns Twinkies, coffee, dog food, Uncrustables."
+        }
+      ]
+    },
+    "CASY": {
+      "company": "Casey's General Stores",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Dominates small-town America with breakfast pizza; reports after close. Results TBD."
+        }
+      ]
+    },
+    "CRBL": {
+      "company": "Cracker Barrel",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "wait",
+          "segment": "opening_commentary",
+          "note": "Up 32% YTD but down from $71 to $33 in ~12 months. Stock closed at $33+; Cramer would like to buy but wants to see earnings first\u2014consumer weakness in pet/discretionary spending is concerning."
+        }
+      ]
+    },
+    "WOOF": {
+      "company": "Petco Health and Wellness",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Pet spending never supposed to suffer, but missed quarter badly. Chewy may miss too given consumer weakness."
+        }
+      ]
+    },
+    "ADBE": {
+      "company": "Adobe",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "avoid",
+          "segment": "opening_commentary",
+          "note": "Part of shrinking SaaS cohort with cheaper competitors in design software space. Even after thrashing, not low enough to own; needs further decline."
+        }
+      ]
+    },
+    "LEN": {
+      "company": "Lennar",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "concern",
+          "segment": "opening_commentary",
+          "note": "Home building punches above its weight at 10% of economy. Needs lower interest rates to drive more home sales; rising rate expectations hurt outlook."
+        }
+      ]
+    },
+    "LMT": {
+      "company": "Lockheed Martin",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "buy_on_pullback",
+          "segment": "caller_qa",
+          "note": "High school caller asks about entry amid U.S. conflict uncertainty. Cramer advises dollar-cost averaging: buy 2 shares now, then 3 more if it drops below $500 (stock hit ~$700 recently). Avoid chasing; be disciplined.",
+          "price_level": 523
+        }
+      ]
+    },
+    "COHR": {
+      "company": "Coherent Corp",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "sell",
+          "segment": "caller_qa",
+          "note": "$80B company providing opto-electronic components critical for AI buildout, up 100%+ YTD. Going parabolic. Cramer advises selling half here (even if down 25%) and waiting to buy back the inevitable crash. Parabolic moves always reverse hard.",
+          "price_target": null
+        }
+      ]
+    },
+    "AZN": {
+      "company": "AstraZeneca",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Just transferred to NYSE (largest in 234 years). Targeting $80B revenue by 2030, on track. Investing $50B in U.S. manufacturing and R&D. Oncology booming (Tagriso combos, new breast/liver cancer treatments). GLP-1 weight management pipeline competitive with Eli Lilly\u2014Phase 3 candidate, monthly injectables, muscle-loss mitigation. AI boosting drug discovery productivity and trial success prediction. CEO confident on ambitious targets."
+        }
+      ]
+    },
+    "NKE": {
+      "company": "Nike",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "caution",
+          "segment": "in_depth_analysis",
+          "note": "Revenue down 3%, Nike Direct down 7%, Digital down 9%, Converse down 35%. Gross margin fell 130 bp to 40.2%. Lost pricing power, stale products, competition rife. CEO Elliott Hill trying turnaround but taking longer than hoped. New CEO gets a chance but burden of proof is on him. Trades 24x earnings, higher than peers due to better relative position but still risky."
+        }
+      ]
+    },
+    "MCD": {
+      "company": "McDonald's",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "buy_on_pullback",
+          "segment": "caller_qa",
+          "note": "Beef cost inflation is real pressure, but 2.6% yield, great reputation, 21x earnings with room to 18\u201319x. DCA strategy: buy at $280, $279, $270, $265, and 50 shares at $260 to build better cost basis.",
+          "price_level": 280
+        }
+      ]
+    },
+    "RLI": {
+      "company": "Reliant Industries",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "caution",
+          "segment": "lightning_round",
+          "note": "Aerospace/utility/semiconductor testing equipment spinoff from Florida; strong recent quarter and buyback underway. But stock is parabolic\u2014don't chase parabolas in this market."
+        }
+      ]
+    },
+    "BWA": {
+      "company": "BorgWarner",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "caution",
+          "segment": "lightning_round",
+          "note": "10-year breakout on electric drivetrain pivot and gas turbine opportunity\u2014been an absolute winner. But parabolic; could drop from $72 to $60 in a heartbeat. Wait for the inevitable correction.",
+          "price_level": 72
+        }
+      ]
+    },
+    "RDDT": {
+      "company": "Reddit",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "buy_on_pullback",
+          "segment": "lightning_round",
+          "note": "Cramer likes it\u2014very good unique property\u2014but at 29x earnings, too expensive to buy aggressively. Buy slowly over time, not all at once.",
+          "price_level": null
+        }
+      ]
+    },
+    "OBDC": {
+      "company": "Blue Owl Capital Corporation",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Business development company trading 20% discount to NAV with 11% yield. Cramer refuses BDC recommendations\u2014doesn't know what they own and won't start now. Too risky."
+        }
+      ]
+    },
+    "STWD": {
+      "company": "Starwood Property Trust",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "CEO appears checked out per caller; hasn't raised dividend in 12 years. Commercial real estate in weak cities. Not been a good stock; Cramer has not recommended it."
+        }
+      ]
+    },
+    "SPCE": {
+      "company": "SpaceX",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "neutral",
+          "segment": "closing_commentary",
+          "note": "Mega IPO driving massive cash raises by other tech firms. Won't fast-track into S&P 500 (stays under 1-year rule + profitability requirement). May not achieve profitability soon given heavy Starship/Starlink/AI infrastructure investments. Supply deluge from IPO is crushing broader market."
+        }
+      ]
+    },
+    "ARM": {
+      "company": "Arm Holdings",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "sell",
+          "segment": "closing_commentary",
+          "note": "Huge winner for the charitable trust; sold some at $310 but let it run to $400 without trimming. Lost discipline. Down 12%+ today. Should have exited more aggressively. Lesson: trim parabolic winners even when hypnotized by gains\u2014take 'little schnitle' off table.",
+          "price_level": 310
+        }
+      ]
+    },
+    "PG": {
+      "company": "Procter & Gamble",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "hold",
+          "segment": "closing_commentary",
+          "note": "Core defensive holding in the charitable trust providing cushion during today's tech meltdown. Acts as a 'permit' enabling safe ownership of riskier growth plays. Doesn't boom but doesn't crash either."
+        }
+      ]
+    },
+    "ODFL": {
+      "company": "Old Dominion Freight Line / FedEx Freight (FXFV spinoff)",
+      "mentions": [
+        {
+          "date": "2026-06-05",
+          "sentiment": "hold",
+          "segment": "closing_commentary",
+          "note": "New spinoff of FedEx Freight held in charitable trust. Less-than-truckload operator with potential to become one of world's best. Diversification play\u2014doesn't need to be a data-center money maker to work."
         }
       ]
     }
