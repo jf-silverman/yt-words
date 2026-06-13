@@ -78,6 +78,9 @@ GMAIL_FROM = "joelfsilverman@gmail.com"
 GMAIL_TO = "joelfsilverman@gmail.com"
 GMAIL_SMTP = ("smtp.gmail.com", 587)
 
+BROTHER_TO = "riversdirect@hotmail.com"
+BROTHER_TICKERS = {"MU", "RVI", "UVXY", "WD", "AMD"}
+
 USER_HOLDINGS = {
     "ARM", "AEVA", "INTC", "CRWV", "BE", "AUR", "ABSI", "PWR", "RVMD", "LRCX",
     "GNRC", "LIN", "NEE", "ABNB", "MP", "NUE", "GOOGL", "VXUS", "QUBT", "COST",
@@ -587,12 +590,15 @@ def _section_segments(section_name: str) -> set[str]:
     return set()
 
 
-def build_email_html(summaries: list[dict]) -> str:
+def build_email_html(summaries: list[dict],
+                     highlight_tickers: set[str] | None = None) -> str:
     """
     summaries: list of dicts with keys:
         date_str, analysis, audio_url (or None), video_id, redirect_pages
+    highlight_tickers: tickers to highlight in yellow (defaults to USER_HOLDINGS)
     redirect_pages: dict mapping start_seconds (int) → GitHub Pages URL
     """
+    hl = highlight_tickers if highlight_tickers is not None else USER_HOLDINGS
     parts = ["""
 <html><head><meta charset="utf-8">
 <style>
@@ -651,8 +657,8 @@ def build_email_html(summaries: list[dict]) -> str:
                 return ""
             links = "".join(
                 f'<a class="tlink" href="#ticker-{t}" '
-                f'style="{"background:#fff8c5;border:1px solid #d4a017;" if t in USER_HOLDINGS else ""}">'
-                f'{t}{"★" if t in USER_HOLDINGS else ""}</a>'
+                f'style="{"background:#fff8c5;border:1px solid #d4a017;" if t in hl else ""}">'
+                f'{t}{"★" if t in hl else ""}</a>'
                 for t in tickers
             )
             return f'<p class="sec-tickers">{links}</p>'
@@ -705,7 +711,7 @@ def build_email_html(summaries: list[dict]) -> str:
                 elif "price_level" in s:
                     pt = f' (at ${s["price_level"]})'
                 ticker = s.get("ticker", "")
-                row_class = ' class="holding"' if ticker in USER_HOLDINGS else ""
+                row_class = ' class="holding"' if ticker in hl else ""
                 parts.append(
                     f'<tr id="ticker-{ticker}"{row_class}>'
                     f'<td class="ticker">{ticker}</td>'
@@ -737,14 +743,13 @@ def build_email_html(summaries: list[dict]) -> str:
 
 # ── 7. Email delivery ──────────────────────────────────────────────────────────
 
-def send_email_smtp(html: str, subject: str) -> None:
-    import os
+def send_email_smtp(html: str, subject: str, recipient: str | None = None) -> None:
     password = os.environ.get("GMAIL_APP_PASSWORD")
     if not password:
         raise RuntimeError("GMAIL_APP_PASSWORD environment variable not set")
 
     sender = os.environ.get("GMAIL_FROM", GMAIL_FROM)
-    recipient = os.environ.get("GMAIL_TO", GMAIL_TO)
+    recipient = recipient or os.environ.get("GMAIL_TO", GMAIL_TO)
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
@@ -772,9 +777,10 @@ def send_email_mcp(html: str, subject: str) -> None:
     )
 
 
-def send_email(html: str, subject: str, mode: str = "smtp") -> None:
+def send_email(html: str, subject: str, mode: str = "smtp",
+               recipient: str | None = None) -> None:
     if mode == "smtp":
-        send_email_smtp(html, subject)
+        send_email_smtp(html, subject, recipient=recipient)
     elif mode == "mcp":
         send_email_mcp(html, subject)
     else:
@@ -946,14 +952,31 @@ def main() -> None:
 
     html = build_email_html(summaries)
 
+    # Check if any episode mentions a ticker from the brother's watch list
+    all_tickers = {
+        s.get("ticker", "").upper()
+        for ep in summaries
+        for s in ep["analysis"].get("stocks", [])
+    }
+    brother_hits = all_tickers & BROTHER_TICKERS
+
     if args.dry_run:
         out = OUTPUT_DIR / f"{dates[0]}_email_preview.html"
         out.write_text(html)
         print(f"\nDry run — redirect pages written to docs/ (not pushed)")
         print(f"Email preview saved to {out}")
+        if brother_hits:
+            bro_html = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS)
+            bro_out = OUTPUT_DIR / f"{dates[0]}_email_preview_brother.html"
+            bro_out.write_text(bro_html)
+            print(f"Brother preview saved to {bro_out} (hits: {', '.join(sorted(brother_hits))})")
     else:
         print(f"\nSending email: {subject}")
         send_email(html, subject, mode=args.email_mode)
+        if brother_hits:
+            print(f"  Brother's tickers mentioned: {', '.join(sorted(brother_hits))} — sending copy to {BROTHER_TO}")
+            bro_html = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS)
+            send_email(bro_html, subject, mode=args.email_mode, recipient=BROTHER_TO)
 
     save_processed(processed)
     print("\nDone.")
