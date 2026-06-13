@@ -30,49 +30,57 @@
           "sentiment": "strong_buy",
           "price_target": 160,
           "segment": "opening_commentary",
-          "note": "Own it, don't trade it. China ban is worst-case already priced in; new chips ahead of current ones. Buy at $160."
+          "note": "Own it, don't trade it. China ban is worst-case already priced in; new chips ahead of current ones. Buy at $160.",
+          "closing_price": 170.29
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Don't take the selling personally; Cramer loves the stock and says own it, don't trade it. Selling driven by speculators raising cash for SpaceX/Anthropic/OpenAI, not fundamental weakness."
+          "note": "Don't take the selling personally; Cramer loves the stock and says own it, don't trade it. Selling driven by speculators raising cash for SpaceX/Anthropic/OpenAI, not fundamental weakness.",
+          "closing_price": 200.42
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "closing_commentary",
-          "note": "Major source of liquidity for IPO speculators. Selling is not a negative on the stock itself. Own it, don't trade it. Much IPO capital will eventually buy Nvidia equipment."
+          "note": "Major source of liquidity for IPO speculators. Selling is not a negative on the stock itself. Own it, don't trade it. Much IPO capital will eventually buy Nvidia equipment.",
+          "closing_price": 200.42
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Like Apple, selling driven by speculators cashing in for IPO participation, not fundamental weakness. Cramer: own it, don't trade it. Will benefit from SpaceX/Anthropic/OpenAI capex."
+          "note": "Like Apple, selling driven by speculators cashing in for IPO participation, not fundamental weakness. Cramer: own it, don't trade it. Will benefit from SpaceX/Anthropic/OpenAI capex.",
+          "closing_price": 200.42
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Same forced selling as Apple for SpaceX/Anthropic/OpenAI fundraising. Cramer loves Nvidia; own it, don't trade it. Will be a primary beneficiary of mega-IPO proceeds (used for AI chip purchases). Ignore near-term selling pressure."
+          "note": "Same forced selling as Apple for SpaceX/Anthropic/OpenAI fundraising. Cramer loves Nvidia; own it, don't trade it. Will be a primary beneficiary of mega-IPO proceeds (used for AI chip purchases). Ignore near-term selling pressure.",
+          "closing_price": 200.42
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Massive selling source for SpaceX IPO funding. Excellent company fundamentally; selling is forced liquidation. Own it, don't trade it. Will likely benefit when IPO capital redeploys into AI infrastructure."
+          "note": "Massive selling source for SpaceX IPO funding. Excellent company fundamentally; selling is forced liquidation. Own it, don't trade it. Will likely benefit when IPO capital redeploys into AI infrastructure.",
+          "closing_price": 200.42
         },
         {
           "date": "2026-06-09",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Only mega-cap tech with pristine buyback and balance sheet; will benefit from all data center IPOs; being slaughtered unfairly and will snap back first out of the tech mass."
+          "note": "Only mega-cap tech with pristine buyback and balance sheet; will benefit from all data center IPOs; being slaughtered unfairly and will snap back first out of the tech mass.",
+          "closing_price": 208.19
         },
         {
           "date": "2026-06-08",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Market linchpin; power behind generative AI, agents, training. Sovereign AI adoption (South Korea, Singapore, India, Japan, etc.) now 14% of revenue and growing, reducing hyperscaler-defection risk. Google paying $920M/month to SpaceX for Nvidia GPUs proves customer preference for Nvidia over in-house chips. Own it long-term, don't trade. Near-term IPO wave will pressure valuations, but Nvidia's strategic moat is intact."
+          "note": "Market linchpin; power behind generative AI, agents, training. Sovereign AI adoption (South Korea, Singapore, India, Japan, etc.) now 14% of revenue and growing, reducing hyperscaler-defection risk. Google paying $920M/month to SpaceX for Nvidia GPUs proves customer preference for Nvidia over in-house chips. Own it long-term, don't trade. Near-term IPO wave will pressure valuations, but Nvidia's strategic moat is intact.",
+          "closing_price": 208.64
         }
       ]
     },
@@ -84,7 +92,8 @@
           "sentiment": "buy",
           "price_level": 82,
           "segment": "opening_commentary",
-          "note": "Stalled at $82 \u2014 entry point. Banks win structurally when short rates fall and long rates hold."
+          "note": "Stalled at $82 \u2014 entry point. Banks win structurally when short rates fall and long rates hold.",
+          "closing_price": 82.48
         }
       ]
     },
@@ -95,7 +104,8 @@
           "date": "2025-09-17",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Post-Discover merger; default rate far lower than expected. Add more if you own it."
+          "note": "Post-Discover merger; default rate far lower than expected. Add more if you own it.",
+          "closing_price": 225.61
         }
       ]
     },
@@ -106,7 +116,8 @@
           "date": "2025-09-17",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Up 3% to all-time high the same day travel/leisure sold off \u2014 consumer spending thesis intact."
+          "note": "Up 3% to all-time high the same day travel/leisure sold off \u2014 consumer spending thesis intact.",
+          "closing_price": 336.0
         }
       ]
     },
@@ -117,7 +128,8 @@
           "date": "2025-09-17",
           "sentiment": "buy_on_pullback",
           "segment": "opening_commentary",
-          "note": "Crushed today which Cramer says makes no sense. Oversold vs. AXP strength. No explicit buy call but tone is bullish."
+          "note": "Crushed today which Cramer says makes no sense. Oversold vs. AXP strength. No explicit buy call but tone is bullish.",
+          "closing_price": 262.05
         }
       ]
     },
@@ -128,14 +140,16 @@
           "date": "2025-09-17",
           "sentiment": "hold",
           "segment": "opening_commentary",
-          "note": "Trust position, down 1% today. Needs bigger rate cuts to move meaningfully. Will go higher but slowly \u2014 don't sell, don't add yet."
+          "note": "Trust position, down 1% today. Needs bigger rate cuts to move meaningfully. Will go higher but slowly \u2014 don't sell, don't add yet.",
+          "closing_price": 417.0
         },
         {
           "date": "2026-06-08",
           "sentiment": "buy",
           "segment": "caller_qa",
           "note": "Yielding 3%, a magical level. Fed rate cuts now unlikely, so stock depressed. Long-term holder since $30 should buy more. Stock at 20x spring-selling-season earnings.",
-          "price_level": null
+          "price_level": null,
+          "closing_price": 309.71
         }
       ]
     },
@@ -146,7 +160,8 @@
           "date": "2025-09-17",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Hit all-time high but Cramer cautious on cyclicals broadly unless tied to data center or aerospace."
+          "note": "Hit all-time high but Cramer cautious on cyclicals broadly unless tied to data center or aerospace.",
+          "closing_price": 450.66
         }
       ]
     },
@@ -157,7 +172,8 @@
           "date": "2025-09-17",
           "sentiment": "caution",
           "segment": "opening_commentary",
-          "note": "Reports earnings tomorrow. 25 bps cut won't move the needle for this cycle. Avoid ahead of print."
+          "note": "Reports earnings tomorrow. 25 bps cut won't move the needle for this cycle. Avoid ahead of print.",
+          "closing_price": 181.93
         }
       ]
     },
@@ -168,7 +184,8 @@
           "date": "2025-09-17",
           "sentiment": "avoid",
           "segment": "opening_commentary",
-          "note": "7.8% dividend yield is a red flag \u2014 market is saying don't trust the dividend. May not be sustainable despite management guidance."
+          "note": "7.8% dividend yield is a red flag \u2014 market is saying don't trust the dividend. May not be sustainable despite management guidance.",
+          "closing_price": 84.18
         }
       ]
     },
@@ -179,7 +196,8 @@
           "date": "2025-09-17",
           "sentiment": "wait",
           "segment": "caller_qa",
-          "note": "CEO Sanjay Mehrotra is fabulous but prudent \u2014 may not deliver the hyperbolic language Wall Street wants after stock's +80% YTD run. Wait for post-earnings clarity."
+          "note": "CEO Sanjay Mehrotra is fabulous but prudent \u2014 may not deliver the hyperbolic language Wall Street wants after stock's +80% YTD run. Wait for post-earnings clarity.",
+          "closing_price": 159.99
         }
       ]
     },
@@ -190,7 +208,8 @@
           "date": "2025-09-17",
           "sentiment": "strong_buy",
           "segment": "caller_qa",
-          "note": "Buy every dip. Wind headwinds are noise \u2014 this is fundamentally a natural gas story. Anti-wind policy created the entry point."
+          "note": "Buy every dip. Wind headwinds are noise \u2014 this is fundamentally a natural gas story. Anti-wind policy created the entry point.",
+          "closing_price": 614.79
         }
       ]
     },
@@ -201,7 +220,8 @@
           "date": "2025-09-17",
           "sentiment": "mild_buy",
           "segment": "caller_qa",
-          "note": "Down 27% YTD at 21x forward earnings. Buy case better than sell case. OK to buy if you don't own any; will pound the table lower."
+          "note": "Down 27% YTD at 21x forward earnings. Buy case better than sell case. OK to buy if you don't own any; will pound the table lower.",
+          "closing_price": 242.21
         }
       ]
     },
@@ -212,7 +232,8 @@
           "date": "2025-09-17",
           "sentiment": "buy",
           "segment": "interview",
-          "note": "Elliott Management took $2B+ stake with rare supportive press release. $5B buyback, 97% gross retention, 75M users. AI is a tailwind not headwind. Management endorsed."
+          "note": "Elliott Management took $2B+ stake with rare supportive press release. $5B buyback, 97% gross retention, 75M users. AI is a tailwind not headwind. Management endorsed.",
+          "closing_price": 234.88
         }
       ]
     },
@@ -223,7 +244,8 @@
           "date": "2025-09-17",
           "sentiment": "buy",
           "segment": "closing_commentary",
-          "note": "Investor Day 3-yr targets: mid-single-digit revenue CAGR, +100-150 bps op margin. Trading ~20x vs S&P at 25x with ~20% EPS growth. Still bullish, leaving competition behind."
+          "note": "Investor Day 3-yr targets: mid-single-digit revenue CAGR, +100-150 bps op margin. Trading ~20x vs S&P at 25x with ~20% EPS growth. Still bullish, leaving competition behind.",
+          "closing_price": 306.12
         }
       ]
     },
@@ -234,7 +256,8 @@
           "date": "2025-09-17",
           "sentiment": "strong_buy",
           "segment": "caller_qa",
-          "note": "Emphatic. Doing incredibly well. International growth just scratching the surface. Compared to Celsius pre-Pepsi distribution deal trajectory."
+          "note": "Emphatic. Doing incredibly well. International growth just scratching the surface. Compared to Celsius pre-Pepsi distribution deal trajectory.",
+          "closing_price": 56.34
         }
       ]
     },
@@ -245,14 +268,16 @@
           "date": "2025-09-17",
           "sentiment": "avoid",
           "segment": "caller_qa",
-          "note": "Stopped liking after they sued Costco. American consumer wants bargains. Down 57% but still no interest. Prefers Gap/Athleta instead."
+          "note": "Stopped liking after they sued Costco. American consumer wants bargains. Down 57% but still no interest. Prefers Gap/Athleta instead.",
+          "closing_price": 163.48
         },
         {
           "date": "2026-06-05",
           "sentiment": "caution",
           "segment": "in_depth_analysis",
           "note": "Down 45% YTD, 65% in 12 months. Q missed, guidance dismal: North America same-store sales down 5\u20136%, expected low double-digit declines next Q. Margin pressure, tariffs, product refresh needed. Trades 10x forward earnings (vs. 30x historical). Bubble burst from pandemic demand pull-forward, explosive competition (Alo, Hoka, Nike, Adidas), style shift to baggier denim, lost pricing power. May be worth a look at much lower levels, not here.",
-          "price_level": null
+          "price_level": null,
+          "closing_price": 114.23
         }
       ]
     },
@@ -280,7 +305,8 @@
           "date": "2025-09-17",
           "sentiment": "strong_buy",
           "segment": "interview",
-          "note": "Up 8% on big beat; +30% YTD. Non-res business grew 15% in the quarter on data center, reshoring, biotech/pharma construction. Stop overthinking it \u2014 just buy Ferguson."
+          "note": "Up 8% on big beat; +30% YTD. Non-res business grew 15% in the quarter on data center, reshoring, biotech/pharma construction. Stop overthinking it \u2014 just buy Ferguson.",
+          "closing_price": 224.48
         }
       ]
     },
@@ -291,7 +317,8 @@
           "date": "2025-09-17",
           "sentiment": "caution",
           "segment": "lightning_round",
-          "note": "Top-3 S&P 500 performer YTD; at 20x earnings that's a lot for a storage company. Don't chase this high \u2014 wait for a pullback."
+          "note": "Top-3 S&P 500 performer YTD; at 20x earnings that's a lot for a storage company. Don't chase this high \u2014 wait for a pullback.",
+          "closing_price": 213.36
         }
       ]
     },
@@ -302,7 +329,8 @@
           "date": "2025-09-17",
           "sentiment": "neutral",
           "segment": "lightning_round",
-          "note": "Just another outsourced company. No strong dislike but no conviction either."
+          "note": "Just another outsourced company. No strong dislike but no conviction either.",
+          "closing_price": 102.06
         }
       ]
     },
@@ -313,7 +341,8 @@
           "date": "2025-09-17",
           "sentiment": "mild_buy",
           "segment": "lightning_round",
-          "note": "Last quarter was good; stock drop on earnings was unwarranted. Likes it."
+          "note": "Last quarter was good; stock drop on earnings was unwarranted. Likes it.",
+          "closing_price": 73.89
         }
       ]
     },
@@ -324,7 +353,8 @@
           "date": "2025-09-17",
           "sentiment": "mild_buy",
           "segment": "lightning_round",
-          "note": "Preferred over Eagle Materials (EXP) for building materials exposure."
+          "note": "Preferred over Eagle Materials (EXP) for building materials exposure.",
+          "closing_price": 146.07
         }
       ]
     },
@@ -335,7 +365,8 @@
           "date": "2025-09-17",
           "sentiment": "neutral",
           "segment": "lightning_round",
-          "note": "Had a nice run but Cramer prefers Nucor (NUE) \u2014 better balance sheet, expansion plan, less leveraged to autos."
+          "note": "Had a nice run but Cramer prefers Nucor (NUE) \u2014 better balance sheet, expansion plan, less leveraged to autos.",
+          "closing_price": 11.29
         }
       ]
     },
@@ -346,7 +377,8 @@
           "date": "2025-09-17",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Preferred steel play over Cleveland-Cliffs. Strong balance sheet, expansion plan, less auto exposure."
+          "note": "Preferred steel play over Cleveland-Cliffs. Strong balance sheet, expansion plan, less auto exposure.",
+          "closing_price": 142.8
         }
       ]
     },
@@ -357,7 +389,8 @@
           "date": "2025-09-17",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Christian Klein delivered a great quarter. Would buy SAP right here."
+          "note": "Christian Klein delivered a great quarter. Would buy SAP right here.",
+          "closing_price": 261.42
         }
       ]
     },
@@ -368,7 +401,8 @@
           "date": "2025-09-17",
           "sentiment": "hold",
           "segment": "lightning_round",
-          "note": "Stuck in split-off limbo until November business separation. Fundamentals good, CEO Lori Koch terrific. Hold \u2014 do not sell."
+          "note": "Stuck in split-off limbo until November business separation. Fundamentals good, CEO Lori Koch terrific. Hold \u2014 do not sell.",
+          "closing_price": 32.13
         }
       ]
     },
@@ -390,7 +424,8 @@
           "date": "2025-09-17",
           "sentiment": "avoid",
           "segment": "closing_commentary",
-          "note": "IPO at $37, ran to $118, now ~$54. Unsustainable parabolic IPO move."
+          "note": "IPO at $37, ran to $118, now ~$54. Unsustainable parabolic IPO move.",
+          "closing_price": 12.61
         }
       ]
     },
@@ -401,7 +436,8 @@
           "date": "2025-09-17",
           "sentiment": "avoid",
           "segment": "closing_commentary",
-          "note": "IPO at $31, ran to $298, now ~$131. Still way too high. Stablecoin company; speculation not fundamentals."
+          "note": "IPO at $31, ran to $298, now ~$131. Still way too high. Stablecoin company; speculation not fundamentals.",
+          "closing_price": 131.04
         }
       ]
     },
@@ -453,13 +489,15 @@
           "date": "2026-06-11",
           "sentiment": "strong_buy",
           "segment": "interview",
-          "note": "Post-spin-off Honeywell Technologies is a pure-play automation company with secular growth in mission-critical verticals (data centers, hospitals, LNG). 2/3 of global LNG capacity, $1B+ backlog, and physical AI optionality. Long-cycle revenue, resilient to macro. Cramer's child trust holds a large position; seeks to increase."
+          "note": "Post-spin-off Honeywell Technologies is a pure-play automation company with secular growth in mission-critical verticals (data centers, hospitals, LNG). 2/3 of global LNG capacity, $1B+ backlog, and physical AI optionality. Long-cycle revenue, resilient to macro. Cramer's child trust holds a large position; seeks to increase.",
+          "closing_price": 219.12
         },
         {
           "date": "2026-06-11",
           "sentiment": "strong_buy",
           "segment": "interview",
-          "note": "Pure-play automation company post-aerospace spin-off; mission-critical markets (data centers, hotels, hospitals, LNG). 2/3 of global LNG supply, 3-year backlog, secular growth. Cramer's trust owns large position, wants bigger. Not expensive relative to growth path."
+          "note": "Pure-play automation company post-aerospace spin-off; mission-critical markets (data centers, hotels, hospitals, LNG). 2/3 of global LNG supply, 3-year backlog, secular growth. Cramer's trust owns large position, wants bigger. Not expensive relative to growth path.",
+          "closing_price": 219.12
         }
       ]
     },
@@ -470,13 +508,15 @@
           "date": "2026-06-11",
           "sentiment": "caution",
           "segment": "lightning_round",
-          "note": "Gridscale battery storage with $5.5B signed contracts and strong backlog, but thin/inconsistent margins. Up 62% YTD. Cramer insists profitability must arrive before stock appreciates further; not a buy until margins inflect."
+          "note": "Gridscale battery storage with $5.5B signed contracts and strong backlog, but thin/inconsistent margins. Up 62% YTD. Cramer insists profitability must arrive before stock appreciates further; not a buy until margins inflect.",
+          "closing_price": 24.28
         },
         {
           "date": "2026-06-11",
           "sentiment": "hold",
           "segment": "lightning_round",
-          "note": "Grid-scale battery storage and software play with strong $5.5B backlog, but inconsistent thin margins. Must achieve profitability before higher stock prices justified; caller up 62% since April."
+          "note": "Grid-scale battery storage and software play with strong $5.5B backlog, but inconsistent thin margins. Must achieve profitability before higher stock prices justified; caller up 62% since April.",
+          "closing_price": 24.28
         }
       ]
     },
@@ -487,13 +527,15 @@
           "date": "2026-06-11",
           "sentiment": "strong_buy",
           "segment": "lightning_round",
-          "note": "Industrial IoT pure-play with solid fundamentals. Cramer endorses a full position, recommending caller add the second half of his position. Terrific long-term holding."
+          "note": "Industrial IoT pure-play with solid fundamentals. Cramer endorses a full position, recommending caller add the second half of his position. Terrific long-term holding.",
+          "closing_price": 92.94
         },
         {
           "date": "2026-06-11",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Industrial internet exposure; strong fundamentals. Caller should add to half position and complete full holding."
+          "note": "Industrial internet exposure; strong fundamentals. Caller should add to half position and complete full holding.",
+          "closing_price": 92.94
         }
       ]
     },
@@ -504,19 +546,22 @@
           "date": "2026-06-11",
           "sentiment": "neutral",
           "segment": "closing_commentary",
-          "note": "Oil plays are paradoxical to time on Trump rhetoric: when he says talks are going well, oil weakens (sell); when he warns of escalation, oil rallies (buy). Today's Iran strike cancellation drove oil lower. Focus on fundamentals and domestic supply insulation rather than geopolitical headlines."
+          "note": "Oil plays are paradoxical to time on Trump rhetoric: when he says talks are going well, oil weakens (sell); when he warns of escalation, oil rallies (buy). Today's Iran strike cancellation drove oil lower. Focus on fundamentals and domestic supply insulation rather than geopolitical headlines.",
+          "closing_price": 185.82
         },
         {
           "date": "2026-06-11",
           "sentiment": "neutral",
           "segment": "closing_commentary",
-          "note": "Oil price volatile with Iran headlines. Trump's contradictory statements (seize Kharg Island vs. cancel strikes) create reverse-signal dynamics\u2014buy on bad news, sell on good news rhetoric."
+          "note": "Oil price volatile with Iran headlines. Trump's contradictory statements (seize Kharg Island vs. cancel strikes) create reverse-signal dynamics\u2014buy on bad news, sell on good news rhetoric.",
+          "closing_price": 185.82
         },
         {
           "date": "2026-06-08",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Preferred large-cap oil play over BP."
+          "note": "Preferred large-cap oil play over BP.",
+          "closing_price": 189.24
         }
       ]
     },
@@ -527,31 +572,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Semiconductor equipment supplier benefiting from chip shortage for storage/memory. Made new intraday high today; CEO Gary Dickerson well-aware of company's importance in food chain."
+          "note": "Semiconductor equipment supplier benefiting from chip shortage for storage/memory. Made new intraday high today; CEO Gary Dickerson well-aware of company's importance in food chain.",
+          "closing_price": 497.01
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Semiconductor manufacturing equipment maker benefiting from huge chip shortage, especially for storage and memory. Made new intraday high; go for it when things clear up."
+          "note": "Semiconductor manufacturing equipment maker benefiting from huge chip shortage, especially for storage and memory. Made new intraday high; go for it when things clear up.",
+          "closing_price": 497.01
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Semiconductor equipment beneficiary of chip storage/memory shortage; CEO Gary Dickerson well-positioned in the food chain. New intraday high despite tough market backdrop."
+          "note": "Semiconductor equipment beneficiary of chip storage/memory shortage; CEO Gary Dickerson well-positioned in the food chain. New intraday high despite tough market backdrop.",
+          "closing_price": 497.01
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Semiconductor manufacturing equipment maker benefiting from memory and storage chip shortages. Made new high despite brutal tape. CEO Gary Dickerson understands company's critical role in supply chain. When things clear up, buy AMAT."
+          "note": "Semiconductor manufacturing equipment maker benefiting from memory and storage chip shortages. Made new high despite brutal tape. CEO Gary Dickerson understands company's critical role in supply chain. When things clear up, buy AMAT.",
+          "closing_price": 497.01
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Semiconductor manufacturing equipment beneficiary of chip shortage for storage/memory. CEO Gary Dickerson recently on show; critical to semiconductor food chain."
+          "note": "Semiconductor manufacturing equipment beneficiary of chip shortage for storage/memory. CEO Gary Dickerson recently on show; critical to semiconductor food chain.",
+          "closing_price": 497.01
         }
       ]
     },
@@ -562,31 +612,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "CEO Jane Frasier represents great management; she has cut costs, rationalized the bank, and made Citi a perennial litter pick. Stock made new intraday high despite closing in red."
+          "note": "CEO Jane Frasier represents great management; she has cut costs, rationalized the bank, and made Citi a perennial litter pick. Stock made new intraday high despite closing in red.",
+          "closing_price": 133.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "CEO Jane Frasier is executing brilliantly\u2014cutting costs and rationalizing the bank. Stock made new intraday high despite closing in red. Bullish signal; write it down."
+          "note": "CEO Jane Frasier is executing brilliantly\u2014cutting costs and rationalizing the bank. Stock made new intraday high despite closing in red. Bullish signal; write it down.",
+          "closing_price": 133.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "CEO Jane Frasier a great manager; cut costs, rationalized bank. Made new intraday high despite closing in red\u2014very bullish signal for later."
+          "note": "CEO Jane Frasier a great manager; cut costs, rationalized bank. Made new intraday high despite closing in red\u2014very bullish signal for later.",
+          "closing_price": 133.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "CEO Jane Frasier executing turnaround: cutting costs, rationalizing operations, making City a litter pick. Made new intraday high despite closing down. Bullish signal; one to write down and revisit."
+          "note": "CEO Jane Frasier executing turnaround: cutting costs, rationalizing operations, making City a litter pick. Made new intraday high despite closing down. Bullish signal; one to write down and revisit.",
+          "closing_price": 133.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "CEO Jane Frasier executing turnaround: cut costs, rationalized bank, made Citi perennial pick. Stock hit new intraday high despite market weakness; bullish signal."
+          "note": "CEO Jane Frasier executing turnaround: cut costs, rationalized bank, made Citi perennial pick. Stock hit new intraday high despite market weakness; bullish signal.",
+          "closing_price": 133.38
         }
       ]
     },
@@ -627,25 +682,29 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Shopping center REIT with mixed-use properties under longtime CEO Don Wood; safe 3.66% yield, stock up 23% YTD.",
-          "price_level": 3.66
+          "price_level": 3.66,
+          "closing_price": 123.62
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "CEO Don Wood steered toward mixed-use shopping centers; 3.66% yield is safe. Stock up 23% YTD; classic defensive REIT play."
+          "note": "CEO Don Wood steered toward mixed-use shopping centers; 3.66% yield is safe. Stock up 23% YTD; classic defensive REIT play.",
+          "closing_price": 123.62
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Mixed-use and shopping center REIT; CEO Don Wood long-time steward. Yield 3.66% (safe). Stock up 23%. Introduced to Cramer viewers 18 years ago. Defensive anchor."
+          "note": "Mixed-use and shopping center REIT; CEO Don Wood long-time steward. Yield 3.66% (safe). Stock up 23%. Introduced to Cramer viewers 18 years ago. Defensive anchor.",
+          "closing_price": 123.62
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Mixed-use shopping center REIT steered by CEO Don Wood toward high-quality tenants. Safe 3.66% yield; stock up 23% YTD."
+          "note": "Mixed-use shopping center REIT steered by CEO Don Wood toward high-quality tenants. Safe 3.66% yield; stock up 23% YTD.",
+          "closing_price": 123.62
         }
       ]
     },
@@ -673,31 +732,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Supplemental health and life insurance (formerly Torch Mark); sells for 10x earnings representing true value, up 2% despite bad tape."
+          "note": "Supplemental health and life insurance (formerly Torch Mark); sells for 10x earnings representing true value, up 2% despite bad tape.",
+          "closing_price": 162.52
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Sells supplemental health and life insurance. Stock at 10x earnings\u2014textbook value. Finished session up 2% despite terrible tape."
+          "note": "Sells supplemental health and life insurance. Stock at 10x earnings\u2014textbook value. Finished session up 2% despite terrible tape.",
+          "closing_price": 162.52
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "opening_commentary",
-          "note": "Sells supplemental health and life insurance; trades at 10x earnings. Classic value play. Up 2% despite terrible tape\u2014noteworthy."
+          "note": "Sells supplemental health and life insurance; trades at 10x earnings. Classic value play. Up 2% despite terrible tape\u2014noteworthy.",
+          "closing_price": 162.52
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Supplemental health and life insurance (formerly Torch Mark). Stock at 10x earnings\u2014textbook value play. Up 2% despite brutal tape. Conservative, defensive."
+          "note": "Supplemental health and life insurance (formerly Torch Mark). Stock at 10x earnings\u2014textbook value play. Up 2% despite brutal tape. Conservative, defensive.",
+          "closing_price": 162.52
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Supplemental health and life insurance (formerly Torch Mark). Trades at 10x earnings; classic value play. Up 2% despite brutal tape."
+          "note": "Supplemental health and life insurance (formerly Torch Mark). Trades at 10x earnings; classic value play. Up 2% despite brutal tape.",
+          "closing_price": 162.52
         }
       ]
     },
@@ -708,31 +772,36 @@
           "date": "2026-06-10",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Industrial distributor of equipment contractors need; made new high possibly on housing data or retail M&A interest, but rationale unclear to Cramer."
+          "note": "Industrial distributor of equipment contractors need; made new high possibly on housing data or retail M&A interest, but rationale unclear to Cramer.",
+          "closing_price": 1317.63
         },
         {
           "date": "2026-06-10",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Industrial distributor of equipment contractors need. Made new high; possible catalyst from good housing data or large retail acquisition."
+          "note": "Industrial distributor of equipment contractors need. Made new high; possible catalyst from good housing data or large retail acquisition.",
+          "closing_price": 1317.63
         },
         {
           "date": "2026-06-10",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Industrial distributor; shouldn't be hitting new highs in this environment. Unclear catalyst; perhaps housing data or retailer M&A speculation."
+          "note": "Industrial distributor; shouldn't be hitting new highs in this environment. Unclear catalyst; perhaps housing data or retailer M&A speculation.",
+          "closing_price": 1317.63
         },
         {
           "date": "2026-06-10",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Industrial distributor of equipment contractors need. Made new high unexpectedly. Could reflect housing data or retail M&A speculation. Cramer couldn't figure it out."
+          "note": "Industrial distributor of equipment contractors need. Made new high unexpectedly. Could reflect housing data or retail M&A speculation. Cramer couldn't figure it out.",
+          "closing_price": 1317.63
         },
         {
           "date": "2026-06-10",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Industrial distributor of equipment and supplies for contractors. Hit new high but reasoning unclear to Cramer; possible housing data or retail consolidation."
+          "note": "Industrial distributor of equipment and supplies for contractors. Hit new high but reasoning unclear to Cramer; possible housing data or retail consolidation.",
+          "closing_price": 1317.63
         }
       ]
     },
@@ -743,25 +812,29 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Managed care/health insurer; benefited from Trump administration Medicare Advantage premium lift and improved 2027 reimbursements. Textbook safety stock."
+          "note": "Managed care/health insurer; benefited from Trump administration Medicare Advantage premium lift and improved 2027 reimbursements. Textbook safety stock.",
+          "closing_price": 364.46
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Giant health insurer got break from Trump administration on Medicare Advantage premiums. Unexpected gift for 2027; reimbursements look even better. Textbook safety stock."
+          "note": "Giant health insurer got break from Trump administration on Medicare Advantage premiums. Unexpected gift for 2027; reimbursements look even better. Textbook safety stock.",
+          "closing_price": 364.46
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Managed care giant got boost from Trump admin's Medicare Advantage premium lift. Better reimbursements expected 2027. Textbook safety play. Up on the day despite market weakness."
+          "note": "Managed care giant got boost from Trump admin's Medicare Advantage premium lift. Better reimbursements expected 2027. Textbook safety play. Up on the day despite market weakness.",
+          "closing_price": 364.46
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Giant health insurer benefiting from Trump administration lift on Medicare Advantage premiums; 2027 reimbursements look even better. Textbook safety stock."
+          "note": "Giant health insurer benefiting from Trump administration lift on Medicare Advantage premiums; 2027 reimbursements look even better. Textbook safety stock.",
+          "closing_price": 364.46
         }
       ]
     },
@@ -772,31 +845,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "HVAC and data center infrastructure plays; second data center play on new-high list, doing well amid summer cooling season."
+          "note": "HVAC and data center infrastructure plays; second data center play on new-high list, doing well amid summer cooling season.",
+          "closing_price": 139.36
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "HVAC leader doing well this summer with strong data center demand. Makes equipment for data centers. Second data center play on new-high list."
+          "note": "HVAC leader doing well this summer with strong data center demand. Makes equipment for data centers. Second data center play on new-high list.",
+          "closing_price": 139.36
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "HVAC/data-center plays doing well; second data-center play on new highs list. Still benefiting from infrastructure buildout."
+          "note": "HVAC/data-center plays doing well; second data-center play on new highs list. Still benefiting from infrastructure buildout.",
+          "closing_price": 139.36
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "HVAC and data center infrastructure play. Made new high. Second data center play on list. Only two data center names made the list despite sector's importance."
+          "note": "HVAC and data center infrastructure play. Made new high. Second data center play on list. Only two data center names made the list despite sector's importance.",
+          "closing_price": 139.36
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "HVAC and data center solutions provider. Benefiting from summer demand and data center buildout. Second data center play on new highs list."
+          "note": "HVAC and data center solutions provider. Benefiting from summer demand and data center buildout. Second data center play on new highs list.",
+          "closing_price": 139.36
         }
       ]
     },
@@ -807,7 +885,8 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "REIT owning strip malls and mixed-use properties with defensive 4% yield."
+          "note": "REIT owning strip malls and mixed-use properties with defensive 4% yield.",
+          "closing_price": 48.5
         }
       ]
     },
@@ -818,19 +897,22 @@
           "date": "2026-06-10",
           "sentiment": "caution",
           "segment": "opening_commentary",
-          "note": "Semiconductor capital equipment maker; second one on new-high list alongside AMAT, but Cramer warns chart looks risky post-purchase."
+          "note": "Semiconductor capital equipment maker; second one on new-high list alongside AMAT, but Cramer warns chart looks risky post-purchase.",
+          "closing_price": 213.56
         },
         {
           "date": "2026-06-10",
           "sentiment": "caution",
           "segment": "opening_commentary",
-          "note": "Semiconductor equipment maker; second chip capital equipment company on new-high list alongside AMAT. Charts very bad; avoid chasing."
+          "note": "Semiconductor equipment maker; second chip capital equipment company on new-high list alongside AMAT. Charts very bad; avoid chasing.",
+          "closing_price": 213.56
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Semiconductor capital equipment company (second on list after AMAT). On new high today but risky; Cramer notes both semi cap-equipment names bought after recent runs. Cyclical risk."
+          "note": "Semiconductor capital equipment company (second on list after AMAT). On new high today but risky; Cramer notes both semi cap-equipment names bought after recent runs. Cyclical risk.",
+          "closing_price": 213.56
         }
       ]
     },
@@ -841,13 +923,15 @@
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Classic defensive stock that rallied nearly 3% today despite market downturn under CEO RK Brun's continued growth ignition. Continue to buy on S&P weakness."
+          "note": "Classic defensive stock that rallied nearly 3% today despite market downturn under CEO RK Brun's continued growth ignition. Continue to buy on S&P weakness.",
+          "closing_price": 83.59
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Despite Cramer's personal inability to drink soft drinks, this is quintessential defensive stock. Rallied 3% today. CEO RK Brunetti continuing growth ignition. Buy every pullback; continue buying if S&P is down tomorrow morning."
+          "note": "Despite Cramer's personal inability to drink soft drinks, this is quintessential defensive stock. Rallied 3% today. CEO RK Brunetti continuing growth ignition. Buy every pullback; continue buying if S&P is down tomorrow morning.",
+          "closing_price": 83.59
         },
         {
           "date": "2026-06-10",
@@ -855,20 +939,23 @@
           "segment": "opening_commentary",
           "note": "Quintessential defensive; rallied 3% today despite bad tape. CEO RK Brunelle continuing growth ignition. Cramer: buy tomorrow if S&P down, keep buying. Defensive stock for flight to safety.",
           "price_target": null,
-          "price_level": null
+          "price_level": null,
+          "closing_price": 83.59
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
           "note": "Quintessential defensive stock. Pushed down hard recently but rallied nearly 3% today. CEO succession (Quincey to RK Brun) reigniting growth. Buy it and keep buying into any market weakness tomorrow. Own this stock.",
-          "price_target": null
+          "price_target": null,
+          "closing_price": 83.59
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Quintessential defensive stock rallying hard in weak market. Under previous CEO James Quincy and successor RK Brun, growth reignited. Buy aggressively on dips; defensive fortress."
+          "note": "Quintessential defensive stock rallying hard in weak market. Under previous CEO James Quincy and successor RK Brun, growth reignited. Buy aggressively on dips; defensive fortress.",
+          "closing_price": 83.59
         }
       ]
     },
@@ -879,31 +966,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Industrial gas distributor held by travel trust; makes rocket fuel for SpaceX. Made new intraday high but gave up gains in afternoon."
+          "note": "Industrial gas distributor held by travel trust; makes rocket fuel for SpaceX. Made new intraday high but gave up gains in afternoon.",
+          "closing_price": 509.16
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Industrial gas distributor owned by Travel Trust. Makes rocket fuel for SpaceX. Performed nicely; made new intraday high (though gave back gains afternoon)."
+          "note": "Industrial gas distributor owned by Travel Trust. Makes rocket fuel for SpaceX. Performed nicely; made new intraday high (though gave back gains afternoon).",
+          "closing_price": 509.16
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Industrial gas distributor; makes rocket fuel for SpaceX. Made intraday high but gave up gains in afternoon. SpaceX tailwind helping."
+          "note": "Industrial gas distributor; makes rocket fuel for SpaceX. Made intraday high but gave up gains in afternoon. SpaceX tailwind helping.",
+          "closing_price": 509.16
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Industrial gas distributor owned by Travel Trust. Made intraday new high (gave up gains afternoon). Makes rocket fuel for SpaceX. Beneficiary of space race, niche secular tailwind."
+          "note": "Industrial gas distributor owned by Travel Trust. Made intraday new high (gave up gains afternoon). Makes rocket fuel for SpaceX. Beneficiary of space race, niche secular tailwind.",
+          "closing_price": 509.16
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Industrial gas distributor making rocket fuel for SpaceX. Trust-owned holding; made new intraday high (gave up gains afternoon). SpaceX tailwind."
+          "note": "Industrial gas distributor making rocket fuel for SpaceX. Trust-owned holding; made new intraday high (gave up gains afternoon). SpaceX tailwind.",
+          "closing_price": 509.16
         }
       ]
     },
@@ -914,31 +1006,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Solid conservative run insurance company invested in right things; represents long-term value."
+          "note": "Solid conservative run insurance company invested in right things; represents long-term value.",
+          "closing_price": 86.13
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Solid conservative run-of-the-mill insurance company invested in the right things. Defensive play."
+          "note": "Solid conservative run-of-the-mill insurance company invested in the right things. Defensive play.",
+          "closing_price": 86.13
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Conservative run insurance company invested in the right things. Solid performer in defensive rotation."
+          "note": "Conservative run insurance company invested in the right things. Solid performer in defensive rotation.",
+          "closing_price": 86.13
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Conservative run insurance company invested in right areas. Solid holdings for Travel Trust. Made new high. Insurance sector strength."
+          "note": "Conservative run insurance company invested in right areas. Solid holdings for Travel Trust. Made new high. Insurance sector strength.",
+          "closing_price": 86.13
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Solid conservative run insurance company, invested in right things. Defensive insurer play."
+          "note": "Solid conservative run insurance company, invested in right things. Defensive insurer play.",
+          "closing_price": 86.13
         }
       ]
     },
@@ -949,31 +1046,36 @@
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "One of greatest growth stories since 1985; defensive energy drink with global reach. Buy into the tsunami\u2014it works."
+          "note": "One of greatest growth stories since 1985; defensive energy drink with global reach. Buy into the tsunami\u2014it works.",
+          "closing_price": 91.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Studied as one of greatest growth stories in 'How to Make Money in Any Market.' Defensive small-juice energy drink maker going global. Buy it into the tsunami; it will work."
+          "note": "Studied as one of greatest growth stories in 'How to Make Money in Any Market.' Defensive small-juice energy drink maker going global. Buy it into the tsunami; it will work.",
+          "closing_price": 91.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "One of the greatest growth stories ever since Hansen Natural (1985). Defensive small juice energy drink maker going global. Cramer: buy it into the tsunami; it'll work."
+          "note": "One of the greatest growth stories ever since Hansen Natural (1985). Defensive small juice energy drink maker going global. Cramer: buy it into the tsunami; it'll work.",
+          "closing_price": 91.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "One of greatest growth stories since 1985 inception (Hansen Natural). Defensive small juice/energy drink maker going global. Cramer studied this in 'How to Make Money in Any Market.' Buy into the tsunami."
+          "note": "One of greatest growth stories since 1985 inception (Hansen Natural). Defensive small juice/energy drink maker going global. Cramer studied this in 'How to Make Money in Any Market.' Buy into the tsunami.",
+          "closing_price": 91.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "One of greatest growth stories since 1985 inception. Defensive small-cap juice/energy drink maker going global. Buy into the weakness; works in any market."
+          "note": "One of greatest growth stories since 1985 inception. Defensive small-cap juice/energy drink maker going global. Buy into the weakness; works in any market.",
+          "closing_price": 91.21
         }
       ]
     },
@@ -984,31 +1086,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Boring defensive financial with 3% yield."
+          "note": "Boring defensive financial with 3% yield.",
+          "closing_price": 109.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "opening_commentary",
-          "note": "Boring financial services story with 3% yield. Defensive play."
+          "note": "Boring financial services story with 3% yield. Defensive play.",
+          "closing_price": 109.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "opening_commentary",
-          "note": "Boring story; 3% yield. Defensive financial services play for risk-off environment."
+          "note": "Boring story; 3% yield. Defensive financial services play for risk-off environment.",
+          "closing_price": 109.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Boring diversified financial services. Yields 3%. Made new high. Defensive, boring yield play. Part of new market preference."
+          "note": "Boring diversified financial services. Yields 3%. Made new high. Defensive, boring yield play. Part of new market preference.",
+          "closing_price": 109.21
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "opening_commentary",
-          "note": "Boring financial services story. 3% yield; conservative defensive play."
+          "note": "Boring financial services story. 3% yield; conservative defensive play.",
+          "closing_price": 109.21
         }
       ]
     },
@@ -1019,31 +1126,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Best collection of shopping malls in America under late David Simon's legacy; now yields 4.15% with terrific record."
+          "note": "Best collection of shopping malls in America under late David Simon's legacy; now yields 4.15% with terrific record.",
+          "closing_price": 212.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Late David Simon assembled best collection of shopping malls in America. Stock yields 4.15%. Terrific record; buy it."
+          "note": "Late David Simon assembled best collection of shopping malls in America. Stock yields 4.15%. Terrific record; buy it.",
+          "closing_price": 212.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Best collection of shopping malls in America built by late CEO David Simon. Now yields 4.15% with terrific record. Cramer: buy it."
+          "note": "Best collection of shopping malls in America built by late CEO David Simon. Now yields 4.15% with terrific record. Cramer: buy it.",
+          "closing_price": 212.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Premium shopping mall REIT assembled by late David Simon. Yield 4.15%. Terrific track record. Made new high. Defensive REIT anchor."
+          "note": "Premium shopping mall REIT assembled by late David Simon. Yield 4.15%. Terrific track record. Made new high. Defensive REIT anchor.",
+          "closing_price": 212.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Best shopping mall REIT in America assembled by late David Simon. Yields 4.15%; terrific track record. Buy."
+          "note": "Best shopping mall REIT in America assembled by late David Simon. Yields 4.15%; terrific track record. Buy.",
+          "closing_price": 212.82
         }
       ]
     },
@@ -1054,37 +1166,43 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Value retailer held by travel trust; ideal for discount shopping, held up very nicely today. Not dollar stores but affordable quality."
+          "note": "Value retailer held by travel trust; ideal for discount shopping, held up very nicely today. Not dollar stores but affordable quality.",
+          "closing_price": 167.66
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Owned by Travel Trust; ideal place to shop for value. Held up very nicely today. Cramer finds unexpected treasures every visit; cheap compared to department stores."
+          "note": "Owned by Travel Trust; ideal place to shop for value. Held up very nicely today. Cramer finds unexpected treasures every visit; cheap compared to department stores.",
+          "closing_price": 167.66
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Held up very nicely today; ideal place to shop for value. Not dollar stores but cheap goods. Cramer loves the value, finds good deals every visit. Defensive retail play."
+          "note": "Held up very nicely today; ideal place to shop for value. Not dollar stores but cheap goods. Cramer loves the value, finds good deals every visit. Defensive retail play.",
+          "closing_price": 167.66
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Value retailer (TJ Maxx, Marshall's) owned by Travel Trust. Held up very nicely today. Ideal value shopping destination. Not dollar store but affordable quality. Defensive consumer play."
+          "note": "Value retailer (TJ Maxx, Marshall's) owned by Travel Trust. Held up very nicely today. Ideal value shopping destination. Not dollar store but affordable quality. Defensive consumer play.",
+          "closing_price": 167.66
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Trust-owned. Ideal value shopping destination; held up very well in weak market. Secular disinflationary play vs. dollar stores. Defensive."
+          "note": "Trust-owned. Ideal value shopping destination; held up very well in weak market. Secular disinflationary play vs. dollar stores. Defensive.",
+          "closing_price": 167.66
         },
         {
           "date": "2026-06-08",
           "sentiment": "buy",
           "segment": "in_depth_analysis",
-          "note": "Cramer's long-term favorite in off-price retail; mentioned as beneficiary of same discount-retail thesis driving Ross success. Would love to own both if diversification rules allowed."
+          "note": "Cramer's long-term favorite in off-price retail; mentioned as beneficiary of same discount-retail thesis driving Ross success. Would love to own both if diversification rules allowed.",
+          "closing_price": 159.75
         }
       ]
     },
@@ -1095,37 +1213,43 @@
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Managed care play up on same Medicare Advantage tailwinds as Humana; legendary CEO Steve Hemsley back turning around brutal prior management. Own it."
+          "note": "Managed care play up on same Medicare Advantage tailwinds as Humana; legendary CEO Steve Hemsley back turning around brutal prior management. Own it.",
+          "closing_price": 407.46
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Managed care play up for same reason as Humana (Medicare Advantage reimbursements). Legendary CEO Steve Hemsley back and turning around brutal prior management. Buy it; Cramer crushed it buying UNH in 1988."
+          "note": "Managed care play up for same reason as Humana (Medicare Advantage reimbursements). Legendary CEO Steve Hemsley back and turning around brutal prior management. Buy it; Cramer crushed it buying UNH in 1988.",
+          "closing_price": 407.46
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Managed care beneficiary of Trump Medicare Advantage breaks; CEO Steve Hemsley turning around brutal legacy mismanagement. Textbook safety stock."
+          "note": "Managed care beneficiary of Trump Medicare Advantage breaks; CEO Steve Hemsley turning around brutal legacy mismanagement. Textbook safety stock.",
+          "closing_price": 407.46
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Managed care leader. Beneficiary of Medicare Advantage reimbursement boost. CEO Steve Hemsley back and turning around prior bad management. Cramer bought it in 1988 and crushed it. Buy now."
+          "note": "Managed care leader. Beneficiary of Medicare Advantage reimbursement boost. CEO Steve Hemsley back and turning around prior bad management. Cramer bought it in 1988 and crushed it. Buy now.",
+          "closing_price": 407.46
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Legendary CEO Steve Hemsley back after brutal mismanagement. Managed care play benefiting from Medicare Advantage. Cramer owned it in 1988 and crushed it; buy now."
+          "note": "Legendary CEO Steve Hemsley back after brutal mismanagement. Managed care play benefiting from Medicare Advantage. Cramer owned it in 1988 and crushed it; buy now.",
+          "closing_price": 407.46
         },
         {
           "date": "2026-06-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Healthcare insurance leader; part of emerging healthcare leadership group offering better growth and valuation than tech."
+          "note": "Healthcare insurance leader; part of emerging healthcare leadership group offering better growth and valuation than tech.",
+          "closing_price": 413.0
         }
       ]
     },
@@ -1136,31 +1260,36 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "caller_qa",
-          "note": "Has finally shown momentum after years of stagnation; people who avoided it are now stepping in inch by inch. Buy on this momentum."
+          "note": "Has finally shown momentum after years of stagnation; people who avoided it are now stepping in inch by inch. Buy on this momentum.",
+          "closing_price": 28.79
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "caller_qa",
-          "note": "Stock finally has momentum after years of people staying away. Inch by inch, step by step going higher. People who waited to buy for years now saying 'not without me.' Take the over; buy it."
+          "note": "Stock finally has momentum after years of people staying away. Inch by inch, step by step going higher. People who waited to buy for years now saying 'not without me.' Take the over; buy it.",
+          "closing_price": 28.79
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "caller_qa",
-          "note": "Finally showing momentum after years of stalling. People have been waiting to buy it; now breaking higher. Cramer: take the over, buy into the strength."
+          "note": "Finally showing momentum after years of stalling. People have been waiting to buy it; now breaking higher. Cramer: take the over, buy into the strength.",
+          "closing_price": 28.79
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "caller_qa",
-          "note": "Finally has momentum after years of sideways trading. People who've been staying away now chasing higher. Mark's $69 cost basis well below current levels. Buy the breakout as investors capitulate to uptrend."
+          "note": "Finally has momentum after years of sideways trading. People who've been staying away now chasing higher. Mark's $69 cost basis well below current levels. Buy the breakout as investors capitulate to uptrend.",
+          "closing_price": 28.79
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "caller_qa",
-          "note": "Stock finally showing momentum after years of languishing. Callers waited to buy; now it's going higher. Take the over; don't sell at $69."
+          "note": "Stock finally showing momentum after years of languishing. Callers waited to buy; now it's going higher. Take the over; don't sell at $69.",
+          "closing_price": 28.79
         }
       ]
     },
@@ -1212,13 +1341,15 @@
           "sentiment": "wait",
           "segment": "caller_qa",
           "note": "Good company but timing is wrong; wait until after SpaceX IPO pricing before buying to allow more informed decision.",
-          "price_level": 309
+          "price_level": 309,
+          "closing_price": 309.14
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "caller_qa",
-          "note": "Good situation fundamentally; won't be bad if you own it. But avoid buying before SpaceX deal prices; too much capital in motion. Wait for post-deal clarity."
+          "note": "Good situation fundamentally; won't be bad if you own it. But avoid buying before SpaceX deal prices; too much capital in motion. Wait for post-deal clarity.",
+          "closing_price": 309.14
         }
       ]
     },
@@ -1247,37 +1378,43 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Natural gas play; Cramer likes it very much alongside Devon energy story."
+          "note": "Natural gas play; Cramer likes it very much alongside Devon energy story.",
+          "closing_price": 52.61
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Natural gas play; Cramer likes it very much. Devon story also makes him excited on energy sector."
+          "note": "Natural gas play; Cramer likes it very much. Devon story also makes him excited on energy sector.",
+          "closing_price": 52.61
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Natural gas play attractive; Cramer likes it very much. Devon Energy also makes him excited. Energy beneficiary of macro uncertainty and supply concerns."
+          "note": "Natural gas play attractive; Cramer likes it very much. Devon Energy also makes him excited. Energy beneficiary of macro uncertainty and supply concerns.",
+          "closing_price": 52.61
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Natural gas and Devon story excites Cramer. Energy upside as geopolitical tensions persist. Strong fundamentals on commodity strength."
+          "note": "Natural gas and Devon story excites Cramer. Energy upside as geopolitical tensions persist. Strong fundamentals on commodity strength.",
+          "closing_price": 52.61
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Natural gas play; Cramer prefers EQT over Trans Ocean for energy exposure. Devon also noted positively."
+          "note": "Natural gas play; Cramer prefers EQT over Trans Ocean for energy exposure. Devon also noted positively.",
+          "closing_price": 52.61
         },
         {
           "date": "2026-06-08",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Preferred natural gas play."
+          "note": "Preferred natural gas play.",
+          "closing_price": 52.98
         }
       ]
     },
@@ -1288,19 +1425,22 @@
           "date": "2026-06-10",
           "sentiment": "caution",
           "segment": "lightning_round",
-          "note": "Data center optical play; Cramer prefers Corning given the charts look bad across all these names."
+          "note": "Data center optical play; Cramer prefers Corning given the charts look bad across all these names.",
+          "closing_price": 175.13
         },
         {
           "date": "2026-06-10",
           "sentiment": "avoid",
           "segment": "lightning_round",
-          "note": "Data center optical play; Cramer recommends Corning instead as better option. Charts are terrible on all these optical plays."
+          "note": "Data center optical play; Cramer recommends Corning instead as better option. Charts are terrible on all these optical plays.",
+          "closing_price": 175.13
         },
         {
           "date": "2026-06-10",
           "sentiment": "caution",
           "segment": "lightning_round",
-          "note": "Data center optical play but chart looks terrible. Cramer redirects caller to Corning as better risk/reward on same theme."
+          "note": "Data center optical play but chart looks terrible. Cramer redirects caller to Corning as better risk/reward on same theme.",
+          "closing_price": 175.13
         }
       ]
     },
@@ -1311,25 +1451,29 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Optical fiber and data center infrastructure; Cramer's preferred pick over AAOI despite poor chart environment."
+          "note": "Optical fiber and data center infrastructure; Cramer's preferred pick over AAOI despite poor chart environment.",
+          "closing_price": 168.17
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Preferred over AAOI for data center optical exposure. Hometown pride (Corning, NY) and superior fundamentals. Better positioned than alternatives."
+          "note": "Preferred over AAOI for data center optical exposure. Hometown pride (Corning, NY) and superior fundamentals. Better positioned than alternatives.",
+          "closing_price": 168.17
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Fiber-optics and glass for data-center buildout; Cramer much prefers Corning over AAOI. Strong regional tie (Corning, NY caller). Better risk/reward for data-center capex wave."
+          "note": "Fiber-optics and glass for data-center buildout; Cramer much prefers Corning over AAOI. Strong regional tie (Corning, NY caller). Better risk/reward for data-center capex wave.",
+          "closing_price": 168.17
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Optical fiber and data center infrastructure supplier. Luke asked about AAOI for data center play; Cramer redirects to Corning (better fundamentals). Chart looks bad like all tech, but Cramer prefers parachute to no parachute. Dwayne from Corning gets hometown nod."
+          "note": "Optical fiber and data center infrastructure supplier. Luke asked about AAOI for data center play; Cramer redirects to Corning (better fundamentals). Chart looks bad like all tech, but Cramer prefers parachute to no parachute. Dwayne from Corning gets hometown nod.",
+          "closing_price": 168.17
         }
       ]
     },
@@ -1340,31 +1484,36 @@
           "date": "2026-06-10",
           "sentiment": "mild_buy",
           "segment": "lightning_round",
-          "note": "Actually interesting per Cramer (was planning piece on why BB may be interesting), but home-team Corning gets the nod."
+          "note": "Actually interesting per Cramer (was planning piece on why BB may be interesting), but home-team Corning gets the nod.",
+          "closing_price": 8.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Technology play that Cramer was planning to feature. Acknowledges it may be very interesting here, but defers to Corning as hometown team preference."
+          "note": "Technology play that Cramer was planning to feature. Acknowledges it may be very interesting here, but defers to Corning as hometown team preference.",
+          "closing_price": 8.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "lightning_round",
-          "note": "Cramer acknowledges it's good and they were planning a piece on it, but local pride goes to Corning (from Corning, NY caller). Both are plays on tech trends, but Corning is preferred here."
+          "note": "Cramer acknowledges it's good and they were planning a piece on it, but local pride goes to Corning (from Corning, NY caller). Both are plays on tech trends, but Corning is preferred here.",
+          "closing_price": 8.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "neutral",
           "segment": "lightning_round",
-          "note": "Dwayne pitches Blackberry. Cramer acknowledges piece in progress on why BB may be interesting, but hometown loyalty to Corning wins out. Technology credentials exist but not top-of-mind call today."
+          "note": "Dwayne pitches Blackberry. Cramer acknowledges piece in progress on why BB may be interesting, but hometown loyalty to Corning wins out. Technology credentials exist but not top-of-mind call today.",
+          "closing_price": 8.82
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Tech/cybersecurity story Cramer finds interesting but makes local bias joke favoring Corning. Acknowledges company has merit but charts extremely beaten down."
+          "note": "Tech/cybersecurity story Cramer finds interesting but makes local bias joke favoring Corning. Acknowledges company has merit but charts extremely beaten down.",
+          "closing_price": 8.82
         }
       ]
     },
@@ -1375,19 +1524,22 @@
           "date": "2026-06-10",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Down 6.6% after hours; not mentioned in new-high list, indicating market skepticism despite data center tailwinds."
+          "note": "Down 6.6% after hours; not mentioned in new-high list, indicating market skepticism despite data center tailwinds.",
+          "closing_price": 201.26
         },
         {
           "date": "2026-06-10",
           "sentiment": "caution",
           "segment": "opening_commentary",
-          "note": "Down 6.6% after close. Not on new highs list; facing headwinds from broader AI/data center rotation."
+          "note": "Down 6.6% after close. Not on new highs list; facing headwinds from broader AI/data center rotation.",
+          "closing_price": 201.26
         },
         {
           "date": "2026-06-05",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Got into data center business years ago to avoid AI capex trap. Results Wednesday will reveal if strategy is working; mixed outlook on feasibility."
+          "note": "Got into data center business years ago to avoid AI capex trap. Results Wednesday will reveal if strategy is working; mixed outlook on feasibility.",
+          "closing_price": 213.68
         }
       ]
     },
@@ -1398,49 +1550,57 @@
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Don't take selling personally; Cramer loves Apple and says own it, don't trade it. Selling driven by speculators liquidating to raise SpaceX IPO cash. Apple spending next to nothing on AI via Alphabet deal."
+          "note": "Don't take selling personally; Cramer loves Apple and says own it, don't trade it. Selling driven by speculators liquidating to raise SpaceX IPO cash. Apple spending next to nothing on AI via Alphabet deal.",
+          "closing_price": 291.58
         },
         {
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "closing_commentary",
-          "note": "Selling is driven by speculators raising cash for SpaceX/Anthropic/OpenAI IPOs, not company fundamentals. Own it, don't trade it. Minimal AI spending due to Alphabet deal."
+          "note": "Selling is driven by speculators raising cash for SpaceX/Anthropic/OpenAI IPOs, not company fundamentals. Own it, don't trade it. Minimal AI spending due to Alphabet deal.",
+          "closing_price": 291.58
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Selling is from speculators raising cash for SpaceX; don't take it personally. Cramer loves Apple, owns it. It's a donor to SpaceX cause, not a weak fundamental story. Own it, don't trade it."
+          "note": "Selling is from speculators raising cash for SpaceX; don't take it personally. Cramer loves Apple, owns it. It's a donor to SpaceX cause, not a weak fundamental story. Own it, don't trade it.",
+          "closing_price": 291.58
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Selling is forced liquidation to fund SpaceX IPO, not fundamental weakness. Cramer loves Apple; own it, don't trade it. Used as liquidity source by speculators. Long-term holder play; ignore day-to-day noise."
+          "note": "Selling is forced liquidation to fund SpaceX IPO, not fundamental weakness. Cramer loves Apple; own it, don't trade it. Used as liquidity source by speculators. Long-term holder play; ignore day-to-day noise.",
+          "closing_price": 291.58
         },
         {
           "date": "2026-06-10",
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
-          "note": "Heavy selling driven by portfolio liquidation for SpaceX allocations, not fundamentals. AI spending minimal due to Alphabet/Gemini deal. Own long-term, don't trade."
+          "note": "Heavy selling driven by portfolio liquidation for SpaceX allocations, not fundamentals. AI spending minimal due to Alphabet/Gemini deal. Own long-term, don't trade.",
+          "closing_price": 291.58
         },
         {
           "date": "2026-06-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Fantastic balance sheet, robust buyback, beloved products; still has scarcity characteristics despite broader tech oversupply fears."
+          "note": "Fantastic balance sheet, robust buyback, beloved products; still has scarcity characteristics despite broader tech oversupply fears.",
+          "closing_price": 290.55
         },
         {
           "date": "2026-06-08",
           "sentiment": "hold",
           "segment": "opening_commentary",
-          "note": "Clean story but WWDC announcement disappointed traders. Siri improvements and AI integration real, but Apple's leadership position matters too much to lose. Wanted it to open down and rally instead; traders are the losers, not Apple."
+          "note": "Clean story but WWDC announcement disappointed traders. Siri improvements and AI integration real, but Apple's leadership position matters too much to lose. Wanted it to open down and rally instead; traders are the losers, not Apple.",
+          "closing_price": 301.54
         },
         {
           "date": "2026-06-05",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Avoids massive AI capex by piggybacking off Alphabet's spending; with 2.5B active devices, competitive chatbot makers need access to Apple's audience. WWDC Monday should reveal Siri improvements."
+          "note": "Avoids massive AI capex by piggybacking off Alphabet's spending; with 2.5B active devices, competitive chatbot makers need access to Apple's audience. WWDC Monday should reveal Siri improvements.",
+          "closing_price": 307.34
         }
       ]
     },
@@ -1451,25 +1611,29 @@
           "date": "2026-06-10",
           "sentiment": "concern",
           "segment": "closing_commentary",
-          "note": "Down sharply as speculators liquidate crypto holdings to raise cash for SpaceX/mega-IPOs. Crypto holders are speculators, not hedgers, willing to flip deals on day one."
+          "note": "Down sharply as speculators liquidate crypto holdings to raise cash for SpaceX/mega-IPOs. Crypto holders are speculators, not hedgers, willing to flip deals on day one.",
+          "closing_price": 27.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "concern",
           "segment": "closing_commentary",
-          "note": "Down due to speculators raising cash for SpaceX allocation. Owners treating crypto as liquidity source, not hedge. Risk of selling pressure at IPO opening. Speculators dominating, not hedgers."
+          "note": "Down due to speculators raising cash for SpaceX allocation. Owners treating crypto as liquidity source, not hedge. Risk of selling pressure at IPO opening. Speculators dominating, not hedgers.",
+          "closing_price": 27.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "caution",
           "segment": "closing_commentary",
-          "note": "Collapsed along with gold as speculators liquidate to fund SpaceX allocations. Speculators treating it as risk asset, not hedge. Timing signal of broader market stress."
+          "note": "Collapsed along with gold as speculators liquidate to fund SpaceX allocations. Speculators treating it as risk asset, not hedge. Timing signal of broader market stress.",
+          "closing_price": 27.38
         },
         {
           "date": "2026-06-09",
           "sentiment": "concern",
           "segment": "closing_commentary",
-          "note": "Relentless decline signals excessive speculation; charts are among worst Cramer has ever seen; leverage and 2x/3x ETF propping may not hold; potential for sharp further downside."
+          "note": "Relentless decline signals excessive speculation; charts are among worst Cramer has ever seen; leverage and 2x/3x ETF propping may not hold; potential for sharp further downside.",
+          "closing_price": 27.44
         }
       ]
     },
@@ -1480,19 +1644,22 @@
           "date": "2026-06-10",
           "sentiment": "concern",
           "segment": "closing_commentary",
-          "note": "Down despite Middle East war turmoil because speculators liquidating to raise SpaceX IPO cash, not true hedging demand."
+          "note": "Down despite Middle East war turmoil because speculators liquidating to raise SpaceX IPO cash, not true hedging demand.",
+          "closing_price": 374.58
         },
         {
           "date": "2026-06-10",
           "sentiment": "concern",
           "segment": "closing_commentary",
-          "note": "Hedge failing as speculators liquidate for SpaceX deal funding. War in Middle East not supporting gold; speculation overpowers safe-haven demand. Owners raising cash, not holding for protection."
+          "note": "Hedge failing as speculators liquidate for SpaceX deal funding. War in Middle East not supporting gold; speculation overpowers safe-haven demand. Owners raising cash, not holding for protection.",
+          "closing_price": 374.58
         },
         {
           "date": "2026-06-10",
           "sentiment": "caution",
           "segment": "closing_commentary",
-          "note": "Down sharply despite geopolitical tensions (Iran war) because speculators liquidating hedges for IPO cash. Shows speculator capitulation, not flight-to-safety demand."
+          "note": "Down sharply despite geopolitical tensions (Iran war) because speculators liquidating hedges for IPO cash. Shows speculator capitulation, not flight-to-safety demand.",
+          "closing_price": 374.58
         }
       ]
     },
@@ -1503,7 +1670,8 @@
           "date": "2026-06-11",
           "sentiment": "mild_buy",
           "segment": "caller_qa",
-          "note": "Insider buying (director purchased 1.5M shares) and government officials' stake suggest stock undervalued. Company appears worth more than market price, but Cramer declines to speculate on Berkshire Hathaway acquisition."
+          "note": "Insider buying (director purchased 1.5M shares) and government officials' stake suggest stock undervalued. Company appears worth more than market price, but Cramer declines to speculate on Berkshire Hathaway acquisition.",
+          "closing_price": 4.2
         }
       ]
     },
@@ -1514,7 +1682,8 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Healthcare REIT with 6% yield. Real estate investment trust specializing in outpatient medical buildings and continuing care retirement facilities. Defensive play."
+          "note": "Healthcare REIT with 6% yield. Real estate investment trust specializing in outpatient medical buildings and continuing care retirement facilities. Defensive play.",
+          "closing_price": 20.47
         }
       ]
     },
@@ -1549,25 +1718,29 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "REIT owning strip malls and mixed-use properties. 4% yield. Very defensive."
+          "note": "REIT owning strip malls and mixed-use properties. 4% yield. Very defensive.",
+          "closing_price": 25.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "REIT owning strip malls and mixed-use properties; yields 4%. Very defensive, lower beta."
+          "note": "REIT owning strip malls and mixed-use properties; yields 4%. Very defensive, lower beta.",
+          "closing_price": 25.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "REIT owning strip malls and mixed-use properties. Yield 4%. Defensive, on new high list. REITs dominating today's winners."
+          "note": "REIT owning strip malls and mixed-use properties. Yield 4%. Defensive, on new high list. REITs dominating today's winners.",
+          "closing_price": 25.38
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "REIT owning strip malls and mixed-use properties. Yields 4%; very defensive profile."
+          "note": "REIT owning strip malls and mixed-use properties. Yields 4%; very defensive profile.",
+          "closing_price": 25.38
         }
       ]
     },
@@ -1578,7 +1751,8 @@
           "date": "2026-06-10",
           "sentiment": "wait",
           "segment": "lightning_round",
-          "note": "Infrastructure services company crucial to AI data center buildout (construction, fabrication). Hit by executive resignation of beloved leader, but insider buying signal. Conflicting signals\u2014need more work before decision."
+          "note": "Infrastructure services company crucial to AI data center buildout (construction, fabrication). Hit by executive resignation of beloved leader, but insider buying signal. Conflicting signals\u2014need more work before decision.",
+          "closing_price": 276.45
         }
       ]
     },
@@ -1640,19 +1814,22 @@
           "date": "2026-06-10",
           "sentiment": "hold",
           "segment": "closing_commentary",
-          "note": "Apple's AI deal with Alphabet makes Google the default search engine and extends Gemini integration. Neutral to positive for Alphabet as a beneficiary of AI deals."
+          "note": "Apple's AI deal with Alphabet makes Google the default search engine and extends Gemini integration. Neutral to positive for Alphabet as a beneficiary of AI deals.",
+          "closing_price": 356.38
         },
         {
           "date": "2026-06-08",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Equity issuance to fund unprofitable data-center buildout raises dilution fears. Though $920M/month SpaceX deal shows Google Cloud customers prefer Nvidia GPUs over internal TPUs\u2014a bullish signal for Nvidia offset by equity-supply concerns."
+          "note": "Equity issuance to fund unprofitable data-center buildout raises dilution fears. Though $920M/month SpaceX deal shows Google Cloud customers prefer Nvidia GPUs over internal TPUs\u2014a bullish signal for Nvidia offset by equity-supply concerns.",
+          "closing_price": 363.31
         },
         {
           "date": "2026-06-05",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Just completed multi-billion fund raise for AI. Supply wave will impact stock in near term as investors raise cash."
+          "note": "Just completed multi-billion fund raise for AI. Supply wave will impact stock in near term as investors raise cash.",
+          "closing_price": 368.53
         }
       ]
     },
@@ -1664,20 +1841,23 @@
           "sentiment": "wait",
           "segment": "in_depth_analysis",
           "note": "Real company with solid revenues ($160M+ expected FY), improving financials, strong AI growth (76% customer YoY, 72% large-customer ARR YoY). 3x sales, 50x forward earnings. But hardware costs up 30% YoY, legacy backup declining, and everyone selling AI stocks for SpaceX capital. Put a pin in it; revisit post-SpaceX deal close.",
-          "price_level": null
+          "price_level": null,
+          "closing_price": 7.4
         },
         {
           "date": "2026-06-10",
           "sentiment": "wait",
           "segment": "in_depth_analysis",
-          "note": "Cloud storage/data mobility play for AI workloads. Real revenue ($160M+ forecast), improving profitability, strong AI customer growth (+76% YoY), NeoCloud TAM ($14B). Risks: AWS/Google/Microsoft competition, rising hardware costs (+30% YoY), legacy backup business declining. Valuation 3x sales, 50x forward earnings\u2014not cheap. Timing terrible amid SpaceX/Anthropic/OpenAI capital drain. Put a pin in it; revisit after mega-IPO cycle."
+          "note": "Cloud storage/data mobility play for AI workloads. Real revenue ($160M+ forecast), improving profitability, strong AI customer growth (+76% YoY), NeoCloud TAM ($14B). Risks: AWS/Google/Microsoft competition, rising hardware costs (+30% YoY), legacy backup business declining. Valuation 3x sales, 50x forward earnings\u2014not cheap. Timing terrible amid SpaceX/Anthropic/OpenAI capital drain. Put a pin in it; revisit after mega-IPO cycle.",
+          "closing_price": 7.4
         },
         {
           "date": "2026-06-10",
           "sentiment": "wait",
           "segment": "in_depth_analysis",
           "note": "Cloud storage alternative to S3 with strong AI tailwinds (76% AI customer growth, $14B opportunity by 2030). Solid financials improving toward profitability. However, hardware costs up 30% YoY, legacy backup declining, and timing poor with speculators selling AI stocks for IPO allocations. Real company, wrong environment.",
-          "price_level": 450
+          "price_level": 450,
+          "closing_price": 7.4
         }
       ]
     },
@@ -1688,13 +1868,15 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Natural gas story makes Cramer very excited. Beneficiary of energy demand and geopolitical premium."
+          "note": "Natural gas story makes Cramer very excited. Beneficiary of energy demand and geopolitical premium.",
+          "closing_price": 46.6
         },
         {
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Natural gas and energy play making Cramer excited. Preferred exposure vs. energy MLPs."
+          "note": "Natural gas and energy play making Cramer excited. Preferred exposure vs. energy MLPs.",
+          "closing_price": 46.6
         }
       ]
     },
@@ -1760,7 +1942,8 @@
           "date": "2026-06-10",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Data center optical fiber and infrastructure play. Cramer prefers over AAOI despite poor chart. Better fundamentals; willing to hold through technical weakness."
+          "note": "Data center optical fiber and infrastructure play. Cramer prefers over AAOI despite poor chart. Better fundamentals; willing to hold through technical weakness.",
+          "closing_price": 99.32
         }
       ]
     },
@@ -1771,13 +1954,15 @@
           "date": "2026-06-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Shedding slow-growth divisions; refocusing on fast-growing drugs; AAA balance sheet; emerging leadership stock in healthcare sector."
+          "note": "Shedding slow-growth divisions; refocusing on fast-growing drugs; AAA balance sheet; emerging leadership stock in healthcare sector.",
+          "closing_price": 237.0
         },
         {
           "date": "2026-06-05",
           "sentiment": "hold",
           "segment": "closing_commentary",
-          "note": "Core defensive holding in the charitable trust providing cushion during today's data-center meltdown. Strong new drug pipeline, triple-A balance sheet better than U.S. Preserved sanity during tsunami sell-off."
+          "note": "Core defensive holding in the charitable trust providing cushion during today's data-center meltdown. Strong new drug pipeline, triple-A balance sheet better than U.S. Preserved sanity during tsunami sell-off.",
+          "closing_price": 232.77
         }
       ]
     },
@@ -1799,7 +1984,8 @@
           "date": "2026-06-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Retail beneficiary of strong housing market; good housing sales support home-goods retailers; two thumbs up."
+          "note": "Retail beneficiary of strong housing market; good housing sales support home-goods retailers; two thumbs up.",
+          "closing_price": 213.17
         }
       ]
     },
@@ -1811,7 +1997,8 @@
           "sentiment": "buy",
           "segment": "caller_qa",
           "note": "Cramer wants to buy Netflix. Warner Bros. studio contemplation was prudent optionality review; down 13% is good entry; will outperform.",
-          "price_level": 13
+          "price_level": 13,
+          "closing_price": 81.41
         }
       ]
     },
@@ -1822,7 +2009,8 @@
           "date": "2026-06-09",
           "sentiment": "avoid",
           "segment": "caller_qa",
-          "note": "Earnings missed badly; Cramer's trust lost heavily; compared to a weekend of hell in 1982; semiconductor oversupply headwind."
+          "note": "Earnings missed badly; Cramer's trust lost heavily; compared to a weekend of hell in 1982; semiconductor oversupply headwind.",
+          "closing_price": 392.16
         }
       ]
     },
@@ -1833,19 +2021,22 @@
           "date": "2026-06-09",
           "sentiment": "buy",
           "segment": "interview",
-          "note": "Leading workforce development initiative (America's Workforce Academy) addressing skilled labor shortage; bullish on company vision and data center investment thesis."
+          "note": "Leading workforce development initiative (America's Workforce Academy) addressing skilled labor shortage; bullish on company vision and data center investment thesis.",
+          "closing_price": 584.59
         },
         {
           "date": "2026-06-08",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Potential equity issuance to fund data-center capex could dilute shareholder base alongside Google and Amazon offerings, draining market liquidity pre-SpaceX IPO."
+          "note": "Potential equity issuance to fund data-center capex could dilute shareholder base alongside Google and Amazon offerings, draining market liquidity pre-SpaceX IPO.",
+          "closing_price": 585.39
         },
         {
           "date": "2026-06-05",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Considering colossal fund raise for AI ambitions (similar to Alphabet's multi-billion move). Supply of new stock flooding market is a headwind; investors must sell other holdings to fund purchases."
+          "note": "Considering colossal fund raise for AI ambitions (similar to Alphabet's multi-billion move). Supply of new stock flooding market is a headwind; investors must sell other holdings to fund purchases.",
+          "closing_price": 593.0
         }
       ]
     },
@@ -1856,7 +2047,8 @@
           "date": "2026-06-09",
           "sentiment": "buy",
           "segment": "interview",
-          "note": "Bot traffic exceeds human traffic; AI agents driving exponential internet growth; Cloudflare powers this infrastructure; layoffs were prudent restructuring; platform positioning strong for next 27 years of internet business model."
+          "note": "Bot traffic exceeds human traffic; AI agents driving exponential internet growth; Cloudflare powers this infrastructure; layoffs were prudent restructuring; platform positioning strong for next 27 years of internet business model.",
+          "closing_price": 236.13
         }
       ]
     },
@@ -1868,7 +2060,8 @@
           "sentiment": "buy",
           "segment": "interview",
           "note": "Secular growth utility (not just dividend staid); $67B capital plan doubled; Meta data center partnership; fair-share-plus model ensures customer balance; nuclear expansion potential; been recommending since 2012.",
-          "price_target": 35
+          "price_target": 35,
+          "closing_price": 109.66
         }
       ]
     },
@@ -1879,7 +2072,8 @@
           "date": "2026-06-09",
           "sentiment": "avoid",
           "segment": "lightning_round",
-          "note": "Media sector decimated by AI; Cramer cannot get behind legacy publisher narrative regardless of Wall Street skepticism."
+          "note": "Media sector decimated by AI; Cramer cannot get behind legacy publisher narrative regardless of Wall Street skepticism.",
+          "closing_price": 82.32
         }
       ]
     },
@@ -1912,7 +2106,8 @@
           "date": "2026-06-09",
           "sentiment": "wait",
           "segment": "lightning_round",
-          "note": "Was favorite stock until market turned ugly; market facts changed; let it come down before reconsidering; no longer right coloration for speculation."
+          "note": "Was favorite stock until market turned ugly; market facts changed; let it come down before reconsidering; no longer right coloration for speculation.",
+          "closing_price": 220.12
         }
       ]
     },
@@ -1923,7 +2118,8 @@
           "date": "2026-06-09",
           "sentiment": "hold",
           "segment": "lightning_round",
-          "note": "Cramer prefers other alternatives; no strong conviction on Wix itself relative to market conditions."
+          "note": "Cramer prefers other alternatives; no strong conviction on Wix itself relative to market conditions.",
+          "closing_price": 48.22
         }
       ]
     },
@@ -1934,7 +2130,8 @@
           "date": "2026-06-09",
           "sentiment": "hold",
           "segment": "lightning_round",
-          "note": "Low multiple appeal but Cramer prefers Viking Cruises (VKG) long-term; Viking offers better 5-year outlook; Carnival reasonable hold but not best-in-class."
+          "note": "Low multiple appeal but Cramer prefers Viking Cruises (VKG) long-term; Viking offers better 5-year outlook; Carnival reasonable hold but not best-in-class.",
+          "closing_price": 27.73
         }
       ]
     },
@@ -1956,13 +2153,15 @@
           "date": "2026-06-08",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Developing Trainium and Trainium alternatives to reduce Nvidia chip reliance. If equity offering follows Google's, will dilute supply further just before SpaceX IPO."
+          "note": "Developing Trainium and Trainium alternatives to reduce Nvidia chip reliance. If equity offering follows Google's, will dilute supply further just before SpaceX IPO.",
+          "closing_price": 245.22
         },
         {
           "date": "2026-06-05",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "May do a fundraiser per Cramer's speculation. Supply could hit stock if they tap capital markets."
+          "note": "May do a fundraiser per Cramer's speculation. Supply could hit stock if they tap capital markets.",
+          "closing_price": 246.03
         }
       ]
     },
@@ -1973,13 +2172,15 @@
           "date": "2026-06-08",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Equity dilution risk similar to Alphabet and Amazon if capital needs force secondary offerings before SpaceX IPO closes."
+          "note": "Equity dilution risk similar to Alphabet and Amazon if capital needs force secondary offerings before SpaceX IPO closes.",
+          "closing_price": 411.74
         },
         {
           "date": "2026-06-05",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "May do a fundraiser per Cramer's speculation. Unknown if they'll need to raise capital for AI/infrastructure."
+          "note": "May do a fundraiser per Cramer's speculation. Unknown if they'll need to raise capital for AI/infrastructure.",
+          "closing_price": 416.67
         }
       ]
     },
@@ -1990,7 +2191,8 @@
           "date": "2026-06-08",
           "sentiment": "avoid",
           "segment": "caller_qa",
-          "note": "Botched IPO pricing; opened at $370 vs. expected $170\u2013180 range and has collapsed since. Caller Angel underwater on recent purchase. Classic example of overallocation and mispricing Cramer fears for SpaceX this week."
+          "note": "Botched IPO pricing; opened at $370 vs. expected $170\u2013180 range and has collapsed since. Caller Angel underwater on recent purchase. Classic example of overallocation and mispricing Cramer fears for SpaceX this week.",
+          "closing_price": 197.21
         }
       ]
     },
@@ -2001,7 +2203,8 @@
           "date": "2026-06-08",
           "sentiment": "wait",
           "segment": "caller_qa",
-          "note": "Expensive software-as-a-service company pivoting rapidly; mixed fundamentals. Better than most enterprise software peers, but not a buy at current levels in today's cautious environment."
+          "note": "Expensive software-as-a-service company pivoting rapidly; mixed fundamentals. Better than most enterprise software peers, but not a buy at current levels in today's cautious environment.",
+          "closing_price": 114.19
         }
       ]
     },
@@ -2025,7 +2228,8 @@
           "sentiment": "buy",
           "segment": "in_depth_analysis",
           "note": "CEO Jim Conroy's merchandising, marketing, and in-store improvements driving 17% comp growth, 20% revenue growth, 27% earnings growth. Best performer in off-price space; 47% gain since he arrived. Off-price retail is one of few retail sectors working. Worth owning.",
-          "price_target": null
+          "price_target": null,
+          "closing_price": 227.42
         }
       ]
     },
@@ -2038,7 +2242,8 @@
           "segment": "caller_qa",
           "note": "Trading at 47x earnings; buy some here, hope for pullback to 45x. Ladder in rather than chasing. Worst case opens up to $1025 and you exit.",
           "price_target": 1025,
-          "price_level": 974
+          "price_level": 974,
+          "closing_price": 974.75
         }
       ]
     },
@@ -2049,7 +2254,8 @@
           "date": "2026-06-08",
           "sentiment": "avoid",
           "segment": "caller_qa",
-          "note": "Cosmetics group broadly challenged; can't buck sectoral weakness. Good company but sector too troubled to touch."
+          "note": "Cosmetics group broadly challenged; can't buck sectoral weakness. Good company but sector too troubled to touch.",
+          "closing_price": 52.28
         }
       ]
     },
@@ -2060,7 +2266,8 @@
           "date": "2026-06-08",
           "sentiment": "avoid",
           "segment": "lightning_round",
-          "note": "Bitcoin/crypto holding company. If you want Bitcoin, buy Bitcoin. Mike Novogratz is solid and company has positive traits, but avoid the equity."
+          "note": "Bitcoin/crypto holding company. If you want Bitcoin, buy Bitcoin. Mike Novogratz is solid and company has positive traits, but avoid the equity.",
+          "closing_price": 30.51
         }
       ]
     },
@@ -2071,7 +2278,8 @@
           "date": "2026-06-08",
           "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Recommended over Galaxy Digital for quantum exposure; cleaner play than crypto-linked companies."
+          "note": "Recommended over Galaxy Digital for quantum exposure; cleaner play than crypto-linked companies.",
+          "closing_price": 280.82
         }
       ]
     },
@@ -2082,7 +2290,8 @@
           "date": "2026-06-08",
           "sentiment": "neutral",
           "segment": "lightning_round",
-          "note": "Fine oil company but Chevron preferred for large-cap exposure; EQT preferred for natural gas."
+          "note": "Fine oil company but Chevron preferred for large-cap exposure; EQT preferred for natural gas.",
+          "closing_price": 43.72
         }
       ]
     },
@@ -2093,7 +2302,8 @@
           "date": "2026-06-08",
           "sentiment": "buy_on_pullback",
           "segment": "lightning_round",
-          "note": "Stock broke down for no clear reason. Buy a little here, then add if it declines further. Chart became ugly but bounce opportunity exists."
+          "note": "Stock broke down for no clear reason. Buy a little here, then add if it declines further. Chart became ugly but bounce opportunity exists.",
+          "closing_price": 280.32
         }
       ]
     },
@@ -2104,7 +2314,8 @@
           "date": "2026-06-08",
           "sentiment": "avoid",
           "segment": "lightning_round",
-          "note": "Numbers are bad. Possibly end of COVID-era urban-to-rural trade. Can't recommend until clarity returns; CEO Hal Lawton is solid but fundamentals unexplained."
+          "note": "Numbers are bad. Possibly end of COVID-era urban-to-rural trade. Can't recommend until clarity returns; CEO Hal Lawton is solid but fundamentals unexplained.",
+          "closing_price": 20.01
         }
       ]
     },
@@ -2115,7 +2326,8 @@
           "date": "2026-06-05",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Down 22% YTD with 7.2% yield signaling dividend coverage concerns. Food industry needs consolidation or faces low-dollar stocks unable to maintain dividends; no growth, unhealthy, hit by GOP cuts, no pricing power. Reports Monday."
+          "note": "Down 22% YTD with 7.2% yield signaling dividend coverage concerns. Food industry needs consolidation or faces low-dollar stocks unable to maintain dividends; no growth, unhealthy, hit by GOP cuts, no pricing power. Reports Monday.",
+          "closing_price": 21.68
         }
       ]
     },
@@ -2126,7 +2338,8 @@
           "date": "2026-06-05",
           "sentiment": "caution",
           "segment": "opening_commentary",
-          "note": "Rebounding recently but faces headwind from high gasoline ($110 fill-up noted). Discretionary travel vulnerable if fuel stays elevated."
+          "note": "Rebounding recently but faces headwind from high gasoline ($110 fill-up noted). Discretionary travel vulnerable if fuel stays elevated.",
+          "closing_price": 3.83
         }
       ]
     },
@@ -2137,7 +2350,8 @@
           "date": "2026-06-05",
           "sentiment": "caution",
           "segment": "opening_commentary",
-          "note": "Last report saw stock jump on okay quarter then get smashed. Rally in offbeat names like this may reverse when it reports Tuesday; owns Twinkies, coffee, dog food, Uncrustables."
+          "note": "Last report saw stock jump on okay quarter then get smashed. Rally in offbeat names like this may reverse when it reports Tuesday; owns Twinkies, coffee, dog food, Uncrustables.",
+          "closing_price": 103.54
         }
       ]
     },
@@ -2148,7 +2362,8 @@
           "date": "2026-06-05",
           "sentiment": "neutral",
           "segment": "opening_commentary",
-          "note": "Dominates small-town America with breakfast pizza; reports after close. Results TBD."
+          "note": "Dominates small-town America with breakfast pizza; reports after close. Results TBD.",
+          "closing_price": 761.91
         }
       ]
     },
@@ -2170,7 +2385,8 @@
           "date": "2026-06-05",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Pet spending never supposed to suffer, but missed quarter badly. Chewy may miss too given consumer weakness."
+          "note": "Pet spending never supposed to suffer, but missed quarter badly. Chewy may miss too given consumer weakness.",
+          "closing_price": 2.83
         }
       ]
     },
@@ -2181,7 +2397,8 @@
           "date": "2026-06-05",
           "sentiment": "avoid",
           "segment": "opening_commentary",
-          "note": "Part of shrinking SaaS cohort with cheaper competitors in design software space. Even after thrashing, not low enough to own; needs further decline."
+          "note": "Part of shrinking SaaS cohort with cheaper competitors in design software space. Even after thrashing, not low enough to own; needs further decline.",
+          "closing_price": 251.44
         }
       ]
     },
@@ -2192,7 +2409,8 @@
           "date": "2026-06-05",
           "sentiment": "concern",
           "segment": "opening_commentary",
-          "note": "Home building punches above its weight at 10% of economy. Needs lower interest rates to drive more home sales; rising rate expectations hurt outlook."
+          "note": "Home building punches above its weight at 10% of economy. Needs lower interest rates to drive more home sales; rising rate expectations hurt outlook.",
+          "closing_price": 90.49
         }
       ]
     },
@@ -2204,7 +2422,8 @@
           "sentiment": "buy_on_pullback",
           "segment": "caller_qa",
           "note": "High school caller asks about entry amid U.S. conflict uncertainty. Cramer advises dollar-cost averaging: buy 2 shares now, then 3 more if it drops below $500 (stock hit ~$700 recently). Avoid chasing; be disciplined.",
-          "price_level": 523
+          "price_level": 523,
+          "closing_price": 523.76
         }
       ]
     },
@@ -2216,7 +2435,8 @@
           "sentiment": "sell",
           "segment": "caller_qa",
           "note": "$80B company providing opto-electronic components critical for AI buildout, up 100%+ YTD. Going parabolic. Cramer advises selling half here (even if down 25%) and waiting to buy back the inevitable crash. Parabolic moves always reverse hard.",
-          "price_target": null
+          "price_target": null,
+          "closing_price": 376.99
         }
       ]
     },
@@ -2227,7 +2447,8 @@
           "date": "2026-06-05",
           "sentiment": "strong_buy",
           "segment": "interview",
-          "note": "Just transferred to NYSE (largest in 234 years). Targeting $80B revenue by 2030, on track. Investing $50B in U.S. manufacturing and R&D. Oncology booming (Tagriso combos, new breast/liver cancer treatments). GLP-1 weight management pipeline competitive with Eli Lilly\u2014Phase 3 candidate, monthly injectables, muscle-loss mitigation. AI boosting drug discovery productivity and trial success prediction. CEO confident on ambitious targets."
+          "note": "Just transferred to NYSE (largest in 234 years). Targeting $80B revenue by 2030, on track. Investing $50B in U.S. manufacturing and R&D. Oncology booming (Tagriso combos, new breast/liver cancer treatments). GLP-1 weight management pipeline competitive with Eli Lilly\u2014Phase 3 candidate, monthly injectables, muscle-loss mitigation. AI boosting drug discovery productivity and trial success prediction. CEO confident on ambitious targets.",
+          "closing_price": 185.95
         }
       ]
     },
@@ -2238,7 +2459,8 @@
           "date": "2026-06-05",
           "sentiment": "caution",
           "segment": "in_depth_analysis",
-          "note": "Revenue down 3%, Nike Direct down 7%, Digital down 9%, Converse down 35%. Gross margin fell 130 bp to 40.2%. Lost pricing power, stale products, competition rife. CEO Elliott Hill trying turnaround but taking longer than hoped. New CEO gets a chance but burden of proof is on him. Trades 24x earnings, higher than peers due to better relative position but still risky."
+          "note": "Revenue down 3%, Nike Direct down 7%, Digital down 9%, Converse down 35%. Gross margin fell 130 bp to 40.2%. Lost pricing power, stale products, competition rife. CEO Elliott Hill trying turnaround but taking longer than hoped. New CEO gets a chance but burden of proof is on him. Trades 24x earnings, higher than peers due to better relative position but still risky.",
+          "closing_price": 42.98
         }
       ]
     },
@@ -2250,7 +2472,8 @@
           "sentiment": "buy_on_pullback",
           "segment": "caller_qa",
           "note": "Beef cost inflation is real pressure, but 2.6% yield, great reputation, 21x earnings with room to 18\u201319x. DCA strategy: buy at $280, $279, $270, $265, and 50 shares at $260 to build better cost basis.",
-          "price_level": 280
+          "price_level": 280,
+          "closing_price": 279.84
         }
       ]
     },
@@ -2261,7 +2484,8 @@
           "date": "2026-06-05",
           "sentiment": "caution",
           "segment": "lightning_round",
-          "note": "Aerospace/utility/semiconductor testing equipment spinoff from Florida; strong recent quarter and buyback underway. But stock is parabolic\u2014don't chase parabolas in this market."
+          "note": "Aerospace/utility/semiconductor testing equipment spinoff from Florida; strong recent quarter and buyback underway. But stock is parabolic\u2014don't chase parabolas in this market.",
+          "closing_price": 52.38
         }
       ]
     },
@@ -2273,7 +2497,8 @@
           "sentiment": "caution",
           "segment": "lightning_round",
           "note": "10-year breakout on electric drivetrain pivot and gas turbine opportunity\u2014been an absolute winner. But parabolic; could drop from $72 to $60 in a heartbeat. Wait for the inevitable correction.",
-          "price_level": 72
+          "price_level": 72,
+          "closing_price": 72.63
         }
       ]
     },
@@ -2285,7 +2510,8 @@
           "sentiment": "buy_on_pullback",
           "segment": "lightning_round",
           "note": "Cramer likes it\u2014very good unique property\u2014but at 29x earnings, too expensive to buy aggressively. Buy slowly over time, not all at once.",
-          "price_level": null
+          "price_level": null,
+          "closing_price": 173.45
         }
       ]
     },
@@ -2296,7 +2522,8 @@
           "date": "2026-06-05",
           "sentiment": "avoid",
           "segment": "lightning_round",
-          "note": "Business development company trading 20% discount to NAV with 11% yield. Cramer refuses BDC recommendations\u2014doesn't know what they own and won't start now. Too risky."
+          "note": "Business development company trading 20% discount to NAV with 11% yield. Cramer refuses BDC recommendations\u2014doesn't know what they own and won't start now. Too risky.",
+          "closing_price": 11.02
         }
       ]
     },
@@ -2307,7 +2534,8 @@
           "date": "2026-06-05",
           "sentiment": "avoid",
           "segment": "lightning_round",
-          "note": "CEO appears checked out per caller; hasn't raised dividend in 12 years. Commercial real estate in weak cities. Not been a good stock; Cramer has not recommended it."
+          "note": "CEO appears checked out per caller; hasn't raised dividend in 12 years. Commercial real estate in weak cities. Not been a good stock; Cramer has not recommended it.",
+          "closing_price": 17.05
         }
       ]
     },
@@ -2318,7 +2546,8 @@
           "date": "2026-06-05",
           "sentiment": "neutral",
           "segment": "closing_commentary",
-          "note": "Mega IPO driving massive cash raises by other tech firms. Won't fast-track into S&P 500 (stays under 1-year rule + profitability requirement). May not achieve profitability soon given heavy Starship/Starlink/AI infrastructure investments. Supply deluge from IPO is crushing broader market."
+          "note": "Mega IPO driving massive cash raises by other tech firms. Won't fast-track into S&P 500 (stays under 1-year rule + profitability requirement). May not achieve profitability soon given heavy Starship/Starlink/AI infrastructure investments. Supply deluge from IPO is crushing broader market.",
+          "closing_price": 4.38
         }
       ]
     },
@@ -2330,7 +2559,8 @@
           "sentiment": "sell",
           "segment": "closing_commentary",
           "note": "Huge winner for the charitable trust; sold some at $310 but let it run to $400 without trimming. Lost discipline. Down 12%+ today. Should have exited more aggressively. Lesson: trim parabolic winners even when hypnotized by gains\u2014take 'little schnitle' off table.",
-          "price_level": 310
+          "price_level": 310,
+          "closing_price": 342.93
         }
       ]
     },
@@ -2341,7 +2571,8 @@
           "date": "2026-06-05",
           "sentiment": "hold",
           "segment": "closing_commentary",
-          "note": "Core defensive holding in the charitable trust providing cushion during today's tech meltdown. Acts as a 'permit' enabling safe ownership of riskier growth plays. Doesn't boom but doesn't crash either."
+          "note": "Core defensive holding in the charitable trust providing cushion during today's tech meltdown. Acts as a 'permit' enabling safe ownership of riskier growth plays. Doesn't boom but doesn't crash either.",
+          "closing_price": 146.54
         }
       ]
     },
@@ -2352,7 +2583,8 @@
           "date": "2026-06-05",
           "sentiment": "hold",
           "segment": "closing_commentary",
-          "note": "New spinoff of FedEx Freight held in charitable trust. Less-than-truckload operator with potential to become one of world's best. Diversification play\u2014doesn't need to be a data-center money maker to work."
+          "note": "New spinoff of FedEx Freight held in charitable trust. Less-than-truckload operator with potential to become one of world's best. Diversification play\u2014doesn't need to be a data-center money maker to work.",
+          "closing_price": 242.57
         }
       ]
     }

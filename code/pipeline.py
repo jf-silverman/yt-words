@@ -24,8 +24,9 @@ import argparse
 import json
 import os
 import smtplib
+import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -235,6 +236,23 @@ def analyze_with_haiku(date_str: str, transcript_text: str) -> dict:
 
 # ── 4. Sentiment JSON update ───────────────────────────────────────────────────
 
+def fetch_closing_price(ticker: str, date_str: str) -> float | None:
+    """Return the closing price for ticker on date_str using Yahoo Finance. Returns None on any error."""
+    try:
+        dt = datetime.fromisoformat(date_str).replace(tzinfo=timezone.utc)
+        p1 = int(dt.timestamp())
+        p2 = p1 + 86400
+        url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+               f"?interval=1d&period1={p1}&period2={p2}")
+        resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+        resp.raise_for_status()
+        closes = resp.json()["chart"]["result"][0]["indicators"]["quote"][0]["close"]
+        price = next((c for c in closes if c is not None), None)
+        return round(price, 2) if price is not None else None
+    except Exception:
+        return None
+
+
 def update_stock_sentiments(analysis: dict) -> None:
     if SENTIMENTS_FILE.exists():
         db = json.loads(SENTIMENTS_FILE.read_text())
@@ -269,9 +287,37 @@ def update_stock_sentiments(analysis: dict) -> None:
             mention["price_target"] = stock["price_target"]
         if "price_level" in stock:
             mention["price_level"] = stock["price_level"]
+        price = fetch_closing_price(ticker, analysis["episode_date"])
+        if price is not None:
+            mention["closing_price"] = price
         entry["mentions"].append(mention)
 
     SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
+
+
+def backfill_prices() -> None:
+    """Fetch closing prices for all mentions in stock_sentiments.json that don't have one."""
+    if not SENTIMENTS_FILE.exists():
+        print("stock_sentiments.json not found.")
+        return
+    db = json.loads(SENTIMENTS_FILE.read_text())
+    filled = skipped = failed = 0
+    for ticker, entry in db.get("stocks", {}).items():
+        for mention in entry.get("mentions", []):
+            if "closing_price" in mention:
+                skipped += 1
+                continue
+            price = fetch_closing_price(ticker, mention["date"])
+            if price is not None:
+                mention["closing_price"] = price
+                filled += 1
+                print(f"  {ticker} {mention['date']} → ${price}")
+            else:
+                failed += 1
+                print(f"  {ticker} {mention['date']} → no data")
+            time.sleep(0.3)
+    SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
+    print(f"\nDone. Filled: {filled}  Already had price: {skipped}  No data: {failed}")
 
 
 # ── 5. Podcast RSS + Overcast links ───────────────────────────────────────────
@@ -809,10 +855,16 @@ def main() -> None:
     parser.add_argument("--fix-redirects", metavar="DATE",
                         help="Re-generate existing redirect pages for DATE (YYYY-MM-DD) "
                              "with correct Overcast universal links")
+    parser.add_argument("--backfill-prices", action="store_true",
+                        help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
     args = parser.parse_args()
 
     if args.fix_redirects:
         fix_redirect_pages(args.fix_redirects)
+        return
+
+    if args.backfill_prices:
+        backfill_prices()
         return
 
     episodes = discover_new_episodes(args.max_episodes)

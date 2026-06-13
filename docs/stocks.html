@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mad Money · Stock Lookup</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, Arial, sans-serif;
+      background: #f6f8fa;
+      color: #24292f;
+      padding: 24px 16px 48px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 22px; margin-bottom: 4px; }
+    .subtitle { color: #57606a; font-size: 14px; margin-bottom: 20px; }
+    .subtitle a { color: #0969da; text-decoration: none; }
+    .subtitle a:hover { text-decoration: underline; }
+
+    /* Search */
+    .search-wrap { position: relative; margin-bottom: 24px; }
+    #search {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid #d0d7de;
+      border-radius: 8px;
+      outline: none;
+      background: #fff;
+    }
+    #search:focus { border-color: #0969da; box-shadow: 0 0 0 3px rgba(9,105,218,.15); }
+    .status { margin-top: 8px; font-size: 13px; color: #57606a; min-height: 18px; }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border: 1px solid #d0d7de;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 14px 18px;
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card-company { font-size: 18px; font-weight: 700; }
+    .card-ticker {
+      font-family: monospace;
+      font-size: 14px;
+      background: #0969da;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .holding-badge {
+      font-size: 12px;
+      background: #fff8c5;
+      border: 1px solid #d4a017;
+      color: #9a6700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .mention-count { font-size: 12px; color: #57606a; margin-left: auto; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left;
+      padding: 8px 12px;
+      background: #f6f8fa;
+      border-bottom: 2px solid #d0d7de;
+      white-space: nowrap;
+      color: #57606a;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    td { padding: 8px 12px; border-bottom: 1px solid #eaeef2; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f6f8fa; }
+
+    .date-cell { white-space: nowrap; font-family: monospace; font-size: 12px; color: #57606a; }
+    .price-cell { white-space: nowrap; font-family: monospace; }
+    .target-cell { white-space: nowrap; font-family: monospace; color: #57606a; }
+    .seg-cell { white-space: nowrap; font-size: 12px; color: #57606a; }
+    .note-cell { color: #24292f; line-height: 1.4; max-width: 320px; }
+
+    /* Sentiment badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    /* Empty / loading */
+    .empty {
+      text-align: center;
+      padding: 48px 16px;
+      color: #57606a;
+    }
+    .empty .big { font-size: 40px; margin-bottom: 12px; }
+    .loading { text-align: center; padding: 48px; color: #57606a; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Mad Money · Stock Lookup</h1>
+  <p class="subtitle">
+    Every stock Cramer has mentioned on Mad Money, with sentiment and closing price.
+    &nbsp;·&nbsp; <a href="index.html">← Home</a>
+  </p>
+
+  <div class="search-wrap">
+    <input id="search" type="text" placeholder="Search by ticker (NVDA) or company name (Nvidia)…" autofocus autocomplete="off">
+    <div class="status" id="status"></div>
+  </div>
+
+  <div id="results"></div>
+</div>
+
+<script>
+const DATA_URL = 'https://raw.githubusercontent.com/jf-silverman/yt-words/main/data/stock_sentiments.json';
+
+const HOLDINGS = new Set([
+  'ARM','AEVA','INTC','CRWV','BE','AUR','ABSI','PWR','RVMD','LRCX',
+  'GNRC','LIN','NEE','ABNB','MP','NUE','GOOGL','VXUS','QUBT','COST',
+  'NET','MRNA','ARKK','GLD','CRSP','NVDA','MRVL','MU','AMZN','CRWD',
+  'TWLO','QS','AAPL','QBTS','SHOP','BEAM','LLY','SNOW','RDDT','VCX',
+  'LITE','FPS','VRT','FSLR','GILT','RVI','ONDS','HAWK','IRDM',
+]);
+
+const SENTIMENT_COLORS = {
+  strong_buy:     '#1a7f37',
+  buy:            '#2da44e',
+  buy_on_pullback:'#4ac26b',
+  mild_buy:       '#80e09a',
+  hold:           '#d4a017',
+  wait:           '#f0c040',
+  caution:        '#f0a030',
+  neutral:        '#8b949e',
+  concern:        '#e06060',
+  avoid:          '#d03030',
+  sell:           '#a00000',
+};
+
+function sentimentBadge(s) {
+  const color = SENTIMENT_COLORS[s] || '#8b949e';
+  const label = (s || 'unknown').replace(/_/g, ' ').toUpperCase();
+  return `<span class="badge" style="background:${color}">${label}</span>`;
+}
+
+function humanizeSegment(s) {
+  return (s || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function fmtPrice(p) {
+  return p != null ? `$${Number(p).toFixed(2)}` : '—';
+}
+
+function renderCard(ticker, entry) {
+  const isHolding = HOLDINGS.has(ticker);
+  const mentions = [...(entry.mentions || [])].sort((a, b) => b.date.localeCompare(a.date));
+  const holdingBadge = isHolding ? `<span class="holding-badge">★ You own this</span>` : '';
+  const rows = mentions.map(m => {
+    const target = m.price_target != null ? fmtPrice(m.price_target)
+                 : m.price_level  != null ? fmtPrice(m.price_level)
+                 : '—';
+    return `<tr>
+      <td class="date-cell">${m.date}</td>
+      <td>${sentimentBadge(m.sentiment)}</td>
+      <td class="price-cell">${fmtPrice(m.closing_price)}</td>
+      <td class="target-cell">${target}</td>
+      <td class="seg-cell">${humanizeSegment(m.segment)}</td>
+      <td class="note-cell">${m.note || ''}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="card-header">
+      <span class="card-company">${entry.company || ticker}</span>
+      <span class="card-ticker">${ticker}</span>
+      ${holdingBadge}
+      <span class="mention-count">${mentions.length} mention${mentions.length !== 1 ? 's' : ''}</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Date</th><th>Sentiment</th><th>Close</th>
+          <th>Cramer Target</th><th>Segment</th><th>Note</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+let db = null;
+
+async function loadData() {
+  document.getElementById('status').textContent = 'Loading data…';
+  try {
+    const resp = await fetch(DATA_URL);
+    db = await resp.json();
+    document.getElementById('status').textContent = `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
+  } catch (e) {
+    document.getElementById('status').textContent = 'Failed to load data. Try refreshing.';
+  }
+}
+
+function search(query) {
+  const resultsEl = document.getElementById('results');
+  const statusEl  = document.getElementById('status');
+
+  if (!db) { statusEl.textContent = 'Still loading…'; return; }
+  query = query.trim();
+  if (!query) {
+    resultsEl.innerHTML = '';
+    statusEl.textContent = `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
+    return;
+  }
+
+  const q = query.toUpperCase();
+  const stocks = db.stocks || {};
+
+  // Exact ticker match first, then company name substring
+  const matches = Object.entries(stocks).filter(([ticker, entry]) =>
+    ticker === q || (entry.company || '').toUpperCase().includes(q)
+  );
+
+  // Exact ticker always first
+  matches.sort(([a], [b]) => {
+    if (a === q) return -1;
+    if (b === q) return 1;
+    return a.localeCompare(b);
+  });
+
+  if (matches.length === 0) {
+    resultsEl.innerHTML = `<div class="empty">
+      <div class="big">🔍</div>
+      <div>No results for <strong>${query}</strong></div>
+    </div>`;
+    statusEl.textContent = '';
+    return;
+  }
+
+  statusEl.textContent = `${matches.length} result${matches.length !== 1 ? 's' : ''}`;
+  resultsEl.innerHTML = matches.map(([t, e]) => renderCard(t, e)).join('');
+}
+
+document.getElementById('search').addEventListener('input', e => search(e.target.value));
+loadData();
+</script>
+</body>
+</html>
