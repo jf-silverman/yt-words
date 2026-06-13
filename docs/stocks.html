@@ -19,7 +19,7 @@
     .subtitle a:hover { text-decoration: underline; }
 
     /* Search */
-    .search-wrap { position: relative; margin-bottom: 24px; }
+    .search-wrap { margin-bottom: 8px; }
     #search {
       width: 100%;
       padding: 12px 16px;
@@ -30,7 +30,17 @@
       background: #fff;
     }
     #search:focus { border-color: #0969da; box-shadow: 0 0 0 3px rgba(9,105,218,.15); }
-    .status { margin-top: 8px; font-size: 13px; color: #57606a; min-height: 18px; }
+    .search-options {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .search-options input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; }
+    .search-options label { cursor: pointer; user-select: none; }
+    .status { margin-top: 6px; font-size: 13px; color: #57606a; min-height: 18px; }
 
     /* Cards */
     .card {
@@ -89,10 +99,15 @@
     tr:hover td { background: #f6f8fa; }
 
     .date-cell { white-space: nowrap; font-family: monospace; font-size: 12px; color: #57606a; }
+    .sent-cell { line-height: 2; }
     .price-cell { white-space: nowrap; font-family: monospace; }
-    .target-cell { white-space: nowrap; font-family: monospace; color: #57606a; }
-    .seg-cell { white-space: nowrap; font-size: 12px; color: #57606a; }
-    .note-cell { color: #24292f; line-height: 1.4; max-width: 320px; }
+    .target-cell { white-space: nowrap; font-family: monospace; color: #57606a; line-height: 2; }
+    .seg-cell { font-size: 12px; color: #57606a; line-height: 2; white-space: nowrap; }
+    .note-cell { color: #24292f; line-height: 1.5; max-width: 300px; }
+    .note-block { margin-bottom: 8px; }
+    .note-block:last-child { margin-bottom: 0; }
+    .note-seg { font-size: 11px; font-weight: 600; color: #8b949e; text-transform: uppercase;
+                letter-spacing: .04em; margin-bottom: 2px; }
 
     /* Sentiment badges */
     .badge {
@@ -108,13 +123,8 @@
     }
 
     /* Empty / loading */
-    .empty {
-      text-align: center;
-      padding: 48px 16px;
-      color: #57606a;
-    }
+    .empty { text-align: center; padding: 48px 16px; color: #57606a; }
     .empty .big { font-size: 40px; margin-bottom: 12px; }
-    .loading { text-align: center; padding: 48px; color: #57606a; }
   </style>
 </head>
 <body>
@@ -126,7 +136,11 @@
   </p>
 
   <div class="search-wrap">
-    <input id="search" type="text" placeholder="Search by ticker (NVDA) or company name (Nvidia)…" autofocus autocomplete="off">
+    <input id="search" type="text" placeholder="Ticker prefix (e.g. MU, NV)…" autofocus autocomplete="off">
+    <div class="search-options">
+      <input type="checkbox" id="nameMode">
+      <label for="nameMode">Search by company name instead</label>
+    </div>
     <div class="status" id="status"></div>
   </div>
 
@@ -172,30 +186,57 @@ function fmtPrice(p) {
   return p != null ? `$${Number(p).toFixed(2)}` : '—';
 }
 
+// Group mentions by date, aggregating multiple same-date entries into one row
+function groupByDate(mentions) {
+  const byDate = {};
+  for (const m of mentions) {
+    if (!byDate[m.date]) byDate[m.date] = [];
+    byDate[m.date].push(m);
+  }
+  return Object.entries(byDate).sort(([a], [b]) => b.localeCompare(a));
+}
+
 function renderCard(ticker, entry) {
   const isHolding = HOLDINGS.has(ticker);
-  const mentions = [...(entry.mentions || [])].sort((a, b) => b.date.localeCompare(a.date));
   const holdingBadge = isHolding ? `<span class="holding-badge">★ You own this</span>` : '';
-  const rows = mentions.map(m => {
-    const target = m.price_target != null ? fmtPrice(m.price_target)
-                 : m.price_level  != null ? fmtPrice(m.price_level)
-                 : '—';
+  const dateGroups = groupByDate(entry.mentions || []);
+
+  const rows = dateGroups.map(([date, group]) => {
+    // Closing price is the same for all mentions on a date — take first available
+    const closePrice = fmtPrice((group.find(m => m.closing_price != null) || {}).closing_price);
+
+    // One row per mention within the group, stacked vertically in each cell
+    const sentiments = group.map(m => sentimentBadge(m.sentiment)).join('<br>');
+    const targets = group.map(m =>
+      m.price_target != null ? fmtPrice(m.price_target) :
+      m.price_level  != null ? fmtPrice(m.price_level)  : '—'
+    ).join('<br>');
+    const segments = group.map(m => humanizeSegment(m.segment)).join('<br>');
+
+    // Notes: one block per mention, with the segment name as a mini-header
+    const notes = group.map(m =>
+      `<div class="note-block">` +
+      (group.length > 1 ? `<div class="note-seg">${humanizeSegment(m.segment)}</div>` : '') +
+      `${m.note || ''}</div>`
+    ).join('');
+
     return `<tr>
-      <td class="date-cell">${m.date}</td>
-      <td>${sentimentBadge(m.sentiment)}</td>
-      <td class="price-cell">${fmtPrice(m.closing_price)}</td>
-      <td class="target-cell">${target}</td>
-      <td class="seg-cell">${humanizeSegment(m.segment)}</td>
-      <td class="note-cell">${m.note || ''}</td>
+      <td class="date-cell">${date}</td>
+      <td class="sent-cell">${sentiments}</td>
+      <td class="price-cell">${closePrice}</td>
+      <td class="target-cell">${targets}</td>
+      <td class="seg-cell">${segments}</td>
+      <td class="note-cell">${notes}</td>
     </tr>`;
   }).join('');
 
+  const dayCount = dateGroups.length;
   return `<div class="card">
     <div class="card-header">
       <span class="card-company">${entry.company || ticker}</span>
       <span class="card-ticker">${ticker}</span>
       ${holdingBadge}
-      <span class="mention-count">${mentions.length} mention${mentions.length !== 1 ? 's' : ''}</span>
+      <span class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</span>
     </div>
     <div class="table-wrap">
       <table>
@@ -216,38 +257,43 @@ async function loadData() {
   try {
     const resp = await fetch(DATA_URL);
     db = await resp.json();
-    document.getElementById('status').textContent = `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
+    document.getElementById('status').textContent =
+      `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
   } catch (e) {
     document.getElementById('status').textContent = 'Failed to load data. Try refreshing.';
   }
 }
 
-function search(query) {
+function search() {
   const resultsEl = document.getElementById('results');
   const statusEl  = document.getElementById('status');
+  const query     = document.getElementById('search').value.trim();
+  const nameMode  = document.getElementById('nameMode').checked;
 
   if (!db) { statusEl.textContent = 'Still loading…'; return; }
-  query = query.trim();
+
   if (!query) {
     resultsEl.innerHTML = '';
-    statusEl.textContent = `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
+    statusEl.textContent =
+      `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
     return;
   }
 
   const q = query.toUpperCase();
   const stocks = db.stocks || {};
+  let matches;
 
-  // Exact ticker match first, then company name substring
-  const matches = Object.entries(stocks).filter(([ticker, entry]) =>
-    ticker === q || (entry.company || '').toUpperCase().includes(q)
-  );
-
-  // Exact ticker always first
-  matches.sort(([a], [b]) => {
-    if (a === q) return -1;
-    if (b === q) return 1;
-    return a.localeCompare(b);
-  });
+  if (nameMode) {
+    // Company name substring match
+    matches = Object.entries(stocks).filter(([, entry]) =>
+      (entry.company || '').toUpperCase().includes(q)
+    ).sort(([a], [b]) => a.localeCompare(b));
+  } else {
+    // Ticker prefix match only
+    matches = Object.entries(stocks).filter(([ticker]) =>
+      ticker.startsWith(q)
+    ).sort(([a], [b]) => a.localeCompare(b));
+  }
 
   if (matches.length === 0) {
     resultsEl.innerHTML = `<div class="empty">
@@ -262,7 +308,13 @@ function search(query) {
   resultsEl.innerHTML = matches.map(([t, e]) => renderCard(t, e)).join('');
 }
 
-document.getElementById('search').addEventListener('input', e => search(e.target.value));
+document.getElementById('search').addEventListener('input', search);
+document.getElementById('nameMode').addEventListener('change', () => {
+  const nameMode = document.getElementById('nameMode').checked;
+  document.getElementById('search').placeholder =
+    nameMode ? 'Company name (e.g. Nvidia, Honeywell)…' : 'Ticker prefix (e.g. MU, NV)…';
+  search();
+});
 loadData();
 </script>
 </body>
