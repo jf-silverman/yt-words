@@ -112,8 +112,28 @@ def save_processed(records: list[dict]) -> None:
     PROCESSED_FILE.write_text(json.dumps(records, indent=2))
 
 
+def _date_from_title(title: str) -> str:
+    """Parse upload date from CNBC titles like 'Mad Money 06/10/26 | Audio Only'."""
+    m = re.search(r'(\d{2})/(\d{2})/(\d{2})', title)
+    if m:
+        month, day, year = m.groups()
+        return f"20{year}-{month}-{day}"
+    return ""
+
+
+def _date_from_ydlp(video_id: str) -> str:
+    """Fetch upload date via yt-dlp (requires unauthenticated YouTube access)."""
+    opts = {"quiet": True, "no_warnings": True}
+    with yt_dlp.YoutubeDL(opts) as ydl:
+        info = ydl.extract_info(
+            f"https://www.youtube.com/watch?v={video_id}", download=False
+        )
+    raw = info.get("upload_date", "")
+    return f"{raw[:4]}-{raw[4:6]}-{raw[6:]}"
+
+
 def discover_new_episodes(max_n: int = 5) -> list[dict]:
-    """Return up to max_n unprocessed Mad Money video dicts [{id, title, date}]."""
+    """Return up to max_n unprocessed Mad Money video dicts [{id, title, upload_date}]."""
     processed_ids = {r["video_id"] for r in load_processed()}
 
     opts = {
@@ -136,7 +156,13 @@ def discover_new_episodes(max_n: int = 5) -> list[dict]:
         vid = entry.get("id")
         if vid in processed_ids:
             continue
-        episodes.append({"id": vid, "title": title})
+        # Prefer upload_date from flat-extract; fall back to title parsing
+        raw_date = entry.get("upload_date", "")
+        if raw_date:
+            upload_date = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:]}"
+        else:
+            upload_date = _date_from_title(title)
+        episodes.append({"id": vid, "title": title, "upload_date": upload_date})
         if len(episodes) >= max_n:
             break
 
@@ -152,19 +178,14 @@ def _fmt_ts(seconds: float) -> str:
     return f"[{h}:{m:02d}:{s:02d}]" if h else f"[{m}:{s:02d}]"
 
 
-def _get_upload_date(video_id: str) -> str:
-    opts = {"quiet": True, "no_warnings": True}
-    with yt_dlp.YoutubeDL(opts) as ydl:
-        info = ydl.extract_info(
-            f"https://www.youtube.com/watch?v={video_id}", download=False
-        )
-    raw = info.get("upload_date", "")
-    return f"{raw[:4]}-{raw[4:6]}-{raw[6:]}"
+def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, str]:
+    """Returns (date_str, snippets, transcript_text). Skips download if file exists.
 
-
-def fetch_transcript(video_id: str) -> tuple[str, list, str]:
-    """Returns (date_str, snippets, transcript_text). Skips download if file exists."""
-    date_str = _get_upload_date(video_id)
+    upload_date: YYYY-MM-DD from discovery; avoids a per-video yt-dlp call
+    (which fails in CI due to YouTube bot detection on datacenter IPs).
+    Falls back to yt-dlp if not provided.
+    """
+    date_str = upload_date or _date_from_ydlp(video_id)
     out_path = OUTPUT_DIR / f"{date_str}_transcript.txt"
 
     if out_path.exists():
@@ -811,7 +832,9 @@ def main() -> None:
         print(f"\n── Processing {video_id} ──")
 
         print("  Fetching transcript...")
-        date_str, snippets, transcript_text = fetch_transcript(video_id)
+        date_str, snippets, transcript_text = fetch_transcript(
+            video_id, ep.get("upload_date", "")
+        )
         print(f"  Date: {date_str}  Lines: {len(snippets)}")
 
         print("  Analyzing with Claude Haiku...")
