@@ -49,6 +49,12 @@
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
           "note": "Like Apple, selling driven by speculators cashing in for IPO participation, not fundamental weakness. Cramer: own it, don't trade it. Will benefit from SpaceX/Anthropic/OpenAI capex."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "closing_commentary",
+          "note": "Same forced selling as Apple for SpaceX/Anthropic/OpenAI fundraising. Cramer loves Nvidia; own it, don't trade it. Will be a primary beneficiary of mega-IPO proceeds (used for AI chip purchases). Ignore near-term selling pressure."
         }
       ]
     },
@@ -375,6 +381,12 @@
           "sentiment": "caution",
           "segment": "opening_commentary",
           "note": "IPO priced at $1.75T; syndicate desk control is critical. Uncontrolled retail demand and index inclusion could spark unsustainable spike to $4-5T valuation, then correction\u2014avoid chasing."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "caution",
+          "segment": "closing_commentary",
+          "note": "IPO reportedly 4x oversubscribed but Cramer wants to see 10x to be confident. Key risk: speculator cohort will flip shares on day one, creating oversupply and poor opening performance (like Figma, Cerebrus). Best IPO outcome: retail + early-stage institutions (non-sellers); worst: dominated by flippers. Warns allocation holders: be cautious if you get full ask or over-allocation."
         }
       ]
     },
@@ -477,6 +489,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Semiconductor equipment beneficiary of chip storage/memory shortage; CEO Gary Dickerson well-positioned in the food chain. New intraday high despite tough market backdrop."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Semiconductor manufacturing equipment maker benefiting from memory and storage chip shortages. Made new high despite brutal tape. CEO Gary Dickerson understands company's critical role in supply chain. When things clear up, buy AMAT."
         }
       ]
     },
@@ -500,6 +518,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "CEO Jane Frasier a great manager; cut costs, rationalized bank. Made new intraday high despite closing in red\u2014very bullish signal for later."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "CEO Jane Frasier executing turnaround: cutting costs, rationalizing operations, making City a litter pick. Made new intraday high despite closing down. Bullish signal; one to write down and revisit."
         }
       ]
     },
@@ -517,6 +541,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Healthcare REIT yielding just under 6%, specializing in outpatient medical and continuing care facilities. Defensive, safe income."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Healthcare REIT with outpatient and continuing care facilities. Yields just under 6%. Defensive, on new high list. Secular tailwind from aging population."
         }
       ]
     },
@@ -535,6 +565,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "CEO Don Wood steered toward mixed-use shopping centers; 3.66% yield is safe. Stock up 23% YTD; classic defensive REIT play."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Mixed-use and shopping center REIT; CEO Don Wood long-time steward. Yield 3.66% (safe). Stock up 23%. Introduced to Cramer viewers 18 years ago. Defensive anchor."
         }
       ]
     },
@@ -546,6 +582,12 @@
           "sentiment": "neutral",
           "segment": "opening_commentary",
           "note": "Industrial precision instruments company spun from Danaher decade ago; made new high, caught Cramer by surprise. Nothing special fundamentally."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Industrial technology/precision instruments, spun off by Danaher a decade ago. Made new high list; surprised Cramer. Mentioned as outlier; no strong conviction."
         }
       ]
     },
@@ -569,6 +611,12 @@
           "sentiment": "hold",
           "segment": "opening_commentary",
           "note": "Sells supplemental health and life insurance; trades at 10x earnings. Classic value play. Up 2% despite terrible tape\u2014noteworthy."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Supplemental health and life insurance (formerly Torch Mark). Stock at 10x earnings\u2014textbook value play. Up 2% despite brutal tape. Conservative, defensive."
         }
       ]
     },
@@ -592,6 +640,12 @@
           "sentiment": "neutral",
           "segment": "opening_commentary",
           "note": "Industrial distributor; shouldn't be hitting new highs in this environment. Unclear catalyst; perhaps housing data or retailer M&A speculation."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Industrial distributor of equipment contractors need. Made new high unexpectedly. Could reflect housing data or retail M&A speculation. Cramer couldn't figure it out."
         }
       ]
     },
@@ -609,6 +663,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Giant health insurer got break from Trump administration on Medicare Advantage premiums. Unexpected gift for 2027; reimbursements look even better. Textbook safety stock."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Managed care giant got boost from Trump admin's Medicare Advantage premium lift. Better reimbursements expected 2027. Textbook safety play. Up on the day despite market weakness."
         }
       ]
     },
@@ -632,6 +692,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "HVAC/data-center plays doing well; second data-center play on new highs list. Still benefiting from infrastructure buildout."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "HVAC and data center infrastructure play. Made new high. Second data center play on list. Only two data center names made the list despite sector's importance."
         }
       ]
     },
@@ -660,6 +726,12 @@
           "sentiment": "caution",
           "segment": "opening_commentary",
           "note": "Semiconductor equipment maker; second chip capital equipment company on new-high list alongside AMAT. Charts very bad; avoid chasing."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Semiconductor capital equipment company (second on list after AMAT). On new high today but risky; Cramer notes both semi cap-equipment names bought after recent runs. Cyclical risk."
         }
       ]
     },
@@ -685,6 +757,13 @@
           "note": "Quintessential defensive; rallied 3% today despite bad tape. CEO RK Brunelle continuing growth ignition. Cramer: buy tomorrow if S&P down, keep buying. Defensive stock for flight to safety.",
           "price_target": null,
           "price_level": null
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Quintessential defensive stock. Pushed down hard recently but rallied nearly 3% today. CEO succession (Quincey to RK Brun) reigniting growth. Buy it and keep buying into any market weakness tomorrow. Own this stock.",
+          "price_target": null
         }
       ]
     },
@@ -708,6 +787,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Industrial gas distributor; makes rocket fuel for SpaceX. Made intraday high but gave up gains in afternoon. SpaceX tailwind helping."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Industrial gas distributor owned by Travel Trust. Made intraday new high (gave up gains afternoon). Makes rocket fuel for SpaceX. Beneficiary of space race, niche secular tailwind."
         }
       ]
     },
@@ -731,6 +816,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Conservative run insurance company invested in the right things. Solid performer in defensive rotation."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Conservative run insurance company invested in right areas. Solid holdings for Travel Trust. Made new high. Insurance sector strength."
         }
       ]
     },
@@ -754,6 +845,12 @@
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
           "note": "One of the greatest growth stories ever since Hansen Natural (1985). Defensive small juice energy drink maker going global. Cramer: buy it into the tsunami; it'll work."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "One of greatest growth stories since 1985 inception (Hansen Natural). Defensive small juice/energy drink maker going global. Cramer studied this in 'How to Make Money in Any Market.' Buy into the tsunami."
         }
       ]
     },
@@ -777,6 +874,12 @@
           "sentiment": "hold",
           "segment": "opening_commentary",
           "note": "Boring story; 3% yield. Defensive financial services play for risk-off environment."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Boring diversified financial services. Yields 3%. Made new high. Defensive, boring yield play. Part of new market preference."
         }
       ]
     },
@@ -800,6 +903,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Best collection of shopping malls in America built by late CEO David Simon. Now yields 4.15% with terrific record. Cramer: buy it."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Premium shopping mall REIT assembled by late David Simon. Yield 4.15%. Terrific track record. Made new high. Defensive REIT anchor."
         }
       ]
     },
@@ -823,6 +932,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Held up very nicely today; ideal place to shop for value. Not dollar stores but cheap goods. Cramer loves the value, finds good deals every visit. Defensive retail play."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Value retailer (TJ Maxx, Marshall's) owned by Travel Trust. Held up very nicely today. Ideal value shopping destination. Not dollar store but affordable quality. Defensive consumer play."
         }
       ]
     },
@@ -846,6 +961,12 @@
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
           "note": "Managed care beneficiary of Trump Medicare Advantage breaks; CEO Steve Hemsley turning around brutal legacy mismanagement. Textbook safety stock."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Managed care leader. Beneficiary of Medicare Advantage reimbursement boost. CEO Steve Hemsley back and turning around prior bad management. Cramer bought it in 1988 and crushed it. Buy now."
         }
       ]
     },
@@ -869,6 +990,12 @@
           "sentiment": "buy",
           "segment": "caller_qa",
           "note": "Finally showing momentum after years of stalling. People have been waiting to buy it; now breaking higher. Cramer: take the over, buy into the strength."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "caller_qa",
+          "note": "Finally has momentum after years of sideways trading. People who've been staying away now chasing higher. Mark's $69 cost basis well below current levels. Buy the breakout as investors capitulate to uptrend."
         }
       ]
     },
@@ -897,6 +1024,12 @@
           "sentiment": "caution",
           "segment": "in_depth_analysis",
           "note": "10% net intent (top 10% of all brands) is decent, but Cramer is worried about OpenAI specifically versus Anthropic and SpaceX."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "caution",
+          "segment": "in_depth_analysis",
+          "note": "10% net intent to use more (top 10% of all brands, solid). But Cramer worried about OpenAI vs. Anthropic's Claude dominance. Neutral to cautious stance; prefers Anthropic long-term."
         }
       ]
     },
@@ -956,6 +1089,12 @@
           "sentiment": "buy",
           "segment": "lightning_round",
           "note": "Natural gas play attractive; Cramer likes it very much. Devon Energy also makes him excited. Energy beneficiary of macro uncertainty and supply concerns."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Natural gas and Devon story excites Cramer. Energy upside as geopolitical tensions persist. Strong fundamentals on commodity strength."
         }
       ]
     },
@@ -996,6 +1135,12 @@
           "sentiment": "buy",
           "segment": "lightning_round",
           "note": "Fiber-optics and glass for data-center buildout; Cramer much prefers Corning over AAOI. Strong regional tie (Corning, NY caller). Better risk/reward for data-center capex wave."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Optical fiber and data center infrastructure supplier. Luke asked about AAOI for data center play; Cramer redirects to Corning (better fundamentals). Chart looks bad like all tech, but Cramer prefers parachute to no parachute. Dwayne from Corning gets hometown nod."
         }
       ]
     },
@@ -1019,6 +1164,12 @@
           "sentiment": "hold",
           "segment": "lightning_round",
           "note": "Cramer acknowledges it's good and they were planning a piece on it, but local pride goes to Corning (from Corning, NY caller). Both are plays on tech trends, but Corning is preferred here."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "neutral",
+          "segment": "lightning_round",
+          "note": "Dwayne pitches Blackberry. Cramer acknowledges piece in progress on why BB may be interesting, but hometown loyalty to Corning wins out. Technology credentials exist but not top-of-mind call today."
         }
       ]
     },
@@ -1053,6 +1204,12 @@
           "sentiment": "strong_buy",
           "segment": "closing_commentary",
           "note": "Selling is from speculators raising cash for SpaceX; don't take it personally. Cramer loves Apple, owns it. It's a donor to SpaceX cause, not a weak fundamental story. Own it, don't trade it."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "closing_commentary",
+          "note": "Selling is forced liquidation to fund SpaceX IPO, not fundamental weakness. Cramer loves Apple; own it, don't trade it. Used as liquidity source by speculators. Long-term holder play; ignore day-to-day noise."
         }
       ]
     },
@@ -1064,6 +1221,12 @@
           "sentiment": "concern",
           "segment": "closing_commentary",
           "note": "Down sharply as speculators liquidate crypto holdings to raise cash for SpaceX/mega-IPOs. Crypto holders are speculators, not hedgers, willing to flip deals on day one."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "concern",
+          "segment": "closing_commentary",
+          "note": "Down due to speculators raising cash for SpaceX allocation. Owners treating crypto as liquidity source, not hedge. Risk of selling pressure at IPO opening. Speculators dominating, not hedgers."
         }
       ]
     },
@@ -1075,6 +1238,12 @@
           "sentiment": "concern",
           "segment": "closing_commentary",
           "note": "Down despite Middle East war turmoil because speculators liquidating to raise SpaceX IPO cash, not true hedging demand."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "concern",
+          "segment": "closing_commentary",
+          "note": "Hedge failing as speculators liquidate for SpaceX deal funding. War in Middle East not supporting gold; speculation overpowers safe-haven demand. Owners raising cash, not holding for protection."
         }
       ]
     },
@@ -1138,6 +1307,12 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "REIT owning strip malls and mixed-use properties; yields 4%. Very defensive, lower beta."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "REIT owning strip malls and mixed-use properties. Yield 4%. Defensive, on new high list. REITs dominating today's winners."
         }
       ]
     },
@@ -1182,6 +1357,12 @@
           "sentiment": "strong_buy",
           "segment": "in_depth_analysis",
           "note": "Claude shows 40% of users intend to use it more vs. only 6% less\u2014extraordinary purchasing intent and pricing power. This is the deal Cramer wants investors in, ahead of SpaceX and OpenAI."
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "strong_buy",
+          "segment": "in_depth_analysis",
+          "note": "Claude AI platform shows 40% of users intend to increase usage vs. only 6% less\u2014extraordinary net +34 vs. 1% average brand. Cramer says this is the deal to own (vs. SpaceX or OpenAI). Pricing power evident; could raise prices without alienating users. Investment vehicle for AI upside."
         }
       ]
     },
@@ -1205,6 +1386,12 @@
           "segment": "in_depth_analysis",
           "note": "Real company with solid revenues ($160M+ expected FY), improving financials, strong AI growth (76% customer YoY, 72% large-customer ARR YoY). 3x sales, 50x forward earnings. But hardware costs up 30% YoY, legacy backup declining, and everyone selling AI stocks for SpaceX capital. Put a pin in it; revisit post-SpaceX deal close.",
           "price_level": null
+        },
+        {
+          "date": "2026-06-10",
+          "sentiment": "wait",
+          "segment": "in_depth_analysis",
+          "note": "Cloud storage/data mobility play for AI workloads. Real revenue ($160M+ forecast), improving profitability, strong AI customer growth (+76% YoY), NeoCloud TAM ($14B). Risks: AWS/Google/Microsoft competition, rising hardware costs (+30% YoY), legacy backup business declining. Valuation 3x sales, 50x forward earnings\u2014not cheap. Timing terrible amid SpaceX/Anthropic/OpenAI capital drain. Put a pin in it; revisit after mega-IPO cycle."
         }
       ]
     },
@@ -1238,6 +1425,17 @@
           "sentiment": "caution",
           "segment": "lightning_round",
           "note": "Caller asking about AAOI for data-center fiber; Cramer prefers Corning for better fundamentals and optionality. Both hit hard; charts look bad. Cramer wants parachute before jumping in."
+        }
+      ]
+    },
+    "FERM": {
+      "company": "Fermi Solutions",
+      "mentions": [
+        {
+          "date": "2026-06-10",
+          "sentiment": "wait",
+          "segment": "lightning_round",
+          "note": "Infrastructure services for AI data center buildout (construction, fabrication). Caught in noise\u2014exec resignation vs. insider buying signals conflict. Deferred pending clarity on leadership stability and insider conviction."
         }
       ]
     }
