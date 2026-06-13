@@ -84,16 +84,19 @@ Return exactly this JSON structure. Omit optional fields (`price_target`, `price
 ```
 {
   "episode_date": "YYYY-MM-DD",
+  "market_headline": "Summary: <one sharp sentence — Cramer's top actionable takeaway for the day, under 20 words>",
   "market_summary": "<1 paragraph, 3-5 sentences: Cramer's macro take, key Fed/rate context, sectors he likes/dislikes today>",
   "sections": [
     {
       "name": "Opening Commentary",
       "start_seconds": 17,
+      "headline": "Summary: <one sharp sentence capturing the key investment insight of this segment, under 15 words>",
       "summary": "<2-4 sentences capturing the core argument of this segment>",
       "subsections": [
         {
           "name": "Caller Q&A",
           "start_seconds": 210,
+          "headline": "Summary: <one sharp sentence>",
           "summary": "<1-2 sentences>"
         }
       ]
@@ -101,11 +104,13 @@ Return exactly this JSON structure. Omit optional fields (`price_target`, `price
     {
       "name": "Interview: Workday (WDAY)",
       "start_seconds": 890,
+      "headline": "Summary: <one sharp sentence>",
       "summary": "<2-4 sentences>"
     },
     {
       "name": "Lightning Round",
       "start_seconds": 2460,
+      "headline": "Summary: <one sharp sentence noting overall tone and any standout picks>",
       "summary": "<1-2 sentences noting number of stocks covered and any notable themes>"
     }
   ],

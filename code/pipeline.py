@@ -77,6 +77,14 @@ GMAIL_FROM = "joelfsilverman@gmail.com"
 GMAIL_TO = "joelfsilverman@gmail.com"
 GMAIL_SMTP = ("smtp.gmail.com", 587)
 
+USER_HOLDINGS = {
+    "ARM", "AEVA", "INTC", "CRWV", "BE", "AUR", "ABSI", "PWR", "RVMD", "LRCX",
+    "GNRC", "LIN", "NEE", "ABNB", "MP", "NUE", "GOOGL", "VXUS", "QUBT", "COST",
+    "NET", "MRNA", "ARKK", "GLD", "CRSP", "NVDA", "MRVL", "MU", "AMZN", "CRWD",
+    "TWLO", "QS", "AAPL", "QBTS", "SHOP", "BEAM", "LLY", "SNOW", "RDDT", "VCX",
+    "LITE", "FPS", "VRT", "FSLR", "GILT", "RVI", "ONDS", "HAWK", "IRDM",
+}
+
 SENTIMENT_COLORS = {
     "strong_buy":    "#1a7f37",
     "buy":           "#2da44e",
@@ -183,7 +191,7 @@ def analyze_with_haiku(date_str: str, transcript_text: str) -> dict:
 
     message = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=4096,
+        max_tokens=8192,
         system=system_prompt,
         messages=[
             {
@@ -494,6 +502,24 @@ def _fmt_seconds(s: int) -> str:
     return f"{h}:{m:02d}:{sec:02d}" if h else f"{m}:{sec:02d}"
 
 
+def _section_segments(section_name: str) -> set[str]:
+    """Map a section display name to the stock segment values it corresponds to."""
+    name = section_name.lower()
+    if "lightning" in name:
+        return {"lightning_round"}
+    if "opening" in name:
+        return {"opening_commentary"}
+    if "closing" in name:
+        return {"closing_commentary"}
+    if "caller" in name or "q&a" in name or "q & a" in name:
+        return {"caller_qa"}
+    if "interview" in name:
+        return {"interview"}
+    if "in-depth" in name or "in depth" in name or "deep dive" in name:
+        return {"in_depth_analysis"}
+    return set()
+
+
 def build_email_html(summaries: list[dict]) -> str:
     """
     summaries: list of dicts with keys:
@@ -509,15 +535,27 @@ def build_email_html(summaries: list[dict]) -> str:
   h3   { margin: 20px 0 4px; }
   h3 a { color: #24292f; text-decoration: none; }
   h3 a:hover { text-decoration: underline; }
+  .market-headline { font-size: 15px; font-weight: 600; color: #0969da;
+                     margin: 4px 0 6px; }
+  .sec-headline { font-size: 13px; font-weight: 600; color: #24292f;
+                  margin: 3px 0 4px; font-style: italic; }
   .sub   { margin-left: 20px; }
-  .summary { color: #57606a; margin: 4px 0 12px; font-size: 14px; }
+  .summary { color: #57606a; margin: 4px 0 6px; font-size: 14px; }
+  .sec-tickers { margin: 0 0 14px; font-size: 12px; }
+  .tlink { font-family: monospace; font-weight: bold; font-size: 11px;
+           color: #0969da; text-decoration: none; background: #ddf4ff;
+           padding: 2px 5px; border-radius: 3px; margin-right: 4px;
+           white-space: nowrap; }
+  .tlink:hover { text-decoration: underline; }
   table  { border-collapse: collapse; width: 100%; margin-top: 16px; font-size: 13px; }
   th     { background: #f6f8fa; text-align: left; padding: 6px 10px;
            border-bottom: 2px solid #d0d7de; }
   td     { padding: 5px 10px; border-bottom: 1px solid #d0d7de;
            vertical-align: top; }
-  .ticker { font-weight: bold; font-family: monospace; }
-  .note   { color: #57606a; font-size: 12px; }
+  .ticker  { font-weight: bold; font-family: monospace; }
+  .holding { background: #fff8c5; }
+  .holding .ticker::after { content: " ★"; font-size: 10px; color: #9a6700; }
+  .note    { color: #57606a; font-size: 12px; }
   .footer { margin-top: 24px; color: #8b949e; font-size: 11px; border-top: 1px solid #d0d7de; padding-top: 8px; }
 </style></head><body>
 """]
@@ -532,18 +570,34 @@ def build_email_html(summaries: list[dict]) -> str:
         date_label = dt.strftime("%A, %B %-d, %Y")
 
         parts.append(f'<h2>Mad Money &mdash; {date_label}</h2>')
-        parts.append(f'<p>{analysis.get("market_summary", "")}</p>')
+        if analysis.get("market_headline"):
+            parts.append(f'<p class="market-headline">{analysis["market_headline"]}</p>')
+        parts.append(f'<p class="summary">{analysis.get("market_summary", "")}</p>')
+
+        stocks = analysis.get("stocks", [])
+
+        def _ticker_links(section_name: str) -> str:
+            segs = _section_segments(section_name)
+            tickers = [s["ticker"] for s in stocks
+                       if s.get("segment") in segs and s.get("ticker")]
+            if not tickers:
+                return ""
+            links = "".join(
+                f'<a class="tlink" href="#ticker-{t}" '
+                f'style="{"background:#fff8c5;border:1px solid #d4a017;" if t in USER_HOLDINGS else ""}">'
+                f'{t}{"★" if t in USER_HOLDINGS else ""}</a>'
+                for t in tickers
+            )
+            return f'<p class="sec-tickers">{links}</p>'
 
         def _section_parts(section: dict, indent: bool = False) -> None:
             secs = section.get("start_seconds", 0)
             ts_label = _fmt_seconds(secs)
             name = section.get("name", "")
             if overcast_id:
-                # Universal link — opens Overcast directly on iPhone from Gmail
                 href = overcast_fm_link(overcast_id, secs)
                 icon = "🎙"
             elif secs in redirect_pages:
-                # GitHub Pages redirect page as fallback
                 href = redirect_pages[secs]
                 icon = "🎙"
             else:
@@ -551,9 +605,15 @@ def build_email_html(summaries: list[dict]) -> str:
                 icon = "▶"
             tag_open = '<div class="sub">' if indent else ""
             tag_close = "</div>" if indent else ""
+            headline = section.get("headline", "")
+            ticker_html = _ticker_links(name)
             parts.append(
-                f'{tag_open}<h3><a href="{href}">{icon} {name} [{ts_label}]</a></h3>'
-                f'<p class="summary">{section.get("summary", "")}</p>{tag_close}'
+                f'{tag_open}'
+                f'<h3><a href="{href}">{icon} {name} [{ts_label}]</a></h3>'
+                + (f'<p class="sec-headline">{headline}</p>' if headline else "")
+                + f'<p class="summary">{section.get("summary", "")}</p>'
+                + ticker_html
+                + tag_close
             )
             for sub in section.get("subsections", []):
                 _section_parts(sub, indent=True)
@@ -562,7 +622,6 @@ def build_email_html(summaries: list[dict]) -> str:
             _section_parts(section)
 
         # Stock table
-        stocks = analysis.get("stocks", [])
         if stocks:
             parts.append('<h3>Stocks Mentioned</h3>')
             parts.append(
@@ -578,9 +637,11 @@ def build_email_html(summaries: list[dict]) -> str:
                     pt = f' (target ${s["price_target"]})'
                 elif "price_level" in s:
                     pt = f' (at ${s["price_level"]})'
+                ticker = s.get("ticker", "")
+                row_class = ' class="holding"' if ticker in USER_HOLDINGS else ""
                 parts.append(
-                    f'<tr>'
-                    f'<td class="ticker">{s.get("ticker","")}</td>'
+                    f'<tr id="ticker-{ticker}"{row_class}>'
+                    f'<td class="ticker">{ticker}</td>'
                     f'<td>{s.get("company","")}</td>'
                     f'<td>{_sentiment_badge(s.get("sentiment","neutral"))}{pt}</td>'
                     f'<td>{seg}</td>'
