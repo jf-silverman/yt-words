@@ -1,0 +1,38 @@
+name: Mad Money Daily Pipeline
+
+on:
+  schedule:
+    # 2:07 AM UTC Tue–Sat = ~10 PM ET Mon–Fri (works in both EDT and EST)
+    # Mad Money airs 6 PM ET; YouTube upload typically lands by 8–9 PM ET
+    - cron: '7 2 * * 2-6'
+  workflow_dispatch:  # allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write   # needed for git push inside pipeline.py
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic requests yt-dlp youtube-transcript-api
+
+      - name: Configure git identity
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+      - name: Run pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          OVERCAST_EMAIL: ${{ secrets.OVERCAST_EMAIL }}
+          OVERCAST_PASSWORD: ${{ secrets.OVERCAST_PASSWORD }}
+        run: python code/pipeline.py --email-mode smtp
