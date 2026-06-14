@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
   <title>Mad Money · Stock Lookup</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -136,8 +137,8 @@
 </div>
 
 <script>
-const DATA_URL = 'https://raw.githubusercontent.com/jf-silverman/yt-words/main/data/stock_sentiments.json';
-
+const INDEX_URL  = './data/index.json';
+const TICKER_BASE = './data/';
 
 const SENTIMENT_COLORS = {
   strong_buy:     '#1a7f37',
@@ -167,7 +168,6 @@ function fmtPrice(p) {
   return p != null ? `$${Number(p).toFixed(2)}` : '—';
 }
 
-// Group mentions by date, aggregating multiple same-date entries into one row
 function groupByDate(mentions) {
   const byDate = {};
   for (const m of mentions) {
@@ -181,10 +181,8 @@ function renderCard(ticker, entry) {
   const dateGroups = groupByDate(entry.mentions || []);
 
   const rows = dateGroups.map(([date, group]) => {
-    // Closing price — take first available across all mentions on this date
     const closePrice = fmtPrice((group.find(m => m.closing_price != null) || {}).closing_price);
 
-    // Deduplicate by segment: keep one mention per segment, preferring the longest note
     const SEGMENT_PRIORITY = [
       'in_depth_analysis', 'interview', 'opening_commentary',
       'closing_commentary', 'caller_qa', 'lightning_round',
@@ -202,7 +200,6 @@ function renderCard(ticker, entry) {
       return (pa === -1 ? 99 : pa) - (pb === -1 ? 99 : pb);
     });
 
-    // Sentiments and targets — one per unique segment, in priority order
     const sentiments = deduped.map(m => sentimentBadge(m.sentiment)).join('<br>');
     const targets = deduped.map(m =>
       m.price_target != null ? fmtPrice(m.price_target) :
@@ -210,7 +207,6 @@ function renderCard(ticker, entry) {
     ).join('<br>');
     const segments = deduped.map(m => humanizeSegment(m.segment)).join('<br>');
 
-    // Consolidated note: unique notes joined into one paragraph (in-depth/interview first)
     const seenNotes = new Set();
     const noteParts = [];
     for (const m of deduped) {
@@ -248,52 +244,66 @@ function renderCard(ticker, entry) {
   </div>`;
 }
 
-let db = null;
+// ── Data loading ──────────────────────────────────────────────────────────────
 
-async function loadData() {
-  document.getElementById('status').textContent = 'Loading data…';
+let index = null;           // { TICKER: "Company Name" }
+const cache = new Map();    // TICKER -> full entry data (session cache)
+
+async function loadIndex() {
+  document.getElementById('status').textContent = 'Loading…';
   try {
-    const resp = await fetch(DATA_URL);
-    db = await resp.json();
+    const resp = await fetch(INDEX_URL);
+    index = await resp.json();
     document.getElementById('status').textContent =
-      `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
+      `${Object.keys(index).length} tickers indexed. Start typing to search.`;
   } catch (e) {
-    document.getElementById('status').textContent = 'Failed to load data. Try refreshing.';
+    document.getElementById('status').textContent = 'Failed to load index. Try refreshing.';
   }
 }
 
-function search() {
+async function fetchTicker(ticker) {
+  if (cache.has(ticker)) return cache.get(ticker);
+  try {
+    const resp = await fetch(`${TICKER_BASE}${ticker}.json`);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    cache.set(ticker, data);
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+
+async function search() {
   const resultsEl = document.getElementById('results');
   const statusEl  = document.getElementById('status');
   const query     = document.getElementById('search').value.trim();
   const nameMode  = document.getElementById('nameMode').checked;
 
-  if (!db) { statusEl.textContent = 'Still loading…'; return; }
+  if (!index) { statusEl.textContent = 'Still loading…'; return; }
 
   if (!query) {
     resultsEl.innerHTML = '';
     statusEl.textContent =
-      `${Object.keys(db.stocks || {}).length} tickers loaded. Start typing to search.`;
+      `${Object.keys(index).length} tickers indexed. Start typing to search.`;
     return;
   }
 
   const q = query.toUpperCase();
-  const stocks = db.stocks || {};
-  let matches;
+  let matchedTickers;
 
   if (nameMode) {
-    // Company name substring match
-    matches = Object.entries(stocks).filter(([, entry]) =>
-      (entry.company || '').toUpperCase().includes(q)
-    ).sort(([a], [b]) => a.localeCompare(b));
+    matchedTickers = Object.entries(index)
+      .filter(([, name]) => name.toUpperCase().includes(q))
+      .map(([t]) => t)
+      .sort();
   } else {
-    // Ticker prefix match only
-    matches = Object.entries(stocks).filter(([ticker]) =>
-      ticker.startsWith(q)
-    ).sort(([a], [b]) => a.localeCompare(b));
+    matchedTickers = Object.keys(index).filter(t => t.startsWith(q)).sort();
   }
 
-  if (matches.length === 0) {
+  if (matchedTickers.length === 0) {
     resultsEl.innerHTML = `<div class="empty">
       <div class="big">🔍</div>
       <div>No results for <strong>${query}</strong></div>
@@ -302,8 +312,13 @@ function search() {
     return;
   }
 
-  statusEl.textContent = `${matches.length} result${matches.length !== 1 ? 's' : ''}`;
-  resultsEl.innerHTML = matches.map(([t, e]) => renderCard(t, e)).join('');
+  statusEl.textContent = `${matchedTickers.length} result${matchedTickers.length !== 1 ? 's' : ''} — loading…`;
+
+  const entries = await Promise.all(matchedTickers.map(t => fetchTicker(t)));
+  const pairs = matchedTickers.map((t, i) => [t, entries[i]]).filter(([, e]) => e);
+
+  statusEl.textContent = `${pairs.length} result${pairs.length !== 1 ? 's' : ''}`;
+  resultsEl.innerHTML = pairs.map(([t, e]) => renderCard(t, e)).join('');
 }
 
 document.getElementById('search').addEventListener('input', search);
@@ -313,7 +328,7 @@ document.getElementById('nameMode').addEventListener('change', () => {
     nameMode ? 'Company name (e.g. Nvidia, Honeywell)…' : 'Ticker prefix (e.g. MU, NV)…';
   search();
 });
-loadData();
+loadIndex();
 </script>
 </body>
 </html>
