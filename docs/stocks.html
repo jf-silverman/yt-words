@@ -95,10 +95,7 @@
     .target-cell { white-space: nowrap; font-family: monospace; color: #57606a; line-height: 2; }
     .seg-cell { font-size: 12px; color: #57606a; line-height: 2; white-space: nowrap; }
     .note-cell { color: #24292f; line-height: 1.5; max-width: 300px; }
-    .note-block { margin-bottom: 8px; }
-    .note-block:last-child { margin-bottom: 0; }
-    .note-seg { font-size: 11px; font-weight: 600; color: #8b949e; text-transform: uppercase;
-                letter-spacing: .04em; margin-bottom: 2px; }
+    .note-block { margin-bottom: 0; }
 
     /* Sentiment badges */
     .badge {
@@ -184,23 +181,43 @@ function renderCard(ticker, entry) {
   const dateGroups = groupByDate(entry.mentions || []);
 
   const rows = dateGroups.map(([date, group]) => {
-    // Closing price is the same for all mentions on a date — take first available
+    // Closing price — take first available across all mentions on this date
     const closePrice = fmtPrice((group.find(m => m.closing_price != null) || {}).closing_price);
 
-    // One row per mention within the group, stacked vertically in each cell
-    const sentiments = group.map(m => sentimentBadge(m.sentiment)).join('<br>');
-    const targets = group.map(m =>
+    // Deduplicate by segment: keep one mention per segment, preferring the longest note
+    const SEGMENT_PRIORITY = [
+      'in_depth_analysis', 'interview', 'opening_commentary',
+      'closing_commentary', 'caller_qa', 'lightning_round',
+    ];
+    const bySegment = {};
+    for (const m of group) {
+      const seg = m.segment || '';
+      if (!bySegment[seg] || (m.note || '').length > (bySegment[seg].note || '').length) {
+        bySegment[seg] = m;
+      }
+    }
+    const deduped = Object.values(bySegment).sort((a, b) => {
+      const pa = SEGMENT_PRIORITY.indexOf(a.segment);
+      const pb = SEGMENT_PRIORITY.indexOf(b.segment);
+      return (pa === -1 ? 99 : pa) - (pb === -1 ? 99 : pb);
+    });
+
+    // Sentiments and targets — one per unique segment, in priority order
+    const sentiments = deduped.map(m => sentimentBadge(m.sentiment)).join('<br>');
+    const targets = deduped.map(m =>
       m.price_target != null ? fmtPrice(m.price_target) :
       m.price_level  != null ? fmtPrice(m.price_level)  : '—'
     ).join('<br>');
-    const segments = group.map(m => humanizeSegment(m.segment)).join('<br>');
+    const segments = deduped.map(m => humanizeSegment(m.segment)).join('<br>');
 
-    // Notes: one block per mention, with the segment name as a mini-header
-    const notes = group.map(m =>
-      `<div class="note-block">` +
-      (group.length > 1 ? `<div class="note-seg">${humanizeSegment(m.segment)}</div>` : '') +
-      `${m.note || ''}</div>`
-    ).join('');
+    // Consolidated note: unique notes joined into one paragraph (in-depth/interview first)
+    const seenNotes = new Set();
+    const noteParts = [];
+    for (const m of deduped) {
+      const n = (m.note || '').trim();
+      if (n && !seenNotes.has(n)) { seenNotes.add(n); noteParts.push(n); }
+    }
+    const notes = `<div class="note-block">${noteParts.join(' ')}</div>`;
 
     return `<tr>
       <td class="date-cell">${date}</td>
