@@ -577,7 +577,7 @@ def _section_segments(section_name: str) -> set[str]:
     name = section_name.lower()
     if "lightning" in name:
         return {"lightning_round"}
-    if "opening" in name:
+    if "opening" in name or "episode summary" in name:
         return {"opening_commentary"}
     if "closing" in name:
         return {"closing_commentary"}
@@ -614,6 +614,8 @@ def build_email_html(summaries: list[dict],
                   margin: 3px 0 4px; font-style: italic; }
   .sub   { margin-left: 20px; }
   .summary { color: #57606a; margin: 4px 0 6px; font-size: 14px; }
+  ul.summary { color: #57606a; margin: 4px 0 6px 18px; font-size: 14px; }
+  ul.summary li { margin-bottom: 3px; }
   .sec-tickers { margin: 0 0 14px; font-size: 12px; }
   .tlink { font-family: monospace; font-weight: bold; font-size: 11px;
            color: #0969da; text-decoration: none; background: #ddf4ff;
@@ -645,7 +647,12 @@ def build_email_html(summaries: list[dict],
         parts.append(f'<h2>Mad Money &mdash; {date_label}</h2>')
         if analysis.get("market_headline"):
             parts.append(f'<p class="market-headline">{analysis["market_headline"]}</p>')
-        parts.append(f'<p class="summary">{analysis.get("market_summary", "")}</p>')
+        market_bullets = analysis.get("market_bullets")
+        if market_bullets and isinstance(market_bullets, list):
+            items = "".join(f"<li>{b}</li>" for b in market_bullets)
+            parts.append(f'<ul class="summary">{items}</ul>')
+        elif analysis.get("market_summary"):
+            parts.append(f'<p class="summary">{analysis["market_summary"]}</p>')
 
         stocks = analysis.get("stocks", [])
 
@@ -663,10 +670,12 @@ def build_email_html(summaries: list[dict],
             )
             return f'<p class="sec-tickers">{links}</p>'
 
-        def _section_parts(section: dict, indent: bool = False) -> None:
+        def _section_parts(section: dict, indent: bool = False,
+                           display_name: str = "") -> None:
             secs = section.get("start_seconds", 0)
             ts_label = _fmt_seconds(secs)
             name = section.get("name", "")
+            show_name = display_name or name
             if overcast_id:
                 href = overcast_fm_link(overcast_id, secs)
                 icon = "🎙"
@@ -680,19 +689,27 @@ def build_email_html(summaries: list[dict],
             tag_close = "</div>" if indent else ""
             headline = section.get("headline", "")
             ticker_html = _ticker_links(name)
+            bullets = section.get("bullets")
+            if bullets and isinstance(bullets, list):
+                body_html = '<ul class="summary">' + "".join(f"<li>{b}</li>" for b in bullets) + "</ul>"
+            else:
+                body_html = f'<p class="summary">{section.get("summary", "")}</p>'
             parts.append(
                 f'{tag_open}'
-                f'<h3><a href="{href}">{icon} {name} [{ts_label}]</a></h3>'
+                f'<h3><a href="{href}">{icon} {show_name} [{ts_label}]</a></h3>'
                 + (f'<p class="sec-headline">{headline}</p>' if headline else "")
-                + f'<p class="summary">{section.get("summary", "")}</p>'
+                + body_html
                 + ticker_html
                 + tag_close
             )
-            for sub in section.get("subsections", []):
-                _section_parts(sub, indent=True)
 
-        for section in analysis.get("sections", []):
-            _section_parts(section)
+        for i, section in enumerate(analysis.get("sections", [])):
+            name = section.get("name", "")
+            if i == 0 and not name.lower().startswith("episode summary"):
+                display_name = f"Episode Summary: {name}"
+            else:
+                display_name = name
+            _section_parts(section, display_name=display_name)
 
         # Stock table
         if stocks:
@@ -712,13 +729,18 @@ def build_email_html(summaries: list[dict],
                     pt = f' (at ${s["price_level"]})'
                 ticker = s.get("ticker", "")
                 row_class = ' class="holding"' if ticker in hl else ""
+                note = s.get("note", "")
+                ticker_note = s.get("ticker_note", "")
+                note_html = note
+                if ticker_note:
+                    note_html += f'<br><em style="color:#f0a030;font-size:11px">{ticker_note}</em>'
                 parts.append(
                     f'<tr id="ticker-{ticker}"{row_class}>'
                     f'<td class="ticker">{ticker}</td>'
                     f'<td>{s.get("company","")}</td>'
                     f'<td>{_sentiment_badge(s.get("sentiment","neutral"))}{pt}</td>'
                     f'<td>{seg}</td>'
-                    f'<td class="note">{s.get("note","")}</td>'
+                    f'<td class="note">{note_html}</td>'
                     f'</tr>'
                 )
             parts.append('</table>')
