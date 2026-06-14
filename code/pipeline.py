@@ -63,6 +63,7 @@ import subprocess
 
 DATA_DIR = ROOT / "data"
 OUTPUT_DIR = DATA_DIR / "output"
+SUMMARIES_DIR = DATA_DIR / "summaries"
 DOCS_DIR = ROOT / "docs"
 SENTIMENTS_FILE = DATA_DIR / "stock_sentiments.json"
 PROCESSED_FILE = DATA_DIR / "processed_episodes.json"
@@ -981,6 +982,14 @@ def main() -> None:
         for s in ep["analysis"].get("stocks", [])
     }
     brother_hits = all_tickers & BROTHER_TICKERS
+
+    # Archive one HTML summary per episode date
+    SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
+    for ep_summary in summaries:
+        ep_html = build_email_html([ep_summary])
+        arc = SUMMARIES_DIR / f"{ep_summary['date_str']}_summary.html"
+        arc.write_text(ep_html)
+        print(f"  Archived summary → {arc.name}")
 
     if args.dry_run:
         out = OUTPUT_DIR / f"{dates[0]}_email_preview.html"
