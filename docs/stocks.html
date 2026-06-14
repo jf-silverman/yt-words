@@ -68,15 +68,6 @@
       padding: 2px 8px;
       border-radius: 4px;
     }
-    .holding-badge {
-      font-size: 12px;
-      background: #fff8c5;
-      border: 1px solid #d4a017;
-      color: #9a6700;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
     .mention-count { font-size: 12px; color: #57606a; margin-left: auto; }
 
     /* Table */
@@ -150,13 +141,6 @@
 <script>
 const DATA_URL = 'https://raw.githubusercontent.com/jf-silverman/yt-words/main/data/stock_sentiments.json';
 
-const HOLDINGS = new Set([
-  'ARM','AEVA','INTC','CRWV','BE','AUR','ABSI','PWR','RVMD','LRCX',
-  'GNRC','LIN','NEE','ABNB','MP','NUE','GOOGL','VXUS','QUBT','COST',
-  'NET','MRNA','ARKK','GLD','CRSP','NVDA','MRVL','MU','AMZN','CRWD',
-  'TWLO','QS','AAPL','QBTS','SHOP','BEAM','LLY','SNOW','RDDT','VCX',
-  'LITE','FPS','VRT','FSLR','GILT','RVI','ONDS','HAWK','IRDM',
-]);
 
 const SENTIMENT_COLORS = {
   strong_buy:     '#1a7f37',
@@ -197,8 +181,6 @@ function groupByDate(mentions) {
 }
 
 function renderCard(ticker, entry) {
-  const isHolding = HOLDINGS.has(ticker);
-  const holdingBadge = isHolding ? `<span class="holding-badge">★ You own this</span>` : '';
   const dateGroups = groupByDate(entry.mentions || []);
 
   const rows = dateGroups.map(([date, group]) => {
@@ -235,7 +217,6 @@ function renderCard(ticker, entry) {
     <div class="card-header">
       <span class="card-company">${entry.company || ticker}</span>
       <span class="card-ticker">${ticker}</span>
-      ${holdingBadge}
       <span class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</span>
     </div>
     <div class="table-wrap">
