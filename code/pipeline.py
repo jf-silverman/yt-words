@@ -65,6 +65,7 @@ DATA_DIR = ROOT / "data"
 OUTPUT_DIR = DATA_DIR / "output"
 SUMMARIES_DIR = DATA_DIR / "summaries"
 DOCS_DIR = ROOT / "docs"
+TICKER_DATA_DIR = DOCS_DIR / "data"
 SENTIMENTS_FILE = DATA_DIR / "stock_sentiments.json"
 PROCESSED_FILE = DATA_DIR / "processed_episodes.json"
 OVERCAST_CACHE_FILE = DATA_DIR / "overcast_episode_ids.json"
@@ -297,6 +298,32 @@ def update_stock_sentiments(analysis: dict) -> None:
         entry["mentions"].append(mention)
 
     SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
+
+    # Write per-ticker shards for touched tickers + refresh index
+    touched = {s.get("ticker", "").upper() for s in analysis.get("stocks", []) if s.get("ticker")}
+    _write_ticker_shards(stocks, only=touched)
+
+
+def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
+    """Write docs/data/{TICKER}.json shards and refresh docs/data/index.json."""
+    TICKER_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    targets = only if only is not None else set(stocks.keys())
+    for ticker in targets:
+        if ticker in stocks:
+            (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(stocks[ticker]))
+    index = {t: e.get("company", "") for t, e in stocks.items()}
+    (TICKER_DATA_DIR / "index.json").write_text(json.dumps(index, separators=(",", ":")))
+
+
+def rebuild_ticker_shards() -> None:
+    """Rebuild all per-ticker shards from the current stock_sentiments.json."""
+    if not SENTIMENTS_FILE.exists():
+        print("stock_sentiments.json not found.")
+        return
+    db = json.loads(SENTIMENTS_FILE.read_text())
+    stocks = db.get("stocks", {})
+    _write_ticker_shards(stocks)
+    print(f"Wrote {len(stocks)} ticker shards + index.json to {TICKER_DATA_DIR}")
 
 
 def backfill_prices() -> None:
@@ -886,10 +913,16 @@ def main() -> None:
                              "with correct Overcast universal links")
     parser.add_argument("--backfill-prices", action="store_true",
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
+    parser.add_argument("--rebuild-shards", action="store_true",
+                        help="Rebuild all per-ticker JSON shards in docs/data/ from stock_sentiments.json")
     args = parser.parse_args()
 
     if args.fix_redirects:
         fix_redirect_pages(args.fix_redirects)
+        return
+
+    if args.rebuild_shards:
+        rebuild_ticker_shards()
         return
 
     if args.backfill_prices:
