@@ -1,0 +1,1352 @@
+[0:01] My mission is simple, to make you money.
+[0:04] I'm here to level the playing field for
+[0:06] all investors.
+[0:08] There's always a bull market somewhere,
+[0:10] and I promise to help you find it. Mad
+[0:12] Money starts now.
+[0:18] Hey, I'm Cramer. Welcome to Mad Money.
+[0:20] Welcome to Cramerica. I'm going to make
+[0:22] friends.
+[0:23] Boy, I'm just trying to make you some
+[0:24] money like today, huh? My job is not
+[0:26] just to entertain, but to educate, do
+[0:28] some teaching. So, call me at
+[0:29] 1-800-743-CNBC.
+[0:31] Tweet me at Jim Cramer. The data center,
+[0:34] the data center, the data center. I'm
+[0:37] you're probably tempted to say, "Enough
+[0:39] already with the data center."
+[0:42] Give me something else.
+[0:44] So, once still one more day where the
+[0:46] averages roared, the Dow jumping 790
+[0:48] points, S&P 500 advancing 1.02%. By the
+[0:52] way, another new all-time high. And
+[0:54] Nasdaq gaining 0.89% to also reach
+[0:56] another record high. I got an idea. Why
+[0:58] don't we take a look at some of the top
+[1:00] performers in the S&P today? Not the
+[1:02] Sandisks and the Western Digitals. I
+[1:04] know you're sick of all those. Just to
+[1:05] figure out if they're real companies in
+[1:08] here. If the data center is too narrow a
+[1:10] concept to lead the stock market, or as
+[1:12] a whole, is this list representative of
+[1:15] what we want? Because if it's too
+[1:17] narrow, then the market will have a hard
+[1:19] time for going for it going further.
+[1:22] So, let's do this. I'm going to go down,
+[1:24] literally go down the S&P's top gainers
+[1:26] today. I've done a little bit of order
+[1:28] that it changes just so we can be get
+[1:29] the narrative right. But, let's see if
+[1:31] they're representative of anything other
+[1:32] than the data center, even if they are
+[1:35] involved in it. So, let's start with
+[1:36] Quanta Services, PWR. This stock soared
+[1:40] nearly 16% today. That's a big gain.
+[1:42] It's an installer of power lines and
+[1:44] infrastructures of all kinds. Quanta's
+[1:47] been a decent company for a long time,
+[1:49] and it's been worth owning. But, it's
+[1:51] been roaring because it's the obvious
+[1:53] winner when you want to build out the
+[1:54] electric grid. Management explains this
+[1:56] very clearly right at the beginning of
+[1:58] this incredibly stunning positive comp
+[2:00] school they had today. Quote, "Utilities
+[2:02] are being asked to double in size.
+[2:04] Technology customers are demanding speed
+[2:06] and scale they haven't dealt with
+[2:07] before." End quote. See, this is a whole
+[2:09] new way our country's doing business. A
+[2:12] rally that includes Quanta tells you
+[2:13] that data centers are about a lot more
+[2:15] than just the semiconductors and disk
+[2:16] drives. Data centers are like giant
+[2:18] malls that must be fed with constant
+[2:20] activity and never-ending electricity.
+[2:22] We know there are many ways for
+[2:24] utilities to produce more energy. The
+[2:25] most frequent being converting natural
+[2:27] gas through a GE turbine that's
+[2:29] connected to the grid. Quanta builds
+[2:31] that. They can also build the other end
+[2:32] where the grid's connected to the data
+[2:34] center. Quanta does this with American
+[2:36] labor, high-paying jobs using steel
+[2:37] that's often produced by Nucor, the
+[2:39] largest steel company in our country.
+[2:41] Eaton, based in Ohio, makes the
+[2:43] transformers needed to put that
+[2:44] electricity into the data center. And
+[2:47] when that electric electricity gets in
+[2:48] there, well, you know what? It burns
+[2:50] real hot.
+[2:52] You know that Eaton has Quanta
+[2:54] technology, so does Vertiv. But the one
+[2:56] that was up the biggest today was
+[2:57] Carrier. You know, the air conditioning
+[2:59] company. It's up almost 9% after putting
+[3:01] a big upside surprise. I think this
+[3:04] quarter may be the beginning of a
+[3:05] multiyear move for the climate control
+[3:07] company. Also very good numbers out of
+[3:09] Europe. Then there's Teradyne. Okay, now
+[3:11] this is a little more arcane. This is
+[3:13] It's up 12%. It's not It's not new to
+[3:15] the list bench managed for during the
+[3:16] data center build out. It's a
+[3:18] semiconductor test and measurement play.
+[3:20] Semiconductors are fragile thing. When
+[3:22] you first start building new line of
+[3:23] chips, you got to throw a way lot of
+[3:24] them. No one can afford an errant
+[3:26] semiconductor. Given how many are in a
+[3:28] data center, that's a lot of testing.
+[3:31] But that's narrow, okay? So, I
+[3:33] understand some of you might say, "Jim,
+[3:35] that doesn't do it for me." And nor does
+[3:37] this next one, Qualcomm. Okay, this one
+[3:39] was up 15% today. It had been an out of
+[3:42] favor semi. Now it's in favor. They just
+[3:44] landed a big account with a hyperscaler.
+[3:46] We don't know which one. But we do know
+[3:48] that that Qualcomm was considered more
+[3:49] of a a
+[3:50] cell phone play and no longer. It's a
+[3:53] branch out. Kind of reminds me of its
+[3:55] competitor, Arm Holdings, position we've
+[3:57] been trying to build for the travel
+[3:58] trust ahead of when it reports on May
+[3:59] 6th. Candidly, Arm has gotten away from
+[4:01] us. The stock's going parabolic. You
+[4:03] know I don't buy parabolas. Okay, then
+[4:05] there's one that's totally away from
+[4:06] manufacturing or industry or tech. And
+[4:09] that's Eli Lilly. It was up 10% Lilly
+[4:12] astounded people today by reporting a
+[4:13] fantastic quarter with encouraging
+[4:15] prescription data for the new pill form
+[4:17] GLP-1 drug, Zounandea. There was some
+[4:20] worry that this drug had gotten off to a
+[4:22] slow start. A lot of rumors going around
+[4:24] Wall Street that it was a bummer. Novo
+[4:26] Nordisk was said to be way ahead of
+[4:28] Lilly because it got approved earlier.
+[4:30] As is so often the case, the Wall Street
+[4:32] gas bags got it wrong. When David Ricks,
+[4:34] CEO of Lilly, came on CNBC this morning,
+[4:36] he said that things were pretty strong.
+[4:38] Strong demand for the pill. More than
+[4:39] 20,000 people now taking it even as the
+[4:42] company had only just started marketing
+[4:43] it and building the brand. That's good
+[4:45] news for my travel trust. We've been
+[4:46] telling people to stick with Lilly no
+[4:47] matter what. Just too much good going on
+[4:50] there. I think that Eli Lilly's gain
+[4:52] though today is sensational and this
+[4:55] company is creating a lot of jobs in
+[4:56] America. They built factories all over
+[4:57] the country. But it is alas a health
+[4:59] care company and health care companies
+[5:00] are not good in indicators of good
+[5:02] times. When it comes to stock market,
+[5:04] drug companies, they're bad leaders.
+[5:06] I remember the days when our economy ran
+[5:08] on the only on the consumer with some
+[5:10] new homes thrown in. However, with the
+[5:12] arrival of data centers, don't be
+[5:13] surprised to see that Caterpillar's on
+[5:15] the list of hottest stocks, up 10%
+[5:17] today. Caterpillar's got a ton of
+[5:19] business led to Dow by us. Why Dow is up
+[5:20] so much. It's got a ton of business for
+[5:22] the data center build out. In a new
+[5:23] twist though, investors, actual
+[5:25] investors, are putting together groups
+[5:28] buying and then going and buying, okay,
+[5:30] get this, buying hundreds if not
+[5:33] thousands of uh
+[5:35] uh uh engines. Cat engines. They're
+[5:38] stringing them up. They're putting them
+[5:39] next to a natural gas, I don't know,
+[5:43] what like West Virginia, that kind of
+[5:45] thing. That's actually where it's
+[5:45] happening. And they are taking the
+[5:48] natural gas from the hills in West
+[5:50] Virginia, pumping it through the tur-
+[5:53] these actual Caterpillar engines, and
+[5:55] building their own power plants
+[5:56] basically off the grid. And this is just
+[5:59] driving a huge amount of business for
+[6:02] Cat. I was always worried these guys
+[6:03] might have too much inventory. After I
+[6:05] heard that story, I worry they don't
+[6:07] have enough. And again, if the power
+[6:08] grid has
+[6:09] has to get much bigger, that means a lot
+[6:11] of construction for the utilities. Who
+[6:13] do you think they're going to call?
+[6:14] That's right, Caterpillar and a huge
+[6:16] number of workers. Again, strong for the
+[6:19] economy. How about Alphabet? Up 10%,
+[6:21] which has expanded by leaps and bounds,
+[6:22] needs all the computing. Yeah. I'm going
+[6:24] to go into more detail on Alphabet
+[6:25] later, along with the other three
+[6:26] mega-cap tech companies that reported
+[6:28] yesterday. But Alphabet's strength is
+[6:30] not bad for this comp- our economy. It's
+[6:32] good. Then we got Ciena, up 11%,
+[6:34] networking equipment. You need to get
+[6:36] all these chips talking to each other.
+[6:38] Ciena's been in networking forever, and
+[6:39] is as well as Arista Networks and Cisco
+[6:41] are the big three of the industry, and
+[6:42] the stock's been strong for ages.
+[6:45] And finally, there's another company
+[6:47] that used to be something else that
+[6:48] isn't anymore cuz of the data center,
+[6:49] and that's Iron Mountain. I used to know
+[6:51] it as a paper shredder.
+[6:53] They've done a big pivot though, and are
+[6:54] taking their massive document storage
+[6:56] facilities and leasing them next to the
+[6:58] hyperscalers, who need space for racks
+[7:00] of their artificial intelligence chips.
+[7:02] Yes, they too are cashing in on the data
+[7:04] center. Now, I know that it wasn't on
+[7:06] the list, but this evening we got a
+[7:08] staggering set of numbers from Apple. At
+[7:10] least I thought so. So, there was a
+[7:11] controversy over how strong the iPhone
+[7:13] really was. But I got to tell you, I
+[7:15] think that Apple is having no
+[7:18] controversy whatsoever, and tomorrow
+[7:20] we'll realize that revenue up 17 is
+[7:23] pretty darn good, that the guidance is
+[7:25] good, and as far as I'm concerned, you
+[7:27] had a chance to buy it after they
+[7:29] reported, and people, once again, didn't
+[7:32] understand the greatness of Apple. They
+[7:33] should watch the show maybe
+[7:35] occasionally. I don't know, maybe once
+[7:36] every 30 seconds, because I say Apple,
+[7:39] you own it. You don't trade it. And by
+[7:41] the way, you know, Greeks with me,
+[7:42] intergalactically, uh on the Artemis 2,
+[7:45] they were taking pictures
+[7:47] of the Earth from the dark side of the
+[7:48] moon. Came out a lot better than I Hey,
+[7:50] I got the 17 Pro Max, man.
+[7:53] It's fabulo-
+[7:55] Now, if you look at all these winners,
+[7:56] what do we see? I think it's a
+[7:57] manufacturing mosaic, the likes of which
+[7:59] we haven't seen since we decided to
+[8:01] outsource a huge percentage of our
+[8:02] industrial base to China or other
+[8:04] countries with cheap labor. I know that
+[8:06] the data centers seem fringe in terms of
+[8:08] its impact on the so-called middle
+[8:09] economy a year ago, but this quarter,
+[8:12] what happened? It went mainstream. And
+[8:14] from listening to so many of these
+[8:15] conference calls, I say we're in the
+[8:17] early innings of this build-out. Listen,
+[8:18] I got nothing against any other sector,
+[8:20] including the consumer sector, the
+[8:22] health care sector, but the bottom line,
+[8:24] as far as I'm concerned, the data center
+[8:25] is a windfall for almost every slice of
+[8:28] the economy. I say don't look a gift
+[8:31] horse in the mouth, and instead,
+[8:34] maybe you buy some of these stocks. I
+[8:36] think there are some real winners in
+[8:37] that list. I want to go to Mark in
+[8:39] Illinois. Mark!
+[8:42] >> Oh, yeah, to the great sensei of the
+[8:44] retail investor, Jim.
+[8:46] >> Well, you're very kind. That is what I
+[8:48] like to I like to think of myself as
+[8:49] something like that, but my wife says
+[8:51] that'll give me a very slow head s-
+[8:53] huge head. How can I help?
+[8:56] >> Well, I went to my wife's hospital gala,
+[8:59] and they were raising money for a
+[9:00] surgery surgery suite, and they said da
+[9:03] Vinci was in the other room. And I said,
+[9:05] this piqued my interest because I
+[9:06] thought the guy died over 500 years ago.
+[9:09] Anyway, it was a surgical robot. So, I
+[9:12] looked into it,
+[9:13] and the company had a great quarter, at
+[9:15] least from my thoughts. I'm wondering
+[9:17] what your thoughts are on Intuitive
+[9:19] Surgical.
+[9:20] >> Isn't that funny? I did the same thing
+[9:22] years ago for the Oval Hospital when we
+[9:24] wanted to get a da Vinci. By the way, da
+[9:25] Vinci actually now works at Nvidia. Um
+[9:28] but here's the thing. I Both J&J
+[9:31] and Medtronic claim that [music] they're
+[9:33] competitors, and I am worried that one
+[9:35] of those two is going to hit Peter and
+[9:37] that is going to hurt. You would have
+[9:39] surgical. Thank you for the call. All
+[9:40] right, the data center build out is a
+[9:42] windfall for the entire economy and I
+[9:45] think we're still in the early innings
+[9:46] of [music] this revolution. All right,
+[9:48] my money tonight MasterCard moved lower
+[9:50] today despite a top and bottom line
+[9:51] [music] beat. So maybe you're getting a
+[9:52] buying opportunity in the payments
+[9:53] giant. I got the CEO to learn more and
+[9:56] four members of Magnificent Seven
+[9:57] reported last night. I'm coming through
+[9:59] the results to see who's leading the
+[10:00] pack in [music] the AI race and the
+[10:02] shares of Reddit are on the move after
+[10:04] the earnings crossed the tape. I'm going
+[10:06] to sit down with the CEO. Very rarely do
+[10:08] we get to add some insight to that
+[10:09] company but I got to tell you something,
+[10:11] >> [music]
+[10:11] >> it's on fire. Stay with Cramer.
+[10:15] >> Don't miss a second of Mad Money. Follow
+[10:17] @jimcramer on X. Have a question?
+[10:20] [music] Tweet Cramer #madmentions.
+[10:23] Send Jim an email to madmoney@cnbc.com
+[10:26] or give us a call at 1-800-743-CNBC.
+[10:31] Miss [music] something? Head to
+[10:32] madmoney.cnbc.com.
+[10:39] >> [music]
+[10:43] >> All right, what just happened to the
+[10:44] stock? One of my long time favorites
+[10:46] MasterCard. This morning the payments
+[10:48] company reported what I thought was very
+[10:49] strong quarter in the face of very
+[10:51] tricky economic backdrop. Stock sold off
+[10:53] more than 4% today. It's now down 12%
+[10:55] for the year. While MasterCard delivered
+[10:57] a healthy top and bottom line beat,
+[10:59] their guidance to some was a little
+[11:00] disappointing expense side. So the stock
+[11:02] got hit. I I don't think it should have
+[11:04] been down 4% though. Could this pullback
+[11:06] be a buying opportunity? Let's check in
+[11:08] with Michael Miebach. He's the CEO of
+[11:09] MasterCard to find out. Michael, welcome
+[11:11] back to Mad Money.
+[11:12] >> Thanks Jim. Thanks for having me.
+[11:14] >> Okay, 3.7 billion people.
+[11:16] >> Right.
+[11:16] >> The most technologically oriented of
+[11:19] these kinds of cards,
+[11:21] a system that can actually be the
+[11:23] payment system of whole countries. Are
+[11:25] we looking at it too small when we
+[11:28] think, uh-oh, they had a little bit more
+[11:30] expense than they should have this
+[11:31] quarter.
+[11:33] >> I think we are.
+[11:34] >> Okay.
+[11:34] >> So, I have to agree we are. You know, if
+[11:36] you look at the quarter, we beat our own
+[11:39] expectations. We beat the market
+[11:41] expectations. Then you start to look at
+[11:43] the numbers and you start to see the
+[11:45] underlying growth. We continue to grow.
+[11:48] The payment market continues to grow.
+[11:50] Our customers are buying our value-added
+[11:52] services and solutions. So,
+[11:54] it's been very strong.
+[11:56] But then you start to look at the
+[11:57] complicated backdrop
+[11:58] >> Right.
+[11:58] >> that you talked about. So, we do have
+[12:00] geopolitical tensions. We continue to
+[12:02] monitor that. But, you know, when you
+[12:04] look at the facts of underlying consumer
+[12:07] spending, that's been healthy. It's been
+[12:09] healthy in the fourth quarter. It's been
+[12:10] healthy in the first quarter. So, there
+[12:12] is really no change there. But, spending
+[12:14] patterns have been changing.
+[12:16] >> Well, see yeah, that's what
+[12:16] >> They have been changing because of like
+[12:17] the travel impact from the Middle East
+[12:19] conflict, for example, just to name one.
+[12:21] But, are they spending less? No, they're
+[12:23] spending it differently.
+[12:24] >> Well, I think that you in your first
+[12:26] paragraph in your in your excellent
+[12:28] conference call, you said, "Look, at the
+[12:30] macro picture, the economic foundation
+[12:32] remains generally supportive, healthy
+[12:33] underlying consumer and business
+[12:35] spending. However, the backdrop remains
+[12:36] uncertain, driven by geopolitical
+[12:38] tensions, which has put some pressure on
+[12:40] cross-border travel." I think anyone
+[12:42] who's traveling to the Middle East has
+[12:43] to rethink the plans. And you're an
+[12:45] international company, so it will hit
+[12:47] you.
+[12:47] >> Absolutely.
+[12:48] >> But, are they going to go and sit sit at
+[12:50] home and do nothing? No, they're going
+[12:51] to go somewhere else. But, you got to
+[12:53] book a new trip. Trip and so, we'll see
+[12:55] how the
+[12:56] how the rest of the year will
+[12:57] >> All right, so I agree. I think that
+[12:58] >> nothing to worry about the consumer
+[13:00] spending.
+[13:00] >> Okay, now, you are doing some things
+[13:03] that astonished me. You are already
+[13:06] predicting what the agents are going to
+[13:07] do, which is run amok. I've just started
+[13:10] using agents. I almost felt like maybe I
+[13:12] shouldn't do it. But, you already have a
+[13:14] You have a plan for them, too, don't
+[13:15] you?
+[13:16] >> We do. So, you know, in the age of AI,
+[13:18] one of the use cases going to hit us
+[13:20] first in our everyday lives is agentic
+[13:22] commerce, you know, where people are
+[13:24] going to change their ways and how
+[13:26] they're going to find a product online,
+[13:27] for example. So, they're going to start
+[13:28] to use maybe an LLM of their choice or a
+[13:30] very large merchant and they're going to
+[13:32] ask some agent, AI-driven agent, this is
+[13:35] what is the best product for me.
+[13:38] And then why would you stop there? Why
+[13:40] would you not, right at that moment,
+[13:42] tell to your agent, why don't you buy
+[13:43] these products for me? I like what you
+[13:45] recommended.
+[13:47] And then there's a very simple checkout
+[13:49] process as you do it today when you're,
+[13:51] you know, with your favorite digital
+[13:52] wallet, what it might be. Of course,
+[13:54] there's a Mastercard behind it. So, we
+[13:56] see we're looking at a paradigm shift.
+[13:58] Now, for something like this to actually
+[14:01] scale, you got to
+[14:03] keep safety and security and trust in
+[14:05] mind.
+[14:07] Because if you're using a solution like
+[14:08] that, asking an agent to buy something
+[14:11] for you, and then something goes wrong,
+[14:13] and there's no protection, and you don't
+[14:15] know who to call and what to do about
+[14:16] it, then you're not going to use it
+[14:17] again. So, we're at the start of this
+[14:19] paradigm shift. So, the whole industry
+[14:21] is really busy right now to ensuring
+[14:23] that there's protocols that ensure
+[14:26] safety, that it's clear who these agents
+[14:28] are, which company are they from, um are
+[14:31] they meeting the rules, what happens if
+[14:33] something goes wrong, etc., etc. So,
+[14:35] that's what we're very focused on as a
+[14:36] company. And we're leading the industry
+[14:38] there. One of the key things is is
+[14:41] actually this very specific question.
+[14:44] So, this agent buys a pair of running
+[14:46] shoes that you have, okay? But they come
+[14:47] in the wrong size. And you're going to
+[14:49] say you call the agent that something's
+[14:51] wrong. You know, what do you do? And you
+[14:53] know, it's
+[14:54] if there's something that is not clear,
+[14:55] was it actually what you ordered or do
+[14:57] you just claim what that order is? So,
+[14:59] where's the proof? The untampered proof
+[15:02] on what actually happened that can go
+[15:04] back to the bank and the merchant to
+[15:05] basically say, "No, no, this consumer is
+[15:07] right. We just automated." Whole thing
+[15:09] is reversed. You do your return, done.
+[15:12] As you [clears throat] are used today.
+[15:13] How do you do this amongst agents?
+[15:15] Verifiable intent. Google and us came
+[15:17] together.
+[15:19] Uh Google and Mastercard put out this
+[15:20] particular protocol, verifiable intent.
+[15:23] So, we're now ready for agented commerce
+[15:25] if something goes wrong as it does in
+[15:27] everyday life. So, that's a real step
+[15:29] forward. So, this is happening as we
+[15:32] speak. It's still very early days. Now,
+[15:34] a lot of people just continue to buy the
+[15:36] way they do, but this will change very
+[15:38] quickly and I think it's a tremendous
+[15:39] upside opportunity for us as a company.
+[15:41] >> Definitely.
+[15:42] >> Now, it's early days for some of us, but
+[15:44] not early days for you guys. The concept
+[15:46] of the stable coin, the concept of the
+[15:48] payments business as the kind of the
+[15:52] national the international treasury.
+[15:54] And you're at the forefront of that.
+[15:56] >> We are. So, as a company, you know, we
+[15:59] have card in the name. And of course, we
+[16:01] we love cards. And cards are
+[16:03] particularly good for one use case. That
+[16:05] is if you buy something. You buy
+[16:07] something in the shop or online, great.
+[16:08] This has been solved. You don't need to
+[16:10] solve that with stable coins. Stable
+[16:12] coins are though a great technology
+[16:14] because they're very fast.
+[16:16] They're available 24/7
+[16:19] and they're programmable. So, if you
+[16:20] take that technology and instead of say,
+[16:23] "What are some use cases that you can
+[16:25] solve with this technology?" Now, as a
+[16:26] payments company, if there are such use
+[16:28] cases, we want to offer that technology.
+[16:31] Cross-border remittances, disbursements,
+[16:33] things that take days today. They're not
+[16:35] transparent. You know, what is it going
+[16:37] to cost?
+[16:38] So, this technology, I think it's going
+[16:40] to unlock a lot of new flows today that
+[16:42] don't even come to MasterCard. So, we
+[16:44] can be behind the stable coin to ensure
+[16:47] that the same thing we just talked about
+[16:49] in the agented commerce, all the
+[16:50] protections, all the safety. 3.7 billion
+[16:53] people out there have our cards today
+[16:55] and they have certain expectations.
+[16:57] Now, if there's a stable coin behind it,
+[16:59] why would you expect anything different?
+[17:02] So, imagine fast forward. A lot of
+[17:05] people start to use stable coins.
+[17:06] There's a lot of issuers that put out
+[17:08] stable coins. All that will happen, but
+[17:10] then you have a world of multiplicity.
+[17:13] Many chains, many stable coins, and you
+[17:16] start to get in a situation where you
+[17:18] want to pay me in a stable coin of your
+[17:20] choice, and I want to be paid in a
+[17:21] stable coin of my choice. Payment choice
+[17:23] matters. Who will be in the middle to
+[17:25] ensure this can happen?
+[17:27] >> Payment choice.
+[17:27] >> Interoperability. That's what we do
+[17:29] today. That's what we will do in an age
+[17:31] of stable coin, and that is basically
+[17:33] just us enabling any kind of payment
+[17:35] choice on whatever is the latest
+[17:37] technology.
+[17:37] >> one of the reasons why I didn't
+[17:38] understand the stock just Daniel. You're
+[17:40] the most forward-thinking of the
+[17:41] payments companies, and you've got the
+[17:42] best brand. Uh
+[17:44] There Well, there's another brand that's
+[17:45] also quite good. We know that. But, when
+[17:47] it comes to things that we're talking
+[17:49] about, uh you're well ahead as you have
+[17:50] been since you've been teaching me about
+[17:52] this for a very long time. So, I I want
+[17:54] to thank Michael Miebach, the CEO of
+[17:55] MasterCard, MA. Trust owner for a very
+[17:57] long time. Have to go back and look at
+[17:59] it cuz it's just too low. It doesn't
+[18:01] make any sense to me. Have money stacked
+[18:03] in the bank. [music]
+[18:05] >> Coming up, now that the dust is settled
+[18:07] on yesterday's mega-cap earnings
+[18:09] reports, [music] Cramer's ready to sort
+[18:11] through the aftermath. He's diving in.
+[18:14] Next.
+[18:24] >> [music]
+[18:26] >> Last night we heard from four of the
+[18:27] largest tech companies on the planet,
+[18:29] and that's Alphabet, Amazon, Microsoft,
+[18:31] and Meta Platforms. All right at the
+[18:33] same time, as I mentioned at the top,
+[18:34] presumably because these guys are just
+[18:35] trying to make their life difficult. Now
+[18:37] that the market's had a full 24 hours to
+[18:39] digest these numbers, I want to dig into
+[18:41] what we heard from Big Tech and what it
+[18:43] means for the rest of the market.
+[18:45] Why don't we start with Alphabet? We saw
+[18:46] its stock shoot up 10% today in
+[18:48] response. Alphabet reported an
+[18:50] incredibly strong quarter, 22% revenue
+[18:52] growth, 82% earnings growth, 82%. Both
+[18:55] coming in well above expectations. All
+[18:57] right, the quarter wasn't perfect. They
+[18:58] had some small misses, YouTube
+[19:00] advertising, catch-all other bets
+[19:02] business. The most important parts of
+[19:04] this company though were very much
+[19:06] strong.
+[19:08] The core Google search division was up
+[19:10] 19%. Google Cloud, their web
+[19:12] infrastructure business, saw its sales
+[19:14] skyrocket 63% to 20 billion. This is the
+[19:17] part of business where the they've been
+[19:18] spending a fortune on data centers.
+[19:20] Right now, that's looking like a great
+[19:21] investment. Yeah, you heard me. What
+[19:24] else? We know that Gemini Enterprise saw
+[19:25] paid monthly active users jump 40%
+[19:27] quarter over quarter. They also talked
+[19:29] about the tremendous demand for their
+[19:30] custom-built TPU chips from AI labs and
+[19:35] other customers. And this you have to
+[19:36] understand, that's stuff that they make,
+[19:38] okay? That's not Nvidia. Now, Google did
+[19:40] bump up its full-year capital
+[19:42] expenditure budget by $5 billion, taking
+[19:44] it to the 180 to 190 billion dollar
+[19:46] range. CFO Anat Ashkenazi mentioned that
+[19:49] they expect the CapEx budget to
+[19:51] significantly increase again in 2027.
+[19:55] Like, insane amount of money, but
+[19:56] Alphabet's producing spectacular
+[19:58] results. So, Wall Street was happy to
+[20:00] get behind it. See, they not only have
+[20:01] that line of sight that I talked about,
+[20:04] they are coining money now. Next up,
+[20:07] Amazon. Very good numbers, even if its
+[20:09] stock Yeah, the stock didn't get on
+[20:11] didn't get a handle on. The stock was
+[20:13] volatile in the after-hours trading and
+[20:14] ultimately gained less than 1% today. In
+[20:16] the end, I thought it was very solid
+[20:17] quarter. 17% revenue growth, 75%
+[20:20] earnings growth per share growth. Latter
+[20:21] being much, much better than expected,
+[20:23] even if it included a large pre-tax gain
+[20:26] from Amazon's early investment in
+[20:27] Anthropic. Still, when you look at the
+[20:29] operating income, that was up 30%, also
+[20:31] well above expectations. The stock
+[20:33] should have been up more, but you know,
+[20:34] it ran into the quarter. Amazon's retail
+[20:37] business was strong. Advertising
+[20:38] business boomed up 24%. Now, Amazon Web
+[20:42] Services, this ended up being the star
+[20:45] of the quarter.
+[20:46] Up 28%.
+[20:48] It's best growth in almost 4 years.
+[20:52] That's a huge increase on a $129
+[20:55] billion division of Amazon's. Their
+[20:58] custom chip business now has a $20
+[21:00] billion annual revenue rate, that's
+[21:02] going to go much higher. So, what's the
+[21:03] problem here? Amazon's guidance for the
+[21:05] current quarter was more mixed. Good
+[21:07] revenue, but merely in line operating
+[21:09] income. I think the stock would have
+[21:10] gotten hit even harder if Amazon had
+[21:12] raised its full-year capital
+[21:13] expenditures forecast. Hey, for what
+[21:15] it's worth though, I I thought the CEO,
+[21:16] Andy Jassy, was the most thoughtful
+[21:18] explainer of why that spending will pay
+[21:20] off. These data center investments are
+[21:22] very profitable for Amazon. I think the
+[21:24] stock goes higher. I was surprised that
+[21:26] it didn't go more higher, but remember,
+[21:28] that's that parabolic move that I tell
+[21:30] you about. Parabolic moves do not
+[21:32] continue. They they uh they consolidate
+[21:35] or they go down. I think this one's just
+[21:37] consolidating. Third, there's Microsoft,
+[21:39] much tougher, okay? And I mean like much
+[21:41] tougher. They got clobbered today, down
+[21:44] nearly 4%.
+[21:46] Ouch, I didn't want this, but rooting
+[21:48] don't mean anything, right? We don't
+[21:49] root for stocks, not sports teams. It's
+[21:52] uh it it's just tough. Microsoft
+[21:54] delivered a nice top and bottom line
+[21:55] beat. Revenue up 18% year-over-year,
+[21:58] earnings up 23%. All major lines came in
+[22:00] ahead of expectations. The key number
+[22:02] for Microsoft these days is Azure
+[22:04] revenue growth. That's the company's
+[22:06] cloud infrastructure business, and it's
+[22:07] where the lion's share of Microsoft's
+[22:09] investment spending is going. For the
+[22:10] quarter, Azure revenue grew 40%
+[22:12] year-over-year, fabulous, point ahead of
+[22:14] expectations. Some people say two points
+[22:16] ahead. Then we got what I thought was a
+[22:17] solid comp score. Management said Azure
+[22:19] could grow 39 to 40% in constant
+[22:22] currency during the current quarter.
+[22:23] That's much better than what the
+[22:24] analysts were expecting. I cheered that.
+[22:27] But
+[22:28] then there's Microsoft's overall revenue
+[22:30] guidance for the current quarter, and
+[22:31] that was a little light. And their total
+[22:33] paid Copilot users was 20 million, to
+[22:36] which over we know that
+[22:37] some were underwhelmed by that. I
+[22:39] thought it was okay. At the same time,
+[22:40] Wall Street didn't seem to like what
+[22:42] Microsoft had to say about its CapEx
+[22:44] budget. Unlike the big the other big
+[22:46] tech companies, they had basically been
+[22:48] giving giving you this guidance on a
+[22:50] quarter-by-quarter basis. This time,
+[22:52] management said they'd have over $40
+[22:53] billion in capital spending this
+[22:55] quarter, higher than expected, and they
+[22:56] indicated it could go even higher in the
+[22:58] coming quarters, offering a CapEx
+[23:00] forecast of 190 billion for the calendar
+[23:03] year 2026. No.
+[23:05] After that CapEx commentary, the stock
+[23:06] started rolling over in after-hours
+[23:08] trading, and it kept sinking today. In
+[23:10] the end, I think Microsoft just didn't
+[23:12] give investors the good news to justify
+[23:14] the elevated spending levels that they
+[23:16] were projecting. Do you know that this
+[23:18] was actually It was looking up nicely,
+[23:20] but I it People hadn't put pen to paper
+[23:23] and figured out exactly that they were
+[23:24] spending a lot. They're spending more
+[23:25] money. We don't want that. Finally, how
+[23:28] about Meta Platforms? Oh, man.
+[23:32] This one really This one really bothered
+[23:34] me. It's being clubbed like a baby seal.
+[23:36] You know I don't ever like that. Down
+[23:37] more than 8% today. It's a shame because
+[23:39] the company really did report a good set
+[23:41] of numbers. 33% revenue growth, big
+[23:43] beat. 62% earnings per share growth,
+[23:44] which was much higher than expected. But
+[23:46] ultimately, investors focused on a
+[23:48] couple negatives
+[23:49] that are real negative. First, Meta's
+[23:51] family daily active people, their term
+[23:54] for users, missed expectations. It
+[23:56] actually shrank versus the previous
+[23:58] quarter. Okay, look, they blamed outages
+[23:59] in Ukraine and blockages in Russia, but
+[24:01] that was a cold comfort to shareholders.
+[24:03] I don't like blame. On top of that, Meta
+[24:05] raises full-year CapEx outlook by 10
+[24:07] billion, taking it to a range of 125 to
+[24:10] 145 billion. For what? Blaming the
+[24:12] increase on higher component prices,
+[24:13] especially for memory and data storage.
+[24:15] We saw a lot of those companies report
+[24:16] in the last 24 hours, and they're making
+[24:18] too much money, but what can you do?
+[24:19] It's capitalism. I think Meta simply
+[24:21] just didn't do a good job of justifying
+[24:23] their AI spending. I welcome them to
+[24:25] come here, and we can sit down and
+[24:26] figure it out. At this point, it sure
+[24:28] feels like Meta's suffering from the
+[24:29] lack of cloud infrastructure business.
+[24:31] So, something that's been pretty money
+[24:32] for Alphabet. It's good for Amazon, and
+[24:34] Microsoft's good, too. It's very easy to
+[24:36] explain how building data centers can
+[24:38] make this kind of business more
+[24:39] lucrative. Now, Meta would tell you that
+[24:41] their spending is working, too. Pointing
+[24:43] to how their AI tools are boosting the
+[24:44] core advertising business. For example,
+[24:46] CFO Susan Susan Li said, "Usage of our
+[24:50] ad creative tools is also scaling with
+[24:53] more than 8 million advertisers using at
+[24:55] least one of our Gen AI ad creative
+[24:57] tools. Particularly strong adoption
+[24:59] among small and medium-sized
+[25:01] advertisers, end quote. And the daily
+[25:03] users notwithstanding, Meta's overall
+[25:06] numbers are pretty impressive. It's
+[25:07] their best revenue growth in 5 years,
+[25:09] for heaven's sake. Let's not get too
+[25:10] down about this thing. It's just that
+[25:12] Meta is not the same as the other big
+[25:13] tech companies that are seeing their
+[25:15] cloud infrastructure divisions explode.
+[25:17] At the end of the day, Meta is spending
+[25:18] heavily like the other hyperscalers, but
+[25:20] it's seeing the benefits come through an
+[25:22] advertising business, not a cloud
+[25:24] business. And investors
+[25:26] just aren't as impressed with that.
+[25:27] Remember, a lot of that has to do with
+[25:28] small and mid-size business. People
+[25:29] always worried that they're not going to
+[25:30] do well if the economy slows down. Maybe
+[25:32] the Meta sell-off today was overdone.
+[25:34] I'm going to I'm going to spend a lot of
+[25:36] time with club members to try to figure
+[25:37] that out. But it happened. Here's the
+[25:40] bottom line. When you look at last
+[25:41] night's four megacap tech earnings
+[25:42] reports, each of these was an
+[25:44] opportunity management to explain how
+[25:46] their enormous AI data center
+[25:47] investments are paying off. Alphabet did
+[25:49] that very well. Amazon did it okay.
+[25:52] Microsoft didn't quite do it. And Meta?
+[25:54] I don't know. Clearly, something's more
+[25:55] They got to do something there.
+[25:57] Because a pop in advertising is not
+[25:59] enough to convince Wall Street that it
+[26:00] has that that huge capex bill
+[26:03] is worth it. Let's go to Jerry in
+[26:06] Missouri. Jerry.
+[26:08] >> Hey, Jim. Thanks for taking my call.
+[26:10] >> Oh, absolutely, Jerry. What's up?
+[26:13] >> Uh Jim, late last year you had great
+[26:15] expectations for this stock and it went
+[26:17] up and then it came back down and
+[26:20] my position overall has barely moved.
+[26:23] Do you see any catalysts at all for
+[26:25] Palantir when and
+[26:26] >> Okay, I'm Yeah, you asked about
+[26:28] Palantir. See, I'm looking at Palantir
+[26:30] as a longer-term investment. It did have
+[26:33] It shot up. I went to 150. It did that.
+[26:35] Went to 200. Did that. Came back down.
+[26:38] But nothing's changed in terms of how
+[26:40] great they are. And I know that it's
+[26:42] difficult to say, "Hey, let's buy a
+[26:43] stock at 200 cuz it's great." But I will
+[26:46] tell you that this company is firing on
+[26:48] all cylinders. It's just the stock right
+[26:51] now acts as if, well, it's done. And
+[26:54] [music] it's not done at all. And I
+[26:56] thank you for the call. Hearing from you
+[26:58] on all four earnings reports from the
+[26:59] mega [music] caps, it's clear that
+[27:01] Alphabet was the biggest winner of the
+[27:02] bunch. While Meta has some explaining to
+[27:04] do with its CapEx bill, but I think they
+[27:06] can do it. They just [music] need to
+[27:07] figure out how to make it payment. Watch
+[27:10] Mad Money at Reddit report a beat and
+[27:11] raise quarter. I'm going to go straight
+[27:13] to the CEO and learn what's next [music]
+[27:15] for I think what is a very exciting
+[27:17] social media platform. And it's nearly
+[27:19] impossible to study all the companies
+[27:20] reporting during earning season, but
+[27:22] tonight I'll reveal my process to keep
+[27:24] an edge during the busiest part of the
+[27:25] quarter. And of course, all your calls
+[27:27] have to wait for the next decision of
+[27:28] the lightning round. [music] So, stay
+[27:30] with Cramer.
+[27:34] >> [music]
+[27:39] >> Reddit, with a stock that's down 36% for
+[27:42] the year, reported for close. I thought
+[27:43] the numbers were excellent. Management
+[27:45] also gave strong guidance for the
+[27:46] current quarter. I think this remains a
+[27:48] terrific story, one I highlighted in How
+[27:50] to Make Money in Any Market. Reddit's
+[27:52] basically become a database of human
+[27:54] conversations on the internet. And it's
+[27:57] essential for training artificial
+[27:59] intelligence models. And they're doing
+[28:00] all of this without the massive capital
+[28:02] spending plans of other big tech
+[28:03] companies. To me, it's a winner. And in
+[28:05] the after-hours market, it agrees with
+[28:07] me. The stock's up big. Earlier today, I
+[28:09] got a chance to speak with Steve
+[28:10] Huffman. He's the co-founder and CEO of
+[28:12] Reddit. Take a look.
+[28:15] Mr. Huffman, welcome back to Mad Money.
+[28:17] >> Thank you. Glad to be here.
+[28:18] >> Okay, so Steve, I want to get uh to the
+[28:20] numbers, but there's something that
+[28:21] caught my eye in your deck that is so
+[28:23] wonderful. It's a in your letter. Reddit
+[28:26] conversations are like oil for the
+[28:28] modern internet.
+[28:31] Expand on that, cuz I think it's just a
+[28:33] brilliant way to look at your company.
+[28:34] >> So, if we look at where the internet is
+[28:37] going right now with AI, it's becoming
+[28:39] more sanitized, summarized, optimized
+[28:42] for attention.
+[28:45] People want to hear what other people
+[28:47] are saying, including AI. What we say is
+[28:50] there's no artificial intelligence
+[28:52] without actual intelligence. The
+[28:54] knowledge has to come from somewhere,
+[28:56] and Reddit is one of the primary sources
+[28:59] for that sort of information that AIs
+[29:01] crave, but also that people crave in the
+[29:04] AI world.
+[29:05] >> Absolutely. And then a foundational
+[29:07] resource that powers literally the the
+[29:11] next generation technology. I think
+[29:13] you're far ahead of where everybody else
+[29:15] is right now.
+[29:17] >> The irony is that we have been playing
+[29:19] the same game for 20 years.
+[29:21] >> But no, let's puzzle over that.
+[29:24] >> So
+[29:24] >> It got to you. It got It's catching up
+[29:26] to where you are. Is that what's
+[29:28] happening?
+[29:28] >> I I actually think that's a lot of what
+[29:30] we're seeing is the market is coming to
+[29:32] Reddit. I think of Reddit as three
+[29:34] chapters. The first, in the early days,
+[29:37] is Reddit's not traditional media. The
+[29:39] second chapter is Reddit's not social
+[29:41] media, which is social media in the way
+[29:43] they do things actually helped Reddit
+[29:45] make sense, cuz Reddit's more authentic,
+[29:48] more people-centric, community-centric,
+[29:50] more deep.
+[29:51] And now in this third chapter, which is
+[29:53] Reddit is not AI. And so as the internet
+[29:55] keeps evolving, and Reddit keeps doing
+[29:58] the same human-focused,
+[30:01] you know, this human-focused work, we
+[30:03] just continue to stand out.
+[30:04] >> Now, at the same time, I mean, look, the
+[30:07] it's your seventh consecutive quarter
+[30:08] with revenue growth over 60%
+[30:10] industry-leading
+[30:12] gross margins of 90%. Now, I was talking
+[30:15] to someone yesterday at one of the
+[30:16] hyperscalers. I said, "Oh my god, you
+[30:17] guys have 90% gross cuz Jim, no one has
+[30:20] that. We're fortunate enough to have 80.
+[30:22] I don't know anyone who has 90. How do
+[30:25] you explain that?"
+[30:26] >> We're a lightweight company. So, we are
+[30:28] building a consumer product. So, we use
+[30:31] AI,
+[30:32] um
+[30:33] but our CapEx this quarter was $1
+[30:36] million. Because what we're not doing is
+[30:39] >> $1 million Yeah, my CapEx was $1
+[30:41] million. [laughter]
+[30:43] >> Well, great. You're doing great there.
+[30:44] Um we're we're not building data
+[30:45] centers, right? We're not going after
+[30:47] enterprise customers. We're building a
+[30:49] consumer product for people. And so that
+[30:51] allows us to keep the company very
+[30:54] light. And we've learned lessons from
+[30:55] other people in the space that you need
+[30:57] to get a profitability quickly. You need
+[30:59] to keep high margins. You need to hire
+[31:01] modestly, and that's what we've been
+[31:03] doing.
+[31:03] >> Now, in that sense, you're a free rider,
+[31:05] but others have free ridden on you. We
+[31:08] have spoken before. I don't like the
+[31:10] fact that your stuff is taken by it's
+[31:13] it's really just trolled by others. How
+[31:15] do you stop them? You had any luck
+[31:17] trying to stop that?
+[31:19] >> Well, we've had some luck, of course. We
+[31:20] have
+[31:21] real partnerships with Google and
+[31:22] OpenAI.
+[31:23] >> Yes.
+[31:23] >> You know, the the two biggest players in
+[31:25] the space who value Reddit's data and
+[31:28] the partnership. And by the way, that
+[31:29] goes both ways. I think it's been a
+[31:31] mutually beneficial partnership. But
+[31:33] look, at the end of the day, people want
+[31:35] what Reddit has. And so
+[31:38] it's it's a continued evolution of of
+[31:41] where we are in the in the status space.
+[31:43] But what we've seen over the last couple
+[31:45] of years with the rise of AI is that the
+[31:47] whole market now is learning that Reddit
+[31:50] is the fuel for it.
+[31:52] >> Yes, you're absolutely right, cuz you'll
+[31:53] see it's to Reddit. It's to Reddit. And
+[31:55] I'm sure that drives people because one
+[31:57] thing I didn't learn when I wrote my
+[31:59] book,
+[32:00] uh I I was trying to go over GameStop.
+[32:03] And the fact is is that Reddit was there
+[32:05] the oil to but it wasn't sinful. There
+[32:08] was nothing the matter with everyone
+[32:09] trying to make money. As a matter of
+[32:11] fact, in many ways, I I enjoyed the
+[32:13] rebellion of it because it was not
+[32:15] illegal. It was a legal way to make
+[32:18] money.
+[32:19] >> Look, it it it's
+[32:20] the Reddit story is really the story of
+[32:23] the internet, which is
+[32:25] empowering people. And so the GameStop
+[32:28] story was really this moment where the
+[32:32] individual, the retail investors, could
+[32:35] finally connect and you know,
+[32:38] make a dent in this market.
+[32:39] >> Right. When?
+[32:41] Now, I also uh looking at the sites that
+[32:43] I go to all the time, I am one of them
+[32:46] is agave spirits, tequila and mezcal
+[32:48] because of my wife's business. I am
+[32:49] always shocked at the at the
+[32:52] like uh they call it a key economy now,
+[32:54] but you know, there are the people There
+[32:55] are people who are talking about the
+[32:56] $200 bottle of mezcal, and there are
+[32:58] people who are talking about the $50
+[32:59] bottle of tequila. It seems like that
+[33:01] the demographic has no bounds.
+[33:05] >> Look, the way we describe Reddit, it's
+[33:07] for everybody.
+[33:07] >> Yes.
+[33:08] >> We So, we we call on we start with
+[33:10] emerging adults. So, people don't age
+[33:13] out of Reddit. They age into Reddit. So,
+[33:15] we pick users up
+[33:16] >> Yeah, when they're end of high school,
+[33:18] college, and then we're with them
+[33:20] through life's journey.
+[33:22] Um you get your first job, you are in a
+[33:25] relationship, you have kids, you become
+[33:27] a parent, you develop all these hobbies,
+[33:29] you go through
+[33:30] medical maladies. These are all
+[33:33] >> to say it's important for people to know
+[33:34] that because there's no many people who
+[33:37] don't want to talk about about their
+[33:39] sickness.
+[33:40] >> They don't want to talk about their
+[33:41] sickness. They don't want to talk about
+[33:42] their relationship challenges on social
+[33:44] media or publicly or sometimes even with
+[33:46] their friends and family. On Reddit, the
+[33:48] anonymous nature of Reddit allows people
+[33:51] to be safe doing that, to really truly
+[33:53] be themselves.
+[33:54] >> In the meantime, I think it's really
+[33:55] important to put out ad revenue grew
+[33:57] 74%. I for one have found that your
+[34:00] rates are incredibly reasonable. I don't
+[34:03] know whether if you raise them, you
+[34:05] would get more business. Maybe it's just
+[34:07] the way it should be.
+[34:08] >> Well, it's it's it's that the the price
+[34:10] is a function of the market. Um but what
+[34:12] we're seeing is uh
+[34:15] Reddit sits in a special place in the
+[34:17] market. 30% of our users aren't on other
+[34:20] social media.
+[34:22] And so, it's the only way for brands to
+[34:24] reach those customers. And Reddit is
+[34:26] trusted second only to friends and
+[34:29] family.
+[34:30] So, we're the one of the most trusted
+[34:32] sources for product purchasing
+[34:34] information.
+[34:35] >> Yes.
+[34:36] >> juiciest part of the funnel when people
+[34:38] are deciding what am I going to buy.
+[34:40] >> Well, you you talk about the funnel,
+[34:41] that makes me think about the finance
+[34:43] just the finances that are one of one.
+[34:46] You are unique. Only those of us who
+[34:49] have placed ads with you, I feel like
+[34:50] know exactly how you are it just a
+[34:53] rifle, not a shotgun. A shotgun's
+[34:56] expensive, a rifle is targeted. You have
+[34:58] a different model for everybody.
+[35:00] >> And we we love that about this business.
+[35:03] The the financial performance, the
+[35:05] margins, the low CAPEX, the offering to
+[35:09] advertisers.
+[35:10] I think it's really a unique offering.
+[35:13] And I think when we combine this
+[35:15] business performance with the growth
+[35:18] potential,
+[35:19] right, we're at about um
+[35:21] 120 million daily users today, it's
+[35:24] about 50 million in the US.
+[35:26] We're thinking about how do we get to
+[35:27] 100 million in the US. How do we get to
+[35:29] a billion globally? But we already have
+[35:32] 200 million Americans visit Reddit every
+[35:34] week. And so it's really
+[35:36] uh
+[35:37] uh a challenge of how do we just
+[35:38] increase frequency, get those people to
+[35:40] come to Reddit every day.
+[35:41] >> Now, the last I did want to ask you was
+[35:42] I was shocked about the international. I
+[35:45] mean, it it's dominant. How
+[35:48] are they you can you monetize that
+[35:50] audience?
+[35:51] >> In time, right? The first step is users
+[35:53] and then and then of course from there
+[35:55] you can go to monetization.
+[35:56] The thesis of Reddit is that community
+[36:00] is universal. Everybody has interests,
+[36:03] passions, things they're going through,
+[36:05] and that's what Reddit is for. It's just
+[36:08] part of the human experience. And so,
+[36:10] when we say Reddit is the most human
+[36:11] platform on the internet, it's because
+[36:13] it really maps to what being a human is
+[36:15] all about.
+[36:16] >> Well, it's I usually don't do this, but
+[36:17] I I urge people to go to it. Did they
+[36:19] people need affinity in world who are
+[36:21] alone? It's almost as if it is a
+[36:23] designed to make it so when people are
+[36:25] alone, they don't do well in life. And
+[36:27] we know that that can lead to the wrong
+[36:28] consequences. Reddit is a lifesaver for
+[36:31] a lot of people.
+[36:32] >> So, loneliness is an epidemic.
+[36:33] >> Yes.
+[36:34] >> And
+[36:34] >> You said it, not me. I was hoping you'd
+[36:35] say it.
+[36:36] >> And the the purpose of the internet, the
+[36:38] founding principle of the internet is to
+[36:39] connect people.
+[36:40] >> Yes.
+[36:40] >> And that And we were born of the early
+[36:42] internet. And so, that's our
+[36:43] perspective.
+[36:44] >> And you're still doing it. And the
+[36:45] numbers say you're doing it better than
+[36:47] ever. And that's Steve Huffman, he's
+[36:48] co-founder and CEO of Reddit, rddt.
+[36:52] Mad Money's back in a minute.
+[36:54] >> Coming up, you've got questions,
+[36:56] Cramer's got the answers. Get charged up
+[36:59] for a fast fire lightning round. Next.
+[37:12] >> It is time. It's time for the lightning
+[37:14] round,
+[37:21] And then the lightning round is over.
+[37:23] Are you ready, Steve? All right, time
+[37:25] for the lightning round. Cramer is mine.
+[37:26] Let's start with Devony Carboni. Devony.
+[37:31] >> Everything in your life is service. Hey,
+[37:33] listen, I've got a stock that I'm in at
+[37:35] recently for my kids' custodial account.
+[37:37] I'm down 10%. Should I buy more or move
+[37:40] on on OKLO?
+[37:42] >> No. No, you don't want to do that. It's
+[37:44] really speculative. I think you have
+[37:45] enough. I I think that [music] the
+[37:47] problem with OKLO is it's it's just too
+[37:49] wild a trader. You can own it for a
+[37:50] while. Don't buy any more. Let's go to
+[37:53] Tim in Virginia, please. Tim.
+[37:56] >> Hey, Mr. Cramer. Or should I call you
+[37:59] the Oracle of Mad Money?
+[38:01] >> I'll take that.
+[38:01] >> I'm reading about the Oracle. I'm
+[38:04] reading about your friend, the Oracle of
+[38:05] Omaha, Warren Buffett, who owns has long
+[38:09] owned agricultural productive
+[38:12] agricultural farmland. So, I looked into
+[38:15] it and found out there are agricultural
+[38:17] REITs, or real estate investment trusts.
+[38:20] And I saw one which is Gladstone Land
+[38:24] >> Yeah, I'm going to look at that from
+[38:26] time [music] to time. I mean, it's a
+[38:27] little guy who acquires farmland. To me,
+[38:30] I you know what? I I want growth. I
+[38:32] don't think that they have growth. I I
+[38:33] I'm sorry. I'm not going to go there.
+[38:35] >> [music]
+[38:35] >> Got to run in Tennessee. Ron.
+[38:40] Ron.
+[38:42] >> [music]
+[38:46] >> Ron, go ahead.
+[38:50] Ron's not there.
+[38:52] Okay, I'm going to go to to Norman,
+[38:54] please. Norman in Virginia.
+[38:56] >> [music]
+[38:57] >> Thank you, Jim. Booyah to you and thank
+[39:00] you for your valuable insight.
+[39:02] >> Oh, thanks a lot. I appreciate that.
+[39:04] >> Yeah.
+[39:05] Right. My
+[39:06] the stock I'm interested in has taken a
+[39:09] tumble
+[39:11] over the last couple of months and
+[39:12] [music] it's ASTS.
+[39:15] >> Okay, I like space. I like this one. I I
+[39:18] like I've got to tell you, I think
+[39:20] >> [music]
+[39:20] >> I think there's a lot to recommend for
+[39:22] speculating on space. And that's what
+[39:24] I've been recommending. Not a lot of
+[39:26] speculation away from that, but that one
+[39:28] I think works. And that, ladies and
+[39:30] gentlemen, is the conclusion of the
+[39:32] LIGHTNING ROUND.
+[39:34] >> THE LIGHTNING ROUND IS SPONSORED by
+[39:36] Charles Schwab.
+[39:39] Coming up, wondering how the Mad Money
+[39:41] team sorted through yesterday's deluge
+[39:43] of data? Cramer's [music] peeling back
+[39:46] the curtain to show you. Next.
+[39:57] >> As I wrote in How to Make Money in Any
+[39:59] Market, there are 40 weeks a year where
+[40:00] you can take your time and analyze your
+[40:02] stocks, figure out a game plan.
+[40:03] Basically, don't sweat the program. But
+[40:05] then there are another 12 weeks that are
+[40:07] sheer hell.
+[40:09] Three weeks every three months where we
+[40:11] endure the brunt of earning season.
+[40:16] >> The house of pain.
+[40:18] >> All my years in the business, I've been
+[40:19] able to read all the relevant conference
+[40:20] calls and make considered judgments
+[40:22] pretty much every night. Not last night
+[40:24] though. This time I studied until 11:00
+[40:25] p.m. and then got up at 4:00 a.m. and I
+[40:27] still came in behind the eight ball. And
+[40:29] let me tell you something, that's
+[40:30] ridiculous. For crying out loud, the
+[40:32] idea that you could have Alphabet,
+[40:34] Amazon, Meta, and Microsoft all
+[40:35] reporting the same night is insane.
+[40:37] There are no other companies So it's
+[40:39] like there are no other companies
+[40:40] reporting, but there are many. Would it
+[40:42] kill one or two of them to pick a
+[40:43] different day? Tonight I want to give
+[40:45] you a little snapshot of the 12 hours of
+[40:46] hell from last night's reports to when I
+[40:48] woke up and got on the air this morning.
+[40:50] First of all, we have our cheat sheets
+[40:52] for the biggest companies. We know what
+[40:53] we're looking for. We know what we have
+[40:54] to see. When it comes to the big four
+[40:56] techs, I have an elaborate one, but it's
+[40:58] never enough. Never. For big important
+[41:00] stocks, I do something that most don't.
+[41:02] I don't look at the after-hours trading.
+[41:04] It's so often wrong, it gets in your
+[41:06] head. Apple was way wrong tonight. You
+[41:08] have to steel yourself because almost
+[41:10] every company except the real stinkers
+[41:11] will tell you that everything's better
+[41:12] than expected. As you know from our
+[41:15] previous piece, the fulcrum, as I like
+[41:16] to call it, was capital expenditures. I
+[41:18] made up my mind that I'd be willing to
+[41:20] excuse heavy spending if these companies
+[41:21] had a line of sight to profitability.
+[41:24] That meant right from the get-go that I
+[41:25] liked Amazon and Alphabet as they seemed
+[41:28] to have so much business that their
+[41:29] spending was necessary in order to keep
+[41:31] up with the demand. That's exactly what
+[41:32] Nvidia's Jensen Huang has told us many,
+[41:34] many times. I then checked down my
+[41:37] football to see the charts. Amazon was
+[41:39] very extended and going parabolic. You
+[41:41] know I don't like to buy parabolas.
+[41:43] Alphabet was ripe to go higher, easy
+[41:45] peasy. Meta was easy too, but in the
+[41:47] wrong way. They needed to spend, they
+[41:48] had no line of sight. So I knew that the
+[41:50] stock would be in the penalty box.
+[41:52] Microsoft was the hardest. Good numbers
+[41:53] from Azure, the cloud business, but a
+[41:55] lot of question marks about software
+[41:57] that might be disrupted by AI without
+[41:58] enough to make up for it. And I wasn't
+[42:00] really buying the Copilot's doing all
+[42:02] that well, but well,
+[42:04] neither was the market. When you do this
+[42:06] kind of work, you discover nuggets.
+[42:07] Every company talked about the component
+[42:09] cost. That means still one more day of
+[42:11] up for Seagate, which had just reported
+[42:13] a terrific quarter. Along with Western
+[42:14] Digital, SanDisk, those stocks though
+[42:16] are really overextended for me. They're
+[42:18] way too far parabolic. I say sell, sell,
+[42:21] sell. When I saw the fruits of my
+[42:23] judgment this AM, I felt great about my
+[42:25] vision even as the trust owns Meta and
+[42:27] and and Microsoft. They've been good to
+[42:29] me over the years though. I'm not going
+[42:31] to bolt now. There was still plenty of
+[42:33] news to kick myself. First, the stock
+[42:36] I've liked forever, Caterpillar, blew
+[42:37] away the numbers. Did I own Cat? No.
+[42:39] Then Cardinal Health, a company that I
+[42:41] repeatedly come on Mad Money telling a
+[42:42] terrific story, just imploded. Did I
+[42:45] tell people to buy it? Well, it's in my
+[42:46] trust. Ouch. Got to put that one behind,
+[42:49] but only after further investigation.
+[42:51] Meanwhile, I was dreading Lilly because
+[42:52] a multitude of analysts had said that
+[42:54] its new GLP-1 pill wasn't selling well.
+[42:56] They were wrong. The launch has gone
+[42:58] well. No time to celebrate though. I had
+[43:01] to get on TV. I needed everything about
+[43:03] the big four tech companies in front of
+[43:04] me. But how did I know how to do it?
+[43:06] Well, I turned to the new guy, Zack
+[43:07] Hodgkinson. He had the answer. He said,
+[43:09] "You put all the key indicators and
+[43:11] numbers into ChatGPT and out comes
+[43:14] this."
+[43:16] I mean, I couldn't believe it. This is
+[43:18] AI. Maybe AI actually knows something.
+[43:21] I'm not fighting it. And with that, I
+[43:23] knew I would have the edge. All
+[43:24] together, I had a batting average about
+[43:26] 800 this time save Cardinal Health. It
+[43:28] was a good outing, but the week's not
+[43:29] over and neither's the pain. I got to
+[43:31] get more of these. I like to say there's
+[43:33] always a bull market somewhere. Poncho
+[43:34] and Lefty, just for your information,
+[43:35] I'll do better.
+[43:37] See you tomorrow.
+[43:41] >> All opinions expressed by Jim Cramer on
+[43:42] this podcast are solely Cramer's
+[43:44] opinions and do not reflect the opinions
+[43:45] of CNBC or its parent company or
+[43:47] affiliates and may have been previously
+[43:48] disseminated by Cramer on television,
+[43:49] radio, internet, or another medium. You
+[43:51] should not treat any opinion expressed
+[43:53] by Cramer as a specific inducement to
+[43:54] make a particular investment or follow a
+[43:56] particular strategy, but only as an
+[43:58] expression of his opinion. Cramer's
+[43:59] opinions are based upon information he
+[44:01] considers reliable, but neither CNBC nor
+[44:03] its affiliates and/or subsidiaries
+[44:04] warrant its completeness or accuracy and
+[44:06] it should not be relied upon as such. To
+[44:08] view the full Mad Money disclaimer,
+[44:09] please visit
+[44:09] cnbc.com/madmoneydisclaimer.

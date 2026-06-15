@@ -1,0 +1,1274 @@
+[0:01] My mission is simple, to make you money.
+[0:04] I'm here to level the playing field for
+[0:06] all investors. There's always a bull
+[0:09] market somewhere, and I promise to help
+[0:10] you find it. Mad Money starts now.
+[0:18] HEY, I'M CRAMER. WELCOME TO MAD MONEY.
+[0:20] Welcome to Cramerica. All of you my
+[0:22] friends, I'm just trying to make you a
+[0:24] little bit of money here. My job not
+[0:26] just entertain, but to educate and do
+[0:28] some really serious teaching tonight.
+[0:30] So, call me at 1-800-743-CNBC.
+[0:33] You can tweet me at Jim Cramer.
+[0:34] We've got so many narratives going
+[0:37] thanks to this war
+[0:39] that I think trying to trade off it may
+[0:41] be a waste of time and a waste of money.
+[0:46] The two most salient oppositional themes
+[0:49] were sending the 82nd Airborne to the
+[0:50] Middle East to defend our allies and
+[0:52] perhaps take over Iran's oil fields, but
+[0:55] as President Trump said later in the
+[0:56] day, the US has won the war, the
+[0:58] negotiations are going well, and Iran
+[1:00] will never build nuclear weapons.
+[1:01] Reports of the victory may be premature,
+[1:03] or are we sending troops to enforce the
+[1:06] peace? THAT CONTRADICTION PRODUCED A
+[1:09] WILD DAY.
+[1:11] With the Dow ultimately dipped 84
+[1:13] points, was up a little bit. The S&P
+[1:14] declined 0.37%. Nasdaq lost 0.84%.
+[1:18] This was the day where the oil stocks
+[1:20] went insanely high off that 82nd
+[1:23] Airborne deployment, while the consumer
+[1:25] and financial stocks soared, too, on
+[1:28] Trump's statement that the war may be
+[1:29] won. It's a very rare day when you see
+[1:32] stocks like Exxon and Chevron scream
+[1:34] higher along with JP Morgan and Walmart,
+[1:37] which both moved up 1%. The confusion
+[1:39] extends to commodity stocks. Dow is
+[1:41] LyondellBasell. You stop going up
+[1:43] already. They're soaring because of how
+[1:46] much polyethylene supply has been lost.
+[1:48] Talk about being in the weeds. But
+[1:49] because the whole time the Iranians have
+[1:51] been supposedly losing the war, they
+[1:53] keep lobbing the missiles that we didn't
+[1:54] even know they had at our friends in the
+[1:56] Gulf.
+[1:57] Honestly, it has become impossible to
+[1:59] explain how these forces can exist at
+[2:01] the same time except that one group of
+[2:02] buyers must be wrong.
+[2:05] But then again, it's impossible to
+[2:07] comprehend how we could be bogged down
+[2:08] in the fog of war with no real hope of
+[2:10] extrication at the same time that we've
+[2:12] won the war and our non-Iranian leaders
+[2:14] have given up what they wanted to be,
+[2:16] which is a nuclear power.
+[2:18] But tonight, I want to talk about a
+[2:19] different battle, one that's been
+[2:20] playing out for much of the year, sub
+[2:22] rosa, although it doesn't get the
+[2:24] attention it deserves because the
+[2:25] protagonist
+[2:26] they're not public companies.
+[2:28] Their opponents are companies that a few
+[2:30] years ago were some of the most revered
+[2:31] businesses on Earth. The enterprise
+[2:33] software companies I'm talking about
+[2:34] Microsoft, Salesforce, ServiceNow,
+[2:35] Workday, Zscaler, Datadog,
+[2:38] Atlassian, Adobe. You may know these
+[2:41] stocks because they all find themselves
+[2:43] in the charnel the house of pain.
+[2:46] But anyone who's been in this business
+[2:48] for the last decade knows that I just
+[2:49] recited a list of some of the most
+[2:50] exalted winners of all time. These are
+[2:53] enterprise software companies. They make
+[2:55] programs that make your businesses
+[2:56] better and more efficient. I've used
+[2:58] them, maybe you've used them. However,
+[3:00] they do so at a high cost that their
+[3:02] clients have been rebelling against.
+[3:04] Who's chipping away at the value?
+[3:06] Private companies like Databricks, you
+[3:07] might have seen them on this afternoon,
+[3:08] very impressive, Anthropic, and perhaps
+[3:10] most important,
+[3:12] OpenAI.
+[3:14] These are AI, artificial intelligence,
+[3:16] plays that are working often in
+[3:17] conjunction with Nvidia, the king of
+[3:19] artificial intelligence hardware.
+[3:22] And if you ask those businesses who are
+[3:24] who are fleeing from what I call
+[3:26] old-fashioned software, these AI
+[3:28] companies aren't the protagonists, they
+[3:31] are the predators.
+[3:36] Laying to waste some of the greatest
+[3:37] stocks I've ever known.
+[3:39] I know my trust owes a couple of them we
+[3:41] know we had the ecstasy, now we're going
+[3:43] full bore agony.
+[3:45] It's not just private companies that are
+[3:46] benefiting here. These companies that
+[3:47] make data center plumbing, they do a lot
+[3:49] of the wiring, a lot of the fiber,
+[3:51] they're doing incredibly well. The
+[3:52] companies that make the machines that
+[3:54] can manufacture semiconductors, we often
+[3:55] talk about Applied Materials. Wow.
+[3:58] Still, as confusing as it might be to
+[3:59] see the oil stocks roaring as the
+[4:01] president declares the war won, you
+[4:02] think they'd be plummeting. While he
+[4:04] also readies the 82nd Airborne for
+[4:06] battle, I know it's incredibly difficult
+[4:08] to understand who are these upstarts
+[4:09] that are upending the enterprise
+[4:10] software regime. Even as most of these
+[4:13] old-school software plays are still
+[4:14] making a lot of money.
+[4:16] And that's why I'm thrilled tonight that
+[4:17] we have Sarah Friar on the show. Sarah's
+[4:19] the chief financial officer of Open AI.
+[4:21] That's the company behind Chat GPT.
+[4:23] That's uh one of the fastest growing
+[4:24] companies in history. Open AI and its
+[4:27] chief competitor Anthropic are producing
+[4:29] platforms that make it so anybody can
+[4:31] write a software program, even me.
+[4:33] Though I look positively upon these
+[4:35] companies because of their breathtaking
+[4:36] growth, but I, like you, might not
+[4:37] understand how they do what they do. How
+[4:40] they became overnight behemoths that
+[4:41] they've been able to take on the biggest
+[4:43] incumbents, including oddly companies
+[4:45] that have invested in them, like
+[4:46] Microsoft, and potentially Amazon. I
+[4:49] know a lot of these companies uh but not
+[4:51] enough to explain the destruction of
+[4:53] what's happening in an effective way.
+[4:55] Tonight, that ends. We find out. Look, I
+[4:57] don't want to be in a recession what's
+[4:58] going on in the Persian Gulf. We want to
+[4:59] make sense of a war that consistently
+[5:01] sends the price of oil higher, even as
+[5:03] the president keeps saying that we've
+[5:04] won or uh we're about to win or the
+[5:07] Iranians want to negotiate, but we don't
+[5:09] know who the Iranians are that want to
+[5:11] do negotiating. However, I'm reluctant
+[5:13] to dwell too much on it because unless
+[5:15] you're part of the administration, it's
+[5:16] really impossible to figure out the
+[5:17] reality of the situation. After
+[5:19] listening to the president's words this
+[5:20] afternoon, every time it sounds like the
+[5:22] war might be over, we find that more
+[5:24] missiles and more drones are headed at
+[5:25] our allies in the Middle East. And
+[5:27] Iran's launch just I don't know, don't
+[5:29] really jive with words of peace. Nor is
+[5:31] the addition of the 82nd mix. It's
+[5:33] difficult to trade in a world where in
+[5:34] the morning we are beating our
+[5:36] plowshares into swords and in the
+[5:38] afternoon we beat them right back into
+[5:39] plowshares. Especially since the oil
+[5:41] shock means we have way short of
+[5:42] fertilizer. I think the war will sort
+[5:44] itself out, but it's pretty clear that
+[5:46] someone, either those buying those
+[5:47] financials, the retailers, or the buyers
+[5:49] of the energy, one of them is dead
+[5:51] wrong. Both groups can't possibly be
+[5:54] right, or at least they both shouldn't
+[5:55] be right. Bottom line, when you can't
+[5:58] figure out the difference, you know what
+[5:59] you do? You sit on your darn hands, you
+[6:01] watch the corners of the software
+[6:02] stocks, and you hope that someone can
+[6:04] explain the wealth that's being created
+[6:05] in AI, and not just the wealth that's
+[6:07] being destroyed in enterprise software.
+[6:09] Oh, and to bet on which side is wrong?
+[6:12] Fools, Aaron. We need to think of buying
+[6:14] stocks as investing in companies. When
+[6:16] you do that, even if you're short-term
+[6:18] wrong, you can buy more, make yourself
+[6:20] long-term right. David in Florida,
+[6:23] David.
+[6:25] Hey, yeah, Jim. How are you? Oh, chief,
+[6:27] I'm doing well. How about you?
+[6:30] Good, good, good. Listen, President
+[6:31] Trump said yesterday he awarded huge
+[6:33] orders to Lockheed Martin. They say they
+[6:35] have a big backlog. It's down 15% in 3
+[6:37] weeks. Is it a buy? Lockheed? Oh, no. I
+[6:40] Lockheed is if the war's over,
+[6:43] we're not going to want to own Lockheed.
+[6:45] The president seemed to indicate the
+[6:46] war's kind of over. So, let's leave it
+[6:47] at that. All right, this is a tough
+[6:49] environment to trade in, so it's best to
+[6:51] sit on your hands and ride this out. I
+[6:54] mean it. Just watch. Mad Money tonight,
+[6:56] OpenAI helped usher in the AI era with
+[6:58] its launch of ChatGPT back in 2022.
+[7:01] Tonight, I'm getting an update on where
+[7:02] we're headed in the technological
+[7:03] revolution. And we're going to get right
+[7:05] from the company CFO. Investors are
+[7:06] getting a fresh way to access the world
+[7:08] of venture capital through uh new funds
+[7:11] from Robinhood and Fundrise. But does
+[7:13] that mean we should be a buyer? I'll
+[7:15] share where I come down. Then, I'm
+[7:17] giving you my take on the continuing
+[7:18] debate over AI's impact on the labor
+[7:20] market, good, bad, and different. Stay
+[7:22] with Cramer.
+[7:29] Don't miss a second of Mad Money. Follow
+[7:31] @JimCramer on X. Have a question? Tweet
+[7:34] Cramer. #MadMentions.
+[7:37] Send Jim an email to madmoney@cnbc.com,
+[7:40] or give us a call at 1-800-743-CNBC.
+[7:45] Miss something? Head to
+[7:46] madmoney.cnbc.com.
+[7:59] As I promised at the top of the show,
+[8:00] we're taking a closer look at the pace
+[8:01] of the artificial intelligence
+[8:03] revolution. OpenAI, the company behind
+[8:05] ChatGPT, 900 million weekly active
+[8:09] users. Over 50 million subscribers.
+[8:12] Founded just over 10 years ago. This is
+[8:13] already one of the most valuable
+[8:14] companies in the world. It's not even
+[8:16] publicly traded yet. Last month, OpenAI
+[8:18] announced that it had raised $110
+[8:20] billion from Amazon, Nvidia, and
+[8:21] SoftBank at an $840 billion post-money
+[8:25] valuation. Tonight, the company's going
+[8:27] to announce some new investors. It's
+[8:29] going to be an additional 10 billion
+[8:30] coming in. This one's expected to come
+[8:32] public later this year, early next year,
+[8:34] but we're going to find out. Let's take
+[8:35] a closer look.
+[8:36] And I am excited about this, okay? With
+[8:39] Sarah Friar. She's the CFO of OpenAI,
+[8:41] formerly CEO of Nextdoor, CFO of Square.
+[8:44] And I would like to say a friend of the
+[8:45] show. Fair enough? Very fair, Jim. Good
+[8:47] to see you. All right. Well, Sarah,
+[8:49] we've got to get right to it. You have
+[8:51] just completed what I regard as the most
+[8:52] successful fundraising round in history.
+[8:56] Give us a please a quick update of how
+[8:58] it came together and some new investors
+[9:00] that nobody knows about this very
+[9:01] evening. Yeah, absolutely. So, Jim,
+[9:03] yeah, a historic round.
+[9:05] Um we're going to raise actually north
+[9:06] of $120 billion. As we announced a few
+[9:10] weeks back, strategics, Nvidia,
+[9:11] SoftBank, and of course Amazon. But now
+[9:14] we're coming with our financial
+[9:15] investors. And what I'm really pleased
+[9:17] about is we raised money all around the
+[9:19] ecosystem. A16Z in kind of venture,
+[9:22] late-stage venture, TPG in PE, MGX on
+[9:25] the sovereign side, and then these kind
+[9:27] of blue-chip um mutual type complexes
+[9:30] like T. Rowe and D. Shaw Ventures. And
+[9:32] what I really wanted to show with the
+[9:33] round is it didn't matter where you
+[9:35] went, people really believed in this AI
+[9:38] revolution and they wanted to put their
+[9:40] money to work behind it. Okay, so I
+[9:42] would do want to know what's it like to
+[9:44] work at the fastest growing company on
+[9:45] Earth and to really kind of handle the
+[9:47] finances of the largest deal ever. Well,
+[9:50] I mean, first it's a privilege. I mean,
+[9:52] it's amazing to get to work every day
+[9:54] with the best researchers on the planet
+[9:56] doing some of the most extraordinary
+[9:58] things. It's also complex. We're always
+[10:01] doing a lot and shout out to my finance
+[10:04] team. We do it and we do it with our
+[10:06] technology, which is actually the thing
+[10:07] that makes me most excited. We just did
+[10:09] a hackathon last week and seeing our own
+[10:11] agents starting to work with us was
+[10:13] incredible. And then beyond that, I get
+[10:15] to work with amazing customers, amazing
+[10:17] investors and so I feel pretty lucky
+[10:19] with what I get to do in life. What I
+[10:21] want you to do is help our viewers
+[10:23] tonight. They know you for the most part
+[10:25] as chat GPT.
+[10:27] I now find when I listen to you and
+[10:29] listen to you talk and see you that
+[10:32] that's just a sliver of what they get if
+[10:35] they do get a share one day of this
+[10:38] great company. Yes, so today we really
+[10:40] serve both the consumer and the
+[10:42] enterprise. So revenue about 60%
+[10:45] consumer, 40% enterprise, which is I
+[10:47] think sometimes people don't see the
+[10:49] symbiosis between the two. Right, we did
+[10:51] start with that moment where chat GPT
+[10:54] took the world by storm. That's what why
+[10:56] we got to 900 million weekly active, the
+[10:59] fastest consumer app ever to do that and
+[11:02] 50 million people already subscribing
+[11:04] because they see the benefit of more
+[11:05] intelligence. But importantly, today we
+[11:08] also are 40% of revenue from enterprises
+[11:10] and that's actually been growing faster.
+[11:12] I think by the end of this year we'll be
+[11:13] more 50/50. Enterprises came originally
+[11:16] for chat GPT for the enterprise, right?
+[11:18] Their their employees were bringing it
+[11:20] to work so they had to figure out how to
+[11:22] do it in an enterprise setting, but
+[11:24] they're really changing to wanting AI to
+[11:26] transform their entire business now.
+[11:29] It's no longer for
+[11:30] intelligence in people's hands. It's
+[11:32] like I need to become AI native, and
+[11:35] that's why we launched something called
+[11:36] Frontier earlier this year, and that's
+[11:38] how we're really digging in with
+[11:40] enterprises today.
+[11:41] >> Well, you know, you list these great
+[11:42] investors, and then you talk about
+[11:43] Frontier, some other products. It's a
+[11:45] very uh curious mix here. You've got
+[11:48] some investors who might regard as
+[11:50] competitors of other investors. Some of
+[11:52] the investors seem like they're almost
+[11:54] competitors of yours. How do you How do
+[11:56] you juggle the mix? Um so, the investor
+[11:58] from Something I should have said right
+[12:00] up front, too, is part of this round,
+[12:01] Microsoft is coming in to invest. I
+[12:04] think that's where you're going with
+[12:05] that.
+[12:05] >> already have a pretty big position.
+[12:07] >> They are. And so, Microsoft's actually
+[12:08] an incredible partner to us. Satya was
+[12:10] there early. I give him so much kudos.
+[12:13] Every time I speak, saw this.
+[12:15] Um they have helped distribute it our
+[12:17] stateless API into a lot of enterprise
+[12:20] customers, and of course, they use our
+[12:21] technology to build a lot of theirs,
+[12:23] like Copilot, for example. All premise
+[12:25] to top of the the IP that OpenAI is
+[12:28] creating. Um but of course, now we're
+[12:30] starting to work with others. Amazon is
+[12:32] another great example.
+[12:34] Um $50 $50 billion into this round. I
+[12:38] can't tell you how many times
+[12:40] I have said million like a 600 because
+[12:43] the numbers here are so different from
+[12:45] what anyone's used to.
+[12:46] >> It It's this new era. I mean, we need
+[12:48] investment dollars like you've never
+[12:50] seen to buy compute. But back to Amazon,
+[12:52] Amazon, we're going to market now with
+[12:54] our stateful runtime product. And just
+[12:57] to kind of talk in English to people,
+[12:59] stateful means we're going to bring
+[13:00] context with us. It brings the memory.
+[13:02] It knows what you've worked on before,
+[13:05] maybe your style of writing, your style
+[13:06] of coding. And so, that is really what's
+[13:08] going to underpin this Frontier
+[13:10] deployment into enterprises. So, there's
+[13:12] two huge behemoths that we now get to
+[13:15] work alongside. And of course, there's
+[13:17] many, many other partners in our
+[13:18] ecosystem, like your good friend Jensen
+[13:20] at Nvidia.
+[13:21] >> Well, let's talk about Jensen. He We
+[13:22] just came back from GTC conference, and
+[13:24] he's just constantly talking about the
+[13:26] need for compute. You too have a giant
+[13:30] need for compute. We do. And this is
+[13:32] something I feel Sam before the holidays
+[13:35] right put out a big number Sam Altman
+[13:37] and uh the world kind of in some ways
+[13:39] rolled its eyes and now I think Sam is
+[13:41] looking completely
+[13:43] >> is the 1.4 trillion or the 600 billion
+[13:46] before 2030?
+[13:47] >> of compute that we need. We are going up
+[13:49] I'll quote Greg Brockman actually our
+[13:52] co-founder. We're going up a vertical
+[13:54] wall of demand right now because what's
+[13:56] happening
+[13:56] >> wall of demand. because we're shifting
+[13:59] into this agentic world. So Jensen tells
+[14:01] this story well. ChatGPT was a simple
+[14:04] right you pull tokens to answer. Then
+[14:06] you got to the point where you had
+[14:07] reasoning. So now you almost had a
+[14:09] multiplicative event happen. So more
+[14:12] tokens. Now you've got agents. So for
+[14:14] example a developer at OpenAI using
+[14:16] Codex might no longer be hands-on
+[14:19] keyboard coding instead they're managing
+[14:21] the work of two five 10 agents. So
+[14:25] they're doing things at multiples of the
+[14:27] speed. They're able to do things far
+[14:29] more complex and they're doing things
+[14:31] developers you know all the QA testing
+[14:33] all of the documentation things
+[14:34] developers never really liked you can
+[14:36] now do with an agent and that's causing
+[14:39] a massive need for compute. We don't
+[14:41] have enough of it at the moment. Well
+[14:43] when I listen to you I get hopeful and
+[14:45] I'll tell you why. There are a lot of
+[14:46] people who say you take these these
+[14:48] companies they come in and you fire 50%
+[14:51] of the people and you're doing well and
+[14:53] including an institution that you were
+[14:54] affiliated with at one point Square and
+[14:57] now Block they they used it as a
+[15:01] you know a kind of machete to the staff.
+[15:03] So 10,000 goes down to 6,000. I'm
+[15:06] hearing you saying force multiplier. One
+[15:08] person many agents get more people in
+[15:11] make more money. Is that realistic? Yeah
+[15:13] I think it's top and bottom line
+[15:15] performers. You know my heart goes out
+[15:17] to folks at Square. I probably worked
+[15:19] with them but I am optimistic. I
+[15:21] couldn't work in tech if I wasn't. So
+[15:23] when I'm talking to customers and I've
+[15:25] been to see three or four just today in
+[15:27] the financial services space, they're
+[15:29] saying, "Help me be more efficient in
+[15:31] operational areas, but help me also find
+[15:34] new revenue streams." And so we see that
+[15:37] over and over again. I'll actually talk
+[15:38] about Walmart cuz you know I know
+[15:40] Walmart.
+[15:41] Walmart is using a lot of AI for coding,
+[15:44] for helping associates, for helping
+[15:46] merchandisers, but also using AI to get
+[15:48] out there and help consumers find
+[15:51] exactly what they're looking for on
+[15:53] Walmart. That creates a bigger basket,
+[15:55] which means more revenue. More revenue
+[15:57] means there's more ability to invest in
+[15:59] the business to do things like pick up
+[16:01] and delivery. And so it's actually been
+[16:03] a force multiplier of both the business
+[16:06] and the types of businesses that we're
+[16:07] in. Now the kinds of things you're
+[16:09] talking about, I think have very
+[16:12] profitable revenue streams. I like the
+[16:14] consumer. I've always felt it's great
+[16:15] the consumer can have access to ChatGPT.
+[16:18] Many of the consumers are watching say,
+[16:19] "Boy, that doesn't cost me any money.
+[16:20] It's terrific." The things you're
+[16:21] talking about, Walmart, that's a
+[16:23] profitable piece of business. What does
+[16:25] profitability look like a year two,
+[16:27] three from where we are? So even on the
+[16:29] consumer side, I would start there
+[16:31] because many consumers do pay
+[16:32] subscriptions, right? 50 million of them
+[16:34] in fact. Because what they see is when
+[16:37] they pay a little bit more, they get
+[16:38] more intelligence. They get access to
+[16:40] that real frontier model. They get
+[16:42] access to more features. And so our free
+[16:44] users ask about seven things per day.
+[16:47] Our next highest tier, go, ask about
+[16:50] double. When you get all the way up to
+[16:52] pro, it's about 11x. So more
+[16:54] intelligence, more usage. My example is
+[16:56] always like when I first got a flip
+[16:57] phone, you would never persuaded me I
+[16:59] would have paid 200, 300 bucks a month
+[17:01] for it. And I do now because that phone
+[17:03] does everything. That's what AI is going
+[17:05] to do on the consumer side. Great
+[17:06] margins. And ads are going to make it
+[17:09] more profitable. But enterprise
+[17:10] business, as you note, is just like an
+[17:13] enterprise business. It's a very
+[17:14] profitable business at scale. And that's
+[17:16] how we will build a sustainable business
+[17:18] model. I go I'm on ChatGPT, I don't
+[17:21] know, 20 times a day. Thank you for
+[17:23] telling me I should be. And I've got the
+[17:24] higher tier, all right? Um and I
+[17:27] wouldn't mind when I look up something
+[17:28] seeing if there was a way I could buy
+[17:31] one of the things that I've examined. A
+[17:33] a targeted ad, I wouldn't I just like I
+[17:35] don't mind them in in Insta, give them
+[17:38] to me. Yeah, so there's a couple of
+[17:39] things with ads, though. We want to make
+[17:41] sure, though, as you do that, your North
+[17:42] Star is the model gave you the best
+[17:44] result, not the paid for result.
+[17:46] >> Right. And we have every and people have
+[17:48] just spoiled that, so you're going to
+[17:49] have a lot to prove.
+[17:50] >> Variant Well, actually, one thing you'll
+[17:52] notice when you see your first ad, if
+[17:54] you ask ChatGPT, "Tell me about this
+[17:56] ad," it will actually tell you back it
+[17:57] can't see the ad. So, it's one way to
+[18:00] keep building trust. And it's true. It
+[18:02] cannot. Um now, uh to your point about
+[18:06] seeing I think ads can be good content
+[18:08] done well, but we will only offer ads in
+[18:11] our free and our go tier. So, if you're
+[18:13] on your subscription, which I know you
+[18:15] are, Jim, you will be ad-free. But I'm
+[18:17] excited to see the ad business build,
+[18:19] actually. So, uh I do want to know, and
+[18:22] I know we're going to be uh taking a
+[18:23] break soon, but will you please tell me
+[18:25] about uh Spud? And also in the context
+[18:28] of of Sora, which a lot of people liked,
+[18:30] but I guess uses too much compute. Yeah,
+[18:32] so on the Sora front first, um you know,
+[18:35] the company we're always looking at how
+[18:37] do we stay focused? Right, that is
+[18:39] actually, I feel, the number one role of
+[18:41] the CFO is focus and resource
+[18:43] allocation. Um many folks came and said,
+[18:46] "We don't have enough compute." We do
+[18:48] have new models coming out. I can
+[18:50] neither confirm nor deny the name, but
+[18:52] it seems like you're getting close.
+[18:54] Um in the April time frame, it's going
+[18:57] to drive even more agentic behavior, and
+[18:59] we just are facing a lack of compute.
+[19:01] So, we're having to make those really
+[19:03] difficult decisions. I've talked about
+[19:05] it to many investors. Often we hold back
+[19:06] models, we don't release features, and
+[19:09] this was an example of having to
+[19:10] prioritize. Doesn't mean we won't get
+[19:12] back into areas of creativity. It's not
+[19:14] a never, it's just a we have to make
+[19:17] hard choices. Understood. That is Sarah
+[19:20] Fryer, OpenAI CFO, and there will be
+[19:23] more to come. But you can have to come
+[19:25] back to that. Yeah, money's back here.
+[19:36] Sarah, I want to start with something
+[19:37] that doesn't get talked about enough.
+[19:38] Wunderman, amazing. This is something
+[19:41] that shouldn't be happening. You and I
+[19:43] were in the business for a long time.
+[19:44] Just talk about how incredible where we
+[19:47] are right now. Yeah, so it is
+[19:49] incredible. We are in the age of AI
+[19:51] heading towards AGI, and it does
+[19:54] absolutely blow my mind every single
+[19:56] day. If you look at the intelligence of
+[19:58] these models, I guess the pro is what
+[20:00] they can do in terms of innovation. We
+[20:02] think this year will be the year of
+[20:04] scientific breakthroughs, but there's
+[20:06] also a massive capability overhang,
+[20:08] right? In the other side, people,
+[20:10] enterprises, we're not using it to its
+[20:12] fullest potential. That said, when I go
+[20:14] into customers and I see BBVA deploying
+[20:17] 120,000 seats, when I see customers like
+[20:21] Lowe's using it on the shop floor with
+[20:24] their associates, I mean, these are the
+[20:25] moments where I just get this little
+[20:27] giddy moment. And I'll tell you my
+[20:29] favorite favorite. So, our agent for
+[20:31] Excel takes me back to my days of being
+[20:34] a lowly investment banker, and you spent
+[20:37] all night building the model, and I
+[20:39] literally did something the other day,
+[20:40] and it did something right in front of
+[20:42] my very eyes, and I I kind of laughed
+[20:45] out loud, which I realize most people on
+[20:47] your show are going to not know what I'm
+[20:49] talking about, but anyone who's ever
+[20:50] dealt with Excel will now know the
+[20:52] wonder of seeing an agent do it for you.
+[20:55] Now, talking about that,
+[20:57] put your equity analyst hat on. We are
+[20:59] seeing what some would say is the
+[21:01] destruction of a whole cohort, and
+[21:03] Adobe, maybe Microsoft, and Salesforce,
+[21:06] and Workday, and in Atlassian, speaking
+[21:08] of
+[21:09] making Excel. Uh
+[21:11] what the heck is happening here? It
+[21:13] isn't like you're taking direct aim at
+[21:15] them, but a lot of people just say, "I'm
+[21:18] scared that you are." They're company
+[21:20] Those companies are still profitable,
+[21:21] but as an equity analyst, I don't think
+[21:23] you could be recommending them.
+[21:25] It's the the software sector just writ
+[21:27] large. I I do think certain things have
+[21:29] changed. And all of the folks you just
+[21:31] mentioned are largely our customers, by
+[21:33] the way. And we're here to earn their
+[21:35] business and help them into this AI era.
+[21:37] I think a few things. On the top, I do
+[21:40] think the front door has changed for
+[21:41] software. It often had a lock-in because
+[21:44] it was more complicated. My my Bloomberg
+[21:46] machine, for example, was complicated.
+[21:49] So now you can do natural language,
+[21:50] which by the way, we think opens up
+[21:52] Bloomberg's market because many people
+[21:55] didn't want to have to learn that
+[21:56] language. And now Gen Z can learn how to
+[21:58] use the terminal.
+[21:59] >> don't know how to do If you don't know
+[22:00] have to code, you don't have to go to a
+[22:02] fancy school, you can just speak. I
+[22:04] mean, isn't this a democratizer? I never
+[22:06] hear that anymore.
+[22:07] >> It's incredible democratization of
+[22:09] access to everything. And then I think
+[22:11] for software companies on the back end,
+[22:13] the thing to think about is folks like
+[22:15] me that would have bought the whole
+[22:16] platform, and then maybe done the
+[22:18] upsell, I'm now building an agent that
+[22:20] often does something very particular to
+[22:22] my environment. But I do think they have
+[22:24] an incredible opportunity from here to
+[22:27] AI-ify themselves, just like every
+[22:29] company in the world is doing. And use
+[22:31] that to drive new products, new
+[22:33] interesting ways for their customers to
+[22:34] interact with them. But I think it's
+[22:36] hard. The market always finds a hard
+[22:38] time with uncertainty, so I think it's
+[22:39] just going to take time to work through
+[22:40] that.
+[22:41] >> Okay, I'm good. It's not doomsday from
+[22:42] your point of view. Now, let let's talk
+[22:44] about uh some controversial things,
+[22:46] admittedly. Working for the government,
+[22:48] working for the military. When someone
+[22:51] buys your product, do they have the
+[22:52] right to do what they'd like to it as
+[22:54] long as it's legal? I think Sam said
+[22:56] this really well at the Morgan Stanley
+[22:58] conference. So his point was I if you
+[23:01] believe in democracy and we live in an
+[23:03] amazing I I believe in a major amazing
+[23:06] country. I'm an immigrant here. I'm very
+[23:08] grateful and you believe in that
+[23:09] democracy. You have to believe that the
+[23:11] government gets to make that decision
+[23:14] not a private company. But we are living
+[23:16] in an age where technology has become
+[23:18] incredibly intelligent very fast. I
+[23:20] think we have tried to work hard to
+[23:22] create a framework with the Department
+[23:24] of War that ensures that we don't have
+[23:26] mass surveillance and there's no
+[23:28] autonomous weapon weaponry on the
+[23:29] battlefield. Those are our hard red
+[23:32] lines. But beyond that we recognize they
+[23:34] need to move forward with technology
+[23:37] that often in the moment is saving
+[23:39] people's lives, keeping us all safe and
+[23:41] they can't be asking a private company
+[23:43] what do you think in that moment?
+[23:45] Now
+[23:47] we have a government right now that is
+[23:49] really kind of laissez-faire when it
+[23:50] comes to what you do in other companies.
+[23:52] What happens if a new government comes
+[23:54] in and they want to start saying, "You
+[23:55] know what? This is hurting jobs.
+[23:58] These companies are too powerful. We got
+[23:59] to find a way to put them in their
+[24:01] place." What do you do? So first of all,
+[24:03] regardless of the government, we have to
+[24:05] build trust with everyone with the
+[24:07] general populace. And so I think that
+[24:09] there's a lot on us right now to tell
+[24:11] the stories of AI. The fact that it does
+[24:14] help, you know, the day-to-day that that
+[24:16] mom with a diabetic kid that's trying to
+[24:18] figure out what to cook for dinner
+[24:19] tonight.
+[24:20] >> need to see more than just funny
+[24:21] queries. We know for example 230 million
+[24:24] people every week ask chat GPT a health
+[24:27] and wellness question. 2/3 of American
+[24:29] doctors use chat GPT every day in their
+[24:31] work. Right? These are the trust
+[24:33] building stories. And then from there we
+[24:36] have to keep showing how the technology
+[24:38] can create breakthroughs in areas like
+[24:40] science and so on. And how are we going
+[24:42] to solve energy? I think it could be
+[24:44] with what chat GPT can do in areas like
+[24:46] chemistry and physics for example as
+[24:48] well. So a lot of it is building trust
+[24:51] because if a government walks in and
+[24:52] feels they just need to regulate, that
+[24:54] means we haven't done the work ahead of
+[24:56] time to democratize access and let
+[24:58] people see the outcome of embracing AI.
+[25:01] >> is a little more on you and I'm glad
+[25:03] that you see that. I know that you see
+[25:04] that and I hope that industry sees that.
+[25:06] Uh
+[25:07] there's a lot of talk about well what
+[25:08] happens with say Elon Musk, the
+[25:10] lawsuits, uh
+[25:12] with Microsoft, how do you work out that
+[25:15] that relationship? I listen to you and
+[25:17] you're an optimist and I've heard you in
+[25:20] many interviews say these things will
+[25:21] sort themselves out uh or that someone
+[25:24] sues all the time and we can't be
+[25:26] deterred. You have a forward way of
+[25:30] looking at things. Will that way get you
+[25:32] through?
+[25:33] I mean what I tell my team all the time,
+[25:35] control what you can control. And so
+[25:37] when we go back inside it's how do we
+[25:39] build the best frontier model working
+[25:41] with incredible partners? How do we
+[25:43] continue to get that rolled out into the
+[25:45] hands of consumers and enterprises so we
+[25:47] keep scaling faster than any company in
+[25:49] the world? How do we build a sustainable
+[25:51] business model that is free cash flow
+[25:53] positive? By when? By when?
+[25:56] >> not no date to give but to keep building
+[25:58] to that so we can afford all of the
+[26:01] compute and then ultimately to drive
+[26:03] access like what I just said,
+[26:04] democratization of access and maybe
+[26:06] democratization of ownership. Okay,
+[26:08] let's talk about that. I think a lot of
+[26:10] our viewers right now have heard what
+[26:12] you've had to say over two days and
+[26:13] think I want to own a share of this
+[26:17] amazing company. Why don't you give them
+[26:19] a chance in the year 2026 to do so? So a
+[26:23] couple of things. We are starting to
+[26:24] build um
+[26:26] that outcome. So as part of this big
+[26:28] fund raise that we just closed, the
+[26:30] north of 120 billion, we took our first
+[26:33] foray into retail and worked with three
+[26:35] banks.
+[26:36] Um it was unbelievable. We went out
+[26:38] looking to do about a billionish. We did
+[26:40] um over three.
+[26:42] Um the first day it got released into
+[26:45] one of the bank's systems. I will not
+[26:46] name the bank but there was so much
+[26:48] demand we took down their system for a
+[26:50] couple of hours.
+[26:52] >> down their system because there this
+[26:54] stage
+[26:54] >> people wanted to access the the deal.
+[26:57] And you know, at the end of that week,
+[26:59] all of those banks, this is the largest
+[27:01] private placement any of them have ever
+[27:03] done. So that is the first foray. I am
+[27:05] also looking at ways, watch the space
+[27:08] over the next couple of days ish, to
+[27:10] start to put things into the market,
+[27:12] maybe retail can get more access to. And
+[27:14] then over the long run, look, we have to
+[27:16] build a company that's ready to be a
+[27:18] public company. This round de-risks
+[27:21] somewhat because we could be ready but
+[27:23] the market might not be ready for us.
+[27:25] But I need to make sure that the company
+[27:26] is healthy and ready to face the public
+[27:28] markets. But we do view this as all part
+[27:31] of an access journey. Excellent. Now,
+[27:33] Open AI right now, we know the things
+[27:35] it's doing. How about the thing it could
+[27:36] be a Could you be a
+[27:38] a hardware company, too? Johnny, I We
+[27:40] haven't heard from him, but we Maybe I
+[27:43] hope he's still there because he's a
+[27:44] genius.
+[27:45] >> But I mean, the new form factors, ways
+[27:47] that we're going to be able to get chat
+[27:49] chat GPT? Yeah. Anything you can reveal?
+[27:52] We are very excited about the consumer
+[27:54] hardware. You will see more probably the
+[27:56] end of this year, and then actually be
+[27:58] able to touch and feel it early next. I
+[28:00] will tell you Johnny and team are, as
+[28:02] you point out, geniuses.
+[28:04] Really what we're leaning into is the
+[28:05] fact that AI today is multimodal by
+[28:08] nature, right? It We use it still in
+[28:11] this old form factor because we all use
+[28:13] phones, which teaches to talk with our
+[28:15] thumbs. But AI is it can visually see
+[28:18] things, it can hear us, we can speak to
+[28:20] it. Last week, I was in in South Korea,
+[28:23] in Seoul.
+[28:25] K-Beauty is a thing. My 16-year-old
+[28:27] niece wanted K-Beauty. I walked into the
+[28:30] store, all in Korean. 16 different
+[28:32] layers. Snip probably that, too. Snapped
+[28:35] photographs, asked ChatGPT what are the
+[28:37] top five things to buy, and then I asked
+[28:39] it to speak in Korean to the assistant
+[28:42] to find the five things, and then I
+[28:43] became aunt of the year. So, I mean,
+[28:46] these are just some of the things we
+[28:47] don't think about because of how phones
+[28:49] have taught us in the internet age to
+[28:51] interact. I am really excited by what
+[28:54] we're bringing on the consumer side. And
+[28:55] it will be a whole family. It's not just
+[28:57] like Gen 1, you're going to see a whole
+[28:59] family come together. I know you're you
+[29:01] may be the end of the year after that
+[29:03] and you're a great mom and you're a
+[29:04] terrific wife, but what is it like to be
+[29:08] the I think in many ways the public
+[29:10] face, I know you've got a great CEO, the
+[29:12] public face of what's going to be the
+[29:14] fastest growing and maybe most exciting
+[29:17] company on Earth. I mean, we have a
+[29:18] great team. I think you said it well.
+[29:20] Whether it's Sam, I think has done a
+[29:23] phenomenal job of frankly often having
+[29:26] to push the whole industry. And I really
+[29:29] respect him for doing that. But then the
+[29:32] team inside, our researchers are second
+[29:34] to none. We have folks like Feiji C Mao,
+[29:37] our CEO of applications, who might be
+[29:39] the most creative person I've ever
+[29:41] gotten to work with. And I could keep
+[29:43] listing everyone else, but it is just
+[29:45] being just again, as I said yesterday, a
+[29:48] privilege to get to work with this team.
+[29:50] I'm excited for what's coming and we
+[29:52] will always have a lot to talk to you
+[29:53] about, Jim. Thank you and I would
+[29:55] congratulate you except for that would
+[29:56] indicate that maybe you're not but a
+[29:59] little bit further.
+[30:01] Let's let's hold off for the deal and
+[30:03] for all the success I know you're going
+[30:05] to have and I hope great luck, too, cuz
+[30:07] you deserve it.
+[30:08] >> I appreciate it. Absolutely. That's
+[30:09] Sarah Friar, OpenAI CEO.
+[30:12] Coming up, is now the time for investors
+[30:15] to buy into the new venture capital
+[30:17] funds from Fundrise and Robinhood.
+[30:20] Cramer's breaking down whether it's time
+[30:21] to buy in. Next.
+[30:31] This Thursday, we saw another new
+[30:32] publicly traded venture capital fund hit
+[30:34] the market, the Fundrise Innovation
+[30:37] Fund, DCS. This comes in the heels of
+[30:40] the Robinhood Ventures Fund 1, which
+[30:42] debuted on March 6th without much
+[30:43] fanfare, frankly. The Robinhood
+[30:45] Adventures Fund dropped 16% on its first
+[30:47] day of trading, but it's rebounded since
+[30:49] then and now back above the price where
+[30:51] it came public. I talked about the
+[30:52] Robinhood Fund 2 weeks ago because I
+[30:54] think these things give you a a glimpse
+[30:56] into how public investors feel about
+[30:58] venture-backed, privately held tech
+[31:01] companies. At first, it didn't look like
+[31:03] there was much appetite for this stuff,
+[31:05] but then the Fundrise Innovation Fund
+[31:07] came public with a bang. After VCX uh uh
+[31:10] shares opened for trading at $31.25 last
+[31:14] Thursday, they climbed roughly 144% on
+[31:17] their first day to 76 and change. On
+[31:20] Friday, they rallied another 55% to 117
+[31:24] and change. Yesterday, VCX was up
+[31:27] another 63% to 192, and today it shot up
+[31:30] nearly 65% to 315.
+[31:35] That's a horse. The stock actually hit a
+[31:37] high of 320 this morning and was halted
+[31:39] for volatility a couple of times before
+[31:40] closing lower. But basically, in just
+[31:42] four sessions, this thing has climbed
+[31:44] over 1,000%.
+[31:46] So, what the heck's happening here? Why
+[31:48] is this Fundrise Fund doing so much
+[31:50] better than the Robinhood Adventures
+[31:51] Fund? Okay, some of that's simply
+[31:53] because the Fundrise Fund has a more
+[31:54] diverse and frankly superior mix of
+[31:56] investments. When it launched, the
+[31:58] Robinhood Fund only had seven holdings
+[31:59] and just one of them, Databricks, was
+[32:01] truly exciting. Since the launch,
+[32:03] they've announced another pair of
+[32:04] investments. The Fundrise Innovation
+[32:06] Fund, meanwhile, is invested in 28
+[32:09] different companies. And even if you
+[32:11] just look at the top 10 holdings, you
+[32:13] see a much more desirable list of
+[32:14] companies. More than 20% of the Fundrise
+[32:17] Fund is invested in Anthropic, which has
+[32:19] become the king of enterprise AI. They
+[32:21] also own Databricks, OpenAI, Anduril,
+[32:23] which is a defense tech startup, and
+[32:25] SpaceX. Overall, roughly 44% of the
+[32:28] Fundrise Fund is invested in AI
+[32:29] companies with another 22% data
+[32:32] infrastructure, while fintech and
+[32:34] aerospace represent about 5% apiece, all
+[32:36] hot areas, though. More importantly,
+[32:39] because the Fundrise Innovation Fund has
+[32:40] been around for years, they first got
+[32:42] into most of these holdings a long time
+[32:44] ago at relatively early fundraising
+[32:47] rounds. For example, both the Fundrise
+[32:49] and Robinhood Ventures, they own
+[32:51] Databricks. Databricks, but while
+[32:52] Robinhood first invested in the company
+[32:54] in late 2025, Fundrise it got in way
+[32:57] back in 2023 at a much lower valuation.
+[33:00] Same goes with Anthropic, with OpenAI,
+[33:02] Anduril. At the same time, the Fundrise
+[33:04] Innovation Fund has more of a track
+[33:06] record than the Robinhood Ventures Fund.
+[33:08] The Fundrise Innovation Fund launched in
+[33:10] July of 2022, and so far the returns
+[33:12] have been excellent. As of end of end of
+[33:14] January, this fund was up 84.4%
+[33:18] from its inception, which is basically
+[33:20] even with the S&P 500. But just in the
+[33:22] last year of performance, it was up 63%
+[33:25] trouncing the S&P 500 up 16% over the
+[33:28] same period. So for starters, the simple
+[33:30] reason Fundrise did better than
+[33:32] Robinhood Ventures is that it's a
+[33:34] superior investment vehicle. But having
+[33:36] said that, I think what's really
+[33:37] happening here is actually simpler. See,
+[33:40] there's one big difference between the
+[33:41] public launches of the Robinhood Fund
+[33:43] and the Fundrise Fund. The Robinhood
+[33:44] Fund that launched earlier this month
+[33:46] was an actual IPO, meaning that the fund
+[33:48] was issuing and selling new shares to
+[33:50] the public and raising fresh money in
+[33:52] the process. The Fundrise Innovation
+[33:54] Fund, on the other hand, did not offer
+[33:57] any new shares with its listing. This
+[33:58] was more of like a direct listing, where
+[34:01] a company simply lists its existing
+[34:02] shares on exchange rather than offering
+[34:04] new shares to the public. And look,
+[34:05] almost everyone who owns shares in the
+[34:07] Fundrise Innovation Fund is locked up.
+[34:09] They can't sell for 6 months. Because
+[34:11] they're not offering new shares either,
+[34:13] the vast majority of VCX shares are not
+[34:15] free to trade, and the Fundrise
+[34:17] Innovation Fund has an artificially low
+[34:19] float. Only a little more than 10% of
+[34:21] the shares are not locked up right now.
+[34:23] It's a sliver. So basically investors
+[34:25] saw that there's this new vehicle which
+[34:27] can give them ownership stakes in
+[34:28] white-hot private companies, and they
+[34:30] are like Anthropic, Databricks, OpenAI,
+[34:32] and SpaceX, and they want to buy. They
+[34:34] want to buy badly. But, there are very
+[34:36] few sellers because of the lockups.
+[34:38] That's also why I think you'd have to be
+[34:40] crazy to buy the Fundrise Innovation
+[34:42] Fund up here. Keep in mind, all
+[34:44] closed-end funds are forced to publish
+[34:46] their net asset value at regular
+[34:49] intervals. That's their accounting of
+[34:50] what the underlying assets are worth. At
+[34:52] its latest accounting, the Fundrise
+[34:54] Innovation Fund says that its net asset
+[34:56] value per share was just under 19 bucks.
+[34:59] So, at its current price of $315,
+[35:02] BCXX is trading at over 16 times its
+[35:06] NAV. That is pure lunacy.
+[35:10] Bear in mind, the stated net asset value
+[35:12] already accounts for depreciation of
+[35:13] shares in the private companies that
+[35:15] Fundrise purchased at much lower
+[35:16] valuations. If, say, Anthropic does a
+[35:19] fundraising round where it reaches a new
+[35:21] valuation like it did last month when it
+[35:23] reached a $380 billion valuation, then
+[35:26] the Fundrise adjusts its stated net
+[35:27] asset value accordingly. So, if you're
+[35:29] buying BCXX shares here at $315, you are
+[35:32] betting that the value of the fund's
+[35:33] stakes in private companies are actually
+[35:35] worth more than 16 times what the fund
+[35:38] itself says they're worth.
+[35:40] Not realistic. By the way, the Robinhood
+[35:43] Adventures Fund has a net asset value
+[35:44] per share of $25.31.
+[35:47] Oh, well, okay, that's less than a buck
+[35:48] above where the stock's currently
+[35:49] trading. I'm not too thrilled about that
+[35:51] one, either, but it's easier to justify
+[35:53] buying at these levels if you really
+[35:54] want to. Let me give you the bottom line
+[35:56] in this incredible story. When I saw the
+[35:58] red-hot start for the newly listed
+[36:00] Fundrise Innovation Fund, I thought I
+[36:02] might have to reevaluate my attitude
+[36:04] toward the pre-venture backed privately
+[36:05] held companies that it owned stakes in.
+[36:08] But, after a closer look, this thing's
+[36:10] been soaring because of market
+[36:11] mechanics, not valuation. Very few of
+[36:14] the shares actually trade. So, all the
+[36:16] buyers who want in have to pay through
+[36:18] the nose for them. Once the lockups end
+[36:21] in September, I expect BCXX to come
+[36:24] right back down to Earth. So, stay away
+[36:26] from this one if you don't want to get
+[36:28] hurt. It's just too hot
+[36:31] for this guy. Mad Money's back after the
+[36:33] break.
+[36:35] Coming up, Cramer takes your calls and
+[36:38] the sky's the limit. It's a fast-fire
+[36:40] lightning round. Next.
+[36:50] It is time
+[36:58] And then the lightning round is over.
+[37:00] Are you ready? Steve Dyson right with
+[37:02] Cramer's mic. Let's go to Stephen in
+[37:03] California. Steve.
+[37:05] Hey Cramer, this is Steve calling with
+[37:07] my awesomely autistic son Griffin with a
+[37:10] chill booyah to ya.
+[37:12] Oh, booyah right back at you.
+[37:15] Thank you. Griffin, say hi.
+[37:17] Griffin, say hi.
+[37:18] Hi.
+[37:20] He said hi to you. We're long-time fans
+[37:22] since We're long-time fans since the
+[37:24] humble days.
+[37:26] Wow.
+[37:26] >> son sees patterns and he has to approve
+[37:28] every trade that we do.
+[37:31] But we always, as Griffin says, keep it
+[37:32] small and he wants to know what your
+[37:35] thoughts are on Serve, S E R V. Okay,
+[37:38] interesting company but the problem
+[37:40] here, Steve, is it's losing a fortune.
+[37:42] We can't go with those right now. It's
+[37:43] too complex at time. Thank you for all
+[37:46] those nice words. Let's go to Steve in
+[37:47] Minnesota. Steve.
+[37:50] Hi Jim, actually Scott from St. Paul.
+[37:52] >> Minnesota. Sorry. Scott, what's up? No
+[37:55] problem. Thank you for taking my call
+[37:57] and everything you and your staff do.
+[38:00] I'm a second-time caller as well as a
+[38:02] club member. Oh, thank you.
+[38:04] >> I'm calling about equipment shares, E Q
+[38:07] P T.
+[38:08] >> stock is falling apart here. It's not
+[38:10] expensive. I'm going to endorse it. The
+[38:12] stock is now going too low. Don't buy it
+[38:14] all at once. Something's clearly wrong
+[38:15] but I know the stock is just too cheap.
+[38:17] It's crazy. Let's go to Steve in
+[38:18] Pennsylvania. Steve.
+[38:20] Hi Jim, thanks for taking my call. My I
+[38:23] bought this stock at the beginning of
+[38:24] the year at $75 and it's been going down
+[38:27] ever since then, closing today at around
+[38:28] 45.
+[38:30] Uh now I'm down about $30 a share,
+[38:32] should I buy more, hold, or sell and cut
+[38:35] my losses with the firm?
+[38:37] You know, don't cut your losses. I mean,
+[38:38] I just touched base with them on their
+[38:40] on their delinquencies, they're very
+[38:42] low. I think this thing's going to be a
+[38:43] rocket ship. I think a lot of people are
+[38:45] betting against it, it's a mistake. Down
+[38:46] 40% doesn't make sense to me. Backlog is
+[38:48] the real thing, it's a good operator.
+[38:50] Let's go to Craig in California. Craig.
+[38:53] Hey, thanks for taking my call, Jim. Of
+[38:55] course.
+[38:57] Hey, I'm wondering if now is a good time
+[38:59] to buy Ferrari, ticker RACE. This was a
+[39:02] very hot stock and somehow it lost its
+[39:04] mojo. I don't know how it's going to get
+[39:06] the mojo back and right now it sells at
+[39:08] too high a price. During these mobile,
+[39:10] I'm going to have to say I don't like
+[39:12] the stock. Let's go to Dustin in
+[39:14] Oklahoma. Dustin.
+[39:16] Hey, booyah Jimbo. Good to talk to you
+[39:18] again, my friend. Right back at you.
+[39:21] All right, my friend. So, hey, I got a
+[39:22] company posting its first ever
+[39:24] billion-dollar quarter with record
+[39:26] revenue, strong growth, and nine
+[39:27] straight quarters of GAAP profitability.
+[39:30] How do you view this technical setup,
+[39:32] especially after the CEO just bought
+[39:34] shares uh
+[39:36] twice in March for SoFi?
+[39:39] I got to tell you there's a controversy
+[39:41] about SoFi, but I've gone point by point
+[39:42] about what they're up to and what
+[39:43] they've done. I find that the bulls are
+[39:46] right. I find that that Anthony Noto's
+[39:48] right. I've known Anthony Noto since
+[39:49] 1998. I never question his character and
+[39:51] I'm a believer in SoFi. Let's go to Bill
+[39:54] in North Carolina. Bill.
+[39:56] Jim, thanks so much for taking my call.
+[39:58] It's my pleasure.
+[40:01] >> Thank you.
+[40:01] >> I really enjoyed We appreciate what you
+[40:03] do. Oh, thanks a lot.
+[40:06] A month or so ago, I bought a stock
+[40:08] PDYN, Paladin. I bought it at about $9 a
+[40:12] share and it's down to about six and a
+[40:15] half and I'm sitting on my hands, but
+[40:17] I'm wondering if I should be.
+[40:19] Well, people think it's going to lose
+[40:20] money next year. Uh it is a okay
+[40:23] company, but it's artificial
+[40:24] intelligence and machine learning should
+[40:26] work, but it is losing money. I'm not
+[40:28] recommending stocks that are losing
+[40:29] money. It's been the right thing to do
+[40:31] all 2026, but thank you for the call.
+[40:33] And that, ladies and gentlemen,
+[40:34] conclusion of THE LIGHTNING ROUND.
+[40:38] THE LIGHTNING ROUND IS SPONSORED by
+[40:40] Charles Schwab.
+[40:43] Coming up, will AI lead to mass layoffs,
+[40:46] or will it allow companies to do more
+[40:48] with its employees? Cramer is breaking
+[40:51] down where he stands. Next.
+[41:07] I believe in the AI revolution because
+[41:09] AI lets management do more with less,
+[41:11] saving companies money. That's a point I
+[41:13] made to Jensen Huang, the CEO of Nvidia,
+[41:16] last week at his GTC event, and his
+[41:18] response has stuck with me ever since. I
+[41:20] switched my mind. He says, "Those who
+[41:22] use AI to fire people have a failure of
+[41:24] imagination. Good companies, good
+[41:26] managements, quote, will do more with
+[41:28] more."
+[41:29] The companies that fire away are ones
+[41:31] where the leadership, he says, are out
+[41:34] of ideas. They have no reason to imagine
+[41:36] greater than they are, he said. That's
+[41:38] very different from the letter Jack
+[41:39] Dorsey sent out of a company called
+[41:41] Block, which you may have known as
+[41:42] Square, its previous iteration. When
+[41:44] Block was reported, said in his
+[41:46] shareholder letter that the company was
+[41:48] letting go 4,000 out of 10,000 people in
+[41:50] the workforce. Why? I'll let him say,
+[41:52] quote, "The core thesis is simple.
+[41:54] Intelligence tools have changed what it
+[41:56] means to build and run a company. We're
+[41:58] already seeing it internally. A
+[42:00] significantly smaller team using the
+[42:02] tools we're building can do more and do
+[42:04] it better." End quote. In a chilling
+[42:07] premonition, he says, quote, "I don't
+[42:09] think we are early to this realization.
+[42:11] I think most companies are late. In
+[42:14] quote, the real doomsday line, listen to
+[42:16] this, quote, I believe the majority of
+[42:18] companies will reach the same conclusion
+[42:19] and make similar structural changes, end
+[42:21] quote. That's the fear I hear in young
+[42:23] people's voices endlessly. They have a
+[42:24] foreboding, a sense of impending job
+[42:27] apocalypse. But when I got back to New
+[42:29] York from GTC and asking CEOs whether
+[42:31] they're going with the Dorsey view or
+[42:32] the Jensen point of view, I kept hearing
+[42:34] the same thing. It's Jensen's program
+[42:36] they're picking. They are hiring, not
+[42:39] firing. They're using the agents as
+[42:40] force multipliers. They know how to do
+[42:42] it. We are only two weeks away from what
+[42:44] could be a pivotal earning season where
+[42:46] we find out if AI is destructive to the
+[42:48] workforce or a way to build people up,
+[42:50] make them worth more, give workers more,
+[42:52] not less meaning. I know many people are
+[42:54] scared of AI. You may be scared. I say
+[42:57] having listened to Sara Fryer, CFO of
+[43:00] OpenAI tonight, I'm emboldened to say
+[43:02] that I think we are going to look back
+[43:03] and think that there are more Fryers,
+[43:05] more Jensens than there are Dorseys. The
+[43:08] definition of work is going to change
+[43:09] this year. We're going to find out that
+[43:11] the willy-nilly firings are being done
+[43:13] more out of a use using AI as a reason
+[43:17] to let people go, but maybe they should
+[43:19] have gone anyway cuz the companies were
+[43:22] just too fat. Let's see who makes the
+[43:24] most money for shareholders. I am
+[43:26] betting it's the ones that put the
+[43:27] agents to work making workers' lives
+[43:29] better, easier, and more productive
+[43:31] rather than the ones who fired their way
+[43:33] into some sort of phony
+[43:35] beaten-and-raised quarter.
+[43:37] I like to say there's always a bull
+[43:38] market somewhere. I popped out to find
+[43:39] it just for you or your mad money object
+[43:40] Cramer. See you tomorrow.
+[43:45] All opinions expressed by Jim Cramer on
+[43:46] this podcast are solely Cramer's
+[43:48] opinions and do not reflect the opinions
+[43:49] of CNBC or its parent company or
+[43:51] affiliates and may have been previously
+[43:52] disseminated by Cramer on television,
+[43:53] radio, internet, or another medium. You
+[43:55] should not treat any opinion expressed
+[43:57] by Cramer as a specific inducement to
+[43:58] make a particular investment or follow a
+[44:00] particular strategy, but only as an
+[44:02] expression of his opinion. Cramer's
+[44:03] opinions are based upon information he
+[44:05] considers reliable, but neither CNBC nor
+[44:07] its affiliates and or subsidiaries
+[44:08] warrant its completeness or accuracy and
+[44:10] it should not be relied upon as such. To
+[44:12] view the full Mad Money disclaimer,
+[44:13] please visit cnbc.com {forward slash}
+[44:15] Mad Money disclaimer.

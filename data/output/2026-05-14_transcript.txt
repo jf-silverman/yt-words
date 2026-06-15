@@ -1,0 +1,1303 @@
+[0:01] My mission is simple, to make you money.
+[0:04] I'm here to level the playing field for
+[0:06] all investors. There's always a bull
+[0:09] market somewhere, and I promise to help
+[0:10] you find it. Mad Money starts now.
+[0:16] Hey, I'm Cramer. Welcome to Mad Money.
+[0:19] Welcome to Cramerica. I don't make
+[0:22] friends. I'm just trying to make you a
+[0:23] little bit of money. My job is not just
+[0:25] to entertain, but do some teaching. So,
+[0:27] call me at 1-800-743-CNBC.
+[0:29] Tune in to Jim Cramer. All right, we had
+[0:31] this IPO today, Seven Generations
+[0:33] Capital. Cerebrus, priced at 185. Stock
+[0:36] opened at $350,
+[0:39] instantly making it worth $107 billion
+[0:41] on a fully diluted basis. And it goes
+[0:44] all the way up to 386, before closing at
+[0:45] 311. Now, there is a word for that.
+[0:48] That word is fanciful, because it was
+[0:51] fanciful to pay that much the whole
+[0:53] time. And that's putting it
+[0:54] diplomatically. Notice, I didn't say
+[0:56] idiotic, I didn't say stupid, as much as
+[0:58] I'm certainly itching to do so. But,
+[1:00] that would be judgmental. On a day where
+[1:02] the Dow gained 270 points, the S&P
+[1:05] advanced 0.77%, and the Nasdaq climbed
+[1:07] 0.8%, we had to witness this already
+[1:10] overvalued stock come public at 111
+[1:13] times last year's sales, not earnings,
+[1:16] sales. And it blew through that level
+[1:19] with ease.
+[1:20] That wasn't enough. Instead, the crowd
+[1:22] went to north of 230
+[1:25] times sales. 230 times last year's sales
+[1:29] at its high.
+[1:30] That's just great.
+[1:34] Listen, I've been in favor of the
+[1:36] semiconductor rally the whole way. I
+[1:38] mean, has anyone BEEN A BIGGER
+[1:39] CHEERLEADER FOR THIS THING? I I MEAN,
+[1:41] CHEERLEADER.
+[1:42] I've always BEEN FOR THE DATA CENTER. I
+[1:44] love the data center.
+[1:47] The fourth industrial revolution that
+[1:48] Nvidia CEO Jensen Huang promotes, hook,
+[1:51] line, and sinker.
+[1:54] But, today, today's IPO made me sick to
+[1:57] my stomach.
+[1:59] Oh, I got nothing against company. In
+[2:00] fact, Cerebras has good technology,
+[2:02] especially when it comes to inference.
+[2:04] It competes admirably with Nvidia. It
+[2:05] has a deal with Open AI for $20
+[2:07] something with Amazon Web Services, too.
+[2:09] CEO on Squawk today, smart fellow.
+[2:12] Doesn't matter because today's action
+[2:14] was right out of 1999.
+[2:17] And you know I've been reluctant to use
+[2:19] that term. See you uninformed people
+[2:21] using market orders to pay anything for
+[2:24] an unseasoned company that was valued at
+[2:26] just $8 billion back in October. $8
+[2:29] billion in October, $95 billion today?
+[2:33] You can't be serious.
+[2:35] Did it cure cancer? Well, I figured that
+[2:37] maybe it was working on the inference. I
+[2:39] might have missed that. I cannot tell
+[2:41] you how many times we saw something
+[2:43] exactly like this happen in 1999 over
+[2:46] and over again. People are willing to do
+[2:47] this nonsense endlessly. They heard
+[2:50] something was sizzling hot.
+[2:53] They knew the sector was steaming, too.
+[2:55] So, they put in market orders
+[2:59] not caring what they paid. You know why?
+[3:01] Cuz they didn't know what it was anyway.
+[3:03] And they just smelled a sure thing.
+[3:04] Chips back
+[3:08] high-bandwidth memory HBM chips. This
+[3:11] isn't potato chips,
+[3:13] not real chips, potato chips. But, I got
+[3:14] them at the Nvidia trade show known as
+[3:16] GTC. The chips, the real ones, are made
+[3:18] by SK Hynix, which is an incredibly
+[3:21] important data center semiconductor
+[3:23] company. Korean colossus, market
+[3:24] capitalization of almost a trillion
+[3:26] dollars. It's not the closest comparison
+[3:27] to Cerebras, but it's close enough. SK
+[3:30] Hynix sold $35.5
+[3:33] billion worth of chips last quarter.
+[3:36] Cerebras sold $510 million worth of
+[3:39] chips in the ENTIRETY OF LAST YEAR.
+[3:42] THAT KIND OF volume is very hard to
+[3:44] justify Cerebras being worth $100
+[3:46] billion.
+[3:47] I bring these up because it's a joke,
+[3:49] and I don't want the the played on you.
+[3:50] You cannot do this, people. You cannot
+[3:52] pay these prices.
+[3:54] I remember back in 1999, I was writing
+[3:56] for TheStreet.com since I co-founded
+[3:58] four years before. I'd plead that people
+[4:01] not to use market orders, even for when
+[4:03] TheStreet.com came public. I urged that
+[4:05] people not buy things they didn't
+[4:07] understand because these were stocks
+[4:09] that were were just way too hot, and
+[4:11] there were too many people who didn't
+[4:12] know what they were doing. That was a
+[4:14] mania. So far, WE HAVEN'T HAD MANIA.
+[4:17] People ended up losing fortunes in that
+[4:19] mania when the whole dot-com edifice
+[4:21] collapsed in March of 2000. Of course,
+[4:22] Cerebras is not going to blow up like
+[4:24] those 300 landmine companies that came
+[4:26] public between 1999 and mid-2000 before
+[4:30] it collapsed and they all vanished. This
+[4:32] is a real business we're talking about.
+[4:34] There were plenty of real businesses
+[4:35] with stocks that got way too hot in the
+[4:37] dot-com era. Could the bankers have done
+[4:39] something to control the situation? You
+[4:40] know, I never mind criticizing the
+[4:41] underwriters if I think they screw up.
+[4:43] I've attacked them for years. Morgan
+[4:45] Stanley ran this deal, and you know
+[4:46] what? I got to tell you, they did a
+[4:48] great job. They originally looked to
+[4:50] sell the stock between $115 and $125.
+[4:53] Then they kept moving it up because they
+[4:54] saw the insatiable demand for this
+[4:56] thing, but they weren't going to price
+[4:57] it anywhere near where the rabid buyers
+[4:59] picked up the stock during the day. They
+[5:01] had no choice but to leave money on the
+[5:03] table, unwilling to price the deal at a
+[5:05] totally unjustifiable price. They
+[5:09] weren't going to do that, quite the
+[5:10] opposite of 1999 where many bankers were
+[5:12] anxious to bring anything public.
+[5:14] Cerebras is a real company. There had to
+[5:16] be a price put on the darn thing. They
+[5:17] had to, right? I mean, you couldn't just
+[5:18] not have a price. And $185 seemed
+[5:21] reasonable. Anything over $300 seems
+[5:23] nuts.
+[5:24] Now, maybe there'll be another big wave
+[5:26] of buying. I mean, there was with Figma
+[5:28] before it went down, and now Figma
+[5:29] reported a good quarter for the close.
+[5:31] Maybe Cerebras will win a huge contract
+[5:33] for $40 billion from Anthropic or
+[5:35] Microsoft, AND ALL WILL BE WELL.
+[5:37] OTHERWISE, THOUGH, we could go down the
+[5:38] rabbit hole.
+[5:40] What a shame.
+[5:41] It took away from the extraordinary
+[5:42] performance of Chuck Robbins at Cisco,
+[5:45] showed an incredible acceleration of
+[5:46] both sales and earnings. Cisco was the
+[5:48] largest company in the world in the peak
+[5:49] of 2000. It was selling it to all the
+[5:51] big customers at the time. The companies
+[5:53] that were building out the internet with
+[5:54] massive amounts of fiber. A lot of it
+[5:56] never got lit. A lot of the customers
+[5:58] didn't have enough money to pay. Again,
+[6:00] investors lost fortunes with Cisco back
+[6:01] then. This time Cisco deserved the run.
+[6:04] Today's 13% rally was completely
+[6:06] justified and then some. It wasn't It
+[6:08] wasn't a mania. It wasn't fanciful.
+[6:11] How about Nvidia? Look, it's finally
+[6:12] moving up. It's 4.4% today. Good reason.
+[6:14] There's a very good chance that based on
+[6:16] forward earnings estimates, Nvidia's
+[6:17] stock is now cheaper than the average
+[6:19] stock in the S&P 500. Cheaper. Now,
+[6:21] that's absurd. The company's growing at
+[6:23] a much faster pace than almost any large
+[6:25] cap enterprise and it sells below an S&P
+[6:27] market multiple. Now, that's crazy. Now,
+[6:30] it doesn't have to be this way, people.
+[6:32] Perhaps there are people who will say,
+[6:34] "Look, I've been there. I lost so much
+[6:36] money when the IPO market got too hot in
+[6:38] 2021 or 2025 2014 or when it was totally
+[6:41] overwhelmed in 2000." But, my fear is
+[6:44] that was not too long ago and there's
+[6:46] not enough losers from then who know who
+[6:48] know not to repeat those mistakes. Maybe
+[6:50] we just have to live through it again.
+[6:52] I'm trying to stop it. I know this. I
+[6:55] always said that if I saw this kind of
+[6:57] nonsense, this over-enthusiasm again, I
+[6:59] would scream from the rafters that this
+[7:01] has to stop. I would simply stop
+[7:03] praising the red-hot sector for a moment
+[7:05] and say, "This ends badly. Please,
+[7:07] please exercise discipline. Understand
+[7:10] what these companies do and why they
+[7:12] aren't worth this."
+[7:14] Here's the bottom line. I don't mind
+[7:17] stocks that go up huge on shortages. I
+[7:19] don't think Micron or Seagate or Western
+[7:21] Digital or even HBM chips from SK Hynix
+[7:24] are overvalued. Provided the Chinese
+[7:26] don't flood our markets with cheap
+[7:27] memory. Cisco, Nvidia, fine with me.
+[7:30] But, Cerebras? It's like a Sondheim
+[7:32] PLAY. SEND IN THE CLOWNS.
+[7:34] Because today, that's exactly what
+[7:36] happened.
+[7:38] Ian in Florida. Ian.
+[7:41] Booyah, Jim. How you doing?
+[7:43] >> Boo-ya, I am doing well, Ian. How are
+[7:45] you?
+[7:46] Amazing. Amazing, Jim. Amazing. I love
+[7:49] that.
+[7:51] Going good. I'm a five-time caller and a
+[7:54] club member as well.
+[7:55] Oh, thank you. Thank you. You know how
+[7:57] hard we try to do this, Jeff Marks and
+[7:59] I.
+[7:59] We got some good names coming up. What's
+[8:01] happening?
+[8:02] Yeah, you do great for us.
+[8:04] Um, Jim,
+[8:06] I wanted to ask you about, um, it's kind
+[8:08] of an aerospace stock.
+[8:10] Uh, it seemed to be, um, kind of in the
+[8:13] middle right now, but I like the
+[8:15] company. What do you think about GE? Is
+[8:17] it a good time to buy? Buy.
+[8:19] GE is Larry Culp. I've been watching the
+[8:21] stock go down and I'm like, all right,
+[8:23] come on. Come on. And by the way, I'm
+[8:25] going to throw in the Boeing. You're a
+[8:26] club member, down 11. Why? Because it
+[8:28] was up in anticipation of a big order. I
+[8:30] mean,
+[8:31] >> [music]
+[8:31] >> you know what? I mean, you can't
+[8:33] Look, stocks don't go up and up and up.
+[8:36] Not real ones at least. And Boeing's
+[8:38] good and GE's good and thank you for
+[8:39] remembering the [music] club. Please,
+[8:41] people, be careful. I don't mind stocks
+[8:43] go up on shorts, but the [music] action
+[8:45] we saw today on on Cerebrus,
+[8:47] that's got me on guard. I'm just on
+[8:50] guard. I I just I'm worried.
+[8:52] I am worried. I'll make money tonight.
+[8:54] Charles Schwab outlined new [music]
+[8:55] revenue growth targets at its investor
+[8:57] day and I'm getting the latest on the
+[8:59] road ahead for the financial services
+[9:00] leader, which seems very inexpensive to
+[9:02] me. And Cerebrus [music] just came
+[9:03] public in that largest IPO. So, you
+[9:05] should you be buying uh something else?
+[9:07] These are I don't know. I'm going to
+[9:08] give you my take. And Train Technologies
+[9:11] helps keep data centers nice and cool.
+[9:12] [music] So, does that explain why its
+[9:14] stock has been red hot recently? I'm
+[9:15] finding out more from the company's top
+[9:17] brass. So, stay [music]
+[9:18] with Cramer.
+[9:30] Don't miss [music] a second of Mad
+[9:31] Money. Follow @JimCramer on X. Have a
+[9:34] question? Tweet Cramer #MadMentions.
+[9:38] Send Jim an email to madmoney@cnbc.com
+[9:41] or give us a call at 1-800-743-CNBC.
+[9:42] [music]
+[9:45] Miss something? Head to
+[9:47] madmoney.cnbc.com.
+[9:55] >> [music]
+[9:58] >> Okay, how can the stock of Charles
+[10:00] Schwab get its groove back? As recently
+[10:02] as just a a few months ago, this retail
+[10:04] broker firm seemed unstoppable with the
+[10:07] stock hitting a new all-time high in
+[10:09] early February. That seemed right to me,
+[10:10] but then it got knocked down
+[10:13] during the recent AI displacement
+[10:15] sell-off, even though it's really not an
+[10:16] AI victim at all. Then the stock got hit
+[10:18] again last month when Schwab reported,
+[10:20] even though the numbers were better than
+[10:21] expected. It was a very good quarter.
+[10:22] Today the company hosted an
+[10:24] institutional investor day where they
+[10:26] raised their full-year revenue growth
+[10:28] forecast pretty substantially. Went from
+[10:31] 10% to more like 14 to 15%. Yet the
+[10:34] stock actually got hit again, down 1.9%
+[10:37] in part because management also predicts
+[10:38] higher expense growth. Look, I think the
+[10:40] market's misjudging this one and not
+[10:42] valuing this incredible franchise
+[10:44] correctly at all. But do not take it
+[10:46] from me. I got a chance to sit down with
+[10:48] Rick Wurster. He's the president and CEO
+[10:49] of Charles Schwab to get a better read
+[10:51] on the situation. Take a look.
+[10:56] Jim, I'm doing great. How are you?
+[10:57] >> Well, you know, I'm confused. I'll be
+[10:58] honest. I thought the through the
+[11:00] client's eyes strategy is great. The
+[11:02] numbers that you presented were much
+[11:05] better than I thought, and yet the stock
+[11:07] did not react. And I'm wondering what
+[11:09] I'm missing because as far as I can see,
+[11:11] you're doing everything right.
+[11:15] Jim, our our business is certainly
+[11:17] performing exceptionally well, and it
+[11:18] and it does start with seeing through
+[11:19] client's eyes. What we focus on every
+[11:21] day as a company is making sure we
+[11:23] deliver for our clients the products,
+[11:25] the solutions, the expertise they need
+[11:28] to live their best financial life. And
+[11:30] by the way, Jim, it's one of the reasons
+[11:31] that I admire Mad Money. You have done a
+[11:33] lot for the retail investor to help them
+[11:36] understand the power of owning stocks,
+[11:38] being invested, the value of
+[11:40] compounding. We're trying to do the same
+[11:42] thing here at Schwab, and it's working.
+[11:44] You might not see it in our stock, but
+[11:45] you certainly see it in our business
+[11:46] fundamentals.
+[11:47] >> Well, look, those of us who started and
+[11:48] cut our teeth on Schwab know that's
+[11:50] exactly the way you've been is how the
+[11:53] Schwab will trust was set up with. And I
+[11:54] just think you guys have the right
+[11:56] orientation. And what's terrific is you
+[11:58] raised as you 10% revenue growth
+[12:00] uh you're into 14 to 15% top line
+[12:02] growth. And that to me shows that you're
+[12:04] doing really everything right.
+[12:09] Yeah, our business really is operating
+[12:11] at a high level right now. For the for
+[12:12] the last 10 years, we've grown the top
+[12:14] line 14% a year and the bottom line 16%
+[12:17] a year. And that's because we're doing
+[12:19] right by the client. We see record
+[12:21] client satisfaction scores with our
+[12:23] clients. They're increasingly uh
+[12:25] bringing new assets to us. And they're
+[12:27] also doing more business with us in
+[12:29] areas like wealth and lending. They're
+[12:31] coming to us saying, "We want more help
+[12:33] from Schwab." And that's accelerating
+[12:35] our business as well. So, it's all we're
+[12:37] we're operating on all cylinders here.
+[12:39] And
+[12:39] uh doing everything we can to delight
+[12:41] clients, and it's working.
+[12:42] >> Well, you guys are also doing something
+[12:43] and I thank you for the kind comments
+[12:45] about Mad Money. Another thing you're
+[12:46] doing is very much in sync with me was
+[12:48] that you're trying to get young
+[12:49] investors to own. Trying to get them to
+[12:52] understand. Uh try not to play. Trying
+[12:55] to invest. How are you able to do that?
+[12:57] Cuz I think you've got some uh you've
+[12:59] got some options for people,
+[13:00] particularly for parents to try to get
+[13:02] young investors involved that I think
+[13:03] are reasonable and make it so that
+[13:05] people understand that investing can be
+[13:07] fun, but it's serious business.
+[13:11] Jim, we share a passion with you, which
+[13:13] is trying to get Americans to invest, to
+[13:16] save, to understand the power of
+[13:18] compounding and the impact it can have
+[13:20] on your financial life over time. We are
+[13:22] doing a lot for the young investor. And
+[13:24] I'll And I'll tell you, the young
+[13:25] investor is a thoughtful investor. I sat
+[13:28] with a group of
+[13:30] young investors a month ago and and it
+[13:32] was in a during a period of high
+[13:34] volatility and I asked them whether they
+[13:35] were worried and and pulling back
+[13:38] on markets and they said, "Why in the
+[13:39] world would we do that? We're saving for
+[13:41] our retirement 40 years from now. We're
+[13:42] sticking with it and we're adding as the
+[13:45] opportunity comes along." We just did
+[13:47] launch teen accounts for young investors
+[13:49] ages 13 to 17 and that was really
+[13:52] important to us to send a market a
+[13:54] message to young people in our country
+[13:57] about the power of being an investor,
+[13:59] particularly in an environment where
+[14:01] lots of young people are getting a
+[14:02] message about gambling and we want to
+[14:04] give a message about the fact that
+[14:06] markets have positive returns over time,
+[14:09] whereas gambling not so much. That's
+[14:12] very true. Now, Rick, the one thing that
+[14:13] I and I'm sure you wrestle with, too, we
+[14:16] want to give the clients through their
+[14:17] eyes what they want. And sometimes we
+[14:20] have to give them stuff and it may not
+[14:22] be what we want. For instance, in your
+[14:24] digital assets page of your terrific
+[14:26] deck today, you've got a roll out of a
+[14:27] spot crypto offer that's begun with an
+[14:30] employee launch. Initial coin's
+[14:32] available. Now, for me, I know that they
+[14:34] want it and so I would have to give it
+[14:36] to them, but candidly, Rick, it's it's
+[14:38] not the kind of thing I want to see them
+[14:40] do. What do you do when you have your
+[14:42] kind of a conscience issue, but you know
+[14:44] the customer's always right?
+[14:48] That's great question, Jim. What what
+[14:49] we've focused on is client choice. We've
+[14:52] always stood for having what investors
+[14:54] [clears throat] may want or need to have
+[14:56] a balanced asset allocation and there's
+[14:58] many investors that can make a credible
+[15:00] case for why crypto could make sense in
+[15:02] their portfolio.
+[15:04] What we're not doing though, Jim, to
+[15:05] your point, is we're not putting it in
+[15:07] our recommended asset allocation. So,
+[15:09] when a client comes through the door and
+[15:10] says to us, "You know, my age, what
+[15:13] should my mix of assets be?" we're not
+[15:15] including crypto, but we have it on our
+[15:17] platform and if people want it and they
+[15:19] think it's an important part of their
+[15:20] asset allocation, they certainly can
+[15:22] include it.
+[15:23] >> All right, I think that that answers it
+[15:24] and I think that's great. It's what
+[15:26] you're you're offering everything, but
+[15:27] you're not necessarily emphasizing
+[15:29] everything, which is terrific. Now, a
+[15:30] lot of people feel like that you guys
+[15:32] maybe it's this AI issues you have that
+[15:35] people are going to go around and look
+[15:36] at whatever rate is like the best And
+[15:39] you know what? I studied that for CDs,
+[15:41] and it's really not true. And I have a
+[15:43] feeling it's not true for you, either,
+[15:45] but it's something that people investors
+[15:47] claim is a concern for Schwab.
+[15:52] Yeah, there's there's been an AI
+[15:54] narrative that has overhung our stock
+[15:56] now for a few months. And first it was
+[15:58] that was there was going to be an AI tax
+[16:00] tool that was somehow going to
+[16:01] disintermediate our business. And now
+[16:03] the focus has been on our cash strategy,
+[16:06] which is an area where we when clients
+[16:09] come to us, they come to us to invest in
+[16:11] trade. We put their money in in a cash
+[16:13] sweep vehicle so that it's ready for
+[16:15] them to invest when and when they want
+[16:18] in what they want. That strategy's been
+[16:20] working for us, but there's concerns
+[16:22] that AI is going to somehow make it go
+[16:23] away. We think those are overblown. Our
+[16:25] strategy is working. We shared metrics
+[16:28] today that showed we've never been more
+[16:29] competitive than we are today, and our
+[16:31] clients have never been more satisfied.
+[16:33] So, we think the strength of our value
+[16:34] proposition is winning in the
+[16:36] marketplace.
+[16:36] >> think you have to kind of shadow box
+[16:38] until people realize, like they did for
+[16:40] for the cybersecurity companies.
+[16:42] Everyone thought they were going to
+[16:43] disintermediate, and then they had to go
+[16:44] through this 8-month period of pain, and
+[16:46] then the suddenly the stocks just went
+[16:48] up 25%. I think maybe you just have to
+[16:50] just wait wait it through till people
+[16:52] realize that whatever they're worried
+[16:53] about is not happening.
+[16:57] Jim, I think you're right. And as you
+[16:58] know, in the short run, the market can
+[17:00] be a voting machine. In the long run,
+[17:03] it's a weighing machine. And and we've
+[17:04] been delivering great results quarter
+[17:06] after quarter. We're trading at 12 and
+[17:08] 1/2 times our consensus earnings for
+[17:11] next year for a company that's grown the
+[17:13] bottom line 16% a year for the last 10
+[17:15] years. So, we're going to keep deliver
+[17:17] focus on delivering for our clients.
+[17:19] That should lead to great financial
+[17:21] results. Ultimately, we think that will
+[17:23] be rewarded in the market.
+[17:24] >> Oh, I totally agree. I remember at 60,
+[17:26] your predecessor was what? And I was
+[17:28] like, "You're buying stock and everyone
+[17:30] is just so panicky. If it were so bad,
+[17:33] why would you buy?" AND IT WAS THE EXACT
+[17:35] BOTTOM. And I just feel like right now,
+[17:37] I don't get it. But now, if you're
+[17:39] listening to you, I get it. There's just
+[17:41] a lot of mistakes about how people have
+[17:43] viewed your company right now. It's the
+[17:45] same company as always as far as I'm
+[17:46] concerned. That's Rick Wurster. He's the
+[17:48] president and CEO of Charles Schwab,
+[17:50] which we have liked since the beginning
+[17:51] of the show. You can go check it out.
+[17:53] Mad Money's back here after the break.
+[17:54] Thank you, Rick. Great [music] to have
+[17:55] you on the show.
+[17:58] Thanks, Jim. Mad Money's back.
+[18:02] >> [music]
+[18:02] >> Coming up, one of the hottest IPOs in
+[18:04] recent memory just hit the market. So,
+[18:07] should you be buying in? Cramer offers
+[18:09] his thoughts on
+[18:10] >> [music]
+[18:10] >> Cerebrus. Next.
+[18:22] Today, as I said at the top of the show,
+[18:23] we got the largest IPO of the year, or
+[18:25] at least so far, when Cerebrus Systems
+[18:28] came public with a bang.
+[18:32] This is a semiconductor company that
+[18:33] makes what are known as AI accelerators.
+[18:35] Huge, dinner plate-sized processors that
+[18:38] are purpose-built for artificial
+[18:40] intelligence workloads. And the market
+[18:42] lapped it up, as I said, after pulling
+[18:44] in an attempt at IPO last fall when the
+[18:46] AI cohort briefly went out of style,
+[18:48] Cerebrus refiled to come public in
+[18:50] mid-April. Originally seeking to sell 28
+[18:52] million shares at a price between 115
+[18:55] and 125. By the beginning of this week,
+[18:57] they raised it to 30 million shares at a
+[18:59] price of 150 to 160 cuz there was just
+[19:02] so much demand. Then last night, the IPO
+[19:04] price way above that, $185 per share.
+[19:07] And today, the stock immediately
+[19:08] skyrocketed, opening at $350. While it
+[19:10] pulled back over the course of the day,
+[19:12] it still finished the session up a
+[19:13] staggering 68% from its offer price if
+[19:16] you got in the deal, but well below its
+[19:18] high of the day. Now, you know that I
+[19:20] thought the enthusiasm is way out of
+[19:23] control here. THEY KNOW NOTHING! But let
+[19:27] let me explain why Wall Street can't get
+[19:28] enough of this thing, so at least you
+[19:30] know the other side of my anger.
+[19:32] Cerebrus is one of the few companies
+[19:34] that saw AI coming years and years ahead
+[19:36] of time. Way back in 2015, they realized
+[19:39] we need a whole new type of computer
+[19:40] architecture for the data center. One of
+[19:43] the big limiting factors for AI is
+[19:44] communication speed, and because
+[19:46] communications happens much faster on a
+[19:48] single chip than between chips, Cerebrus
+[19:50] developed the largest commercial chip in
+[19:52] the history of the computer industry.
+[19:54] Each of these things has four trillion
+[19:56] transistors. That's a T, four trillion.
+[19:58] To put that in perspective, Nvidia's
+[20:00] super advanced B200 chip package, that's
+[20:02] the Blackwell GPU, well, that only has
+[20:04] 208 billion transistors, which I thought
+[20:07] was a lot.
+[20:08] Because all these transistors are packed
+[20:10] into the same chip, Cerebrus's
+[20:12] technology has become incredibly useful
+[20:14] for inference workloads. That's when an
+[20:16] AI platform retrieves information from a
+[20:17] trained model and puts it to use.
+[20:19] According to prospectus, this company's
+[20:21] AI accelerators can be up to 15 times
+[20:23] faster than leading GPU-based solutions,
+[20:26] and in some unique cases, they're over a
+[20:28] thousand times faster. Cerebrus can also
+[20:31] help train an AI model 10 times faster
+[20:33] than the usual hardware that you So,
+[20:35] true advantages. They either sell this
+[20:37] technology directly to customers or
+[20:39] allow clients to basically rent
+[20:41] computing power through their own cloud
+[20:43] business. They also offer inference
+[20:44] services through partners like Amazon
+[20:46] and Microsoft among others. Now, last
+[20:48] year though, Cerebrus got 86% of its
+[20:51] revenue from just two entities in the
+[20:53] United Arab Emirates. One, a cloud
+[20:56] computing company, the other a
+[20:57] university. The UAE is halfway to being
+[21:00] a a war zone right now, but that hasn't
+[21:02] diminished the enthusiasm for this
+[21:04] stock. But Cerebrus has been making
+[21:06] strides to diversify its business. In
+[21:08] January, they announced this $20 billion
+[21:10] multi-year deal with OpenAI to deliver
+[21:12] 750 MW of compute. In March, they
+[21:15] reached a deal to deploy their monster
+[21:16] chips in Amazon's data centers. So,
+[21:18] these are These are good contracts.
+[21:20] That's the story. What about the
+[21:21] numbers?
+[21:22] All right, they're impressive, too.
+[21:24] Cerebras put up 269% revenue growth in
+[21:26] 2024, then 76% revenue growth last year.
+[21:30] Of course, the company's not yet
+[21:31] profitable. Cerebras' adjustable
+[21:33] adjusted operating loss more than
+[21:35] doubled last year to $96.1 million,
+[21:38] and its adjusted net loss more than
+[21:40] tripled to $75.7 million. Their cash
+[21:43] flow from operations is still negative.
+[21:48] But, the losses
+[21:50] they're not too distressing because this
+[21:52] company's still in its growth mode, and
+[21:53] the growth is really incredible. Plus,
+[21:55] Cerebras has no debt, and they just
+[21:57] raised $5.7 billion in cash from the
+[21:59] IPO. So, hey, listen, they can afford to
+[22:01] rack up big losses for years in order to
+[22:02] keep expanding. I don't know. I don't
+[22:03] think they'll do that. But, all
+[22:04] together, I like the story very much.
+[22:06] The story of the company, not the stock.
+[22:08] They're two different things. Company
+[22:10] makes a very convincing case for the
+[22:11] technology, and with the arrival of the
+[22:13] inference year, Cerebras is in good
+[22:15] position to grow like crazy, especially
+[22:17] now that they're winning business from
+[22:18] OpenAI and Amazon Web Services. So, it
+[22:21] is a great company, but man, this
+[22:23] red-hot start for the stock, it's very
+[22:24] hard for me to get comfortable with this
+[22:26] valuation. At $185,
+[22:29] the offer price, Cerebras had a fully
+[22:31] diluted valuation of roughly $56.6
+[22:34] billion, where it was trading about 111
+[22:36] times last year's sales, not earnings,
+[22:38] sales. Okay, that's important. Keep that
+[22:39] in mind. Up here at $311, it's more like
+[22:42] 187 times last year's sales, sales. So,
+[22:46] now let's get the comparison. You can
+[22:48] write them down if you bought it, so you
+[22:49] know what you're doing here. Even though
+[22:51] there's really no comparison with what
+[22:52] they're doing, I I like these. I'm going
+[22:54] to give you these. Nvidia trades at
+[22:55] roughly 26 times last year's sales. AMD
+[22:59] trades at 21 times last year's sales.
+[23:02] Broadcom trades at 33 times last year's
+[23:04] sales. Those just aren't in the same
+[23:06] ballpark. And of course, Nvidia, AMD,
+[23:08] and Broadcom have the added advantage of
+[23:10] being extremely profitable. You can
+[23:12] value them on an earnings basis. Even
+[23:14] the most expensive AMD sells at 108
+[23:16] times last year's earnings. I don't like
+[23:18] that, but I get it. It's It's getting
+[23:20] the same multiple on earnings that
+[23:21] Cerebrus got on sales at the moment it
+[23:24] came public. Now, it's almost twice
+[23:26] that. See, that's wild stuff. It just
+[23:28] It's Look, it's too much.
+[23:31] Of course, Cerebrus is getting a
+[23:32] valuation because it's growing like a
+[23:33] weed. But you know what? These guys had
+[23:35] 76% sales growth last year. 76, okay?
+[23:38] That is not that much different from
+[23:39] Nvidia, which was at 65.
+[23:41] So really, if you buy this stock up
+[23:43] here, you're betting on the idea that
+[23:44] Cerebrus will have much better growth in
+[23:46] the many years in the future. Honestly,
+[23:48] this valuation, there you're basically
+[23:50] expecting revenue to be several
+[23:51] multiples of what it is right now in a
+[23:53] fairly short period of time. Maybe
+[23:54] that's possible, given the company's
+[23:56] impressive technology. But that seems
+[23:58] like a real leap of faith to me. I don't
+[24:00] like it. Not their fault. It's the fault
+[24:02] of non-rigorous investors and traders
+[24:04] and flippers. Really, I think that
+[24:06] what's happening here is that Cerebrus
+[24:07] has a sexy story and a perfectly timed
+[24:09] IPO. When the company pulled its IPO
+[24:11] last fall, it instead raised $1 billion
+[24:13] in the private markets at an $8 billion
+[24:15] valuation. So in other words, in the
+[24:17] fall it was worth $8 billion. Now,
+[24:19] listen, 8 months later it is worth more
+[24:20] than 10 times that amount. See that?
+[24:22] Tell me that isn't silly. You You who
+[24:25] bought it. Tell me Tell me you didn't do
+[24:27] something silly today. Think of what's
+[24:29] happened over the past couple months.
+[24:30] The Philadelphia Semiconductor Index has
+[24:32] exploded. It's up nearly 70% in just the
+[24:34] last 6 and 1/2 weeks. Many individual
+[24:36] companies involved in the data center
+[24:38] build have more than doubled over the
+[24:39] same period. Think the memory plays or
+[24:41] CPU specialists like AMD or Intel. And
+[24:43] some of these smaller, more speculative
+[24:45] companies like Neo Clouds and some
+[24:47] networking or photonics plays, they've
+[24:49] risen several hundred percent. Against
+[24:51] that backdrop, along comes Cerebrus with
+[24:53] its differentiated process story with
+[24:55] chips that it claims are much faster
+[24:57] than Nvidia and ideal for the inference
+[24:58] era. No wonder people can't get enough
+[25:00] this thing. But the bottom line
+[25:03] while there might be a situation in the
+[25:04] future where I can recommend Cerebras, I
+[25:07] just can't even get close to justify the
+[25:09] valuation up here given how much it's
+[25:11] already run right out of the gate and
+[25:12] those valuations I just gave you. I hope
+[25:14] you wrote them down because they're just
+[25:16] what I call dispositive.
+[25:18] For now, I say keep your bat on the
+[25:19] shoulder and hope the stock gives you a
+[25:20] giant giant pullback cuz at these levels
+[25:23] no, it's too rich for me. You'll have to
+[25:24] buy it up here without my blessing. I
+[25:26] can't go back to 1999. You shouldn't
+[25:30] either.
+[25:32] Let's go to Barbara in California,
+[25:33] please. Barbara.
+[25:35] Hey Jim, I've been watching you for 26
+[25:39] years and you have as much energy today
+[25:41] as you did then. Oh, thank you. Thank
+[25:44] you. Got to come to play. Thank you.
+[25:46] Seriously, seriously. Um, okay, you like
+[25:49] Marvell. Do you still like Marvell?
+[25:52] Oh, yeah. Marvell's That's Matt Murphy.
+[25:55] He's doing an amazing job. He bought
+[25:56] that optical business. He's really
+[25:57] crushing it. I mean, you know, if you
+[25:59] like if you want to look at Marvell
+[26:01] versus say what was being hyped today,
+[26:03] Marvell's so dramatically cheaper and it
+[26:06] hit a 52-week high today. It can go
+[26:08] higher. Remember Matt [music] came on
+[26:09] the show when he bought like a ton at 70
+[26:11] and he was really upset. Remember he
+[26:13] came when he said, "Listen, I am the
+[26:14] signal not the noise."
+[26:15] >> [music]
+[26:15] >> Well, he just he gave you almost a
+[26:17] triple. All right. Look, Cerebras does
+[26:20] look like it's [music] going to be great
+[26:21] long-term growth growth
+[26:23] growth company. But I can't [music]
+[26:25] recommend the stock but now the great
+[26:28] never stock company, okay? Two different
+[26:31] things. What's more, Marvell bought a
+[26:33] head train technologies known as a
+[26:34] leader in the [music] HVAC space. But
+[26:36] could its involvement in the data center
+[26:38] buildout unlock a new level of growth?
+[26:40] I'm checking in with the CEO. [music]
+[26:41] Then I'll break down how Nvidia fits
+[26:43] into the equation with our relationship
+[26:44] with China as the debate [music] heats
+[26:46] up over its access to the Chinese
+[26:48] market. Maybe it's much ado about Well,
+[26:50] why don't you stick around? [music] And
+[26:51] of course, all your calls rapid fire.
+[26:53] And tonight's edition of the lightning
+[26:54] round. So, stay with me.
+[27:00] >> [music]
+[27:05] >> This market is full of industrials THAT
+[27:07] HAVE CAUGHT FIRE because they own a
+[27:09] piece of that great data center build
+[27:11] out. Take Trane Technologies, TT, the
+[27:13] climate control company with a stock
+[27:15] that's up nearly 24%.
+[27:18] For the year. And that's a good part of
+[27:20] because it prevents these warehouses
+[27:21] from overheating. A little over 2 weeks
+[27:23] ago, Trane reported a healthy top and
+[27:25] bottom line beat with its backlog up a
+[27:27] staggering 30% year-over-year.
+[27:30] Commercial HVAC bookings in the Americas
+[27:32] up 40%. Applied equipment orders surging
+[27:35] 160%.
+[27:37] The whole business is thriving, but that
+[27:39] data center side is really on fire. One
+[27:41] reason why management raised their full
+[27:43] year forecast convincingly. So, can this
+[27:45] thing keep running? I got a chance to
+[27:46] check in with Dave Regnery, chair and
+[27:48] CEO of Trane Technologies, who's come on
+[27:50] the show multiple times, and this stock
+[27:52] has been a winner. Take a look.
+[27:56] Dave, welcome back to Mad Money. Jim,
+[27:58] I'm always glad to be on your show.
+[28:00] Thanks for having me. Well, I'm thrilled
+[28:01] you're here. I mean, so just another
+[28:03] great year for you, and the stock's up
+[28:05] 23% already. Uh I guess it's pretty much
+[28:09] when I read through the deck, almost
+[28:10] everything you feel better about, and
+[28:12] it's already been good, but it's getting
+[28:14] greater yet.
+[28:15] Yeah, we had a we had a very strong
+[28:16] start to the year. First quarter, our
+[28:18] order rates have been just, you know,
+[28:20] off the chart. I mean, up 24% in the
+[28:22] first quarter. Our backlog is at, you
+[28:24] know, we used to talk about backlogs
+[28:26] being record when they were at 4
+[28:27] billion, 6 billion. Our backlog at the
+[28:29] end of the first quarter is 10.7
+[28:32] billion. And that's just equipment. And
+[28:34] remember, a third of our business is
+[28:37] services.
+[28:37] >> going to say, one time I just was
+[28:39] saying, I like Trane cuz the service
+[28:41] revenue is strong. It's and and but
+[28:43] you're that's a great the service
+[28:45] business is business. It's a third of
+[28:47] our company. It's had a compound annual
+[28:49] growth rate over the last 7 years
+[28:52] of low teens compound annual growth
+[28:54] rate. This is a very resilient business
+[28:57] and it's a third of our company and we
+[28:59] invest heavily in it. We just opened up
+[29:01] a new training facility in North
+[29:02] Carolina, first of its kind. We bring
+[29:05] every technician through our training
+[29:07] center twice a year.
+[29:09] And this is I think about we have in the
+[29:11] United States we have I think 4,500
+[29:13] techs. We have another 3,000 to 2,500
+[29:16] globally. So we have 7,000 techs now.
+[29:18] >> And now you've got some pretty much
+[29:19] mission critical if you go down a
+[29:22] billion-dollar facility doesn't generate
+[29:24] any revenue. That's just not good. So
+[29:25] when you're in the data center, I think
+[29:27] those guys have to be ready every
+[29:28] second. Data center customers are very
+[29:30] risk-averse and they want to make sure
+[29:32] that their equipment is going to work.
+[29:33] The other thing data center customers
+[29:34] want to do is they want to make sure
+[29:36] that not only can you ship the
+[29:37] equipment, but you could commission the
+[29:39] equipment on on site. So a lot of our
+[29:41] training classes is training technicians
+[29:43] to be data center commissioning people.
+[29:46] So what they do is they're able to go to
+[29:47] the data center, mechanical contractor
+[29:49] finishes the install, we then go make
+[29:51] sure the equipment is working the way
+[29:53] it's supposed to be working. All right,
+[29:54] now
+[29:55] you're in a great industry with great
+[29:56] companies that almost all come on.
+[29:59] How are you doing wallet share versus
+[30:01] organic growth new uh greenfield?
+[30:04] Look, we have our growth rates in the
+[30:07] future are going to be fantastic. I mean
+[30:08] think about it. I mean we've had a
+[30:09] compound annual growth rate over the
+[30:11] last 5 years that's been double digits
+[30:13] on on the top line. And then on the
+[30:15] bottom line, Jim, our our EPS growth has
+[30:17] been over 20% per year. So we have a
+[30:20] mixture, right? So we have greenfield as
+[30:22] well as we have certainly brownfields.
+[30:24] So we do a lot of work with uh existing
+[30:26] customers and we certainly are always
+[30:28] out with new customers every day. Now
+[30:30] when I read through your most recent
+[30:32] deck, the last two, you're a bit of a
+[30:33] throwback. I People have the
+[30:35] sustainability page. They either bury it
+[30:37] in the last one or they have the first
+[30:39] one then you move away and never hear
+[30:40] about it again. I keep telling this, "OH
+[30:42] MY GOD, it this is just core for you."
+[30:47] Yeah, you know, our our purpose as a
+[30:48] company is to challenge what's possible
+[30:50] and innovate for a sustainable world.
+[30:52] And I tell our employees that's our
+[30:53] North Star. And it it might not be
+[30:56] fashionable right now to be talking
+[30:57] about sustainability here in the United
+[30:59] States. But to us, we still talk about
+[31:01] it. And the reason why we talk about it
+[31:03] is cuz we have such great solutions for
+[31:05] our customers. We save our customers
+[31:08] fantastic amount of energy, okay? And it
+[31:10] also lowers their carbon footprint. Most
+[31:12] people don't realize, Jim, that 30% of
+[31:15] all the energy in the world goes to
+[31:16] buildings. And 40% of that is for
+[31:19] heating and cooling. And we know most
+[31:21] buildings operate very inefficiently. In
+[31:23] fact, most buildings waste about 30% of
+[31:26] the energy that they pay for.
+[31:28] And that's the opportunity that we at
+[31:30] Trane Technologies help our customers
+[31:32] with. Think about all the savings you
+[31:34] have with 30% Energy prices are rising.
+[31:37] Our paybacks keep going up because we're
+[31:39] saving our customers this wasted energy.
+[31:41] Okay, so take me into a data center. I
+[31:43] mean, the thing must be boiling and you
+[31:45] got to try to be sure that it stays
+[31:46] cool. What's the cost of keeping it cool
+[31:49] and how do you have the equipment that
+[31:51] can keep it 24/7 cool?
+[31:52] >> Well, we we data center vertical is very
+[31:55] strong for us, okay? Although I would
+[31:56] tell you that many verticals are strong.
+[31:58] >> that's fair. And it's not fair that I'm
+[31:59] focused on that because it's true. You
+[32:01] have a lot of stuff going
+[32:02] >> data center space, we are innovating at
+[32:04] a pace that we have never seen before,
+[32:06] okay? And a lot of those innovations are
+[32:07] for the data center vertical. However,
+[32:09] they're coming back through core
+[32:11] verticals as well as we make the product
+[32:13] more efficient. And and our product is
+[32:15] some of the most efficient in the in the
+[32:17] world, okay? We use in in our world, we
+[32:19] measure efficiency by coefficient of
+[32:21] performance or COP.
+[32:23] We used to think a COP of three or four
+[32:25] was efficient. We did a job in Australia
+[32:28] not too long ago. The COP was north of
+[32:31] 11.
+[32:33] It's just So, I mean, the data center
+[32:34] space is a great vertical. We'll
+[32:36] continue to lead there. uh but we have a
+[32:38] lot of other verticals we're very strong
+[32:39] in as well.
+[32:40] >> Okay, but how is it possible? I mean, we
+[32:41] don't have a lot of commercial
+[32:42] construction. We have no residential
+[32:44] construction to speak of, and you're
+[32:45] still that generating double digit. I
+[32:47] don't know how you're doing it. Uh our
+[32:49] direct sales force is a big help, okay?
+[32:51] We uh all of our employees are direct
+[32:53] sales, okay? That that are in the sales
+[32:55] function. And they just have an
+[32:57] unbelievable ability to have deep domain
+[33:00] expertise in their local markets. I I
+[33:02] was telling a an analyst the other day
+[33:04] was asking me questions.
+[33:05] 95% plus of our account managers or our
+[33:09] sales force, they don't sell to data
+[33:11] centers.
+[33:12] Okay? They sell to other core verticals,
+[33:14] whether it be higher ed, whether it be K
+[33:16] through 12, whether it be health care.
+[33:18] These are all verticals that we have a
+[33:19] lot of expertise in and our portfolio is
+[33:22] the broadest in the industry and it
+[33:24] allows us to be able to sell solutions
+[33:25] to these these customers. It's also
+[33:27] amazing. A lot of people say, "Well, are
+[33:30] they going to reassure me that you never
+[33:31] left? You're here." Our strategy for
+[33:34] decades has been we manufacture in
+[33:36] region for region. We have 21 plants in
+[33:39] the United States. We have one plant in
+[33:40] Mexico. 95% plus of what we sell in the
+[33:44] United States, we manufacture in the
+[33:46] United States. The job creation that we
+[33:48] have is right here in the United States.
+[33:50] We've added over 4,000 jobs over the
+[33:52] last 5 years by reinvesting in the
+[33:55] business, reinvesting in ourselves
+[33:57] through innovation, and serving our
+[33:58] customers in in a way that's that's very
+[34:02] important to Trend Technology.
+[34:03] >> that people keep saying, you know,
+[34:04] "Look, this building's ridiculous. They
+[34:06] can't keep putting up these data
+[34:07] centers." From your you know, your
+[34:09] boots-on-the-ground vision, are we
+[34:11] really going to be tapped out? Don't we
+[34:13] need these? The data center pipeline,
+[34:15] okay? This would be before they become
+[34:17] orders, is
+[34:19] more robust than I've ever seen it
+[34:20] before. Now, right now.
+[34:22] >> now as we speak. So And you're not
+[34:24] worried that there's like soft orders
+[34:26] somewhere, overbuilding? There is a lot
+[34:29] of demand right now and it will be a lot
+[34:31] of demand for the foreseeable future.
+[34:32] Now, I could see 4 or 3 years, we'll
+[34:34] talk about whether it's 5 or 7 years,
+[34:36] but for the foreseeable future, we have
+[34:38] a lot of demand right now in that
+[34:39] particular vertical.
+[34:40] >> Well, I got to tell you, if you if if
+[34:42] Dave Regnery says that that's what's
+[34:44] happening, I'm going with him, not the
+[34:46] doomers, who I'm getting tired of,
+[34:48] frankly. I'm getting tired of it. And
+[34:49] Dave Regnery is the chair and CEO of
+[34:51] Trane Technologies. What a stock. Great
+[34:53] to have you on the show.
+[34:54] >> for having me back and thanks for having
+[34:55] >> back after the break.
+[34:58] Coming up, you've got questions,
+[35:00] Cramer's got the answers. Get charged up
+[35:03] for a fast fire lightning round. Next.
+[35:15] Another crazy day in the market, and
+[35:17] this is exactly the kind of tape where
+[35:19] discipline matters. That's why we built
+[35:21] the CNBC Investing Club, to show you how
+[35:23] we're thinking through the market in
+[35:25] real time, what we're watching, what
+[35:27] we're actually doing with our portfolio.
+[35:29] You see it before we do. Right now, we
+[35:31] got something real special. And we're
+[35:33] going to send you a signed copy of my
+[35:35] new book, How to Make Money in Any
+[35:36] Market. Because yeah, well, cuz kind of
+[35:38] like I have no life at all besides
+[35:40] trying to make you money. I spent hours,
+[35:42] weekends, signing thousands of copies.
+[35:44] Maybe you want to give it to your dad
+[35:46] for Father's Day. I think he'd like it.
+[35:47] Or even new graduates to help them get
+[35:49] the right do it right early. I want you
+[35:52] to have access to my strategy. So, scan
+[35:54] the QR code or go to cnbc.com
+[35:59] /cramerbook.
+[36:02] Come join us. I'm telling you you're
+[36:04] going to like it. And now, it is time to
+[36:07] start with the lightning round. Question
+[36:08] number one is from Ralph from the same
+[36:10] stock to the bottom and back to the top.
+[36:11] Just to be clear, [music] I don't know
+[36:12] the stock question at the time I stepped
+[36:13] up to the first of the group. So, we'll
+[36:14] play the sound.
+[36:16] And then the lightning round is over.
+[36:18] Are you ready, Ski? Daddy is out of the
+[36:21] lightning round. Question number one,
+[36:21] let's start with James in New York.
+[36:24] James.
+[36:26] Jimmy Chill. Ooh ya. Ooh ya, chief. What
+[36:29] do you got for me?
+[36:31] All right. I First of all, shout out to
+[36:34] your wife Lisa for Mother's Day and my
+[36:36] new wife Deborah, okay? Thank you.
+[36:38] >> And God bless you and and also great
+[36:41] interview with Jesse last week, too, by
+[36:43] the way.
+[36:44] Call Chill. Wow, thank
+[36:47] >> yeah, okay, that's correct. I mean, I I
+[36:49] I tell everybody like you're the man,
+[36:51] okay?
+[36:51] >> Oh, thanks, buddy. Thank you. So,
+[36:53] anyway, I got this one here, okay? I've
+[36:56] been checking it out. I've been calling
+[36:58] Dylan and stuff and
+[37:00] and also you got a great staff, by the
+[37:02] way. Oh my god, yes. So, JP Morgan's a
+[37:05] good overweight. It's up 102% in the
+[37:08] last month. It's [music] up 300%.
+[37:11] 10% of their business is with Micron.
+[37:15] They do design and the stock is Silicon
+[37:18] Motion Technology.
+[37:20] That is called Si Mo, James, and we like
+[37:24] Si Mo. I you know, it moves moved a lot.
+[37:26] So, what you're doing these is you buy
+[37:28] some and then you wait for a pullback,
+[37:30] but you got to put some on and I think
+[37:32] it's a good call by you. Let's go to
+[37:33] Jerry in California. Jerry.
+[37:36] Jimmy Chill. Yeah, shaking here. What's
+[37:38] going on?
+[37:40] Fun season has arrived. We love to
+[37:42] travel. We love to win. Do you have a
+[37:45] take on Wynn Resorts? Yeah, they got
+[37:47] that you know, they got a problem over
+[37:49] there in the Gulf. They got this big
+[37:50] idea that they spent a lot of money on
+[37:53] and I got to hold off for now. I got to
+[37:54] wait to see what happens in the in that
+[37:56] area. Let's go to John in Illinois.
+[37:58] John.
+[38:00] Hello, Jim. Greetings from the Windy
+[38:01] City. You bet.
+[38:03] >> I'd like to say hi to all of Chicago.
+[38:04] I'm sorry.
+[38:06] Uh
+[38:07] I'm sorry about that, Jim. I'd like to
+[38:08] know your thoughts on Design
+[38:09] Therapeutics.
+[38:11] Pure spec. Pure spec. Understand, you
+[38:13] can lose everything or you can double on
+[38:15] that one. I don't know what it's going
+[38:16] to be. That's the problem. Let's go to
+[38:18] James in Georgia. James.
+[38:21] >> [music]
+[38:21] >> Hey, Jimbo. Want to give you a thank you
+[38:23] for bringing this company to my
+[38:25] attention. It's a diagnostics company.
+[38:27] Um I know they're not doing too good
+[38:29] right now, but this one seems to be
+[38:30] different. It's Billion to One.
+[38:33] We like Billion to One. We looked at We
+[38:35] thought the name was so silly, you know?
+[38:36] They're like Billion to One. I mean,
+[38:37] give me a break. I was talking to Ben
+[38:38] Stodo. He says, "How about Billion to
+[38:40] One?" I was like, "Are you kidding me?
+[38:41] Billion to One?" I said, "Ben, like I I
+[38:42] have lost money on Billion to One shots
+[38:45] at Belmont and a bunch of other tracks,
+[38:47] but it's a real company. Diagnostics
+[38:49] company, very good." I SAY BUY IT. AND
+[38:51] THAT, LADIES AND GENTLEMEN, IS THE
+[38:52] CONCLUSION OF THE LIGHTNING ROUND.
+[38:56] COMING UP WITH NVIDIA CEO Jensen Huang
+[38:59] joining President Trump in China,
+[39:01] Cramer's zeroing in on the AI race
+[39:04] between the US and China. Next.
+[39:14] Tomorrow, kick off the trading day with
+[39:16] Squawk on the Street.
+[39:19] Live from post 9 at the NYSE. Healthcare
+[39:22] insurance, those stocks are soaring. Uh
+[39:25] witness a UNH hitting a new high.
+[39:28] Cerebrus just breaking out here and
+[39:30] that's it.
+[39:31] But, healthcare in general, wow.
+[39:33] >> Yeah. I mean, no, thank you. And that's
+[39:36] been to me an opportunity, but wow, have
+[39:38] I been wrong calling that opportunity.
+[39:40] I've been way too early. It all starts
+[39:41] at 9:00 a.m. Eastern.
+[39:48] >> [music]
+[39:56] [screaming]
+[39:57] >> You buy Nvidia not for China, not
+[40:00] because of the Cerebrus IPO, but because
+[40:02] it's actually a cheap stock. Cheaper
+[40:05] than Intel, cheaper than AMD, cheaper
+[40:06] than Broadcom. Oh, and it's certainly a
+[40:08] lot cheaper than Cerebrus, even as
+[40:09] they're in the same business.
+[40:11] That, ladies and gentlemen, is just
+[40:13] plain nuts.
+[40:15] There would be no AI revolution without
+[40:18] Jensen Huang and Nvidia. The company
+[40:20] practically invented artificial
+[40:21] intelligence we know it and married it
+[40:23] with accelerated computing to give us
+[40:24] trillions of dollars worth of gains. Now
+[40:26] we're faced with a real test, which is
+[40:28] whether the biggest market outside the
+[40:30] United States, China, will be reopened
+[40:32] to them. We keep hearing that that it's
+[40:34] President Trump who's relenting and
+[40:35] allowing the chips to be sold there,
+[40:37] which is pretty silly because he allowed
+[40:38] it a long time ago and gave Jensen the
+[40:40] right to sell to China the green light.
+[40:41] It's President Xi who's been the
+[40:43] obstacle. And I think Xi is facing real
+[40:45] dilemma. He's worried about American
+[40:47] hegemony and the tech world. And he
+[40:49] won't a bit. He just won't help it.
+[40:51] He's concerned that China will fall
+[40:53] behind in the modern day space race, the
+[40:55] race for AI dominance. Right now, our
+[40:57] lead is defined by the Fineman. That's
+[40:59] Nvidia's next chip after the Vera Rubin,
+[41:02] named after the legendary Caltech
+[41:03] professor and Nobel Prize winner Richard
+[41:05] Feynman, who dazzled generations with
+[41:07] his wit and his wisdom. Despite what you
+[41:09] might hear, our lead is substantial. The
+[41:11] current iteration of what we're offering
+[41:13] the Chinese is like a hobbled version of
+[41:14] the Fineman. Well, the chips that Nvidia
+[41:16] is showcasing in the 2025 GTC event,
+[41:19] that's still a much better chip than
+[41:20] what the Chinese have.
+[41:22] Xi can let his companies buy that chip,
+[41:24] but two things would happen. First,
+[41:26] China will be working on an inferior
+[41:27] chip, therefore making inferior goods.
+[41:29] Second, and more important, he'd be
+[41:31] discouraging his own companies from
+[41:34] developing a competitive product. He'd
+[41:36] be furthering American hegemony.
+[41:38] He'd be forcing China's best engineers
+[41:40] to write code on a foreign company's
+[41:43] semis. It's a tough choice for everyone
+[41:45] now. There are people in the White House
+[41:47] who believe that Jensen is a globalist,
+[41:49] dirty word, wants free trade with
+[41:51] everyone no matter the cost. I think
+[41:53] he's simply got the same attitude as any
+[41:54] CEO with big export business. They hint
+[41:56] that Jensen's greedy because the Chinese
+[41:58] market for AI chips is said to be $50
+[42:01] million and he wants a big piece of the
+[42:02] pie. They worry that these chips could
+[42:04] be used against us by the People's
+[42:06] Liberation Army. On the other side are
+[42:08] people in the White House who think that
+[42:10] the best way to handle China is by
+[42:11] giving them handicapped Nvidia chips so
+[42:13] their engineers will be dependent upon
+[42:15] our technology. Knowing that the Chinese
+[42:17] military wouldn't dare rely on American
+[42:19] chips, PLA doesn't want to give an
+[42:21] American company a potential backdoor
+[42:23] into all of their most advanced
+[42:24] technology. Today the latter camp, the
+[42:26] pro-Nvidia biz camp, it seems to prevail
+[42:29] as the president brought Jensen Huang
+[42:31] with him to China. Beyond that, I do not
+[42:33] have more information, but I know this,
+[42:35] our country has a tremendous inferiority
+[42:37] complex when it comes to China. Even as
+[42:39] I think millions of Chinese would like
+[42:40] to move here. Yet I don't know many
+[42:42] Americans clamoring to live in China.
+[42:44] There's one thing
+[42:45] that we all can agree on, Nvidia chips
+[42:47] are the best in the world. They're a
+[42:48] huge edge. If you can get China hooked
+[42:51] on an inferior version, I say have at
+[42:53] it. Remember the big gating factor for
+[42:55] advanced generation generative
+[42:57] intelligence is our in our country at
+[42:58] least is power. The Chinese don't have a
+[43:01] problem with energy because they still
+[43:03] build coal plants and they're able to
+[43:04] build nuclear power plants without much
+[43:06] red tape. Not a lot of enforcement there
+[43:08] about the environment. You force them to
+[43:10] build their own chips, they will catch
+[43:12] up with seemingly unlimited electricity
+[43:14] and then they will surpass us. It's a
+[43:16] real debate. I think Jensen's on the
+[43:18] right side. Maybe his inclusion means
+[43:21] the president's riding and then I mean
+[43:23] siding with with him against the
+[43:26] hardliners. If he sides with Jensen,
+[43:29] he's backing American leadership and
+[43:30] American ingenuity, which is exactly
+[43:33] what the hardliners should want.
+[43:35] They just don't understand the stakes.
+[43:38] I like to say there's always bull market
+[43:39] somewhere. Perhaps just [music] for you
+[43:40] a year of mad money. I'm Jim Cramer. See
+[43:41] you tomorrow.
+[43:45] All opinions expressed by Jim Cramer on
+[43:46] this podcast are solely Cramer's
+[43:47] opinions and do not reflect the opinions
+[43:49] of CNBC or its parent company or
+[43:50] affiliates and may have been previously
+[43:52] disseminated by Cramer on television,
+[43:53] radio, internet, or another medium. You
+[43:55] should not treat any opinion expressed
+[43:56] by Cramer as a specific inducement to
+[43:58] make a particular investment or follow a
+[44:00] particular strategy, but only as an
+[44:02] expression of his opinion. Cramer's
+[44:03] opinions are based upon information he
+[44:05] considers reliable, but neither CNBC nor
+[44:07] its affiliates and or subsidiaries
+[44:08] warrant its completeness or accuracy,
+[44:10] and it should not be relied upon as
+[44:11] such. To view the full Mad Money
+[44:12] disclaimer, please visit
+[44:13] cnbc.com/madmoneydisclaimer.
