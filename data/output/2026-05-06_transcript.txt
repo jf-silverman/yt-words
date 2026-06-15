@@ -1,0 +1,1333 @@
+[0:01] My mission is simple, to make you money.
+[0:04] I'm here to level the playing field for
+[0:06] all investors. There's always a bull
+[0:09] market [music] somewhere and I promise
+[0:10] to help you find it. Mad Money starts
+[0:13] now.
+[0:17] Hey, I'm Cramer. Welcome to Mad Money.
+[0:20] Welcome to Cramerica.
+[0:23] How do you do my friends? I'm just
+[0:25] trying to make a little money. My job is
+[0:26] not just to entertain, but to educate,
+[0:28] to teach you. So, call me at
+[0:30] 1-800-743-CNBC
+[0:32] or tweet me at Jim Cramer.
+[0:35] Almost threw a brick at the TV this
+[0:37] morning. But, I was on the treadmill, I
+[0:38] don't carry a ton of bricks when I work
+[0:40] out. If I had one though, I would have
+[0:42] chucked it at the screen when I heard
+[0:43] again for the umpteenth time the same
+[0:46] skepticism
+[0:49] that's kept people out of the very
+[0:50] technology stocks that keep leading this
+[0:53] market higher, including today with the
+[0:55] Dow gaining 612 points. This week jumped
+[0:57] 1.47% and the Nasdaq where tech reigns
+[1:00] out performed it 2.02%.
+[1:04] Now, sure some of these gains might have
+[1:06] come about because of still one more
+[1:08] possible end of the war in Iran, does
+[1:09] that sound right to put it that way?
+[1:11] This time aided by the Chinese
+[1:12] government's brokering of some sort of
+[1:14] peace. Oil plummeting, taking interest
+[1:16] rates lower, creating a cozy backdrop
+[1:18] for a lot of stocks to go higher.
+[1:20] But, much of the gains still came once
+[1:22] again to those who own tech hardware,
+[1:25] not software, but hardware. Things like
+[1:27] storage, memory that process that that
+[1:30] that further artificial intelligence
+[1:31] dreams of giant companies that since
+[1:34] used returns are starting to happen.
+[1:37] While the stock market is the greatest
+[1:38] wealth creator in history,
+[1:40] I often feel like people miss out on the
+[1:42] biggest gains unless I beat them over
+[1:44] the head with a stick multiple times as
+[1:47] I did with Nvidia. I had to rename my
+[1:49] dog Nvidia. Look out, I might have to
+[1:52] rename Raghu and Tony. Yeah, I know,
+[1:55] Raghu Ann someone's really funny at
+[1:56] home. Anthropic and OpenAI one day.
+[1:59] Imagine Anthropic come over here. He'd
+[2:01] come over with a piece of steak in his
+[2:02] hand. Right here.
+[2:04] But right now I think some people are
+[2:05] getting the message at last that the
+[2:07] computing AI revolution represents
+[2:10] perhaps the greatest single trend
+[2:13] of our lifetimes.
+[2:15] Yet all I ever hear is people trying to
+[2:17] talk you out of participating in this
+[2:19] mana from heaven machine. It's too hard
+[2:22] to stick with the winners long enough to
+[2:24] make yourself rich. Because the quix
+[2:26] always talk about how ephemeral the
+[2:27] moves are, how dangerous they can be, or
+[2:29] or how much you're going to lose if you
+[2:30] don't trade in and out.
+[2:34] Like you can really catch those moves. I
+[2:36] I say no way. So do this. If you put 10
+[2:38] grand in the video a decade ago, it'd be
+[2:39] worth roughly, I don't know, $2.4
+[2:41] million. How about that?
+[2:43] But who had the fortitude to stick with
+[2:44] this one for an entire decade? Same as
+[2:46] Western Digital, Micron. They are all
+[2:47] making you so much money. So is the
+[2:49] redoubtable AMD, 66 points today.
+[2:52] Yet there's a whole cottage industry
+[2:53] that exists just to scare you out of
+[2:55] these winners.
+[2:57] Today was a discussion of the gains in
+[2:59] the data center stocks and how ephemeral
+[3:01] they'll be. The guest that I wanted to
+[3:03] throw the brick at said this rally
+[3:04] proves, "If you build it, they will
+[3:07] come." Which is a minor misquote from
+[3:09] the movie Field of Dreams.
+[3:11] If I hear that and I own tech, well, it
+[3:13] would make me want to sell.
+[3:15] You make a Field of Dreams analogy when
+[3:17] you're trying to explain that this whole
+[3:19] move in tech stocks is just a fairy
+[3:21] tale.
+[3:22] This kind of doomsday statement,
+[3:24] possibly uttered really subtly, that or
+[3:26] maybe even without a thought about it,
+[3:28] could mean to people at home, "Time to
+[3:31] get out now." It's a major reason why
+[3:33] investors have such a hard time sticking
+[3:34] with winners.
+[3:36] You see, the whole point of this data
+[3:37] center rally is that it's not a fairy
+[3:39] tale.
+[3:40] Because the data centers are being built
+[3:42] and the customers really are coming in.
+[3:45] They're on the playing field, they're in
+[3:46] the seats, they're paying big bucks, and
+[3:48] the momentum's building for every seat
+[3:50] to be filled. Go back to what we learned
+[3:52] from Amazon on Monday on the show. The
+[3:55] age of compute domination based on AI is
+[3:58] already well underway. The guest this
+[4:00] morning was begging for brick. He had it
+[4:02] all backward. See, they, meaning big
+[4:04] time paying potential customers, are
+[4:06] already here and unless you spent the
+[4:08] money to build the infrastructure,
+[4:10] they'll go somewhere else. Amazon Web
+[4:12] Services racking up big client wins at
+[4:15] an accelerating pace because it's
+[4:17] committed tens of billions of dollars to
+[4:18] get the right plant equipment in place
+[4:20] because it spent, not in spite of it,
+[4:23] because of it. Amazon is winning and
+[4:25] it's winning big.
+[4:29] That's an incredibly important thing
+[4:30] when you have companies like Anthropic
+[4:32] or OpenAI or Meta or TikTok or so many
+[4:35] other key clients making decisions about
+[4:37] where they should go, which
+[4:39] which web service should they use? If
+[4:41] you don't build the stadium, they're
+[4:42] going to go elsewhere and you'll leave a
+[4:43] lot of money on the table. CEO Andy
+[4:45] Jassy made it clear that there could be
+[4:47] an existential problem if Amazon doesn't
+[4:49] spend enough on infrastructure. It
+[4:51] doesn't. Unless you build it, they won't
+[4:53] come to you.
+[4:55] And that's just one example. There are
+[4:56] similar canards I hear all the time
+[4:58] about this seismic shift in the economy.
+[5:00] Oh, here's another one. We hear that
+[5:01] there's FOMO, fear of missing out, which
+[5:03] implies that you have these tardy
+[5:04] money-losing investors or fools actually
+[5:07] coming and picking up the trash. I come
+[5:09] back and I say, "You bet I have FOMO."
+[5:11] And that's what got me into so many
+[5:13] incredible stocks for my charitable
+[5:14] trust on the way up. You can see them.
+[5:16] Join CNBC Investing Club. They're all
+[5:18] there. I plead guilty to FOMO. I pulled
+[5:20] in some great winners at terrific prices
+[5:23] even though I was worried about paying
+[5:24] too much at the time. Fortunately, I was
+[5:26] more worried about missing out. FOMO can
+[5:28] be right, you know. What else? We hear
+[5:31] you it can't continue to run like this.
+[5:33] The other day I talked about how stocks
+[5:34] galloped to where they have to go. There
+[5:36] are times when the market's so out of
+[5:38] whack with the potential of a company
+[5:40] that its stock just has to blow through
+[5:41] level after level after level. There's
+[5:43] no such thing as perfect information,
+[5:44] people. These valuations change
+[5:46] correctly overnight because the facts
+[5:48] change, too. As AMD's Lisa Su explained
+[5:51] on this Morning Squawk on the Street, in
+[5:52] November she thought that her CPU market
+[5:54] would grow at about an 18% clip.
+[5:57] Turns out, here we are
+[5:59] in May, it's growing at 35%.
+[6:02] That's AMD's core business, so that
+[6:04] stock's not going to want to They're not
+[6:06] going to They wait take weeks or months
+[6:08] for AMD stock to go higher. It's going
+[6:09] to happen now.
+[6:11] Hey, speaking of AMD, which shot up more
+[6:12] than 18% today, there was a piece of
+[6:14] research that came out the day before
+[6:16] this extraordinary quarter. A downgrade
+[6:18] from a buy to a hold by a prominent
+[6:20] investment house. That's right, buy to
+[6:22] hold AMD. I said on air, I told you I
+[6:25] thought it was fanciful and would be
+[6:26] wrong.
+[6:28] In the meantime, I'm sure it scared a
+[6:30] lot of people out of the stock because
+[6:31] it came out right on the eve of the
+[6:33] quarter. When an analyst downgrades
+[6:34] right before earnings, people assume
+[6:36] they must know something. This time,
+[6:37] that was very wrong. Very first sentence
+[6:40] in the piece was about as wrong as you
+[6:41] can get. Quote, "First quarter results
+[6:43] and second quarter guidance to be in
+[6:45] line with our estimates and consensus as
+[6:47] possible upside is limited." Oh, man.
+[6:51] THEY KNOW NOTHING! IN FACT, AMD blew
+[6:53] away the estimates, which is why the
+[6:54] stock jumped so high.
+[6:57] Their next point, 2026 server CPU upside
+[6:59] cap due to foundry capacity constraints.
+[7:02] Okay, I asked CEO Lisa Su directly about
+[7:05] this issue. She told me it's simply not
+[7:06] a problem, stop worrying, but I felt
+[7:07] stupid even asking. Finally, the piece
+[7:10] suggested that AMD had already been
+[7:13] re-rated, meaning that the big buyers
+[7:15] have already pushed the stock up
+[7:16] aggressively, so there isn't enough
+[7:18] juice left to keep it running. Once
+[7:19] again, dead wrong.
+[7:23] Throughout this entire magnificent rally
+[7:25] in AMD and other stocks that are part of
+[7:27] the AI revolution, you had to do the
+[7:29] opposite of what this analyst said. You
+[7:31] have to think big, big, big because the
+[7:34] evidence is already in that these stocks
+[7:35] can't stay this low given the
+[7:37] circumstances. There's just too much
+[7:38] money already dedicated to getting in.
+[7:41] The AI stocks are simply trying to catch
+[7:43] up to overwhelming levels of demand from
+[7:45] their customers. Don't get me wrong. I
+[7:47] get where these analysts are coming
+[7:49] from. I too figured these stocks would
+[7:51] have stopped going up ages ago, but they
+[7:53] haven't. The analysts, including this
+[7:55] one, were wrong, and we need to
+[7:57] understand why.
+[7:58] On the one hand, I won't excuse these
+[8:00] mistaken calls, either. I'm a
+[8:01] journalist, not some big-time hedge fund
+[8:03] manager or research analyst. Yet, after
+[8:05] spending one day at Amazon, I learned
+[8:07] that the money's flowing in incredibly
+[8:08] fast for each facility they have, for
+[8:10] each part of their data center network,
+[8:12] and for so much of their logistics
+[8:14] platform. If any of these people were to
+[8:16] spend time with Amazon, they'd know why
+[8:17] this company feels compelled to keep
+[8:19] spending fortunes on building new data
+[8:21] centers. If they didn't spend, they'd
+[8:22] lose these gigantic customers who can't
+[8:25] wait. We're now at the point where if
+[8:27] Amazon doesn't put money in, these their
+[8:29] numbers actually have to go down, not
+[8:31] up, because that business and its
+[8:33] billions of dollars in payments will go
+[8:35] to Alphabet or Microsoft. The
+[8:37] opportunity in this fourth industrial
+[8:39] revolution, this computer AI economy, is
+[8:40] simply much larger than anyone thought,
+[8:43] with the possible exception of yes, you
+[8:44] know, Jensen Huang at Nvidia.
+[8:47] Here's the bottom line. Forget the
+[8:49] ironic reference to Field of Dreams.
+[8:51] When it comes to the data center, if you
+[8:53] build it, they really will come. And if
+[8:55] you don't build it, they will simply go
+[8:57] to the other guy who did build it, to
+[9:00] the other stadium. And you know why?
+[9:02] Because right now, there is so much
+[9:05] flowing to those who build it that,
+[9:07] well, let's just put it this way, Amazon
+[9:09] built it, and the place it's packed.
+[9:14] Nico in Illinois, Nico.
+[9:17] Uh Jimmy Chillen our Investing Club.
+[9:19] Hey, shout out Carley Garner also safe
+[9:21] being awesome on the charts last week.
+[9:24] Thank you. Yeah, thank you. What's up?
+[9:27] Blue y'all, Jim. So, as we know or see,
+[9:29] the market has reached a phase of
+[9:31] denial, and maybe I got the nail on the
+[9:33] head here. So, for back at or on a
+[9:35] trading desk, like the idea I realized
+[9:38] innovate the trading floor sometime ago
+[9:40] or a data center. What are one or two
+[9:43] fundamental catalysts for a concentrated
+[9:46] market such as tech that we can look
+[9:49] into to start gearing past the mile.
+[9:50] Shout out Benioff, stock CRM. Thank you,
+[9:53] Jim.
+[9:54] Okay, CRM's very tough. It's one of my
+[9:56] smallest positions. It's tough because
+[9:59] the market hates software, whether it be
+[10:00] Palantir, whether it be ServiceNow,
+[10:02] whether it be Salesforce, whether it be
+[10:04] Workday. It doesn't matter. It hates It
+[10:06] hates
+[10:07] Adobe. [music]
+[10:08] It hates software so much that it even
+[10:10] has gotten to
+[10:12] Microsoft. I'm not going to push
+[10:15] anything that's software. All right,
+[10:17] when it comes to data center, it's
+[10:18] [music] true. If you build it, they're
+[10:20] here. I'll make money tonight. CVS
+[10:22] Health just put [music] a huge quarter
+[10:23] with a solid beat and raise. I'm
+[10:25] learning all about it with the company
+[10:26] CEO. And Kraft Heinz, this stock has
+[10:28] been a real hot dog lately.
+[10:32] >> [music]
+[10:32] >> So, could their latest earnings be the
+[10:33] positive signal investors are looking
+[10:35] for? I'm checking in with the company's
+[10:37] formidable new CEO. And Honeywell spun
+[10:39] off its specialty chemicals business
+[10:41] [music] through an alpha called
+[10:41] Solstice. I'm learning all about the
+[10:43] company and its quarter and its plans
+[10:45] for the future with the CEO. Not talked
+[10:47] talked enough
+[10:49] talked about enough. [music] That's what
+[10:50] I say about that company. It's David
+[10:52] Faber.
+[11:01] >> [music]
+[11:04] >> Don't miss a second of Mad Money. Follow
+[11:07] @JimCramer on X. [music] Have a
+[11:09] question? Tweet Cramer #MadMentions.
+[11:12] Send Jim an email to madmoney@cnbc.com
+[11:15] or give us a call at 1-800-743-CNBC.
+[11:18] [music]
+[11:20] Miss something? Head to
+[11:22] madmoney.cnbc.com.
+[11:28] >> [music]
+[11:33] >> In Fortnite's game play, I told you to
+[11:35] expect a great quarter from CVS Health.
+[11:38] That's exactly what we got this very
+[11:41] morning.
+[11:42] >> [cheering]
+[11:42] >> CVS also owns Aetna, a huge health
+[11:44] insurance company, and Caremark, the
+[11:46] number one pharmacy benefit manager.
+[11:48] Today they reported magnificent 39 cent
+[11:51] earnings beat of a $2.18 basis with
+[11:53] higher than expected revenue. And
+[11:55] management raised their full year
+[11:56] forecast pretty substantially. As a
+[11:58] result, the stock shot up 7.7% today.
+[12:01] >> [music]
+[12:02] >> Reaching a three-year high. So, can the
+[12:04] stock keep running? Is it finally coming
+[12:06] all together? Earlier today we sat down
+[12:08] with David Joyner, he's the turnaround
+[12:09] artist, chairman and CEO of CVS Health
+[12:11] to find out. So, take a look.
+[12:16] Mr. Joyner, welcome back to Mad Money.
+[12:18] Yeah, thank you, Jim. Thanks for having
+[12:19] me back.
+[12:20] >> I'm thrilled that you're here. It's been
+[12:21] now over a little bit over 18 months.
+[12:23] It's been a bit of a journey. Amazing
+[12:25] quarter. Before we get into it, what
+[12:27] have you learned and what are you
+[12:29] starting to really work on?
+[12:31] Well, I
+[12:31] the last 18 months has been about, you
+[12:34] know, mostly a recovery and focusing on
+[12:36] the basics. So, um when we looked at
+[12:38] specifically in our Aetna organization,
+[12:41] um it's a really great and well-run
+[12:43] business. Unfortunately, they kind of
+[12:45] got off track. So, we spent a lot of
+[12:46] time focusing on culture, focusing on
+[12:48] the right team, and focusing on
+[12:50] execution. And I think what you've seen
+[12:52] in large part the this this past quarter
+[12:54] has been, you know, the now what is now
+[12:56] five quarters of of improvement in in
+[12:59] the Aetna business.
+[13:00] And as important the rest of the
+[13:01] business, we couldn't take our eye off
+[13:03] the ball. So, whether it be our pharmacy
+[13:05] business and or a PBM or a clinic
+[13:07] business, it's all about making sure we
+[13:08] stayed focused on delivering on the
+[13:10] basics and focusing on the consumer
+[13:12] experience. Now, a lot of people don't
+[13:14] realize that one of the major jobs you
+[13:16] have is actually pricing, pricing of
+[13:18] medical advantage, pricing of
+[13:19] reimbursement, worried about that. It
+[13:22] looks like everything came together,
+[13:23] though. How did that happen?
+[13:25] Well, if you go back to what we've been
+[13:28] working on on the basics, um we spent a
+[13:30] lot of time making sure that we had the
+[13:32] right actuaries, we had the right
+[13:33] forecast, we had the right kind of look
+[13:35] in terms of where we thought the
+[13:37] marketplace was going. And a large part
+[13:39] is how the government chooses to price
+[13:40] this business, and we have to then build
+[13:42] a product that actually be able to it
+[13:44] can perform within within that
+[13:45] framework. So, this is 2 years in a row
+[13:48] in which we've actually demonstrated
+[13:49] that yes, we can we see where the
+[13:51] marketplace is going, we see what we
+[13:52] need to be building, and ultimately it's
+[13:54] been able to deliver again above our
+[13:57] expectations for that Medicare Advantage
+[13:59] product.
+[14:00] >> I hope people realize at home how hard
+[14:01] it is to be right for 2 years. I mean,
+[14:03] it's amazing. And one of the reasons why
+[14:05] I think your stock went up is that
+[14:07] people say, "Hey, this guy can figure it
+[14:09] out." But you also are a demon about
+[14:12] recognizing a word you use five times in
+[14:15] the call, the friction in the system.
+[14:17] It's There's tons of it.
+[14:18] >> Yeah. Yeah, I think that is probably the
+[14:21] most frustrating part of healthcare. One
+[14:22] is too expensive, and people have a hard
+[14:25] time navigating, and when they do
+[14:26] navigate, they feel like there's just
+[14:28] friction. So, we have spent a lot of
+[14:30] time in our organization trying to
+[14:31] rethink and reimagine what a consumer
+[14:34] experience would be like. And
+[14:35] ultimately, this is being done at Aetna.
+[14:37] We've led the market in terms of prior
+[14:39] authorization, reducing the number of
+[14:42] prior authorizations, connecting more
+[14:45] effectively with the providers. So,
+[14:46] we're doing real-time integration. So,
+[14:48] this is being done without the patient
+[14:49] in the middle. And ultimately, we're
+[14:51] going to try to standardize that so that
+[14:53] works more in real time.
+[14:55] And also, the same thing on the pharmacy
+[14:56] side. We spent a lot of time, you know,
+[14:58] between our PBM and our retail pharmacy,
+[15:00] what are the pain points and what are
+[15:01] the friction points that that the
+[15:03] consumers really find unattractive and
+[15:06] or
+[15:07] or frustrating. And so, that has allowed
+[15:08] us again to focus on the things that we
+[15:10] know will actually improve the consumer
+[15:12] experience. So, a lot of it is
+[15:13] technology, and a lot of it is working,
+[15:15] you know, more effectively with the
+[15:16] prescribers and with the with the with
+[15:18] the actual pharmacists.
+[15:19] >> It's detail. It is detail. this. Now,
+[15:22] the emphasis here is on the latter word.
+[15:25] A lot of people know the middle as being
+[15:29] the the place, meaning the front of the
+[15:31] store. The front of the store has not
+[15:32] been emphasized in any of the documents
+[15:34] for the quarter. I know that must be for
+[15:37] a reason. What can we say about that?
+[15:40] People who are thinking about the stock,
+[15:41] maybe they shouldn't be thinking so much
+[15:43] about the aisles they get to to get to
+[15:46] health care, but that health care is
+[15:47] primary for this company and that that's
+[15:49] the way it should be. Yeah. So, I I look
+[15:51] at the transition of our company. So, we
+[15:54] started as as a pharmacy and you would
+[15:56] actually look at it in terms of the
+[15:57] front store and the back store.
+[15:59] With the acquisitions of Aetna and
+[16:01] Caremark, we became a health solutions
+[16:03] company and ultimately we're we're
+[16:05] moving the business into a health care
+[16:06] services technology focus around the
+[16:08] consumer experience. So, we believe that
+[16:11] at least from a from a health standpoint
+[16:13] that we we have all the assets to be
+[16:15] able to manage the the total cost of
+[16:17] care and ultimately make the health care
+[16:19] experience better so that we can lower
+[16:20] cost, take the friction out of the
+[16:22] process, and improve their their overall
+[16:24] experience. If I had to go into if my
+[16:28] CVS, which I like very much, and I buy
+[16:30] stuff for Halloween and I buy my candy
+[16:33] and everything, if I had to reimagine
+[16:34] the store, some of those things I'd
+[16:36] still want. How do you satisfy both?
+[16:40] Yeah, it's we're we're constantly
+[16:42] working on the local markets and
+[16:44] figuring out what that consumer and what
+[16:46] that demographic actually finds
+[16:47] attractive because we still need to be a
+[16:49] destination. We want to be a health care
+[16:51] destination, but we also in some cases,
+[16:53] as we talked about, we're also a
+[16:56] convenience location. So, we have to
+[16:58] have the appropriate assortment of
+[17:00] products so that people are actually
+[17:02] able to to
+[17:03] to get those on demand or in in a
+[17:05] convenient mode, but also then lead to
+[17:08] the health care solutions that that
+[17:09] we're driving in the back of the back of
+[17:11] the pharmacy, which is really elevating
+[17:13] the role of that pharmacist to become
+[17:14] that clinician to provide more care to
+[17:16] the individual.
+[17:17] >> Well, let's talk about that. We spent uh
+[17:19] Monday at Amazon. Well, Amazon's got a
+[17:22] terrific health initiative and I like a
+[17:24] lot of it, but at the same time I like
+[17:26] to talk to my pharmacist. My Rite Aid
+[17:28] close, my pharmacist Jerry knew me, he
+[17:31] knew my wife. I want to know my
+[17:33] pharmacist.
+[17:34] How much of an advantage is it to have
+[17:36] that pharmacist at the store versus
+[17:38] online? Yeah. So, I'm a big believer of
+[17:41] meeting the customer where they are. So,
+[17:43] I think that there is going to also
+[17:45] always be somebody that will want to
+[17:47] have
+[17:48] medications delivered to their home. We
+[17:50] have same-day delivery in our stores. We
+[17:52] have a drive-thru as a matter of
+[17:54] convenience, but still the consumer, you
+[17:57] know, on the vast majority of occasions
+[17:59] still chooses to come into the to to our
+[18:01] pharmacy. Because of that connection
+[18:04] that that you that you mentioned, we
+[18:06] think our pharmacist and we've invested
+[18:08] in that college experience, we've
+[18:09] invested in the in the technology to
+[18:11] allow them to engage and or work with
+[18:14] the with the consumer differently. And
+[18:15] that is what I think creates the
+[18:17] loyalty, it creates the trust, and then
+[18:19] it then becomes the gateway for us to be
+[18:22] able to pull through the other services
+[18:23] that we want across the enterprise.
+[18:25] >> And how about technology, the app, the
+[18:27] things that you're doing to make us more
+[18:28] informed? Yeah, I think that this is
+[18:30] probably what I'm most excited about in
+[18:32] terms of where we're going as a as a
+[18:34] company.
+[18:35] Today we talk about all the frustrations
+[18:37] around it's hard to navigate, it's too
+[18:39] expensive. All the friction,
+[18:42] we are actually launching Health 100,
+[18:45] which is our our new app. And it's going
+[18:47] to become the host and or what I would
+[18:49] call is the the gateway into you know,
+[18:52] into our own company. So, we're building
+[18:54] an experience so that people can
+[18:55] anticipate the prior authorization so
+[18:57] they don't it doesn't happen to them, it
+[18:59] actually we can solve it beforehand.
+[19:01] They know what things are going to cost,
+[19:03] they know how to navigate the system,
+[19:04] and we're doing this across our own
+[19:06] ecosystem. So, whether you're an Aetna
+[19:08] member, a Caremark member, or a CVS
+[19:10] member, we're trying to create an
+[19:11] experience through technology that
+[19:13] allows them to be able to I have a much
+[19:15] better experience.
+[19:17] And then we're opening it up to the rest
+[19:18] of the market. And this is where the
+[19:19] interoperability comes in because if you
+[19:21] look at where the administration is
+[19:23] right now, the reason that health care
+[19:25] is so fragmented is cuz you still have
+[19:28] you know, everything kind of hosted
+[19:29] inside of each one of the doctor's
+[19:31] offices or hospitals. Nobody talks to
+[19:33] one another. Not at all.
+[19:34] >> And and that's part of what we're trying
+[19:36] to solve. We're trying to figure out how
+[19:37] we become the connector across the
+[19:39] entire ecosystem opening it up to
+[19:41] anybody who wants to come in. And
+[19:43] ultimately the consumer will actually
+[19:44] own that data and own that experience.
+[19:46] And with the new genetic AI and other
+[19:48] tools that are available, we think there
+[19:50] is going to be a transformation when you
+[19:52] combine AI and the interoperability that
+[19:54] just serve our consumers more
+[19:56] effectively.
+[19:56] >> Well, I think that we we want to be in
+[19:58] control of our health and and control of
+[20:00] our health care. And I think you're
+[20:01] going to make it so we can. It's good
+[20:02] for everybody. It's good business.
+[20:04] >> Yeah. Well, anyway, I want to thank
+[20:05] David Dwiner, chairman CEO of CVS
+[20:07] Health. The stock went up a lot, but the
+[20:09] earnings went up. So it's not it's not
+[20:11] more expensive. I would argue that it's
+[20:14] cheaper. It's the right [music] thing to
+[20:15] do, man. Money's back in.
+[20:18] Coming up, was Kraft Heinz able to
+[20:20] squeeze out a strong first quarter?
+[20:22] Cramer's digging in with the company's
+[20:24] top brass to find out next.
+[20:32] >> [music]
+[20:36] >> All right. So I'm having a spree I
+[20:37] couldn't believe it. I thought my eyes
+[20:38] were playing tricks on me because Kraft
+[20:40] Heinz, the packaged foods powerhouse,
+[20:42] reported a much better than expected
+[20:43] quarter. The stock actually popped today
+[20:45] rallying over 2%. Keep in mind this
+[20:47] thing's been drifting steadily lower for
+[20:49] 4 years. It's been not a great stock to
+[20:51] the point where Kraft Heinz decided to
+[20:53] break itself up, bringing in Steve
+[20:55] Cahillane, the guy who orchestrated the
+[20:56] Kellogg breakup that was so smart, as
+[20:59] its new CEO. And all the way the stock
+[21:01] kept getting clobbered. But today Kraft
+[21:03] Heinz posted a clean upside surprise,
+[21:04] albeit versus low expectations. Could
+[21:06] this be getting up a larger run? Let's
+[21:08] dig in deeper with Steve Cahillane, I
+[21:10] regard him as a friend of the show. He's
+[21:11] the new CEO of Kraft Heinz, get a better
+[21:13] sense of the quarter and what comes
+[21:14] next. Mr. Cahillane, welcome back to Mad
+[21:16] Money.
+[21:18] Jim, great to be with you.
+[21:19] >> All right, Steve, I remember when you
+[21:20] came in on Kellogg, I was doubtful. I
+[21:22] didn't know what you could do. I figured
+[21:23] it's going to be too hard. You handled
+[21:25] it with a plum. You had two different
+[21:27] buyouts, made a fortune for people.
+[21:29] You're in Kraft Heinz now. Is it a
+[21:31] tougher thicket than even Kellogg was?
+[21:35] You know, it's very similar, Jim. I
+[21:36] mean, they're both iconic American
+[21:38] companies with great brands that needed
+[21:40] uh to be relevant to the next generation
+[21:42] of consumers. And you know, what I found
+[21:44] when I came inside Kraft Heinz is the
+[21:46] same thing. Outstanding brands been
+[21:48] under invested and with investment,
+[21:51] focus, attention, good customer plans,
+[21:53] good consumer plans, that they can grow
+[21:55] again. All right, so what happened? I
+[21:56] remember when Berkshire Hathaway put
+[21:58] this together. It was one of the most
+[21:59] exciting deals ever because we really
+[22:02] felt you had you had a couple of great
+[22:03] brands. You kind of had this great
+[22:05] international footprint. What occurred?
+[22:07] And is Berkshire still in board or not?
+[22:10] Where Where are things?
+[22:13] Yes, so I think the industrial logic of
+[22:15] putting the two companies together was
+[22:17] sound. Where we missed the mark, where
+[22:20] the company missed the mark, was all the
+[22:21] cost savings that were generated, which
+[22:23] were quite substantial, flowed directly
+[22:25] to the bottom line. I mean, the EBITDA
+[22:27] margins went up to close to 30%. There
+[22:29] was not enough investment put back in
+[22:32] the brands to attend to the top line and
+[22:34] grow the top line. There was not the
+[22:36] revenue synergy, there was just the cost
+[22:38] synergy. On the Berkshire Hathaway
+[22:40] front, they're big shareholders. They
+[22:41] own almost uh around 27% of our stock.
+[22:44] They're no longer on the board, uh but
+[22:47] they're uh supporters, they're
+[22:49] investors, and uh very important
+[22:50] investors, obviously. All right, so what
+[22:52] did you do to take already obviously in
+[22:55] the right direction? 20 29% of your
+[22:57] portfolio was gain your holding share
+[22:59] the first quarter to 54% in March. What
+[23:02] are you doing? This is a radical gain
+[23:05] for this company.
+[23:07] Yeah, we still have a long way to go,
+[23:08] Jim, but we're we're pleased with the
+[23:10] results that we've had so far. You know,
+[23:12] the top line this quarter was flattered
+[23:14] by an Easter shift and by some pantry
+[23:16] loading, but there's no denying that the
+[23:18] share performance improved as you just
+[23:21] outlined. It improved because we
+[23:23] invested behind the brands that were you
+[23:25] know, we have the right to win in. You
+[23:27] know, our sauces, our spreads, our mac
+[23:29] and cheese. We innovated really well.
+[23:32] You know, I found inside the pipeline
+[23:33] some exciting things like Kraft Power
+[23:35] Mac. We put substantial incremental
+[23:38] investment behind that. Because of that,
+[23:39] we got in 35,000 stores, substantially
+[23:42] more than we would have. So, it's the
+[23:44] blocking and tackling, the investing,
+[23:46] handling this business like a consumer
+[23:48] good
+[23:50] company with lots and lots of treasures
+[23:52] behind us. And so, that's what happened.
+[23:54] The other thing that I'd say is, you
+[23:56] know, when I came in, obviously, the
+[23:57] company was very focused on the
+[23:59] separation. You know, when you take
+[24:01] 36,000 people and redirect them towards
+[24:03] a maniacal focus on growing the top line
+[24:06] and not in separating the business, it's
+[24:08] amazing what you can achieve with that
+[24:10] type of, you know, human capital against
+[24:13] much more, I would say, aspirational
+[24:16] goal, a more
+[24:18] constructive goal, something that they
+[24:19] could really get behind.
+[24:20] >> that was you know, from my take, that
+[24:23] had been lacking till you got there,
+[24:25] whether it was being split or not,
+[24:27] frankly. I think that what you've done
+[24:29] with whole, win, and win big, again, has
+[24:32] everybody understanding what could go
+[24:34] on. How did you pick those buckets, and
+[24:37] how do you know that win big is where
+[24:39] you can put the most money in?
+[24:42] Yeah, so we we started by examining all
+[24:45] of our brands and where we felt like we
+[24:46] really had the right to win, where we
+[24:48] had competitive differentiated advantage
+[24:50] versus our competition. One of the
+[24:52] single clearest examples of that is the
+[24:54] brand Heinz. I mean, Heinz is one of the
+[24:57] most recognizable consumer brands in the
+[24:59] world, right? Like 98%. It's got
+[25:02] household penetration that's a fraction
+[25:04] of that. So, a real opportunity to get
+[25:06] in more households and grow. We look at
+[25:09] mac and cheese, which has been around
+[25:10] for a long, long time, but, you know,
+[25:12] had been a bit, you know, challenged by
+[25:15] uh smaller competitors coming in with
+[25:17] better offerings around protein, around
+[25:20] fiber, and we knew we could make
+[25:21] adjustments to the portfolio there. So,
+[25:23] where we felt we had strong brands where
+[25:25] we could differentiate better and make a
+[25:27] connection with the consumer through the
+[25:29] customer is where we decided. Now, we
+[25:31] made some changes along the way. Capri
+[25:33] Sun is a great example. We had that in,
+[25:36] you know, a win category. Well, as we
+[25:38] discovered more and learned more, we
+[25:40] felt that that was a win big opportunity
+[25:42] because where we were losing business in
+[25:44] Capri Sun is, you know, kids were aging
+[25:47] out of the brand. Well, by coming up
+[25:49] with something that was halfway between
+[25:51] a kids drink and a sports drink, you
+[25:53] know, come out with Capri Sun with
+[25:55] electrolytes, we could actually innovate
+[25:58] to keep consumers with us. So, we moved
+[26:00] that into win big. And so, as I explored
+[26:02] the the portfolio with the team, I found
+[26:05] that there was a lot more saliency to
+[26:07] these brands and a lot of equity
+[26:09] building opportunities if we just put
+[26:11] our investment into smart ways. The
+[26:14] other thing we did, which I think is
+[26:15] really exciting, which we're just
+[26:17] starting now, is this NFL partnership.
+[26:19] And so, you think about our condiments
+[26:21] business, I mean, Heinz ketchup, Heinz
+[26:24] mayonnaise, Heinz relish, it is built
+[26:27] for Thursday night football, for Sunday
+[26:29] afternoon football, and partnering with
+[26:31] the NFL and starting with the NFL draft,
+[26:34] you know, with pick number 57 gets a
+[26:37] lifetime supply of ketchup. I mean, the
+[26:39] team just came up with some great ideas
+[26:42] to make our brands fun again and very
+[26:43] relevant.
+[26:44] >> that's right. They've not been fun. I
+[26:46] think they've been pushed around way too
+[26:48] much. I did want going you, you've got
+[26:51] some brands that are inexpensive, uh
+[26:54] perfect for a person, you know, it's
+[26:55] kind of struggling and you've got some
+[26:57] brands that are expensive. Uh are do you
+[26:59] find that you've got a a mix that's
+[27:01] right for the American consumer or is
+[27:02] the American consumer hurting too much
+[27:04] to pay up even for good uh
+[27:07] for Heinz ketchup, so to speak?
+[27:10] Yeah, I think we've got a portfolio
+[27:11] that's built for the moment, for sure.
+[27:13] We're in just about every aisle in the
+[27:15] store, uh but affordability, which you
+[27:17] just mentioned, is incredibly important.
+[27:20] Even if we're in the higher end of the
+[27:21] price tiers, like Heinz ketchup, which
+[27:23] is a premium uh ketchup offering,
+[27:25] obviously, we have to look at our whole
+[27:27] price package architecture structure and
+[27:30] say, "Do we have the right entry-level
+[27:31] price points? Are we doing everything we
+[27:33] can leading into productivity so that we
+[27:35] can put the best affordable options out
+[27:38] there for family budgets, which are
+[27:40] under pressure?" So, that is very much a
+[27:42] focus of ours. How every item in our
+[27:45] portfolio, every product in our
+[27:47] portfolio, starts with a question, "Is
+[27:49] this the right affordability value uh
+[27:52] equation for the consumer today?" And
+[27:55] what percentage do you think you have to
+[27:56] augment with natural just to be able to
+[27:58] kind of change the the impression that
+[28:00] Kraft Heinz has, which is that, you
+[28:02] know, I don't know, you can tell me,
+[28:03] maybe it's just not true, but people
+[28:04] feel it's just got a lot of
+[28:06] preservatives. That's the problem that's
+[28:07] been dogging Campbell's, even though
+[28:08] it's not true, either.
+[28:11] Yeah, it depends on where you are in the
+[28:12] portfolio, Jim, but look, health and
+[28:14] wellness is a real trend, it's an
+[28:16] important trend. Clean labels is a real
+[28:18] trend, it's an important trend. So,
+[28:19] we're looking at our portfolio, where we
+[28:22] can renovate, where we can replace,
+[28:23] where we can innovate around that health
+[28:26] and wellness, you know, taking
+[28:27] ingredients out that consumers don't
+[28:29] want. That's that's part of what we must
+[28:31] do. But, you know, I always say, you
+[28:32] have to make it and you can't fake it.
+[28:34] So, you know, when we came out with
+[28:36] Power Mac and Cheese, it really does
+[28:38] have, you know, 17 g of protein, 7 g of
+[28:41] fiber, uh and and a much more affordable
+[28:43] uh offering than some of the
+[28:45] competition. That's real, that's not
+[28:47] made up. And so, we're working on our
+[28:49] portfolio to make it more relevant for
+[28:51] what the consumer wants today.
+[28:53] >> Well, this is the same Steve I saw who
+[28:54] got in and realized that wait a second,
+[28:57] there's something here with Kellogg.
+[28:58] It's not just frosted cereals. There was
+[29:01] a lot more to it. You made a lot of
+[29:02] money then. I I when I saw that you came
+[29:04] in, I reached out immediately cuz I knew
+[29:06] you're going to have another win, Steve,
+[29:08] cuz that's just what you do. Thank you
+[29:09] so much for coming back on Mad Money.
+[29:12] Super. Thanks for having me, Jim. Really
+[29:14] appreciate it.
+[29:14] >> Absolutely. That's Dave Steve Cahillane
+[29:16] is the CEO of Kraft [music] Heinz, KHC.
+[29:18] I'm telling you people, you may not
+[29:20] believe me. I don't care.
+[29:21] >> [music]
+[29:22] >> This guy's a winner, so therefore KHC is
+[29:24] a winner. Mad Money is back after the
+[29:25] break.
+[29:27] >> [music]
+[29:27] >> Coming up, the countdown to summer is
+[29:29] on, but that may not be the only
+[29:31] solstice that should be on your radar.
+[29:33] The CEO of Solstice Advanced Materials
+[29:35] [music]
+[29:36] is making his case to Cramer next.
+[29:42] >> [music]
+[29:48] >> Last October, one of my long-time
+[29:50] favorites, Honeywell, spun off its
+[29:51] specialty chemical business as Solstice
+[29:53] Advanced Materials, which started
+[29:55] trading at just under 49 bucks. This is
+[29:57] a company that makes advanced materials
+[29:59] for semiconductor manufacturing, data
+[30:00] center cooling, refrigerants, nuclear
+[30:02] power, health care packaging, and the
+[30:04] defense industry. Those are all strong
+[30:06] end markets, hence why the stock's been
+[30:08] just a fantastic performer. It ran for
+[30:10] all the way up to 83 as of last night's
+[30:11] close. Okay, when Solstice reported this
+[30:13] quarter, delivered higher than expected
+[30:15] sales, slightly better than expected
+[30:16] adjusted earnings, but their net income
+[30:18] came in a tad below consensus. Same
+[30:20] time, management didn't raise their
+[30:21] full-year forecast, which is not what
+[30:23] you might want to see given the fact the
+[30:24] stock is up 64% year-to-date. Maybe
+[30:26] that's why it fell 2%. It's okay. Still,
+[30:29] many of their core businesses are doing
+[30:31] great. Electronic materials up 21%,
+[30:34] refrigerants up 19%, nuclear business,
+[30:36] which is all about making fuel, jumped
+[30:38] 27%. Club members know that we thought
+[30:40] that was really exciting. So, is this a
+[30:42] buy or pull back or should we be
+[30:43] concerned? Let's check in with David
+[30:45] Soileau, who's the president and CEO of
+[30:46] Solstice Advanced Materials to learn
+[30:47] more about the the the company. Mr.
+[30:50] Soileau, welcome to the show.
+[30:51] >> Jim, great great to be here. Thanks for
+[30:52] having me.
+[30:53] >> Okay, so I got to tell you, David, it's
+[30:54] been uh one great ride from the very
+[30:56] beginning. The stock came out
+[30:58] undervalued cuz people didn't understand
+[31:00] all the things you've had. How are you
+[31:02] sorting things out because you got some
+[31:03] really fast growers in this company. No
+[31:05] question about it. We're really excited
+[31:07] about the secular growth trends that
+[31:09] we're part of. And I think we just had
+[31:11] to tell the story of Solstice because as
+[31:13] you mentioned right at the beginning,
+[31:14] we're in a lot of different markets, but
+[31:16] those markets are really exploding in a
+[31:18] lot of areas. And so getting that
+[31:20] message out and then doing a lot of
+[31:22] capital investment to make sure we can
+[31:24] withstand that growth from a
+[31:25] manufacturing standpoint has been a key
+[31:28] uh key initiative for us. And you're
+[31:29] starting to see the growth, you know,
+[31:30] 10% this first quarter and we're we're
+[31:32] really excited about the future. But you
+[31:34] also have a great balance sheet. They
+[31:35] gave you a good balance sheet, which
+[31:36] sometimes they don't do. And are there
+[31:38] areas where you want to put more chips
+[31:39] down?
+[31:40] So, we've we've announced three three
+[31:42] major uh expansions. Our our nuclear uh
+[31:45] hexafluoride expansion in Illinois, our
+[31:48] advanced electronics business in uh
+[31:51] Washington, and our defense business in
+[31:53] in Virginia. So, those those businesses
+[31:55] are really growing fast. The demand is
+[31:57] really strong. And in fact, in all three
+[31:59] of them we're trying to accelerate that
+[32:01] expansion because of the demand. Okay,
+[32:03] I've been telling club members who have
+[32:04] held on to it in the The CNBC Investing
+[32:06] Club that of all the nuclear plays, many
+[32:09] in the market are science projects.
+[32:11] Yours has been working the whole way.
+[32:13] That absolutely. We've been in the
+[32:15] nuclear business 60 years. And we have
+[32:17] the only uranium hexafluoride converting
+[32:20] site in the United States,
+[32:22] uh one of four in the world, basically.
+[32:24] And nuclear is is a great solution for
+[32:27] some of the energy shortages that we
+[32:28] have. And we just feel that we're
+[32:30] extremely well positioned and we we're
+[32:33] in the process of debottlenecking our
+[32:34] plant plant and increasing capacity. Um
+[32:36] semiconductors, did just all right, you
+[32:39] know, it's data center, it's all there
+[32:41] for you, right?
+[32:42] >> and we're there in a couple different
+[32:43] ways. So, we're there on the chip
+[32:45] uh with our depositions and our thermal
+[32:47] interface and some of our specialty
+[32:49] polymers. And then we're there in
+[32:51] coolants with our thermal management uh
+[32:53] cuz you've got to get that heat off the
+[32:55] chip as these chips are getting faster
+[32:57] and faster and generating more heat. The
+[32:59] growth there has been significant. Uh we
+[33:02] had a really nice first quarter in our
+[33:03] electronics business with 21% growth.
+[33:06] Uh and that's what's driving our our
+[33:07] capacity expansion in in Washington.
+[33:10] >> Okay, so refrigerants get there was a it
+[33:11] was a govern it was a glitch, but it
+[33:13] wasn't really. You had to have a a
+[33:15] change in what you were
+[33:17] the materials you're working with, I
+[33:18] guess that's the way to put it.
+[33:19] >> It's it's exactly right, Jim. So, so
+[33:21] before it used to be hydrofluorocarbons
+[33:24] for refrigerants and coolants.
+[33:26] Uh we came out with a new technology, uh
+[33:28] patented technology, very innovative,
+[33:30] low global warming, and uh it's moved uh
+[33:34] hydrofluoroolefins.
+[33:35] So, during that transition as we
+[33:37] communicated, it's uh we'd see a little
+[33:39] bit of margin pressure until the
+[33:41] aftermarket kicked in, which which we'll
+[33:43] start to see in the second half of this
+[33:44] year. But the growth has been
+[33:46] significant because of our strong IP,
+[33:48] and the margins are still fantastic. I
+[33:50] mean, 35% EBITDA margins uh and 19%
+[33:53] growth in the first quarter.
+[33:54] >> Now, to me it seems, you can correct me
+[33:57] if I'm wrong, but we have we had a hard
+[33:58] time finding competitors to any of your
+[34:02] uh businesses. They It seems like you
+[34:04] kind of like got the only one in some of
+[34:06] them. We're we're really unique. And and
+[34:08] so that's what we've had to do to tell
+[34:09] the story when we came out. We agreed
+[34:11] with you that we were undervalued, so
+[34:13] we've really been communicating we are
+[34:16] really at the at the forefront of these
+[34:18] secular growth trends, and we're very
+[34:20] well positioned. But you do have a lot
+[34:22] of different I mean, like do you want
+[34:23] healthcare packaging?
+[34:25] Do you want the low that lower billing
+[34:27] solutions in there? I mean, I just feel
+[34:28] like sometimes they just said, "Okay,
+[34:30] listen, here we're going to give you all
+[34:31] this stuff." they were splitting up
+[34:32] themselves you take it you sort it out
+[34:35] and you know that makes it so it's a
+[34:36] little harder to run the company. Well,
+[34:38] you're exactly right and I'm sure you've
+[34:40] seen that with other spins as you
+[34:41] mentioned sometimes they throw throw a
+[34:43] little bit of the the whole kitchen soup
+[34:45] in.
+[34:46] But with this this business was actually
+[34:48] a standalone business within Honeywell
+[34:50] since 2017 and there is with all of
+[34:53] those segments and
+[34:55] in six out of those seven segments
+[34:57] there's a strong flooring chemistry. And
+[34:59] that's really our expertise and our
+[35:01] innovation. We have 5700 patents around
+[35:04] around this so there is a synergy to it
+[35:07] and we've just been able to expand the
+[35:09] markets of that technology.
+[35:10] >> one last question I want to go back to
+[35:11] nuclear because it's just so important
+[35:13] to our viewers.
+[35:15] Uh
+[35:16] this has been a business that if they
+[35:18] add let's say they add all these small
+[35:20] modular nuclear reactors are you going
+[35:22] to be involved in all of those? We are
+[35:24] in fact there was just an announcement
+[35:26] the other day of an of an SMR that we've
+[35:28] already signed a contract with. Um
+[35:30] there's about 80 companies SMRs out
+[35:33] there that are trying to commercialize.
+[35:35] I don't know if you know how many of
+[35:37] these
+[35:38] come together but they have to get their
+[35:40] supply chain and so we're an integral
+[35:42] part of that uranium conversion so we're
+[35:45] having discussions with them as well as
+[35:47] all the the large nuclear reactors that
+[35:50] are proposed to be built as well. Well
+[35:52] then we've told people the right thing
+[35:53] because
+[35:54] a lot of the companies are
+[35:57] they'll
+[35:58] never amount to anything and those are
+[35:59] dice rolls. Why not just go with the one
+[36:01] that's actually making money for 60
+[36:03] years I like that very much and David
+[36:05] Schult president and CEO of Solstice
+[36:07] Advanced Materials. You know we've liked
+[36:10] this you know that this is not just
+[36:11] nuclear but [music] it is the only
+[36:13] nuclear one that we've been saying can
+[36:15] actually make money and now that money's
+[36:16] back to the money.
+[36:18] >> [music]
+[36:19] >> Coming up you've got questions Cramer's
+[36:21] got the answers. Get charged up for a
+[36:24] fast fire lightning round, next.
+[36:31] >> [music]
+[36:36] >> It is time. Time for the lightning round
+[36:38] courtesy of my lightning round broker
+[36:39] Jim Cramer and bye-bye-bye sell sell
+[36:41] sell sell sell sell [music] sell sell
+[36:41] sell sell sell sell sell sell sell sell
+[36:42] sell sell sell sell sell sell sell sell
+[36:43] sell sell sell sell sell sell sell
+[36:45] And then the lightning round is over.
+[36:47] Are you ready? Ski Daddy told me the
+[36:49] lightning round crazy lights show with
+[36:50] Bill Matthews. Bill.
+[36:53] Jimmy, I got a question for you. With
+[36:55] all these giant IPOs in the pipeline,
+[36:58] how will that how will Goldman Sachs
+[37:00] fare? They're going to be the big
+[37:02] winner. They're going to be the big
+[37:03] winner in IP in IPOs and in M&A, Bill,
+[37:05] and that's why I think it is you use
+[37:07] position for me, my travel trust, and I
+[37:09] think that I it's going to work. How
+[37:11] about that? Let's go to Phil in Kansas.
+[37:13] Phil.
+[37:15] Hey Jim, I'm a club member and I uh I
+[37:17] love your book. Thanks. Aw, thank you
+[37:19] very much. Thank you.
+[37:21] Hey, I've got a stock. Um I want to add
+[37:24] to my current position, and the stock
+[37:26] I'm asking about is Taiwan Semi, TS.
+[37:29] They have [music] what? They have more
+[37:30] business they can handle. What can I
+[37:31] say? Even tonight, Arm Holdings said
+[37:34] that they were going to have this all
+[37:35] this business, but the problem is is
+[37:36] they can't get all the chips they need
+[37:37] from yes, Taiwan Semi.
+[37:39] >> [music]
+[37:39] >> Let's go to Leo in Wisconsin. Leo.
+[37:42] Yeah, Jim, I've been listening to you
+[37:43] over 20 years. I got a little stock I'd
+[37:45] like and I own Extreme Networks. [music]
+[37:50] You know, this stock at my record, this
+[37:51] stock has just I I I I I I I I I I I I I
+[37:53] I I I I I I I I I I I I I I I I I I I I
+[37:53] I I I I I I I I I I I I I I I I I I I I
+[37:54] I I I I I I I I I I I I I I I I I I I I
+[37:55] I I I I I I I I I I I I I I I I I I I I
+[37:56] I I I I I I I I I I I I I I I I I I I I
+[37:57] I I I I I I I I I I I I I I I I I I I I
+[37:58] I I I I I I I I I I I I I I I I I I I I
+[37:58] I I I I I I I I I I I I I I I I I I I I
+[37:59] I I I I I I I I I I I I I I I I I I I I
+[38:00] I I I I I I I I I I I I I I I I I I I I
+[38:01] I I I I I I I I I I I I I I I I I I I I
+[38:02] I I I I I I I I I I I I I I I I I I I I
+[38:02] I I I I I I I I I I I I I I I I I I I I
+[38:03] I I I
+[38:05] >> [music]
+[38:05] >> Jim.
+[38:07] Boo-ya. Boo-ya, Jason. What's up?
+[38:11] My question is, D-Wave Quantum. Q
+[38:14] >> [music]
+[38:15] >> Well, let's talk about it. Now, I've got
+[38:16] to tell you, if you want to do Quantum,
+[38:17] D-Wave is the one that I identified as
+[38:19] being the best. I also like IBM for
+[38:21] Quantum. Uh and don't forget Honeywell's
+[38:23] a spin-off in quantum coming. [music]
+[38:25] Let's go to Dave in North Carolina.
+[38:27] Dave.
+[38:29] Mr. Cramer, first time, long time.
+[38:32] Thanks for all you do for us home
+[38:33] gamers. Thank you. Thank [music] you.
+[38:35] What's going on?
+[38:37] You recently had Mark Casper from Thermo
+[38:39] Fisher on after the stock took a big
+[38:42] drop after earnings. Is TMO a buy, sell,
+[38:45] or hold? I like it here. I see [music]
+[38:48] so many IPOs every morning that Carl
+[38:50] mentions and they're all going to need
+[38:51] TMO's machines. I think you can buy it
+[38:54] at this level. I know at 19 times
+[38:56] earnings I'm [music] surprised it is
+[38:57] that cheap. And that, ladies and
+[38:59] gentlemen, is the conclusion OF THE
+[39:02] LIGHTNING ROUND.
+[39:05] THE LIGHTNING ROUND IS sponsored by
+[39:07] Charles Schwab.
+[39:09] Coming up, Cramer's noticed some quality
+[39:11] stocks have dropped to some very [music]
+[39:13] attractive prices. He's revealing three
+[39:16] names you should buy into next.
+[39:28] This morning on Squawk on the Street, I
+[39:30] said something I I kind of want to take
+[39:32] back. I was being swarmy about Meta
+[39:34] Platforms, saying they didn't have the
+[39:35] horses and the stock had become a source
+[39:37] of funds. That's the kind of thing you
+[39:39] sell so you can swap into something
+[39:40] better. It's one of the worst things you
+[39:42] can say about a publicly traded company.
+[39:44] It's like saying that they're a team
+[39:45] that nobody wants to play for because
+[39:47] they aren't headed for the playoffs.
+[39:48] After the show, I was reminded that Meta
+[39:50] had 33% growth in the last quarter.
+[39:52] That's the fastest pace in 5 years. That
+[39:55] last great growth quarter, by the way,
+[39:57] was from 2021 when the company had 29
+[39:59] billion in revenues. Now it's 56
+[40:01] billion. Yet that got nearly the same
+[40:04] They got nearly the same growth rate.
+[40:05] That's impressive. Meanwhile, Meta has
+[40:07] 3.5 billion daily active users. I mean,
+[40:09] that's almost half the world. They're
+[40:11] adding some gigantic data centers with a
+[40:13] cap ex budget that's approaching 150
+[40:15] billion. At a time when we are now
+[40:16] realizing from Amazon at least that
+[40:18] these behemoths are going to make you a
+[40:20] your company a ton of money. BYE, BYE,
+[40:23] BYE.
+[40:25] MORE IMPORTANT, Meta is run by a man
+[40:26] named Mark Zuckerberg. People in the
+[40:27] tech business do live in fear that he
+[40:30] might have something that they don't
+[40:31] know about that could change everything.
+[40:33] After all, the guy's done it before. And
+[40:35] now I'm counting him out? Did Zuckerberg
+[40:37] somehow do something that makes him a
+[40:39] less effective CEO? Mixed martial arts
+[40:41] and the Met Gala, hanging out at
+[40:43] Mar-a-Lago, I don't know. With respect,
+[40:45] I think it's time to stop worrying and
+[40:47] start buying. Clearly, the market agrees
+[40:49] as Meta rebounded nicely from its early
+[40:50] morning lows. And look, it's not just
+[40:52] Meta. We all kick ourselves for missing
+[40:54] out on winners that seem obvious in
+[40:56] retrospect. I wish I'd bought Dell for
+[40:58] my travel trust 100 points ago. We took
+[41:00] a big gain in AMD, but we stuck We
+[41:03] didn't stick with it. Had we, we'd have
+[41:04] much bigger gain. We often miss these
+[41:06] moves because it's hard to pull the
+[41:07] trigger on something it's not when it's
+[41:09] down and out, which is exactly what you
+[41:11] have to do. Look at the incredibly good
+[41:13] Arista Networks getting pummeled today.
+[41:15] This data center networker's always been
+[41:17] in the winner's circle under the
+[41:18] excellent leadership of Jayshree Ullal.
+[41:20] When you dig into why the stock plunged
+[41:22] 13.6% today, you find that Arista beat
+[41:24] the estimates but failed to raise its
+[41:26] forecast, which is of course the kiss of
+[41:27] death in a tech-driven market. But wait
+[41:30] a second. Why didn't Arista raise the
+[41:31] forecast? Why didn't anyone look at
+[41:33] this? It's not because the demand isn't
+[41:35] there, that would be bad, it's because
+[41:36] the company's supply constraint. They
+[41:38] said the problem could persist for 1 or
+[41:40] 2 years. I think that that That's a
+[41:41] tough one, right? But I think having
+[41:43] more demand than you can handle for
+[41:44] multiple years is a pretty high-quality
+[41:46] problem, especially cuz I think that
+[41:47] Jayshree will solve this. I believe in
+[41:50] Jayshree. I think Arista's stock now
+[41:52] reflects the fears, fears that I bet
+[41:54] will prove to be wrong.
+[41:56] Time to buy. Or how about Shopify? I
+[41:58] just interviewed Harley Finkelstein, the
+[42:00] president of this e-commerce software
+[42:01] enabler, yesterday. If you're a small to
+[42:03] medium-size business, Shopify lets you
+[42:05] compete with the heavy hitters online.
+[42:06] An economy that's filled with Gen Z side
+[42:08] hustlers or small businesses seeking to
+[42:10] be big ones pretty much runs on Shopify
+[42:12] fulfillment. The company just reported
+[42:14] outstanding 34% revenue growth, but it
+[42:17] did guide for future growth to slow to
+[42:18] the high 20s. On that, the stock is now
+[42:21] plummeted from 182 in October to 127 on
+[42:24] Monday, then 105 as of today after it
+[42:27] sold off for a sponsor earnings. And
+[42:28] wow, look at that trajectory. But
+[42:30] Shopify is the same fabulous company,
+[42:31] the first choice for so many startups
+[42:33] that won't hurt the earth. You don't
+[42:35] want to buy this thing when it's
+[42:36] running, when its sales are strong, and
+[42:38] everybody thinks it's the stock is
+[42:39] heading to the moon. You want to buy it
+[42:41] when the stock is ice cold, yet the
+[42:43] business remains very good. It's now
+[42:45] de-risked, and it's still the envy of
+[42:46] many businesses, including several that
+[42:48] have tried to acquire them. It's very
+[42:50] easy to dismiss companies when their
+[42:51] stocks are down. None of these counts as
+[42:53] a turnaround. They're just momentarily
+[42:56] struggling. We all want winners, though.
+[42:58] Sometimes, though, you have to choose
+[42:59] the stocks of great companies with
+[43:01] temporary problems, betting that
+[43:02] management will solve those problems. Or
+[43:05] to put it another way, you write off
+[43:07] Meta, Arista, and Shopify at your own
+[43:09] peril. They've been thrown away by the
+[43:11] impatient and the frightened, who are
+[43:13] now giving you some tremendous entry
+[43:15] points. I'd take all three.
+[43:18] I'd like to say as always, "Booyah!
+[43:19] Cramer profits off of it just for you to
+[43:21] make money." I'm Jim Cramer. See you
+[43:22] tomorrow.
+[43:30] >> [music]
+[43:33] >> All opinions expressed by Jim Cramer on
+[43:34] this podcast are solely Cramer's
+[43:35] opinions and do not reflect the opinions
+[43:37] of CNBC or its parent company or
+[43:38] affiliates, and may have been previously
+[43:40] disseminated by Cramer on television,
+[43:41] radio, internet, or another medium. You
+[43:43] should not treat any opinion expressed
+[43:44] by Cramer as a specific inducement to
+[43:46] make a particular investment or follow a
+[43:48] particular strategy, but only as an
+[43:50] expression of his opinion. Cramer's
+[43:51] opinions are based upon information he
+[43:53] considers reliable, but neither CNBC nor
+[43:55] its affiliates and or subsidiaries
+[43:56] warrant its completeness or accuracy,
+[43:58] and it should not be relied upon as
+[43:59] such. To view the full Mad Money
+[44:00] disclaimer, please visit
+[44:01] cnbc.com/madmoneydisclaimer.

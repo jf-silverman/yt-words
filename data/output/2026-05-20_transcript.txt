@@ -1,0 +1,1304 @@
+[0:01] My mission is simple, to make you money.
+[0:04] I'm here to level the playing field for
+[0:06] all investors. There's always a bull
+[0:09] market somewhere, and I promise to help
+[0:11] you find it. Mad Money starts now.
+[0:18] Hey, I'm Cramer. Welcome to Mad Money.
+[0:20] Welcome to Cramerica. Other people want
+[0:23] to make friends, I'm just trying to make
+[0:25] you a little bit of money here. My job,
+[0:27] not just to entertain, but also to
+[0:29] educate. You should call me.
+[0:31] 1-800-743-CNBC.
+[0:33] Tweet me @JimCramer.
+[0:35] It's incredible how much tech has
+[0:37] changed in the last few years. Old days,
+[0:39] enterprise software was unbeatable.
+[0:42] Software helped you sell things better,
+[0:44] calculate things, forecast things, even
+[0:46] organize human resources, IT. The whole
+[0:49] point of it was to disrupt how we did
+[0:51] work, and it sure did, saving companies
+[0:54] money
+[0:56] while making investors fortunes in the
+[0:58] process. Enterprise software was the
+[1:00] king of tech.
+[1:02] It was where the money was. But, times
+[1:04] change. Traditional enterprise software
+[1:06] is facing new competition
+[1:09] from the much cheaper products you can
+[1:10] develop yourself from AI. And the
+[1:12] enterprise software cohort, once prized
+[1:14] for its high growth and lucrative gross
+[1:17] margins, is now growing much more slowly
+[1:20] than the physical side of tech.
+[1:22] Semiconductors, hardware, the tools that
+[1:24] allow for the artificial intelligence
+[1:26] revolution. Listen, I haven't lost focus
+[1:28] on other large issues, the war, oil, the
+[1:30] price of money, also known as interest
+[1:32] rates, or the health of the consumer.
+[1:33] These are integral to the to the all the
+[1:36] averages. With the Dow surging 645
+[1:38] points today,
+[1:40] S&P jumping 1.08%,
+[1:42] and then Nasdaq holding on 1.55%.
+[1:46] If the war with Iran were to end as is
+[1:49] rumored, although I honestly can't
+[1:50] figure out how that would happen, then
+[1:52] you could argue this hardware versus
+[1:54] software dynamic is really a sideshow.
+[1:56] We'd see interest rates plummet, worries
+[1:58] about the consumer would wane, the Fed
+[2:00] might even start talking about cutting
+[2:03] rates.
+[2:05] We'd be buying healthcare and retailers
+[2:07] and transports, a whole other group of
+[2:09] stocks. But it hasn't.
+[2:11] See, as long as the Iranians are
+[2:13] shutting down the Strait of Hormuz, or
+[2:14] you could say we are on the other end,
+[2:17] that that that's off the table. Instead,
+[2:19] we keep coming back to what's working,
+[2:20] and what's working are the hardware
+[2:23] stocks that power the data center, and
+[2:25] the sooner-to-be-public artificial
+[2:27] intelligence titans like OpenAI and
+[2:29] Anthropic. Tonight, Anthropic looks like
+[2:32] they're going to be wildly profitable
+[2:33] because of a huge second quarter. Saying
+[2:36] nothing, of course, of Alphabet, Amazon,
+[2:37] Meta, as well as the AI portion of
+[2:39] Microsoft, not all of Microsoft, just
+[2:41] the AI portion. And when you talk
+[2:43] hardware, the biggest part of that is
+[2:44] the company just reported tonight that
+[2:46] seems to not be able to get out of its
+[2:48] own way right now, which is Nvidia. Now,
+[2:51] I've been pounding the table on Nvidia
+[2:52] since it was trading at a split-adjusted
+[2:54] price of just under four bucks. I've
+[2:56] never hidden my belief in the company
+[2:57] and its team led by Jensen Huang.
+[3:00] Nvidia just reported the close of
+[3:01] another stunning set of numbers. Revenue
+[3:03] growing 85% year-over-year, 81.6
+[3:05] billion, beating expectations by nearly
+[3:07] three billion dollars. Most of the
+[3:09] growth came from the company's core data
+[3:11] center business, with hyperscale
+[3:12] revenues up 115%
+[3:15] versus the prior year and up
+[3:17] sequentially. While AI cloud,
+[3:19] industrial, and enterprise revenue grew
+[3:20] 74% from the prior year. Company's gross
+[3:23] margins were in line. Oh, maybe people
+[3:25] don't like that. And Nvidia had an
+[3:26] 11-cent bottom-line beat off a $1.76
+[3:29] basis. Free cash flow came in
+[3:31] 10 billion 10 billion dollars above
+[3:33] expectations. Now, we're at the point
+[3:35] where Nvidia has to look hard for places
+[3:37] to put all of its money it's making.
+[3:38] Every week the company seems to be
+[3:39] making multi-billion-dollar stakes in I
+[3:42] taking stakes in small component players
+[3:44] or new hyperscaler or perhaps a optical.
+[3:47] But they have to buy them back nearly 20
+[3:48] billion dollars of stock in the current
+[3:50] quarter.
+[3:51] Uh
+[3:51] Nvidia announced a new $80 billion share
+[3:54] purchase program even as it closed to
+[3:56] $40 billion remaining on its previous
+[3:58] authorization. Very bullish. Company's
+[4:00] outlook for the current quarter looked
+[4:01] good, too. Nvidia's guiding for $91
+[4:03] billion in revenue this this quarter,
+[4:05] roughly $4 billion above the expect
+[4:07] expectations
+[4:08] that were $87 billion despite the fact
+[4:10] that the company is still assuming no
+[4:12] data center compute revenue from China.
+[4:15] It was almost exactly 3 years ago in May
+[4:17] 2023 that Nvidia's Nvidia shocked Wall
+[4:20] Street with roughly $4 billion of upside
+[4:22] in its guide for the quarter ahead. That
+[4:25] caused a huge gap up for the stock,
+[4:26] which never really looked back after
+[4:28] that. But now, with the stock up over
+[4:30] 600% since then, it's tougher for the
+[4:32] company to surprise investors. This
+[4:34] company is so big. The stock is
+[4:36] basically flat in after-hours trading,
+[4:37] which I think is more of a reflection on
+[4:39] how everyone who wants Nvidia already
+[4:41] owns Nvidia than anything qualitative
+[4:43] about the company's earnings. It's hard
+[4:45] to get bigger when you're so huge at
+[4:48] north of $5 trillion. If you're confused
+[4:50] about any of this, I've got some
+[4:51] terrific Nvidia coverage tonight for
+[4:54] subscribers to the CNBC Investing Club.
+[4:56] We do some much more deep coverage than
+[4:58] I can do here. You can join at a special
+[5:00] rate of just $4 for your first month.
+[5:02] Yeah, four bucks. Go to
+[5:04] cnbc.com/cramerclub
+[5:07] to sign up. Tell me your I don't know
+[5:09] why you wouldn't.
+[5:11] All right, let's put Nvidia in context,
+[5:14] though. You need a lot of things for
+[5:16] Nvidia or its rivals to make chips, but
+[5:18] what you don't need is big time
+[5:20] expensive software that this market used
+[5:22] to love. No, AI won't put software
+[5:24] companies out of business. It's not
+[5:25] going to happen. They aren't going to
+[5:26] make it so nobody uses Adobe for
+[5:28] creativity or Salesforce for sales, but
+[5:30] AI does threaten their primacy. Their
+[5:33] supremacy. It makes them less lucrative
+[5:36] by putting an end to their pricing power
+[5:37] because Anthropic and its compadres make
+[5:40] a very convincing case that you can help
+[5:41] companies code something very similar
+[5:44] practically out of whole cloth. Cuz it's
+[5:46] not real coding, either. Cuz you're just
+[5:47] asking stuff. Customers have been asked
+[5:49] for years about endless price increases
+[5:51] from these kinds of companies. However,
+[5:53] there weren't a lot of alternatives and
+[5:54] internal coding was too expensive. Now
+[5:56] you can have something cheaper and often
+[5:58] tailor-made for you, so it's better. Now
+[6:00] the pace of the change though caught a
+[6:02] lot of portfolio managers by surprise.
+[6:04] We got used to the same tech companies
+[6:05] leading the way for decades. For a long
+[6:07] time Microsoft was the most important
+[6:08] company in the world, the largest, best
+[6:10] ever, why not? Microsoft software, not
+[6:12] hardware. And for decades software ruled
+[6:14] the world. Sure Apple mattered because
+[6:16] of the iPhone, but the App Store gave
+[6:18] you the growth and that's all software.
+[6:20] For years the market came to love the
+[6:22] model of a company that sold proprietary
+[6:24] software to the enterprise for fortunes
+[6:26] with the price going up a little bit
+[6:27] every single year. These companies had
+[6:29] gigantic gross margins because you don't
+[6:31] need expensive materials or heavy
+[6:33] equipment to create software. That's the
+[6:35] kind of baggage you need to make say
+[6:37] semiconductors.
+[6:39] The primacy of software goes back to a
+[6:41] long way. '86, 1986 Microsoft came
+[6:43] public. What about Goldman Sachs? The
+[6:45] stock went to a premium and never looked
+[6:47] back. I remember for a long time people
+[6:48] thought it was ridiculous that some
+[6:50] company that made unseen code, whatever
+[6:51] that was, could be worth more than the
+[6:53] tangible products from GE or Exxon or
+[6:55] General Motors. Wrong.
+[6:58] I can't tell you how incredulous people
+[7:00] were when 12 year 12 years later, 12
+[7:02] years, Microsoft became the largest
+[7:04] company on Earth. Software coding, it
+[7:05] was hard enough to get your head around
+[7:07] the personal computer where so much of
+[7:08] Microsoft software lived.
+[7:11] But far more ironic the fact that Intel,
+[7:13] the companion to Microsoft inside the
+[7:15] PC, was never worth more than Microsoft
+[7:17] and often trailed its partner of
+[7:19] dramatically in valuation despite the
+[7:21] huge engineering feats that Intel
+[7:22] accomplished with its ever smaller yet
+[7:24] more powerful chips. Microsoft produced
+[7:26] Windows by the hundreds of millions with
+[7:28] gigantic gross margins because it cost
+[7:30] next to nothing to produce that
+[7:31] additional piece of software. But the
+[7:33] tail on Wintel, chips cost fortunes to
+[7:36] make so it was hard to get leverage.
+[7:38] Maybe that's why so many money managers
+[7:39] are still at odds with Nvidia now being
+[7:41] the largest company on Earth. It's
+[7:42] trouble troubling to them because of
+[7:44] what we've seen for so many years. It's
+[7:46] happening because Nvidia and his
+[7:47] compatriot say AMD, ARM Holdings, Intel,
+[7:49] Broadcom, among so many others are what
+[7:51] powers AI. And with AI, software just
+[7:54] isn't as powerful or as important.
+[7:57] Nvidia comes loaded with its own
+[7:58] software anyway, when it's combined with
+[7:59] the Anthropic or OpenAI, it can actually
+[8:01] create products very similar to the
+[8:03] traditional expensive software vendors.
+[8:05] Incidentally, that's why Anthropic and
+[8:06] OpenAI are numbers one and two in the
+[8:08] CNBC Disruptor 50 list. They're
+[8:10] disrupting traditional software by
+[8:12] lowering the importance of its to
+[8:13] corporate buyers. You combine Nvidia
+[8:16] hardware with Anthropic or OpenAI, you
+[8:18] can easily create applications that are
+[8:19] in the same league as pricey enterprise
+[8:21] software. That's why everyone seems so
+[8:23] scared of traditional enterprise
+[8:24] software stocks, especially the ones
+[8:26] that have been taken private or now
+[8:28] running to so much trouble with their
+[8:29] big debt loads. Or look, even a great
+[8:31] company like we have tonight with
+[8:33] Intuit. The people who run OpenAI and
+[8:35] Anthropic are incredibly promotional
+[8:37] about how their wares can help you
+[8:38] imagine new software products that are
+[8:40] better than what you could buy.
+[8:42] Yeah, right off the shelf, no. You want
+[8:44] these guys. Doesn't matter. They've sown
+[8:46] fear into the very fabric of the
+[8:48] enterprise.
+[8:50] It's one of their biggest selling
+[8:51] points, by the way, to Main Street and
+[8:52] Wall Street. They've got executives
+[8:54] asking themselves if they need to pay a
+[8:55] lot more for exec- for enterprise
+[8:57] software, which is so expensive. Charges
+[9:00] per user when AI may let them lay off a
+[9:02] bunch of those users. Maybe they can
+[9:05] just create AI agents with hardware that
+[9:07] can replace the work of hundreds of
+[9:08] people. Seems logical. These are the
+[9:10] questions that are shifting power to the
+[9:12] semiconductor cohort. Go listen to my
+[9:14] interview with Lip Bu Tan, the CEO of
+[9:15] Intel, on Monday. He's long been the
+[9:17] biggest backer of semiconductor
+[9:19] startups, arguing that the intellectual
+[9:20] property in semis is worth much more
+[9:22] than people realize. It is a new era,
+[9:24] people. Semis are now in charge.
+[9:26] Software's taking a backseat. The
+[9:28] biggest company is Nvidia because it's
+[9:30] changed the world, especially the
+[9:31] software world, with artificial
+[9:33] intelligence and accelerated computing.
+[9:35] Those companies that seem purpose-built
+[9:37] for Nvidia are disrupting the old world
+[9:39] led by Microsoft but including so many
+[9:41] others, almost none of which will admit
+[9:43] they're in trouble. I mean, no.
+[9:46] Here's the bottom line. The world has
+[9:47] changed. It's fluid, but we're not going
+[9:50] back to the way things were.
+[9:52] Not now.
+[9:54] Not ever.
+[9:55] Let's go to Gregory in California,
+[9:57] please. Gregory.
+[9:59] >> Jim
+[10:00] Jim
+[10:02] I have a parent. I need your advice
+[10:04] here.
+[10:05] >> Sure, what's up?
+[10:05] >> I have a naughty naughty kid called
+[10:08] Astera.
+[10:09] She She's barely 10 years old. And she
+[10:12] went public 2 years ago. And now I have
+[10:14] to give you credit because you gave us
+[10:16] the green light on this AI
+[10:17] infrastructure play right after their
+[10:19] IPA.
+[10:20] Now
+[10:22] when it pulled back to 40 bucks, I
+[10:24] bought a full position and then sold
+[10:26] half when it doubled. So, I'm playing
+[10:28] with the house's money. So, I
+[10:30] could feel good about the position.
+[10:31] >> we have nothing to worry about. You're
+[10:33] playing with the house's money. You can
+[10:34] never lose money. You can make a lot of
+[10:36] money. I say you hold on, be very happy.
+[10:39] You as always you're one of my smartest,
+[10:41] if not smartest of our incredibly smart
+[10:43] cohort of viewers. And you've done this
+[10:45] thing very right. I say you stand pat
+[10:49] with what's left. That's what we're
+[10:50] trying to do with the club. It's so
+[10:51] hard. But we take out our money
+[10:54] we win.
+[10:56] It's a new world. Semis are in charge of
+[10:57] this market and software's taking a
+[10:59] backseat. Even if Nvidia's not doing
+[11:01] anything tonight, can we take a little
+[11:03] longer term view, please? Oh, man, money
+[11:04] talks. And BF Corp is undergoing a major
+[11:06] turnaround and I'm checking in with the
+[11:07] CEO on a post-earnings exclusive. And
+[11:09] Databricks came in third in CNBC's
+[11:11] Disruptor 50 list. And I'm sitting down
+[11:13] with the CEO to find out more about the
+[11:15] path forward for this AI data company.
+[11:17] And with tax season in the rearview
+[11:18] mirror, how is Intuit fairing on Wall
+[11:21] Street? Do not miss my exclusive with
+[11:23] the CEO. Stay with Cramer.
+[11:26] >> Don't miss a second of Mad Money. Follow
+[11:29] @JimCramer on X. Have a question? Tweet
+[11:32] Cramer #madmentions.
+[11:34] Send Jim an email to madmoney@cnbc.com
+[11:37] or give us a call at 1-800-743-CNBC.
+[11:42] Miss something? Head to
+[11:44] madmoney.cnbc.com.
+[11:55] >> But, what the heck happened to the stock
+[11:57] of VF Corp, the apparel company you know
+[11:59] as The North Face, Vans, Timberland,
+[12:01] among many other brands. This quarter
+[12:03] the company reported what I thought was
+[12:04] a terrific set of results. Stock surged
+[12:06] in pre-market trading, but their outlook
+[12:08] was basically in line and the stock got
+[12:10] slammed. It finished the day down 3%.
+[12:12] You know what? I think this could be a
+[12:14] fantastic buying opportunity. Earlier
+[12:15] today we got a chance to speak with
+[12:17] Bracken Darrell, the turnaround artist
+[12:18] president and CEO of VF Corp, who is so
+[12:20] darn smart. Take a look.
+[12:25] WELL, BRACKEN, LET'S START with the
+[12:26] quarter just ended. I thought the
+[12:27] quarter was magnificent. You're really
+[12:30] getting some momentum here. Now, the
+[12:32] street may not be awarding it yet, but I
+[12:34] can see the turn. Tell us about it.
+[12:37] >> Well, I'm super excited. You know, we
+[12:38] just we you know, in Q3 we we we uh
+[12:42] started to see Vans coming back on
+[12:44] e-com. Q4 it grew in total DTC both in
+[12:48] the Americas and our total business grew
+[12:50] for the full year. So, we you know, we
+[12:51] had our strongest quarter of growth in 3
+[12:53] years for the total company in Q4. So,
+[12:56] we're finishing strong coming out of the
+[12:57] year. Had our first full year of growth
+[12:59] in 3 years
+[13:00] uh and we just guided growth again next
+[13:02] year. So, I'm uh yeah, I'm super
+[13:04] excited. I feel like we're we're we're
+[13:05] we're kind of closing one chapter and
+[13:08] which was the the total company is
+[13:10] declining. Now, we're back in the growth
+[13:11] mode and we're not going to look back.
+[13:13] >> And you know, I thought that the brands
+[13:15] were in growth mode. Obviously, North
+[13:17] Face and Timberland terrific, but I
+[13:19] cared more about the fact that it's no
+[13:20] longer Vans bringing you down.
+[13:24] >> Yeah, I mean our our DTC, which is in
+[13:27] the Americas, which is where we're
+[13:28] focused, cuz that's really leading it.
+[13:29] It's 40% of our global business, is
+[13:31] growing. So, and and it's going to keep
+[13:34] growing. So, we feel really, really good
+[13:35] about that. Vans is we've got great
+[13:38] products coming out. You know, I took
+[13:39] this off for you, Jim, so you can see
+[13:41] this really I know everybody's going to
+[13:42] want to buy that. It's not available.
+[13:44] So,
+[13:44] but but I've got another one back there
+[13:46] that is.
+[13:47] But, we've got so much cool stuff coming
+[13:48] and it's just uh you know, it's great.
+[13:50] And and the heat has started.
+[13:52] >> Well, I think people don't understand
+[13:54] the the the kind of makeup of the
+[13:56] company. Because if I see North Face go
+[13:59] big and Vans isn't keeping me down
+[14:01] anymore, I got a possibility, not yet
+[14:04] because you're conservative, you said
+[14:05] the term's going to be long, I see high
+[14:07] single digit. If you get Vans a little
+[14:10] more momentum and you keep keep going
+[14:13] with North Face, which is a big brand.
+[14:16] >> Yeah, I'll I'll I'll I'll I'll raise
+[14:18] your bid. I'll take I'll call that and
+[14:21] raise it. You know, I think it it I it's
+[14:23] not going to be this year. But, in one
+[14:25] of the years out, maybe it's next year
+[14:26] or the year after that, we're going to
+[14:27] get back to high single digit growth and
+[14:29] we're going to get at some point it's
+[14:30] going to touch double digit growth
+[14:31] because you've got so much room to grow
+[14:33] in all of our brands. As you said, North
+[14:34] Face can double from here. Absolutely.
+[14:37] The Timberland's got strong growth
+[14:39] potential. I mean, we've never really
+[14:40] exploded beyond the yellow boot and
+[14:42] we're really working hard on that. As
+[14:43] you said, Vans used to be a $4 billion
+[14:45] brand. Now, it's went back to a $2
+[14:47] billion brand. So, it's got a lot of
+[14:48] room to run above that. And then you've
+[14:50] got Altra. I mean, we just Altra just
+[14:52] grew 45% this quarter. 45%. It's only a
+[14:55] $270 million business, but you pile up a
+[14:57] few of those and you're going to have a
+[14:58] big business.
+[14:59] >> Yeah, I saw that. I thought they don't
+[15:01] talk enough about Altra, but you know
+[15:02] what else we don't talk about?
+[15:04] There's 50% people in the world, right,
+[15:06] that you're not really appealing to. You
+[15:08] know who those 50% are?
+[15:11] Women.
+[15:12] You're not doing it with women. And you
+[15:14] made that point at the end and it said
+[15:16] to me, "Wait a second. The We got green
+[15:19] field coming if you just straight go
+[15:22] with women.
+[15:24] >> Absolutely. You know, and you know, I
+[15:25] put in three of my top of my four
+[15:27] presidents, those four big brands we
+[15:29] just mentioned, three of the four are
+[15:30] women. So, believe me, we're on it.
+[15:33] We've been focused for Vans so far on
+[15:35] men to make sure we get our mojo back,
+[15:37] but the unlock beyond that is so big
+[15:40] when we get women going. North Face, we
+[15:42] barely scratched the surface on women,
+[15:43] honestly. Timberland, too. And and uh
+[15:46] and Altra's probably 60/40 men women.
+[15:48] So, all of them have potential.
+[15:50] >> Now, I I think when I hear the numbers
+[15:52] high single digit or double digit, I
+[15:54] think, you know, what? The man did what
+[15:57] he said he was going to do first when he
+[15:58] came on our show. When you came on
+[15:59] immediately, was you fixed the balance
+[16:02] sheet. The balance sheet is no longer
+[16:04] the question. You took off First of all,
+[16:05] you took off any of like wow extension
+[16:07] worries. Then you got rid of the stuff
+[16:09] which made me feel like, ah, I don't
+[16:11] know. It looks like I'm not going to
+[16:12] It's It It won't hurt them. You've got a
+[16:15] growth mode balance sheet now. Tell me
+[16:17] who you're looking at. What What do you
+[16:19] want to buy that would
+[16:20] >> augment?
+[16:22] You know, we're going to we I committed
+[16:24] to investors publicly the first day I
+[16:26] got here, we'd get that leverage ratio
+[16:27] down below two and a half before we'd
+[16:29] look at growth at investments to grow
+[16:31] again. And we have so much organic
+[16:33] growth potential, we won't need it for a
+[16:34] while. But at some point, you know, we
+[16:36] go to below two and a half, which we
+[16:38] committed in '28. Now, even this year
+[16:40] we're guiding 2.6 to 2.9, so that's This
+[16:42] is our '27. So, we're we're almost a
+[16:44] year ahead of schedule here. But if we
+[16:46] get if once we get below two and a half,
+[16:48] we will be looking. Yeah, obviously, I'm
+[16:50] not ready to talk about who it would be
+[16:51] today, but I There's certainly things
+[16:53] out there. But the most important thing
+[16:55] is we really have a lot of growth in our
+[16:56] existing businesses, Jim. I I don't feel
+[16:59] the need to buy anything, but that's
+[17:01] that's gravy on top of everything else.
+[17:02] >> I I totally hear that, and I think
+[17:04] people should recognize that it wasn't
+[17:06] like you had a uh a smooth year. You had
+[17:09] tariffs, which I think were very hard to
+[17:11] comprehend, particularly, by the way,
+[17:12] among investors who just said, you know,
+[17:14] what? It's too Too
+[17:15] I don't want to touch it.
+[17:18] >> Yeah. Yeah, there were terrorists and
+[17:19] there was the war at the end of the
+[17:20] year. There's There's all the fears of
+[17:24] AI wiping out jobs and hurting the GDP
+[17:27] and and driving higher unemployment. All
+[17:30] those things are always in play. But,
+[17:31] you know, I I I told you this last time
+[17:33] I was on. We have so many things in our
+[17:34] control. You know, one of the things I
+[17:36] love I got back coming into a company
+[17:37] like I did when I did, which was a deep
+[17:39] turnaround mode and now we're in growth
+[17:41] mode, is it we had so many variables to
+[17:43] to play with. Now, we're exploiting all
+[17:45] those variables. So, we're we're in
+[17:47] growth mode and we're going to we're
+[17:48] going to blow that all through all of
+[17:50] them to get to higher and higher growth.
+[17:52] >> Did you keep the cachet? I mean, I
+[17:54] always felt that Timberland had a much
+[17:55] bigger cachet than people realized.
+[17:58] North Face, tremendous potential for
+[18:00] cachet with with the celebs, with the
+[18:02] social media people. Where are you?
+[18:04] >> Yeah.
+[18:06] Yeah, I mean, that's that's the most
+[18:07] appealing thing about this particular
+[18:09] company in this particular space. We
+[18:11] have brands that that fit that that that
+[18:14] that have the cachet of luxury, but the
+[18:17] price of Main Street.
+[18:19] You know, and that is a beautiful place
+[18:21] to be. I mean, we all of our prices all
+[18:23] of our products are affordable. We can
+[18:24] sell elevated product up to higher and
+[18:26] higher price points and we can
+[18:27] collaborate with people like, you know,
+[18:29] the the really top of the fashion world
+[18:31] and we are because they do have that
+[18:33] kind of cachet.
+[18:34] >> Well, you mentioned the affordable
+[18:36] brand. The consumer ordinarily,
+[18:38] depending upon the day, seems to be
+[18:40] wavering. I guess maybe the instant DTC
+[18:43] would give you the numbers, but where do
+[18:44] you see the consumer someone who would
+[18:46] be willing to pay 120 for a for
+[18:49] Timberland? Whatever What is your max
+[18:51] price? Because I'm getting worried that
+[18:53] your max your your your priciest stuff
+[18:56] won't move.
+[18:58] >> You know, the coolest thing about this
+[19:00] brand is we have price we have even in
+[19:01] Timberland, which is
+[19:03] the highest price footwear we sell on
+[19:05] average, which they can sell for 220 and
+[19:07] they're selling very well at 220.
+[19:10] We've got things you can buy all the way
+[19:11] down to 120, 100, 100 dollars. In Vans,
+[19:14] you can buy down to 60 dollars or even
+[19:16] 50. But, you can also pay up to 120
+[19:19] beyond. If you don't catch a
+[19:20] collaboration early enough, like our
+[19:22] Satoshi that just launched, you might
+[19:24] have to pay 600 dollars and they will
+[19:26] and people are. So, there's a wide range
+[19:28] on all of our brands and price points.
+[19:30] You know, that's one of the one of the
+[19:31] strategies we have is we can elevate up
+[19:33] while we continue to sell at the at the
+[19:34] mainstream price point.
+[19:35] >> And last thing, uh,
+[19:37] Americas you've turned. Uh,
+[19:38] international looks very from here. Uh,
+[19:42] what can you do to make it so that
+[19:43] that's next?
+[19:46] >> You know, I really think we just got to
+[19:48] execute really, really well in our
+[19:50] wholesale channels. We've got a lot of
+[19:51] improvement to do there and we are
+[19:53] working hard on it. We've just changed,
+[19:56] uh,
+[19:56] you know, our leader who was running the
+[19:58] Americas who who drove the turnaround
+[20:00] there is now taking over the total
+[20:01] commercial globe as of as of the end of
+[20:04] last year. So, we're excited about him.
+[20:06] He's excited about his team. We've got a
+[20:08] really great team. We've got a lot of
+[20:09] great products coming internationally,
+[20:10] too. So, it'll take time, but we'll get
+[20:12] there.
+[20:12] >> Well, you've been consistent. Uh,
+[20:14] everything you promised on the show has
+[20:16] been right. Other people have gotten
+[20:18] ahead of the turn. I rely on what you
+[20:20] say because you have been straight with
+[20:22] us the whole way. Bracken Darrell,
+[20:24] president CEO of VF Corp where I think
+[20:26] the turn is going exactly as you
+[20:29] predicted. Thank you, Bracken.
+[20:31] >> Thank you so much, Jim.
+[20:33] >> Absolutely. Everybody be back after the
+[20:34] break.
+[20:41] >> You want to get a read on AI? It's not
+[20:43] enough to follow publicly traded
+[20:45] companies because many of the most
+[20:46] important players in this space are
+[20:47] still private. Take Databricks, which
+[20:49] helps companies take messy, fragmented
+[20:51] data, organize it, analyze it, build AI
+[20:53] on top of it, and frankly, figure out
+[20:56] what you have. As of February, this
+[20:58] company had 5.4 billion dollar annual
+[21:01] revenue run rate. And by now, it's got
+[21:02] to be substantially higher than that as
+[21:03] these guys are growing like a weed.
+[21:05] Databricks is free cash flow positive.
+[21:07] It's bringing in tons of business.
+[21:09] There's a reason this company got a $134
+[21:11] billion valuation in its last private
+[21:13] fundraising round. All that helps send
+[21:15] Databricks to the number three spot on
+[21:17] this year's CNBC Disruptor 50 list. Now
+[21:20] that AI has entered the agential era,
+[21:22] this one's become a heavy hitter. So,
+[21:24] let's take a closer look with Ali
+[21:25] Ghodsi. He's the co-founder and CEO of
+[21:27] Databricks to learn more. Mr. Ghodsi,
+[21:28] welcome back to Mad Money.
+[21:31] >> Thank you so much. Always great to be
+[21:32] on.
+[21:33] >> Yeah, it's great to see you. First of
+[21:34] all, I I got to go through this
+[21:35] rigmarole. I'm sorry. But, you know, we
+[21:37] got all these people, you know, when is
+[21:38] Anthropic going to come public? OpenAI
+[21:40] is it file that SpaceX? You know, a lot
+[21:43] of those companies need money.
+[21:44] When I look at your company, I say to
+[21:46] myself, here's someone who's in the
+[21:48] driver seat. You can come public, not
+[21:50] come public.
+[21:51] I Is that not a better way to look at
+[21:53] Databricks than the other guys where we
+[21:55] play the guessing game all the time?
+[21:58] >> Yeah, I mean, the way you think about it
+[21:59] is that if you're burning huge amounts
+[22:01] of capital, like 10, 20, 30, 40 billion
+[22:04] dollars, you need the capital, you need
+[22:06] to be in the public market, you have no
+[22:07] choice.
+[22:08] Um, for Databricks, we don't burn any
+[22:10] money at all, zero dollars.
+[22:12] Uh, so for us, we can choose the timing.
+[22:14] I think this is a good year to be
+[22:16] private because I think this is a good
+[22:17] year where you want to be building
+[22:19] because we're going through a huge
+[22:20] transition in the market, in public, in
+[22:22] private, all enterprises. This AI
+[22:25] revolution is happening. So, it's better
+[22:27] to build in private right now, and we
+[22:29] will be public, and we will go public,
+[22:30] but I don't think this year is a good
+[22:32] time for us.
+[22:32] >> So, when I first met you, I said, "Well,
+[22:34] wait a second. I see what's going on
+[22:35] here. You can take the Here's the data,
+[22:38] but it's your data. You can prosecute,
+[22:39] you can ask a question, you can inquire
+[22:41] things." It seems like ever since AI,
+[22:44] now there's like a hundred things you
+[22:46] could do if there were five things
+[22:47] before. Do you advise your uh clients,
+[22:50] "Look, you can do this now, that" and do
+[22:52] they avail themselves of it?
+[22:55] >> Yeah. Look, I think the thing that is
+[22:57] top of mind right now for every CEO on
+[22:59] the planet, not just in tech, any CEO,
+[23:02] is "Wow, these AIs are so amazing. They
+[23:05] can do so amazing things, but secretly,
+[23:07] and they don't want to admit this, my
+[23:09] organization has none of the AI. It's
+[23:11] not established. We don't have agentic
+[23:13] co-workers doing lots and lots of work.
+[23:15] How do I get AI into my organization?"
+[23:18] And they have plenty of intelligence in
+[23:19] the AIs, but why are the agents not
+[23:21] working in the enterprise? What's going
+[23:23] on? And the simple answer to that is
+[23:26] the AIs, if you give them all the data
+[23:28] and the context, if you perfectly ask
+[23:31] the question with all the context, they
+[23:32] will nail the answer every time. So, the
+[23:34] big question is AI doesn't have an
+[23:36] intelligence problem, AI has a context
+[23:38] problem. How do we feed it that context?
+[23:40] And that context is in the data.
+[23:42] Uh so, that's top of mind. Everyone
+[23:44] wants to solve this problem. There no
+[23:45] one on the planet right now doesn't want
+[23:46] to have this problem nailed.
+[23:48] >> All right. So, how about if I had Genie,
+[23:50] what would I do with it?
+[23:53] >> Yeah, so Genie has built into it
+[23:54] something called Genie ontology.
+[23:57] So,
+[23:58] >> Genie ontology is a graph.
+[23:59] >> So, you taught me that's what Palantir
+[24:00] taught me with the word ontology.
+[24:03] >> Yeah, they have it too, and they're a
+[24:04] great partner. But, the way Genie
+[24:06] ontology works is that it automatically
+[24:09] we already have all the data in what we
+[24:10] call the Databricks Lakehouse. That data
+[24:12] is sitting there, but it's a lot of
+[24:13] data, structured, unstructured. So, we
+[24:15] don't want to have the AIs just go loop
+[24:18] through the code and just loop through
+[24:20] all the data and search for nuggets.
+[24:21] That's what happens today. Today, people
+[24:23] use a cloud coder or they use some other
+[24:24] agent, and it just goes through and
+[24:26] loops through. Costs a lot of money to
+[24:28] loop through all the data. So, what we
+[24:30] do is we automatically in Genie have
+[24:31] constructed the graph. So, ontology is a
+[24:34] graph, and it has these little snippets
+[24:35] of nuggets of information, like, you
+[24:37] know, revenue is calculated this way. Uh
+[24:40] number of employees is found over there.
+[24:42] Product categories is here. And when you
+[24:44] ask a question, it uses this ontology
+[24:46] inside Genie to answer those questions.
+[24:47] So, I personally, every meeting I'm at,
+[24:50] I'm using Genie. Like, anything that
+[24:51] comes up, I'm asking the question in
+[24:53] Genie, it's giving me the answers. A A
+[24:55] of the things that otherwise I would
+[24:56] have to wait two, three days, or have
+[24:57] someone go look up the numbers cuz
+[25:00] you know, you really want numeracy, and
+[25:02] you want analytical quantitative
+[25:04] accuracy here, right? This is not about
+[25:06] producing text. You want it to produce
+[25:07] for you what are the different revenue
+[25:09] categories, and you want those numbers
+[25:11] to be accurate. So, Genie really excels
+[25:12] at that, and a lot of that is thanks to
+[25:14] this ontology graph.
+[25:15] >> Okay, so tell me, let's say I'm with
+[25:17] another outfit. We've had Snowflake on
+[25:19] many times. And I hear what you said,
+[25:21] and it sounds like, "Wow, you guys are
+[25:22] doing some cool stuff." Isn't it too
+[25:24] costly to go from Snowflake to
+[25:26] Databricks?
+[25:28] >> Well, I think that's a great company.
+[25:31] You know, it's just the two companies
+[25:32] have different backgrounds.
+[25:33] We grew up in AI, so we started doing
+[25:35] AI,
+[25:36] you know, in 2009, frankly. And then
+[25:39] when the company started in 2013, we're
+[25:40] at this point synonymous with the data
+[25:42] and AI company. If you search for that,
+[25:43] they'll come up Databricks.
+[25:45] You know, their roots are data
+[25:46] warehousing, but they're great. They
+[25:48] have a great CEO, and they're moving
+[25:49] fast, and you know, they're adding AI
+[25:50] capabilities as well. So, you know,
+[25:52] there's competition in the market. I
+[25:54] think the Genie ontology is special,
+[25:56] though. And I think our open approach to
+[25:58] data is also unique and and very
+[26:01] differentiated from all the other actual
+[26:03] vendors. We started this whole
+[26:04] revolution by data should be open in
+[26:06] open format. It should be in one place,
+[26:07] what we call the lakehouse.
+[26:09] That turns out that's really important
+[26:10] for the agentic revolution, because you
+[26:13] can't grant access for, you know, each
+[26:16] of your proprietary silo databases to
+[26:18] your agents. The agents just go to this
+[26:22] lakehouse.
+[26:23] So, the lakehouse has become the system
+[26:25] of record nowadays. So, I joke and I
+[26:27] call it Sora, you know, the system of
+[26:29] record for agents. You know, that that
+[26:30] product name is not available, so
+[26:32] that's what we call it.
+[26:33] >> Last question, I am confused about this.
+[26:36] What's the proposition to stay off of
+[26:39] your product? I mean, if I meet a CEO
+[26:42] and they have all their data on prem,
+[26:45] and they can't process it using
+[26:46] Databricks,
+[26:48] shouldn't I make a presumption that
+[26:49] perhaps they're old school and not
+[26:51] availing themselves of things that would
+[26:53] be make them more efficient and better
+[26:55] what they do.
+[26:58] >> Yeah, I mean all of these guys want to
+[26:59] move to the cloud. First of all, the
+[27:00] vast majority of Fortune 500 global 2000
+[27:03] already for the core workloads are in
+[27:04] the cloud. But especially because, you
+[27:06] know, the GPUs and the AI is in the
+[27:07] cloud. But yeah, some are locked down on
+[27:09] premise and we're working with them.
+[27:11] They want to get out. I haven't heard
+[27:12] anyone that says, "Hey, we're on prem.
+[27:14] We love it. We're going to stay there.
+[27:15] It's much better. The GPUs are better.
+[27:17] The AI is better. Leave us alone. You're
+[27:19] wrong." Nobody is I don't know anyone
+[27:21] like that.
+[27:21] >> I don't know how I would running a bit
+[27:23] Well, actually I've run a couple of
+[27:24] businesses, but if I were running a
+[27:25] database business, of which currently I
+[27:27] I am aware of one, how I would do it
+[27:29] without you? Because everything's
+[27:31] guessing, right? We would just use the
+[27:33] old way. We used to guess. We would look
+[27:35] at some things. Maybe we have a focus
+[27:36] group. Maybe we uh pick a couple of
+[27:39] accounts, see what's going on. But isn't
+[27:41] that the way it used to be before
+[27:42] Databricks?
+[27:45] >> Yeah, I wouldn't say we are the only
+[27:46] company that actually enabled that. But
+[27:48] yeah, this is I mean the AI revolution
+[27:49] with data uh is happening. It's It's
+[27:52] what's enabling that. The key missing
+[27:54] piece though is that context. How do you
+[27:56] get that context and that data into the
+[27:58] agents? And I think that's far from a
+[27:59] solved problem even by us, right? But
+[28:01] yes, we're seeing it. Like, you know,
+[28:02] one of my favorite example is Prada.
+[28:04] Everyone knows the brand Prada. And
+[28:07] they used to have all their revenue, all
+[28:08] their KPIs, all of this in Excel, in
+[28:11] spreadsheets. And so they moved it into
+[28:13] our lake base database that we have. And
+[28:15] then now they can with AI in real time
+[28:17] ask questions, you know, who's buying a
+[28:19] purse, you know, who's buying a shoe, or
+[28:21] you know, tell us about their inventory
+[28:22] and so on. So yeah, now we can do it
+[28:24] with AI and, you know, just
+[28:26] it's magical.
+[28:27] >> Well, I think it's great to have you on.
+[28:28] It's magical to have you on because you
+[28:30] speak English and you get the job done.
+[28:32] And it's a joy to have you because, you
+[28:34] know, it's a great guy who's trying to
+[28:36] figure out what's right for the business
+[28:37] is often a very different from a guy
+[28:38] who's trying to gain the stock market.
+[28:40] And we know many people are trying to do
+[28:42] that now. Ali Ghodsi is co-founder CEO
+[28:44] of Databricks. This is number three of
+[28:46] this record list, but it's probably one
+[28:48] of I don't know I shouldn't slander the
+[28:49] all the other companies, but this is the
+[28:51] one that doesn't need to come public.
+[28:52] That's the kind of company you really
+[28:54] want. Thank you. All right, great to see
+[28:55] you.
+[28:57] >> Likewise, thank you so much.
+[28:58] >> Mad Money is back after the break.
+[29:07] >> If you want to get a read on AI, it's
+[29:09] not enough to follow publicly traded
+[29:11] companies because many of the most
+[29:12] important players in the space are still
+[29:13] private. Take Databricks, which helps
+[29:15] companies take messy, fragmented data,
+[29:17] organize it, analyze it, build AI on top
+[29:20] of it, and frankly, figure out what you
+[29:22] have. As of February, this company had
+[29:24] $5.4 billion annual revenue run rate,
+[29:27] and by now it's got to be substantially
+[29:29] higher than that as these guys are
+[29:30] growing like a weed. Databricks is free
+[29:32] cash flow positive. It's bringing in
+[29:33] tons of business. There's a reason this
+[29:35] company got a $134 billion valuation in
+[29:38] its last private fund raising round. All
+[29:40] that helps send Databricks to the number
+[29:42] three spot on this year's CNBC Disruptor
+[29:45] 50 list. Now that AI has entered the
+[29:47] agentic era, this one's become a heavy
+[29:49] hitter. So, let's take a closer look
+[29:50] with Ali Ghodsi. He's the co-founder and
+[29:52] CEO of Databricks to learn more. Mr.
+[29:54] Ghodsi, welcome back to Mad Money.
+[29:57] >> Thank you so much. Always great to be
+[29:58] on.
+[29:58] >> Hey, always great to see you. First of
+[30:00] all, I got to go through this rigmarole.
+[30:01] I'm sorry, but you know, we got all
+[30:02] these people, you know, when is
+[30:04] Anthropic going to come public? Open AI
+[30:06] hasn't filed, and SpaceX
+[30:08] a lot of those companies need money.
+[30:10] When I look at your company, I say to
+[30:12] myself, here's someone who's in the
+[30:13] driver's seat. Can come public, not come
+[30:16] public.
+[30:17] Is that not a better way to look at
+[30:19] Databricks than the other guys where we
+[30:20] play the guessing game all the time?
+[30:24] >> Yeah, I mean, the way to think about it
+[30:25] is that if you're burning huge amounts
+[30:27] of capital, like 10, 20, 30, 40 billion
+[30:30] dollars, you need the capital, you need
+[30:31] to be in the public markets, you have no
+[30:33] choice.
+[30:34] Um for Databricks, we don't burn any
+[30:36] money at all, zero dollars.
+[30:38] Uh so, for us, we can choose the timing.
+[30:40] I think this is a good year to be
+[30:41] private because I think this is a good
+[30:43] year where you want to be building
+[30:44] because we're going through a huge
+[30:46] transition in the market, in public, in
+[30:48] private, all enterprises. This AI
+[30:50] revolution is happening. So, it's better
+[30:53] to build in private right now and we
+[30:55] will be public and we will go public,
+[30:56] but I don't think this year is a good
+[30:57] time for us.
+[30:58] >> All right. So, when I first met you, I
+[30:59] said, "Well, wait a second. I see what's
+[31:01] going on here. You can take the Here's
+[31:03] the data, but it's your data. You can
+[31:04] prosecute, you can ask it questions, you
+[31:06] can inquire things." It seems like ever
+[31:09] since AI, now there's like a hundred
+[31:11] things you could do if there were five
+[31:13] things before. Do you advise your
+[31:16] clients, "Look, you can do this now,
+[31:17] that one." And do they avail themselves
+[31:19] of it?
+[31:21] >> Yeah. Look, I think the thing that is
+[31:23] top of mind right now for every CEO on
+[31:25] the planet, not just in tech, any CEO,
+[31:28] is "Wow, these AIs are so amazing. They
+[31:31] can do so amazing things, but secretly,
+[31:33] and they don't want to admit this, my
+[31:35] organization has none of the AI. It's
+[31:37] not established. We don't have a GenAI
+[31:39] co-workers doing lots and lots of work.
+[31:41] How do I get AI into my organization?"
+[31:43] And they have plenty of intelligence in
+[31:45] the AIs, but why are the agents not
+[31:47] working in the enterprise? What's going
+[31:49] on? And the simple answer to that is
+[31:52] the AIs, if you give them all the data
+[31:54] and the context, if you perfectly ask
+[31:56] the question with all the context, they
+[31:58] will nail the answer every time. So, the
+[32:00] big question is AI doesn't have an
+[32:02] intelligence problem, AI has a context
+[32:04] problem. How do we feed it that context?
+[32:06] And that context is in the data.
+[32:08] So, that's top of mind. Everyone wants
+[32:09] to solve this problem. There's no one on
+[32:11] the planet right now doesn't want to
+[32:12] have this problem nailed.
+[32:13] >> All right. So, how about if I had Genie,
+[32:16] what would I do with it?
+[32:19] >> Yeah. So, Genie has built into it
+[32:20] something called Genie Ontology.
+[32:23] So,
+[32:23] >> Genie Ontology.
+[32:24] >> you have your data, but
+[32:25] >> So, you're talking about that's what
+[32:26] Palantir taught me with the word
+[32:27] ontology.
+[32:29] >> Yeah, they have it too and they're a
+[32:30] great partner. But, the way Genie
+[32:32] Ontology works is that it automatically
+[32:35] we already have all the data in what we
+[32:36] call the Databricks Lakehouse. That data
+[32:38] is sitting there, but it's a lot of
+[32:39] data, structured and unstructured. So,
+[32:41] we don't want to have the AIs just go
+[32:43] loop through the code and just loop
+[32:45] through all the data and search for
+[32:47] nuggets. That's what happens today.
+[32:48] Today, people use a cloud coder or they
+[32:49] use some other agent, and it just goes
+[32:51] through and loops through. Costs a lot
+[32:53] of money to loop through all the data.
+[32:55] So, what we do is we automatically in
+[32:56] Genie have constructed the graph. So,
+[32:59] ontology is a graph, and it has these
+[33:01] little snippets of nuggets of
+[33:02] information like, you know, revenue is
+[33:04] calculated this way. Uh number of
+[33:06] employees is found over there. Product
+[33:08] categories is here. And when you ask a
+[33:10] question, it uses this ontology inside
+[33:12] Genie to answer those questions. So, I
+[33:14] personally, every meeting I'm at, I'm
+[33:16] using Genie. Like anything that comes
+[33:17] up, I'm asking the question in Genie.
+[33:19] It's giving me the answers. A lot of the
+[33:21] things that otherwise I would have to
+[33:22] wait 2 3 days or have someone go look up
+[33:24] the numbers cuz
+[33:25] you know, you really want numeracy, and
+[33:27] you want analytical quantitative
+[33:30] accuracy here, right? This is not about
+[33:31] producing text. You want it to produce
+[33:33] for you what are the different revenue
+[33:35] categories, and you want those numbers
+[33:36] to be accurate. So, Genie really excels
+[33:38] at that, and a lot of that is thanks to
+[33:39] this ontology graph.
+[33:40] >> Okay, so tell me, let's say I'm with
+[33:43] another outfit. We've had Snowflake on
+[33:45] many times. And I might hear what you
+[33:46] said, and it sounds like, "Wow, you guys
+[33:48] are doing some cool stuff." Isn't it too
+[33:50] costly to go from Snowflake to
+[33:52] Databricks?
+[33:54] >> Well, I think that's a great company.
+[33:56] You know, the two companies have
+[33:58] different backgrounds.
+[33:59] We grew up in AI. So, we started doing
+[34:01] AI,
+[34:02] you know, in 2009, frankly. And then we
+[34:04] started in 2013. We're at this point
+[34:07] synonymous with the data and AI company.
+[34:08] If you search for that, you'll come up
+[34:10] Databricks.
+[34:11] You know, their roots are data
+[34:12] warehousing, but they're great. They
+[34:13] have a great CEO, and they're moving
+[34:15] fast. And you know, they're adding AI
+[34:16] capabilities as well. So, you know,
+[34:18] there's competition in the market. I
+[34:20] think the Genie ontology is special,
+[34:21] though. And I think our open approach to
+[34:24] data is also unique and and very
+[34:27] differentiated from all the other active
+[34:28] vendors. We started this whole
+[34:30] revolution by data should be open in
+[34:31] open format. It should be in one place,
+[34:33] what we call the lakehouse.
+[34:35] That turns out that's really important
+[34:36] for the agentic revolution because you
+[34:38] can't grant access for, you know, each
+[34:41] of your proprietary silo databases to
+[34:44] your agents. The agents just go to this
+[34:47] lakehouse.
+[34:49] So, the lakehouse has become the system
+[34:51] of record nowadays. So, I joke and I
+[34:53] call it Sora, uh, you know, the system
+[34:54] of record for agents. You know, we that
+[34:56] that product name is not available, so
+[34:58] Well, I that's what we call it.
+[34:59] >> This question I I am confused about
+[35:01] this.
+[35:02] What's the proposition to stay off of
+[35:05] your product? I mean, if I meet a CEO
+[35:08] and they have all their data on prem and
+[35:11] they can't prosecute it using
+[35:12] Databricks,
+[35:14] well, shouldn't I make a presumption
+[35:15] that perhaps they are old school and not
+[35:17] availing themselves of things that would
+[35:19] be make them more efficient and better
+[35:21] what they do?
+[35:24] >> Yeah, I mean, all of these guys want to
+[35:25] move to the cloud. First of all, the
+[35:26] vast majority of Fortune 500, Global
+[35:28] 2000 already for the core workloads are
+[35:30] in the cloud. But, especially because,
+[35:31] you know, the GPUs and the AI is in the
+[35:33] cloud. But, yeah, some are locked down
+[35:35] on premise and we're working with them.
+[35:37] They want to get out. I haven't heard
+[35:38] anyone that says, "Hey, we're on prem.
+[35:39] We love it. We're going to stay there.
+[35:41] It's much better. The GPUs are better.
+[35:43] The AI is better. Leave us alone. You're
+[35:45] wrong." Nobody's I don't know anyone
+[35:46] like that.
+[35:47] >> don't know how I'd probably running a
+[35:48] bit Well, actually, I run a couple
+[35:50] business, but if I were running a
+[35:51] database business, of which currently I
+[35:53] I am aware of one, how I would do it
+[35:55] without you. Because everything's
+[35:57] guessing, right? We would just used the
+[35:59] old way. We used to do We would look at
+[36:00] some things. Maybe we have a focus
+[36:02] group. Maybe we pick a couple of
+[36:04] accounts, see what's going on. But,
+[36:06] isn't that the way it used to be before
+[36:08] Databricks?
+[36:11] >> Yeah, I wouldn't say we are the only
+[36:12] company that actually enabled that, but
+[36:13] yeah, this is I mean, the AI revolution
+[36:15] with data,
+[36:16] uh, is happening. It's It's what's
+[36:18] enabling that. The key missing piece,
+[36:20] though, is that context. How do you get
+[36:22] that context and that data into the
+[36:24] agents? And I think that's far from a
+[36:25] solved problem, even by us, right? But,
+[36:27] yes, we're seeing it. Like, you know,
+[36:28] one of my favorite example is Prada.
+[36:30] Everyone knows the brand Prada.
+[36:31] >> Sure.
+[36:32] >> And
+[36:33] they used to have all their revenue, all
+[36:34] their KPIs, all of this in Excel, in
+[36:36] spreadsheets. And so, they moved it into
+[36:39] our lake-based database that we have.
+[36:41] And then now they can with AI in real
+[36:43] time ask questions, you know, who's
+[36:44] buying a purse, you know, who's buying a
+[36:45] shoe, or, you know, tell us about their
+[36:47] inventory, and so on. So, yeah, now we
+[36:49] can do it with AI, and, you know, just
+[36:52] it's magical.
+[36:53] >> Well, I think it's great to have you on.
+[36:54] It's nice to have you on because you
+[36:56] speak English and you get the job done.
+[36:58] And it's a joy to have you because, you
+[37:00] know, it's a great to see a guy who's
+[37:01] trying to figure out what's right for
+[37:02] the business is often a very different
+[37:04] from a guy who's trying to get in the
+[37:05] stock market. And we know many people
+[37:07] are trying to do that now. Ali Ghodsi is
+[37:09] co-founder and CEO of Databricks. This
+[37:11] is number three on this Disruptor List,
+[37:12] but it's probably one of, I don't know,
+[37:14] I shouldn't slander the all the other
+[37:16] companies, but this is the one that
+[37:17] doesn't need to come public. That's the
+[37:18] kind of company you really want. Thank
+[37:20] you, Ali. Great to see you.
+[37:23] >> My pleasure. Thank you so much.
+[37:24] >> All right, man. Play me out.
+[37:25] >> Back get to the phone.
+[37:34] >> It is time.
+[37:43] And then the lightning round is over.
+[37:44] Are you ready? Ski Databricks
+[37:47] Let's go with Brian Brian.
+[37:51] >> Jim, I'm a club member and your book is
+[37:53] my investment Bible.
+[37:55] >> Ah, thank you, man. How to do it? How to
+[37:56] do it? Let's go.
+[37:59] >> This is a pivotal time for
+[38:00] manufacturing. This stock is a third
+[38:02] quarter in a row of accelerating growth
+[38:04] and improving profit. It has a
+[38:06] partnership with Siemens who just bought
+[38:09] $50 million
+[38:10] of Xometry.
+[38:13] >> Xometry. I know Xometry is growing like
+[38:15] a weed. I'm going to invite Xometry on.
+[38:17] I don't know them well enough to opine
+[38:19] on the company,
+[38:20] uh, but I do know that it's in the right
+[38:22] space. Let's get them on the show. Let's
+[38:24] go to James in Texas. James.
+[38:27] >> Yes, sir. Thank you for taking my call.
+[38:30] I'm interested in
+[38:32] I'm interested in a company called
+[38:34] Equinix. E Q
+[38:36] >> Equinix, yes, it's a great it's a great
+[38:37] way to play the data
+[38:39] No, they're giving me the hook. This is
+[38:40] some night. And that
+[38:42] ladies and gentlemen is the conclusion
+[38:44] of THE LIGHTNING ROUND.
+[38:47] >> THE LIGHTNING ROUND is sponsored by
+[38:49] Charles Schwab.
+[38:52] Coming up as we wrap up another busy
+[38:54] day, Cramer has some final thoughts.
+[38:57] Don't miss his no huddle next.
+[39:13] >> Can we stop this endless trading,
+[39:15] please? Every time we get a hint that
+[39:16] peace might break out in the Middle
+[39:17] East, we see oil go down. Traders reach
+[39:19] for Norwegian Cruise, Royal Caribbean,
+[39:21] Delta, United, and a couple of other
+[39:23] airlines. But then when the rumored
+[39:24] peace fails to appear, we jettison or
+[39:27] short these same companies because they
+[39:28] all use a ton of oil. This game is just
+[39:30] plain ridiculous, people. I'll tell you
+[39:32] why. First, we have no idea what's going
+[39:33] to happen in Iran. Second, the endless
+[39:35] trading has turned these oil sensor
+[39:37] stocks into mere playthings. If you were
+[39:39] investing, you'd look for a cruise line
+[39:40] that's worth through thick and thin.
+[39:42] You'd go buy Viking. Let's take a step
+[39:44] back for a second and think about this
+[39:45] whole Iran to oil to interest rate
+[39:47] trade.
+[39:48] Why is anyone even doing this? It's
+[39:50] almost inconceivable that the trade
+[39:51] could make you money. It's all a game of
+[39:53] chance, not a test of skill. This is not
+[39:56] investing at all. I
+[39:58] I like daily fantasy during football
+[40:00] season, so you may think I'd be maybe
+[40:01] not much of a gambler, but I think if
+[40:03] you want to bet on the prospect of peace
+[40:05] in the Middle East, you should go to the
+[40:06] prediction markets and place your wagers
+[40:08] there. Much better idea. But if you're
+[40:10] doing these on on again, off again oil
+[40:12] trades, don't confuse that with
+[40:14] investing. Honestly, I wouldn't even
+[40:15] call it trading. I traded professionally
+[40:17] for two decades and was fortunate enough
+[40:19] to make a ton of money and every year I
+[40:20] did was just not bad. I was taught by
+[40:22] some amazing traders who hammered
+[40:24] discipline into my head. Rule number
+[40:26] one, do you have an edge? Do you know
+[40:28] something that is not well known by
+[40:30] others or are you just guessing? That's
+[40:32] not enough. You need an edge to pull the
+[40:35] trigger. This war and the indecision of
+[40:37] the president are both examples of
+[40:39] something that you cannot even for one
+[40:40] second claim you have an edge on. Unless
+[40:43] you work in the White House, you simply
+[40:44] guessing. You're playing roulette where
+[40:47] you have no idea where the ball's going
+[40:49] to land. I simply can't understand why
+[40:51] people confuse these two efforts, chance
+[40:53] and skill. You want to bet on chance, go
+[40:55] to the prediction markets. Go to the
+[40:57] casino. You'll probably save yourself
+[40:58] some money because I can't think of a
+[41:00] quicker way to lose than just trying to
+[41:02] guess the president's next move in the
+[41:04] Persian Gulf. I like to say as always,
+[41:06] there's more money to be made in the
+[41:07] market just for you ready to make money.
+[41:08] I'm Jim Cramer.
+[41:09] See you next time.
+[41:13] >> All opinions expressed by Jim Cramer on
+[41:14] this podcast are solely Cramer's
+[41:16] opinions and do not reflect the opinions
+[41:17] of CNBC or its parent company or
+[41:19] affiliates and may have been previously
+[41:20] disseminated by Cramer on television,
+[41:22] radio, internet or another medium. You
+[41:23] should not treat any opinion expressed
+[41:25] by Cramer as a specific inducement to
+[41:27] make a particular investment or follow a
+[41:28] particular strategy, but only as an
+[41:30] expression of his opinion. Cramer's
+[41:31] opinions are based upon information he
+[41:33] considers reliable, but neither CNBC nor
+[41:35] its affiliates and or subsidiaries
+[41:36] warrant its completeness or accuracy and
+[41:38] it should not be relied upon as such. To
+[41:40] view the full Mad Money disclaimer,
+[41:41] please visit
+[41:42] cnbc.com/madmoneydisclaimer.

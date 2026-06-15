@@ -1,0 +1,1196 @@
+[0:01] My mission is simple, to make you money.
+[0:04] I'm here to level the playing field for
+[0:06] all investors. There's always a bull
+[0:09] market somewhere, and I promise to help
+[0:11] you find it. Mad money starts now.
+[0:17] Hey, I'm Kramer. Welcome to Mad Money.
+[0:19] Welcome to Kramer America. I made
+[0:21] friends. I'm just trying to make a
+[0:22] little bit of money here. My job not
+[0:24] just to entertain, but to teach. So,
+[0:26] call me at 1800 743 CBC. Tweet me at
+[0:29] Kramer.
+[0:30] The whole world seems to be slowing
+[0:34] down. Rising oil prices, fewer hires in
+[0:37] the office, lack of new construction,
+[0:39] kept trade, waning hopes for deal with
+[0:42] Iran. These are the things I hear about.
+[0:45] Each day has its own set of horrors.
+[0:47] Today, Shake Shack got crushed after
+[0:49] missing the quarter. Burgers too
+[0:51] expensive. Whirlpool got annihilated as
+[0:53] it talked about recession levels of
+[0:55] appliance demand suspended dividend.
+[0:57] Even Planet Fitness told you people
+[0:59] aren't paying up for memberships like
+[1:01] you used to.
+[1:04] It seems to the average Dow losing 314
+[1:07] points, S&B slipping 38%, NASDAQ
+[1:09] declining.13%.
+[1:11] Yet, despite these negative headlines,
+[1:13] most of which I disagree with, by the
+[1:14] way, the market can't seem to give up
+[1:16] the ghost. On days like today, it feels
+[1:19] like all we're doing is taking a
+[1:20] breather from the miraculous upturn.
+[1:24] It has so many people puzzled while
+[1:26] others keep castigating the rally as
+[1:28] something from the bad old days of
+[1:29] the.com boom. I'm getting tired of that
+[1:32] one. When the whole internet edifice
+[1:34] bmed then collapse under its own weight.
+[1:36] Where were they when that happened? I
+[1:37] was underneath it. I want to use this
+[1:40] day a down day to explain what people
+[1:43] are getting so wrong about this market.
+[1:46] Now, don't get me wrong. It wouldn't
+[1:48] shock me to have more than one down day
+[1:50] given that there's been so many stocks
+[1:52] that are parabolic. We need a little
+[1:54] rest. We want stocks to cool off. In the
+[1:59] end, I can't deny that this market
+[2:00] shares some trades with the end of the
+[2:02] dotcom year, the leadup to the crash in
+[2:04] 2000. The most obvious of which is the
+[2:06] velocity of these rallies. There are so
+[2:08] many stocks that have traveled straight
+[2:09] up, which is why we've been reluctant. I
+[2:12] can tell you if you remember the CMC
+[2:14] Investing Club, you would know some
+[2:15] things are too hot. We've actually been
+[2:17] uh been taking a few a bit off the table
+[2:20] because we don't want our stocks to go
+[2:22] parabolic and then go down. Instead
+[2:24] though, uh we've been focused on what's
+[2:27] zoomed too much and wondering if it
+[2:29] might be not a bad idea to do some
+[2:31] selling. Do we trim some crowd strike
+[2:33] after it jumped at 8 8% today? I thought
+[2:35] about it. Is it time to part with some
+[2:37] Microsoft after lift his head into the
+[2:39] low 40s? It came to mind. But even
+[2:42] though I want to take some profits for
+[2:43] the trust, I absolutely don't believe
+[2:45] that this market's going to roll over
+[2:47] and play dead, stay down, at least not
+[2:49] anytime soon. And that's not because I'm
+[2:51] counting on the war with Iran ending.
+[2:54] Doesn't seem like that's about to happen
+[2:56] soon. I'm not counting on lower rates
+[2:57] either. If we get a strong employment
+[2:59] number tomorrow, I don't know how Kevin
+[3:00] Marsh, soon to be Fed chief, can
+[3:01] convince his compadres to cut rates.
+[3:05] No. My faith in this market comes down
+[3:07] to the opportunity to get you involved
+[3:10] in what our one of our guests is
+[3:13] building tonight and I'm talking about
+[3:14] Nvidia Jensen Wong preently and
+[3:17] correctly the man who called the fourth
+[3:19] industrial revolution artificial
+[3:21] intelligence right now my sense is that
+[3:23] the average person in this country has
+[3:25] very little idea that there's a
+[3:26] revolution going on the idea probably
+[3:28] just seems laughable if they learn about
+[3:29] it just like most people originally
+[3:30] didn't notice the implications of the
+[3:32] steam engine or the power loom when
+[3:34] those inventions started to transform
+[3:35] the entire global economy. They were
+[3:38] dismissed often. The way I hear this
+[3:40] revolution dismissed now, the way I hear
+[3:41] it myself dismissed.
+[3:44] Jensen the first to see the
+[3:45] possibilities of AI and accelerated
+[3:47] computing is an amazing teacher to
+[3:49] demonstrate the sheer size of his
+[3:51] revolution. He likes to talk about it as
+[3:54] a five layer cake. So before we talk to
+[3:57] Jensen and Wendel Weekes, the visionary
+[3:59] CEO of Corning, which just entered into
+[4:01] a gigantic partnership with Nvidia, I
+[4:04] got an idea. Let's go eat some cake. Or
+[4:07] at least study its layers to help you
+[4:09] understand why AI is big enough to pull
+[4:11] the entire market and the economy
+[4:13] higher. Despite the price of gasoline
+[4:16] and the erosion of consumer confidence
+[4:17] and all that other stuff that I'm sick
+[4:18] of hearing about. All right, y'all. Get
+[4:20] this now. Not for the first time. I'm
+[4:21] taking my cue from Marie Antinet. Let
+[4:25] them eat cake. Although she called it
+[4:26] gateau.
+[4:28] The first layer of the AI cake is power.
+[4:30] All right. Uh we currently don't have
+[4:33] enough electricity to light up all these
+[4:34] data centers. They need energy like any
+[4:36] other business. Some of the biggest and
+[4:38] best spenders in the country are the
+[4:40] utilities. They have the capacity to
+[4:42] spend hundreds of billions of dollars to
+[4:44] build power stations and turbines and so
+[4:46] much else. Just this evening, uh Jensen
+[4:49] gave $2 billion to a company called
+[4:50] Iran. I en not kidding. They're part of
+[4:53] this. But you know who else is part of
+[4:54] it? Take a look at these. These
+[4:56] companies are hiring like mad because
+[4:58] they know the demand for electricity is
+[5:00] rising consistently for the first time
+[5:01] in decades. Utilities are a jobs program
+[5:04] themselves. Let a 100 Tennessee Valley
+[5:07] authorities bloom. Look at this boom
+[5:09] energy. Oh my god, that non-combustible
+[5:11] energy. The stock is was down today.
+[5:13] Might want to get some Gnova. How many
+[5:14] times do I have to love that? You're
+[5:16] going to plug right into the natural gas
+[5:18] eqt vistra constellation. Amazing
+[5:20] copies. Next layer are
+[5:24] next layer are chips and semis. We know
+[5:27] them as Nvidia, Intel, AMD and
+[5:29] manufacturer Taiwan semi. But it takes
+[5:31] machines to make chips too and it takes
+[5:33] copper and now fiber to link them
+[5:35] together which is why we also have
+[5:36] Corning's window weeks on tonight.
+[5:38] Corning partnered up with Nvidia
+[5:39] yesterday and some would say they're now
+[5:41] joined at the hip. Stick around. I hope
+[5:43] to make some news about that
+[5:44] relationship later in the show. Layer
+[5:46] three. Oh boy. Infrastructure. Now here
+[5:49] you're dealing with everything from
+[5:50] Caterpillar
+[5:52] to Dell, Amazon Web Services, data
+[5:55] center builder, Core Weeb, more sales,
+[5:58] more losses on tomorrow morning with me.
+[6:00] Uh again, these are all deep pocketed
+[6:02] employers spending hundreds of billions
+[6:04] of dollars on people plant materials.
+[6:07] This is the everyday American
+[6:09] opportunity to get a job is in this
+[6:11] layer. Okay, I know it's going to be
+[6:13] hard to go work for Jensen. And I mean a
+[6:14] smart fellow there, you know, but they
+[6:16] got these jobs. You go to good, you
+[6:17] know, you you finish school, finish high
+[6:19] school, you get a job. Finish college,
+[6:21] get a job. I think it's okay with me.
+[6:23] Fourth layer, Jensen calls them models.
+[6:26] Google, Meta, Open AI, Anthropic, Space
+[6:30] X, AI. The amount of money these
+[6:33] companies are spending is insane. It's
+[6:35] like they're rebuilding the interstate
+[6:37] highway system like like I when
+[6:39] Eisenhower was president. Maybe it's
+[6:41] bigger.
+[6:42] Not kidding. Finally, the last layer
+[6:44] applications. These include products
+[6:46] made by Palo Alto Networks or Data
+[6:47] Bricks or Crowd Strike or or Palunteer.
+[6:51] People don't like Palanteer anymore.
+[6:52] What's that all about? There are
+[6:53] thousands of applications, most of which
+[6:55] seem to be expanding. Look at this. This
+[6:57] is just a giant wave of jobs. People say
+[7:02] that this industrial revolution is going
+[7:03] to wipe out jobs. I give you these
+[7:05] creators of jobs. Now, let's consider
+[7:08] the cake as a whole. We hear that the
+[7:10] state of the consumer is weakening,
+[7:11] right? conferences waning. To me, that
+[7:13] has nothing to do with the AI cake.
+[7:16] Every one of these layers I just
+[7:17] mentioned is like a giant American jobs
+[7:19] program. Not overseas here. They all
+[7:22] collectively have the power to keep the
+[7:24] country's economy humming. Everybody's
+[7:26] focused on AI as a technology. But when
+[7:28] you look at everything behind it, this
+[7:30] is like the WPA and CCC on steroids.
+[7:33] Even if you don't believe in the tech
+[7:35] like I do, this is enough make work to
+[7:38] give us a real boost. That's why my
+[7:40] bottom line is that as the averages go
+[7:42] down, you need to get ready to eat a
+[7:46] piece of cake despite interest rates,
+[7:48] despite the gloom, despite the war,
+[7:51] because you have to ask yourself, what
+[7:53] do any of these have to do with the
+[7:56] price to earnings multiples of Nvidia or
+[7:59] Corning?
+[8:02] >> Joe in Florida. Joe,
+[8:05] >> good day, Professor Kramer. I'm a
+[8:06] student of CR America and I am here to
+[8:09] learn.
+[8:10] >> My question is
+[8:12] >> good stuff.
+[8:14] >> Good. Sorry.
+[8:15] >> Following their strong Q1 earnings
+[8:17] report, this company reaffirmed fullear
+[8:20] outlook based off their based off their
+[8:23] software first and quantum computing
+[8:26] initiatives. However, management
+[8:29] remained prudent with their forward
+[8:31] projections due to the uncertainty of
+[8:33] the global economy. My stock is IBM. Do
+[8:37] I buy, sell, or hold?
+[8:38] >> I want you to buy IBM. I do not
+[8:40] understand why it's all the way down
+[8:41] here. I thought the core was actually
+[8:42] really good. I think it's been caught up
+[8:43] with this idea that it's got some
+[8:44] software that people don't like. That's
+[8:46] nonsensical. I think that that Arvin
+[8:48] Christian is doing a remarkable job. And
+[8:50] yes, I'll give you the quantum. I'll
+[8:51] throw that in for free. All right. Look,
+[8:54] despite all the negativity out there, I
+[8:55] think the AI revolution has enough
+[8:56] layers
+[9:00] to keep the economy humming right along.
+[9:02] You remember the old days when I would
+[9:03] throw this? Well, no. I got I got wiser
+[9:08] or more stupid. I can't tell. We've got
+[9:10] a big episode of Bad Money coming up.
+[9:12] Nvidia and Corny announced a major new
+[9:14] partnership yesterday to accelerate the
+[9:16] AI buildout across the country. And I'm
+[9:18] learning more about it from the CEOs of
+[9:20] both companies. Then I'm going to sit
+[9:21] down with Corning's top brands to dig
+[9:23] deeper and how 175year-old company has
+[9:25] transformed itself into a leader in the
+[9:27] AI infrastructure space and what the
+[9:29] road map is for the years ahead. That
+[9:31] smells good. And they say every dog has
+[9:34] its day.
+[9:36] Including Data Dog, which shot up more
+[9:38] than 30% today. I'm going to break down
+[9:39] what's behind that move higher. There's
+[9:41] so much going on. Hey, it's a jam-packed
+[9:43] show. I hear all the other shows say
+[9:44] that's why I decided to throw it in. D
+[9:46] Kramer.
+[9:53] >> Don't miss a second of Mad Money. Follow
+[9:55] Jim Kramer on X. Have a question? Tweet
+[9:58] Kramer. #madmentions.
+[10:01] Send Jim an email to madmoney@cnbc.com
+[10:04] or give us a call at 1 800743CNBC.
+[10:08] Miss something, head to
+[10:10] madmoney.cnbc.com.
+[10:22] Oh boy, this is a big week for Corning,
+[10:23] the iconic American glass maker. ring
+[10:26] the closing bell here today to celebrate
+[10:28] its
+[10:30] 175th anniversary. But even though it's
+[10:32] old, the cover is more relevant than
+[10:33] ever. They make everything from iPhone
+[10:35] screens to the kind of optical fiber
+[10:37] that's used to tie everything in the
+[10:38] data center together. Just yesterday,
+[10:40] Nvidia announced a major new partnership
+[10:42] with Corning to expand their optical
+[10:44] connectivity manufacturing capacity by a
+[10:46] factor of 10. Basically, Nvidia is
+[10:49] taking a big position in Corning to fund
+[10:50] that expansion, which is why the stock
+[10:52] shot up 12 12% yesterday. And this is
+[10:54] something that's already quadrupled over
+[10:56] the past 12 months. Big win for my
+[10:59] travel trust, by the way, for both. Now,
+[11:01] let's take a closer look at this
+[11:02] partnership with Wendle Weekes, the
+[11:03] chairman CEO of Cornney, who's here with
+[11:05] us at the New York Stock Exchange, and
+[11:06] Jensen Wong, the founder and CEO of
+[11:08] Nvidia, who's joining us from Motley.
+[11:10] Gentlemen, welcome back to Mad Money.
+[11:13] Gentlemen, welcome.
+[11:13] >> Thanks for having us. Thank you.
+[11:14] >> Hey, Jim. Hey, Wendell.
+[11:16] >> Great to see you guys. Okay, so I want
+[11:17] to get right to it. Wendell, uh, tell me
+[11:20] what this investment will do. the
+[11:22] partnership with Nvidia uh to explain
+[11:25] this is a major major commitment for you
+[11:26] guys what it will do to be able to help
+[11:28] get tenfold optical you that's your
+[11:31] number optical capacity and what does
+[11:34] the tieup do now that you couldn't do
+[11:36] before you've got a great balance sheet
+[11:38] Wendell
+[11:40] >> well two things uh first I really
+[11:42] thought Jensen said it great on what the
+[11:45] purpose of all this is um what he said
+[11:49] is about inventing the future of
+[11:51] computing with advanced optical
+[11:53] technologies.
+[11:55] Two, building the foundation
+[11:58] of AI infrastructure where intelligence
+[12:01] moves at the speed of light. And
+[12:03] finally, and both he and I, I think most
+[12:06] importantly, building on the tradition
+[12:09] of made in America.
+[12:11] >> Right. I want to get right to that with
+[12:12] Jensen, we're talking about a lot of
+[12:14] jobs, great facilities here, and an
+[12:17] amazing tie up. What is the return on
+[12:19] investment for Nvidia shareholders and
+[12:22] the return on investment for our
+[12:23] country?
+[12:24] >> Nvidia shareholders and the return on
+[12:25] investment for our country.
+[12:27] >> Well, you know, we're going through the
+[12:28] single largest infrastructure buildout
+[12:32] in human history. Artificial
+[12:34] intelligence is going to become
+[12:36] fundamental infrastructure all over the
+[12:38] world and surely here in the United
+[12:40] States. It is just an incredible joy to
+[12:43] partner with the great American company
+[12:45] Corning and just an incredible CEO
+[12:48] Wendell. Wendell Weekes as you know has
+[12:50] really uh he grew up in Corning and now
+[12:54] he's taking it to the next generation.
+[12:56] The partnership is really about
+[12:58] inventing a next generation data center
+[13:01] where the the amount of interconnects,
+[13:03] the number of GPUs, the amount of
+[13:05] interconnects, the speed of the
+[13:06] interconnects and the scale of the
+[13:08] computing is just utterly gigantic. And
+[13:10] this is such an extraordinary
+[13:12] opportunity because we can use these
+[13:14] market dynamics to reinvest, revitalize
+[13:18] American manufacturing the first time in
+[13:21] several generations. We can also use
+[13:23] this market dynamic, this incredible
+[13:25] investment that's coming in from the
+[13:26] market to revitalize to upgrade our
+[13:30] energy grid to bring in sustainable
+[13:33] energy. And so simultaneously, we're
+[13:35] building a new infrastructure. We're
+[13:37] revitalizing American technology and
+[13:39] American manufacturing. And we're we get
+[13:41] the opportunity also to revitalize the
+[13:45] energy grid. And so all of that is
+[13:47] simultaneously happening. And our
+[13:49] partnership with Cointing here is really
+[13:51] about the next next generation of our
+[13:54] data center architecture where silicon
+[13:57] photonics optical technology is going to
+[13:59] be a very very big part of it.
+[14:01] >> Okay. So Wendo right now I feel like
+[14:03] when I go into a big data center it's
+[14:04] copper. It's copper everywhere. Now look
+[14:06] copper does good things but I always
+[14:09] think of fiber as next generation. You
+[14:11] taught me that and your company taught
+[14:13] me that. Can you replace all of it or is
+[14:15] it right now just going to start with
+[14:17] connect and then ultimately maybe the
+[14:19] two miles of copper that is in a Vera
+[14:22] Rubin goes away and it's replaced with
+[14:24] what you make.
+[14:25] >> Well, where we're starting is it's an
+[14:27] and in Jensen's current architecture. It
+[14:31] we maintain the copper that's within the
+[14:33] server rack and then it's an and as it
+[14:36] creates these very large low latency AI
+[14:40] nodes. But you got the right guy on the
+[14:42] screen to ask Well, I I know. Look,
+[14:45] there's one thing, Jess. I know you
+[14:46] can't overnight.
+[14:47] >> Well, Wendle's Wendle's got it right.
+[14:50] We're going to scale up these systems so
+[14:52] incredibly. It's absolutely. So, we're
+[14:54] going to scale up copper incredibly.
+[14:55] We're going to scale up optical at a at
+[14:58] a scale that quite frankly, no optical
+[15:00] companies have ever enjoyed. Which is
+[15:02] the reason why
+[15:04] >> Wendell mentioned earlier, we're going
+[15:05] to increase the amount of optical
+[15:07] capacity in the United States by a
+[15:09] factor of 10. is going to create
+[15:12] thousands of jobs. He's going to he's
+[15:14] going to build brand new factories. Uh
+[15:16] we have the privilege of being a
+[15:18] shareholder in the company and I'm
+[15:20] really excited about that and and of
+[15:22] course a big part of our commitment to
+[15:24] them is a multi-billion dollar
+[15:26] prepayment that wasn't discussed in the
+[15:29] press release, but it's something that
+[15:30] I'm very happy to do.
+[15:31] >> Right. So why why do you need to do this
+[15:33] Jensen? uh why what are the implications
+[15:35] for the ecosystem and what does Nvidia
+[15:38] get that maybe its competitors won't be
+[15:40] able to get because of the tieups
+[15:42] won't be able to get
+[15:45] >> well it's not so much not so much that
+[15:47] it's just that you know as you know as
+[15:50] we're creating this new AI future and
+[15:52] we're we're building out AI
+[15:54] infrastructure all over the world one of
+[15:57] the things that has really happened is
+[16:00] we enjoyed the first surge and of course
+[16:03] everybody realized that Nvidia is
+[16:04] growing incredibly fast, but it's really
+[16:06] important that we bring the entire
+[16:08] supply chain along with us. We now have
+[16:10] the world's largest supply chain. The
+[16:12] scale by which we manufacture these AI
+[16:15] infrastructure is like unlike anything
+[16:17] that's ever happened before, which is
+[16:19] the reason why Nvidia is so large today.
+[16:21] We also need the support and the
+[16:24] partnership of the world's best
+[16:26] companies in our supply chain to help us
+[16:29] create and realize this future and
+[16:31] silicon photonics and optical technology
+[16:33] is a very big part of that which is the
+[16:35] reason why our partnership with Carne is
+[16:37] such a incredible pillar in that. I'm
+[16:39] just so pleased with that.
+[16:40] >> Okay. And Wendle, what would you say to
+[16:42] a sheriff says, "Listen, why do you need
+[16:43] that delusion? You've got uh the
+[16:46] company's doing so well 175 years but
+[16:49] young. I mean everything's been going
+[16:51] great. Why do you have to have the
+[16:53] partnership?
+[16:54] >> Well, the partnership is fundamentally
+[16:56] about technology and manufacturing here
+[17:00] in the US. Uh but as it comes to the
+[17:03] financial side, as Jensen just shared,
+[17:05] uh they're making a direct sort of
+[17:08] multi-billion dollar investment in the
+[17:11] capital that it takes to build these
+[17:13] plants. And then also Jensen wanted to
+[17:16] be a long-term investor in Corning. And
+[17:20] when someone as smart as Jensen wants to
+[17:24] be one of my shareholders, the right
+[17:26] answer is yes, please.
+[17:28] >> Well, you look, you've been through the
+[17:30] 1983. I remember you remember 2000. It
+[17:33] was just such a tough time. Will this
+[17:35] all is this in the back of your mind to
+[17:37] be sure that never happens again?
+[17:39] >> Totally. It is. Totally. So, you know,
+[17:42] one of the things about being 175 years
+[17:45] old is
+[17:46] >> you look younger than me.
+[17:47] >> I look old. I feel older. So, is that
+[17:51] you have to build for the bad times as
+[17:54] well as the good. And so, when we
+[17:58] partner with uh Nvidia, that is one of
+[18:02] the great times. We're going to grow,
+[18:04] but as we grow, we want to also make
+[18:07] sure we keep the place safe for the
+[18:10] generations to come. Okay. So, I do need
+[18:13] to to ask Jensen, a lot of people are
+[18:16] feeling, and you and I have talked about
+[18:17] it, but I got to re reference it. It's
+[18:19] going even louder. The doomers are
+[18:21] saying AI is going to kill the jobs. I
+[18:23] keep saying what you said, which is that
+[18:25] there's been no industrial revolution
+[18:26] that weren't we're just many more time
+[18:28] jobs. We're many more times to jobs as
+[18:31] before. Uh could you just refresh the
+[18:33] American people that this is not a jobs
+[18:35] killer? Ultimately it's going to be one
+[18:36] of the greatest creators in history.
+[18:42] >> AI is driving the largest infrastructure
+[18:44] buildout. AI is of course market
+[18:48] generated economics coming into our
+[18:52] country at a scale nobody's ever seen.
+[18:54] It's creating jobs across the entire
+[18:56] stack. It's creating jobs at the energy
+[18:58] level. all the utilities companies,
+[19:00] power generation companies, investing in
+[19:02] sustainable energy companies. It's just
+[19:04] creating tons of jobs. It's creating
+[19:06] jobs at the chips level. For the first
+[19:09] time, we have an opportunity to
+[19:11] revitalize American manufacturing,
+[19:14] bringing in chip chip plants and chip
+[19:17] jobs, packaging plants and packaging
+[19:19] jobs, computer manufacturing, computer
+[19:22] manufacturing jobs. And every one of
+[19:24] those manufacturing jobs creates six
+[19:26] other jobs that support them. And not to
+[19:29] mention all the AI data centers. This is
+[19:32] the first time in history that the
+[19:34] amount of manufacturing jobs being
+[19:36] simultaneously created across all of
+[19:38] these different sectors is growing
+[19:39] incredibly fast. Uh electrician,
+[19:42] plumbers, construction workers, their
+[19:44] salaries have gone up by some 30%. the
+[19:47] number of shortages that we have and the
+[19:50] demand for all of these skill craft
+[19:53] experts are just incredibly high. People
+[19:56] talked about how uh uh AI is going to re
+[19:59] eliminate software coding jobs because
+[20:01] it codes automatically. Absolutely. The
+[20:04] latest generation AIS can generate code
+[20:06] automatically. But unsurprisingly, the
+[20:10] number of software engineering jobs is
+[20:12] skyrocketing. Every company is hiring
+[20:14] more software engineers. the number of
+[20:16] people talked about how uh new college
+[20:18] grads uh will their jobs will be
+[20:20] eliminated by AI. Completely false.
+[20:23] We're in great demand. Completely wrong.
+[20:26] We're in great demand. We see great
+[20:27] demand for new college grads who are
+[20:30] expert at using AI. And so the most
+[20:32] important thing to take away here is
+[20:34] that AI is creating jobs. People who are
+[20:37] expert in AI are highly soughta. AI is
+[20:41] not going to take your job. someone who
+[20:45] is an expert in AI will compete for your
+[20:48] job. And so I would recommend that every
+[20:50] single layer from constructions,
+[20:53] infrastructure, energy, software
+[20:55] company, and all of the startup
+[20:57] companies that are being funded right
+[20:58] now. This is just creating so many jobs,
+[21:01] engage AI, you know, get excited about,
+[21:03] >> right? So we were out at Amazon uh
+[21:05] earlier this week. Uh, Amazon's talking
+[21:08] very that they want to build out and
+[21:10] Google's building out and I got the
+[21:12] sense this is a lot of growing
+[21:14] competition. Are you ready for it? Do
+[21:16] they do they have an edge as they claim
+[21:18] or the total cost of of ownership still
+[21:20] seems to be favoring you? Maybe I'm
+[21:23] wrong.
+[21:27] >> Well, we're all growing. This market is
+[21:29] growing so incredibly. Uh, it's a great
+[21:31] growth opportunity for all of us.
+[21:33] However, Nvidia's architecture, as you
+[21:36] know, is much more versatile. We're the
+[21:38] only AI architecture that runs every AI.
+[21:42] And so, we're delighted that recently
+[21:44] Anthropic has decided also to join the
+[21:47] NVIDIA platform. And yesterday, some big
+[21:50] announcements with Anthropic enjoying or
+[21:53] uh uh contracting out a very large
+[21:55] number of NVIDIA GPUs. And that's just
+[21:57] the the a lot more to come from from
+[22:00] that story. And so this is uh from open
+[22:03] AI to Gemini to XAI to uh meta MSL to
+[22:07] now anthropic. We're just because of the
+[22:10] versatility of our platform we're seeing
+[22:12] tremendous growth. We also have the
+[22:14] opportunity to address the segments of
+[22:16] the market that is not related to large
+[22:19] language models. Maybe it's related to
+[22:21] physics, proteins, uh fusion reactors,
+[22:25] uh chemicals, uh exotic materials, the
+[22:28] work that we do with Wendell and his
+[22:30] team on material sciences. We engage AI
+[22:34] in every single domain from language all
+[22:37] the way to physics to biology to
+[22:39] chemistry to manufacturing. And so our
+[22:42] reach of AI is substantially larger than
+[22:45] someone who is just focused on large
+[22:47] language models. So the combination of
+[22:49] the versatility, the fact that we build
+[22:51] everything end to end and the fact that
+[22:53] we address every field of AI, it gives
+[22:56] us a really unique exposure and that's
+[22:58] the reason why we're growing so fast.
+[22:59] >> Right now we're going to be speaking to
+[23:00] Wendell at length about the some of the
+[23:02] things that we just talked about. I do
+[23:04] want to ask you Jensen because it's in
+[23:05] the news and I heard it today. Will you
+[23:07] be uh going with the president of the
+[23:09] United States to the to China?
+[23:13] Well, I I think that first of all, we
+[23:15] should let the president announce uh
+[23:17] whatever he decides to announce. Uh but
+[23:19] if if invited, it would be a privilege.
+[23:22] It would be great honor to represent the
+[23:23] United States and uh to uh go to China
+[23:26] with with President Trump.
+[23:27] >> Excellent. Well, I want to congratulate
+[23:28] you on your part on your partnership
+[23:30] with Wendell. If you do go, of course, I
+[23:32] wish you the best of luck and a safe
+[23:34] trip. If you don't, okay, well, always
+[23:36] good to have you. And uh Wendell, will
+[23:38] you stay with me for a second and we're
+[23:39] going to go over some of the fantastic
+[23:41] things that Jensen just talked. I'm very
+[23:43] excited about this partnership. I really
+[23:44] I mean it's just a big deal. Thank you,
+[23:47] Jensen. Great to see you.
+[23:48] >> Congratulations, Wendell. Thank you.
+[23:50] >> Thanks, Jensen.
+[23:51] >> Thank you, Jeff.
+[23:52] >> 175 years. Not bad. Uh that's just
+[23:54] Marcio of Indidia. Stick around for more
+[23:57] from the Corning CEO, Wendell Weeks.
+[23:59] After the break, you will learn
+[24:01] something. I like learning. I don't know
+[24:02] about you. Never mind back.
+[24:05] Coming up, Corning's new deal with
+[24:07] Nvidia isn't the only thing going on at
+[24:09] the great American glass maker. So stick
+[24:11] around because Kramer's got more to
+[24:13] discuss with CEO Wendel Weekes next.
+[24:27] Before the break, we heard from Wendel
+[24:28] Weekes, the CEO of Corning, and Jensen
+[24:30] Wong about the new partnership gold
+[24:32] thousands of jobs right here in this
+[24:34] country. It's a long-term bet on the
+[24:36] comeback in American industry. As
+[24:38] America marks its 250th anniversary,
+[24:41] these are exactly the kinds of companies
+[24:42] we want to highlight. Business is
+[24:44] betting on innovation, manufacturing,
+[24:46] future of American industry. And that's
+[24:47] not the only big news out of Corning
+[24:49] this week. On top of the Nvidia deal,
+[24:51] they also held an investor day
+[24:52] yesterday. Management issued some very
+[24:54] bullish long-term financial targets. The
+[24:56] glass maker with major exposure to the
+[24:58] data center via its optical fiber said
+[25:00] it's now targeting an annual revenue run
+[25:02] rate of 20 billion by the end of this
+[25:04] year. 30 billion by the end of 2028
+[25:07] possibly of 40 billion by the end of
+[25:08] 2030. Good luck finding another 175 year
+[25:11] old company with that kind of growth.
+[25:13] With so much going on here, let's get
+[25:14] right back into it with Wendle Weekes,
+[25:16] the chairman and CEO of Corning.
+[25:17] Wendell, before we go into all this
+[25:19] great stuff, including a a letter from
+[25:21] Edison, a bill from Edison, I need to
+[25:23] know something. I think I heard Jensen
+[25:25] Wong break news about the structure of
+[25:28] the investment that wasn't in any
+[25:30] release that I read.
+[25:32] >> I heard the same thing. Uh what uh
+[25:36] Jensen basically explained is that he's
+[25:39] actually helping us with the capital for
+[25:42] these major new US plants. And then in
+[25:46] addition to that, he wants to be a
+[25:48] long-term investor in Corning. So he was
+[25:50] explaining both aspects of our
+[25:54] arrangement on the commercial side.
+[25:55] >> That means be beside the 500 million
+[25:58] investment. He's going to be spending
+[26:00] maybe side by side with you.
+[26:02] >> Yes. He's going to be helping us invest
+[26:05] in these great factories in the US. And
+[26:08] then as well as that uh he's got an
+[26:11] option to build about a $3 billion
+[26:14] position in our equity.
+[26:15] >> He obviously feels the stocks going is
+[26:17] very cheap right here and going to go
+[26:18] higher. he wouldn't have a $180 strike.
+[26:22] >> Well, I would say that Jensen has pretty
+[26:24] good judgment.
+[26:25] >> I I would say that, too. And he also
+[26:27] knows that you have a deal with Meta for
+[26:29] six billion and two other companies of
+[26:31] which you said they have to disclose it.
+[26:33] But those are big pieces of business,
+[26:34] maybe some of the biggest pieces in
+[26:36] America right now.
+[26:38] I'd actually say probably the biggest
+[26:40] commercial arrangement
+[26:43] ever in my career we just entered into
+[26:46] with uh Nvidia and then these other two
+[26:50] major ones are larger than the metadata
+[26:52] deal that's been public on and I'm sure
+[26:55] some of those customers will want to be
+[26:57] more open about that over time. Well,
+[26:59] this is you work at a very storied
+[27:02] company and whether it be storyried with
+[27:04] something involving Steve Jobs or
+[27:06] whether it be storyried with uh what
+[27:08] looks to be a $311 bill Thomas Edison.
+[27:12] That's our bill to Thomas Edison. Uh
+[27:14] that I keep this in my office and I keep
+[27:17] this uh to remind me that big ideas
+[27:22] come from saying yes to smart people
+[27:24] sometimes in small ways. And that is the
+[27:27] original order form that Thomas Edison
+[27:31] uh made upon us to make the very first
+[27:34] glass envelopes from which he made the
+[27:37] light bulb. And then after we built that
+[27:40] relationship, we invented a brand new
+[27:42] manufacturing process called the ribbon
+[27:44] machine that through time made almost
+[27:46] every incandescent light bulb glass
+[27:49] envelope ever after we invented it.
+[27:52] >> No, I love the way you say sometimes you
+[27:54] got to say yes. How about saying yes
+[27:56] here to Apple? What how did how exciting
+[27:59] was that for you? And also kind of
+[28:01] mindboggling to get a Steve Jobs call.
+[28:03] >> True. It's it's really a big hunk of our
+[28:06] history is we're best in the world at
+[28:08] what we do, but we also bring an
+[28:11] attitude that when other great
+[28:13] innovators want to come and ask us for
+[28:16] help, we really say yes. like this first
+[28:18] one that actually strange looking
+[28:21] product that was the first cathode ray
+[28:23] tubes that we made another smart guy
+[28:26] named Sarnoff at RCA asked us to help
+[28:29] them build television and that's what we
+[28:32] did and then you just mentioned Steve uh
+[28:35] another guy uh in a very famous story
+[28:38] that asked us uh to build a new type of
+[28:42] transparent material that wouldn't
+[28:44] scratch and would be highly damage
+[28:46] resistant And that right there is
+[28:49] actually the very first iPhones with the
+[28:52] very first glass we ever made. And we
+[28:54] made that in Herodsburg, Kentucky, the
+[28:56] plant.
+[28:58] >> Will I be um will I like foldable glass?
+[29:03] >> I never speak about what my customers
+[29:05] >> I sure tried, didn't I, though? Can't
+[29:08] blame me. Not one bit. All right, so
+[29:10] let's talk about uh the lessons that you
+[29:13] know. A lot of people say to me, "Oh,
+[29:15] the buildout's ridiculous. It's never
+[29:17] going to end." Yet, there won't be any
+[29:19] customers. Now, you saw because you were
+[29:22] you've been at Corning since 83. You saw
+[29:25] 2000, 2001, 2002, 2003.
+[29:27] >> Is this not absolutely nothing to do
+[29:30] with that? Totally different customers,
+[29:32] totally different ideas. Are they even
+[29:34] analogous at all?
+[29:36] >> They're not analogous in any sort of
+[29:39] fundamental business manner that you and
+[29:42] I know. Uh what I think makes people
+[29:46] raise it is the internet was also a
+[29:50] significant major changing type of event
+[29:54] but it wasn't fundamentally
+[29:57] about shifting physical infrastructure
+[29:59] like AI is and uh so I think both were
+[30:03] transformational which makes people say
+[30:05] any transformational technology goes
+[30:07] through cycles. I think that is true.
+[30:10] But I've never seen anything like uh
+[30:14] what it is the world is building for AI
+[30:17] infrastructure. Without uh fiber,
+[30:20] everything's just going to burn too hot,
+[30:22] right? I mean, we we really have to have
+[30:24] fiber no matter what the way we're
+[30:25] going.
+[30:26] >> Yes. Ultimately, for fiber optics, what
+[30:29] it's about is very low latency, very
+[30:32] efficient power, and very efficient use
+[30:35] of space. Uh so copper is spectacular
+[30:39] for very short reach. You need fiber
+[30:41] optics when you want to go far.
+[30:43] >> Now uh I keep hoping that one day you'll
+[30:46] say to me, Jim, 2 miles of of uh copper
+[30:50] in the in these different devices. Uhuh.
+[30:53] We have found a way to make it so that
+[30:54] we know copper. Is that within our
+[30:57] lifetime?
+[30:59] >> Oh yes,
+[30:59] >> it is.
+[31:00] >> Oh, within our lifetime?
+[31:02] >> Yeah,
+[31:02] >> dude. I plan to live a long time. I
+[31:04] don't know about you, but yeah. No
+[31:06] definitely it's on it's on everybody's
+[31:08] road mapaps right the real question will
+[31:11] be uh you have to be able to believe in
+[31:15] how transformational will AI be what you
+[31:19] what you see in this recent arrangement
+[31:22] uh with Nvidia is you see the next step
+[31:25] in that architecture
+[31:27] where they're going to start integrating
+[31:30] advanced optical technologies inside the
+[31:33] box. So basically it's now moving. It's
+[31:36] not it's not about the fiber that's
+[31:37] connecting it. It is literally advanced
+[31:41] optical technologies moving inside of
+[31:44] the switchbox. And so that gives us a
+[31:47] brand new opportunity to man help manage
+[31:50] the light within a domain that today is
+[31:54] largely copper.
+[31:55] >> Isn't it amazing what Nvidia is doing in
+[31:57] terms of the ecosystem? I mean
+[31:59] everyone's going to want your fiber, but
+[32:01] you want to do business with a partner.
+[32:02] I know you're going to do business with
+[32:04] everybody. Everybody has to have your
+[32:05] stuff. But having a partner like Jensen
+[32:07] changes who you want to work with,
+[32:10] doesn't it?
+[32:11] >> Well, what always drives Corning is we
+[32:15] want to work with other innovators.
+[32:17] >> Right.
+[32:17] >> Right. Who help We are technical first
+[32:20] and so they're great technologists at
+[32:22] NVIDIA and they help us see the future
+[32:25] and so we can help them make that future
+[32:27] be real. And will people are there
+[32:29] cornings all over the country that don't
+[32:31] have you that can be revitalized by the
+[32:34] stuff you're doing? You know, I thought
+[32:36] actually you said it best when we were
+[32:38] together in Herodsburg, Kentucky, uh
+[32:41] with Tim Cook from Apple and what you
+[32:44] were struck by is how transformational
+[32:47] we are in a small town and then how
+[32:50] basically that combination of Apple and
+[32:54] Corning allow us to create the kind of
+[32:57] jobs that people can build whole lives
+[32:59] and whole communities around. and the
+[33:01] 3,000 new jobs of advanced manufacturing
+[33:04] jobs we just announced to support
+[33:06] Nvidia. Those are those type of jobs.
+[33:09] And don't forget all the people you have
+[33:11] to hire for when I bring my crew down
+[33:13] here down to North Carolina with you and
+[33:16] with Jensen and we show everybody the
+[33:18] greatness of
+[33:19] >> love to do that. Tell me we're going to
+[33:20] do that. That'd be teric.
+[33:21] >> It's done. Thank you very much to Wendle
+[33:23] Weeks, chairman CEO of Corning, a big
+[33:25] holding of our charitable trust and I am
+[33:27] thrilled that it is. May have money back
+[33:29] after the break.
+[33:31] Coming up, data dog stock took off like
+[33:33] a shock today. So, could this be the
+[33:36] opening salvo of a software bounceback?
+[33:38] It's definitely got Kramer barking.
+[33:41] Next,
+[33:52] you can't really teach an old dog new
+[33:54] tricks unless that is it's a data dog.
+[33:58] Now, you may not know data dog. It's a
+[33:59] software company. It helps complex
+[34:01] companies observe what's happening in
+[34:03] the different parts of their business.
+[34:04] They offer a platform solutions so you
+[34:06] can see when your web's pages are down
+[34:08] or make sure your procedures aren't
+[34:09] compromised. It protects your
+[34:10] infrastructure too. And today, Data Dog
+[34:13] blew away the numbers with accelerating
+[34:16] revenue growth or ARG for both its
+[34:18] artificial intelligence offerings and
+[34:20] its so-called legacy business. In
+[34:22] return, the market rewarded with one of
+[34:24] the biggest trophies I've ever seen, a
+[34:25] stunning 31% gain. You think the company
+[34:27] caught a takeover bid? It moved like
+[34:29] that because finally an enterprise
+[34:31] software company shocked people
+[34:35] with a magnificent upside surprise like
+[34:37] something from the good old days for
+[34:38] this group went out of style and into
+[34:40] tatters in the Wall Street fashion show.
+[34:42] Think about it. Service Now holds an
+[34:43] analyst meeting and the halo lasts for
+[34:45] 24 hours and then Palanteer gives you
+[34:48] one of the best quarters I've ever seen.
+[34:49] Great margins, terrific revenue growth
+[34:51] and yet what happens was not enough to
+[34:53] pop up the stock. Then along comes the
+[34:56] dog and the whole quarter is devoted to
+[34:58] what we've been waiting for. An overview
+[35:00] that shows that there are companies that
+[35:02] can convert to being AI first businesses
+[35:04] and ones that its customers love without
+[35:07] leaving behind its old business to run
+[35:08] as some sort of old cash cow. It's
+[35:10] growing lightning fast too. So what
+[35:12] happens? Okay, data dog stock happened
+[35:14] to be one of in one of the most heavily
+[35:15] shorted indices I've ever seen. The
+[35:17] index that is for the Eyesshare Software
+[35:20] ETF. It's known by its ticker IGV. What
+[35:22] a travesty. While it's hardly the
+[35:24] biggest position in the index, it was up
+[35:26] so much today that it had an outsized
+[35:27] impact. And maybe like a football or an
+[35:29] Atlassian cattle dog like my Ragu, it
+[35:32] pulled up everything by itself. The
+[35:34] gigantic Microsoft, which seems to be
+[35:36] mired in the low 400s, it explodes
+[35:38] higher. Palanteer stock didn't go up on
+[35:40] its own magnificent quarter. That's all
+[35:41] right. The stock index jacked it up
+[35:43] 2.4%. Two stocks that shouldn't even be
+[35:46] in the index. Crowd Strike and Palo Alto
+[35:49] got the biggest increases of all up
+[35:50] eight and 7% respectively just because
+[35:52] they've become susceptible to the power
+[35:54] of this ETF
+[35:56] because it's one of the they are two
+[35:57] large components in it. Usually that's a
+[35:59] bad thing and as my trust as a
+[36:02] shareholder in both the index disgust me
+[36:05] with how wrong it's been. But today it
+[36:07] was terrific.
+[36:09] Now here's what's most amazing about
+[36:10] this new wave of buying. This is a
+[36:13] market that can't walk and chew gum at
+[36:15] the same time. Walking means buying
+[36:16] hardware stocks like AMD, SanDisk or
+[36:18] Intel. Chewing gum, that's buying
+[36:20] software stocks like Data Dog. When I
+[36:22] saw the dogs sore in pre-market trading,
+[36:24] I knew that in advance it would come at
+[36:26] the expense of hardware because there
+[36:28] isn't a lot of new money coming into
+[36:31] this market. Without new money, anytime
+[36:33] you buy something means you got to sell
+[36:34] something. The astonishing software
+[36:36] gains meant that even the best of the
+[36:37] hardware stocks would indeed get
+[36:39] hammered. And that's exactly what
+[36:40] happened. Wall Street. They call this a
+[36:42] rotation. It's bthing for most. Crowd
+[36:44] Strike and Paul Alto have been winning
+[36:45] business left and right, but it meant
+[36:47] nothing to their stocks until the data
+[36:49] dog barked.
+[36:51] Yet, that's exactly what happened. Now,
+[36:53] does the rotation of staying power?
+[36:54] Depends. If another software company in
+[36:56] this darn index reports something even
+[36:58] slightly arrived, then I'd expect the
+[36:59] whole move to be repealed as if it never
+[37:01] happened. But for the moment, after
+[37:02] today, there's a recognition that people
+[37:04] have gotten too negative on software,
+[37:05] that AI isn't slaying all of them, and
+[37:07] that maybe maybe like those cyber
+[37:09] security stocks, they never should have
+[37:12] been down to begin with. Then money's
+[37:14] back after the break.
+[37:17] Coming up, you've got questions,
+[37:19] Kramer's got the answers. Get charged up
+[37:22] for a fast fire lightning round next.
+[37:34] It is time to turn the light round
+[37:43] and then the lightning round is over.
+[37:45] Are you ready?
+[37:48] Sam Puerto Rico. Sam
+[37:51] >> Bja Jim. Hey, this this stock has
+[37:55] dropped 20% in the last 6 months. Uh
+[37:59] runs on operating margin in the high
+[38:01] teens. Is it time to buy Domino's pizza?
+[38:06] We got to give it a quarter. I thought
+[38:07] that last quarter was not so hot.
+[38:09] Technical term for meaning uh we're not
+[38:12] going to buy it yet. I'm not done with
+[38:13] taking calls. That seemed like a
+[38:14] truncated lightning round to me. Let's
+[38:15] go to Susie in California. Susie.
+[38:19] >> Hey Jim, I just got off a plane in
+[38:22] Phoenix. as you guys call me. I'm happy
+[38:24] to talk to you guys. Listen, I'm calling
+[38:26] about a gold mining stock. It looks like
+[38:27] the gold mining stocks are starting to
+[38:29] move up. Any prediction in the next six
+[38:32] months for AEM?
+[38:34] >> Uh, you're in you''d be in the best one.
+[38:36] I don't think I am not bullish on gold
+[38:38] right now. I remember we had the great
+[38:40] Larry Williams on and he said, "Listen,
+[38:41] gold is going lower. I'm with Larry. We
+[38:43] had a stock and oh no, that's it. That
+[38:46] the lightning round."
+[38:49] The Lightning Round is sponsored by
+[38:52] Charles Schwab.
+[38:54] Coming up, could medical supplier
+[38:56] Beckton Dickinson be the cure for what
+[38:59] ails your portfolio? Kramer is getting
+[39:01] the diagnosis from the company's top
+[39:03] brass next
+[39:18] morning. We got a strong quarter from
+[39:20] Beck and Dickson the company which is
+[39:21] one of the major medical supply and
+[39:23] medical technology companies after
+[39:25] spending the last five years with some
+[39:26] fine growth. Beck and Dickson really
+[39:28] shot the lights out with this one. Huge
+[39:31] top and bottom line beat management
+[39:33] raising the fullear earnings forecast
+[39:34] and that sent the stock up nearly 6%
+[39:36] today on a not so great day for the
+[39:38] market. The company showed excellent
+[39:40] execution across the board. They're
+[39:41] getting a real boost from all sorts of
+[39:42] technology that helps hospitals do more
+[39:45] with fewer people. So could this be the
+[39:47] beginning of the next chapter? Let's dig
+[39:49] deeper with Tom Poll and he's the
+[39:50] chairman, president and CEO of Beckman
+[39:52] Dickson Company to find out more. Mr. B,
+[39:54] welcome back to Mid Money.
+[39:55] >> Thank you for having me, Jim.
+[39:56] >> I got to tell you something. You said
+[39:57] you told us that a more focused BD would
+[40:00] produce much better results and that you
+[40:02] did need to make you had to shuffle
+[40:04] things. If this is what it's going to be
+[40:06] like, I think a lot of people are going
+[40:07] to want to be in this stock.
+[40:08] >> But we're excited about this quarter.
+[40:10] Certainly, as you mentioned, pleased
+[40:11] with the beat on the top, the margins,
+[40:13] and the bottom. And we couldn't be
+[40:15] happier with the portfolio we've got
+[40:16] today. We've got a portfolio that's 90%
+[40:19] recurring revenue, right? Number one in
+[40:21] 90% of the markets to which we compete.
+[40:23] We make 35 billion devices. We sell in
+[40:25] 190 countries around the world and we're
+[40:27] exposed to some really exciting spaces
+[40:29] are at the cutting edge of healthcare.
+[40:31] >> Well, it does seem to me that there was
+[40:33] an image of Beckton before you came in
+[40:36] where it's just was this kind of like
+[40:37] dumb stuff that's all over the
+[40:39] hospitals. When I look through the
+[40:41] catalog, when I look through what you're
+[40:42] making, everything is smart. It's AI.
+[40:45] It's well ahead of things. And by the
+[40:46] way, the biosimilars, there's nothing
+[40:48] more uh aggressive we want in terms of
+[40:51] be able to bring health care costs down.
+[40:53] You're part of the exciting part of
+[40:55] healthcare now.
+[40:56] >> Yeah, absolutely. In fact, some of the
+[40:58] key growth drivers for this quarter are
+[40:59] in those new exciting spaces. So, we saw
+[41:02] double-digit growth in our advanced
+[41:03] patient monitoring business. These are
+[41:04] AI solutions helping to predict where
+[41:07] patients are going to go and so you can
+[41:08] intervene before bad things happen. Our
+[41:10] biologic drug delivery business which
+[41:12] includes GLP1s was up double digits in
+[41:14] the quarter. Our tissue reconstruction
+[41:16] or tissue regeneration business was up
+[41:18] double digits. This is actually helping
+[41:20] regrow tissue um instead of having
+[41:23] plastic mesh in your body for the rest
+[41:24] of your life. And we saw the same thing
+[41:26] in our home solutions for urinary
+[41:29] incontinence which again moving care out
+[41:32] of the hospital into the home. that
+[41:33] business grew double digit in the
+[41:35] quarter as well.
+[41:35] >> Now, now you still do the kind of nuts
+[41:38] and bolts stuff that you're that you're
+[41:40] known for that I know that the gross
+[41:41] marketers are really good for, right?
+[41:43] And that's just a that's still a solid
+[41:45] business.
+[41:45] >> Yeah, we still make 35 billion devices a
+[41:48] year. We make um we're the largest
+[41:50] manufacturer of medical devices in the
+[41:52] US. In fact, 70% of what we sell in the
+[41:54] US is made in the US. 90% of anyone
+[41:57] going into a hospital in America will be
+[41:59] touched by our products. And so again,
+[42:01] that's a recurring use of those
+[42:02] technologies. Maybe a syringe or a
+[42:04] catheter may not be the sexiest of many.
+[42:06] No, but they're essential to health,
+[42:08] >> right? But I I like the mixture of the
+[42:10] mid to high single uh digit growth stuff
+[42:14] and the stuff that always is Beck and
+[42:16] Dickson. Tell me about this GOP-1. The
+[42:18] reason I said is because when I read, I
+[42:20] said, "Wait a second. I thought they
+[42:20] were all going pill form."
+[42:22] >> No, I think certainly pills, it's great
+[42:24] to see the the excitement and the
+[42:25] momentum there, but we we see
+[42:27] injectables are still going to be the
+[42:28] durable kind of pathway that a lot of
+[42:30] innovation. Some of the new therapies
+[42:32] that also address muscle wasting are in
+[42:34] the injectable form. And so, as you
+[42:35] said, we have a number of novel
+[42:37] molecules in our devices today. We also
+[42:39] have 80 more than 80 bioimilar drugs
+[42:42] already signed uh and in our devices
+[42:43] coming in the future.
+[42:44] >> AI medication management. To me, this
+[42:46] makes a lot of sense given the way I've
+[42:48] always felt that hospitals don't
+[42:49] necessarily order, right?
+[42:51] >> Absolutely. a huge opportunity to reduce
+[42:53] errors in hospital as well as just lower
+[42:55] costs of care using AI to make sure that
+[42:58] medications are always available for
+[42:59] patients and are safely delivered and
+[43:01] we're we're the leader in that.
+[43:02] >> But meantime, you were happy with the
+[43:03] the disposal of what went to Waters,
+[43:06] right? That's just very different.
+[43:07] >> Yeah, I saw you had UD on obviously the
+[43:09] other day. It's great to see the
+[43:10] business performing well in Waters. We
+[43:12] couldn't be happier. It's in a great
+[43:14] home. Uh we got a great valuation for
+[43:16] our shareholders. They own 40% of the
+[43:18] new company and uh obviously we're still
+[43:20] partner now making sure that stood up
+[43:22] properly. I
+[43:22] >> I thought it was great when I after I
+[43:24] spoke to Waters I said this Tom's right.
+[43:26] This is very different business. This is
+[43:28] the right right home and you did well he
+[43:30] did well for your shareholders. But
+[43:32] thank Tom Pton is the chairman president
+[43:33] CEO of Beck and Dickson who said it all
+[43:35] and it and it happened. I love that when
+[43:37] someone's man of his word. I like to say
+[43:39] there's always a more market somewhere.
+[43:40] I promise I find it just for you right
+[43:41] here on Man Bunny. I'm Drew Kramer. See
+[43:43] you tomorrow.
+[43:46] All opinions expressed by Jim Kramer on
+[43:48] this podcast are solely Kramer's
+[43:49] opinions and do not reflect the opinions
+[43:51] of CNBC or its parent company or
+[43:52] affiliates and may have been previously
+[43:54] disseminated by Kramer on television,
+[43:55] radio, internet, or another medium. You
+[43:57] should not treat any opinion expressed
+[43:58] by Kramer as a specific inducement to
+[44:00] make a particular investment or follow a
+[44:02] particular strategy, but only as an
+[44:03] expression of his opinion. Kramer's
+[44:05] opinions are based upon information he
+[44:06] considers reliable. But neither CNBC nor
+[44:08] its affiliates and or subsidiaries
+[44:10] warrant its completeness or accuracy,
+[44:11] and it should not be relied upon as
+[44:13] such. To view the full MadMoney
+[44:14] disclaimer, please visit
+[44:15] cnbc.com/madmoney
+[44:17] disclaimer.
