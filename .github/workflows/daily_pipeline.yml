@@ -10,17 +10,14 @@ on:
 permissions:
   contents: write   # needed for git push inside pipeline.py
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # silence Node.js 20 deprecation warning
-
 jobs:
   pipeline:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -32,10 +29,16 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
 
+      - name: Write YouTube cookies
+        run: echo "$YOUTUBE_COOKIES" > /tmp/yt_cookies.txt
+        env:
+          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
+
       - name: Run pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           OVERCAST_EMAIL: ${{ secrets.OVERCAST_EMAIL }}
           OVERCAST_PASSWORD: ${{ secrets.OVERCAST_PASSWORD }}
+          YOUTUBE_COOKIE_FILE: /tmp/yt_cookies.txt
         run: python code/pipeline.py --email-mode smtp
