@@ -22,7 +22,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install anthropic requests yt-dlp youtube-transcript-api
+        run: pip install anthropic requests yt-dlp
 
       - name: Configure git identity
         run: |

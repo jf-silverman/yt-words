@@ -21,9 +21,12 @@ Environment variables:
 """
 
 import argparse
+import glob
 import json
 import os
+import re
 import smtplib
+import tempfile
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, date, timezone
@@ -35,7 +38,6 @@ from urllib.parse import quote
 import anthropic
 import requests
 import yt_dlp
-from youtube_transcript_api import YouTubeTranscriptApi
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent
@@ -184,30 +186,64 @@ def _fmt_ts(seconds: float) -> str:
     return f"[{h}:{m:02d}:{s:02d}]" if h else f"[{m}:{s:02d}]"
 
 
-def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, str]:
-    """Returns (date_str, snippets, transcript_text). Skips download if file exists.
+def _parse_vtt(vtt: str) -> str:
+    """Convert WebVTT captions to timestamp-prefixed transcript text, deduplicating the sliding window."""
+    lines = []
+    prev_text = None
+    for block in re.split(r'\n\n+', vtt.strip()):
+        if '-->' not in block:
+            continue
+        blines = block.strip().split('\n')
+        ts_line = next((l for l in blines if '-->' in l), None)
+        if not ts_line:
+            continue
+        start_raw = ts_line.split('-->')[0].strip().split()[0]  # HH:MM:SS.mmm
+        try:
+            h, m, s = start_raw.split(':')
+            secs = int(h) * 3600 + int(m) * 60 + float(s)
+        except ValueError:
+            continue
+        text_lines = [l for l in blines
+                      if '-->' not in l and l.strip() and not re.match(r'^\d+$', l.strip())]
+        text = re.sub(r'<[^>]+>', '', ' '.join(text_lines)).strip()
+        if text and text != prev_text:
+            lines.append(f'{_fmt_ts(secs)} {text}')
+            prev_text = text
+    return '\n'.join(lines)
 
-    upload_date: YYYY-MM-DD from discovery; avoids a per-video yt-dlp call
-    (which fails in CI due to YouTube bot detection on datacenter IPs).
-    Falls back to yt-dlp if not provided.
-    """
+
+def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, str]:
+    """Returns (date_str, [], transcript_text). Skips download if file exists."""
     date_str = upload_date or _date_from_ydlp(video_id)
     out_path = OUTPUT_DIR / f"{date_str}_transcript.txt"
 
     if out_path.exists():
         print(f"  Transcript already on disk: {out_path.name}")
-        text = out_path.read_text()
-        # Return empty snippets list — text is all we need for analysis
-        return date_str, [], text
+        return date_str, [], out_path.read_text()
 
     cookie_file = os.environ.get("YOUTUBE_COOKIE_FILE")
-    api = YouTubeTranscriptApi(cookies=cookie_file) if cookie_file else YouTubeTranscriptApi()
-    snippets = api.fetch(video_id).snippets
+    with tempfile.TemporaryDirectory() as tmpdir:
+        opts = {
+            'skip_download': True,
+            'writeautomaticsub': True,
+            'subtitleslangs': ['en'],
+            'outtmpl': os.path.join(tmpdir, 'sub'),
+            'quiet': True,
+            'no_warnings': True,
+        }
+        if cookie_file:
+            opts['cookiefile'] = cookie_file
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            ydl.download([f'https://www.youtube.com/watch?v={video_id}'])
+        vtt_files = glob.glob(os.path.join(tmpdir, '*.vtt'))
+        if not vtt_files:
+            raise ValueError(f'No captions found for video {video_id}')
+        raw_vtt = open(vtt_files[0], encoding='utf-8').read()
+
+    text = _parse_vtt(raw_vtt)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    lines = [f"{_fmt_ts(s.start)} {s.text}" for s in snippets]
-    text = "\n".join(lines)
     out_path.write_text(text)
-    return date_str, snippets, text
+    return date_str, [], text
 
 
 # ── 3. Haiku analysis ──────────────────────────────────────────────────────────
