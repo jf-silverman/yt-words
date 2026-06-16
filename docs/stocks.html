@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>Mad Money · Stock Lookup</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -13,31 +14,46 @@
       color: #24292f;
       padding: 24px 16px 48px;
     }
-    .container { max-width: 900px; margin: 0 auto; }
+    .container { max-width: 960px; margin: 0 auto; }
     h1 { font-size: 22px; margin-bottom: 4px; }
-    .subtitle { color: #57606a; font-size: 14px; margin-bottom: 20px; }
+    .subtitle { color: #57606a; font-size: 14px; margin-bottom: 16px; }
     .subtitle a { color: #0969da; text-decoration: none; }
     .subtitle a:hover { text-decoration: underline; }
+
+    /* Tabs */
+    .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; }
+    .tab-btn {
+      padding: 7px 16px; border-radius: 6px; border: 1px solid #d0d7de;
+      background: #fff; font-size: 14px; cursor: pointer; color: #57606a;
+      transition: background .1s;
+    }
+    .tab-btn:hover { background: #f6f8fa; }
+    .tab-btn.tab-active { background: #0969da; color: #fff; border-color: #0969da; font-weight: 600; }
+
+    /* Filter bars */
+    .filter-bar {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      margin-bottom: 8px; align-items: center;
+    }
+    .filter-label { font-size: 12px; color: #57606a; font-weight: 600; margin-right: 2px; }
+    .filter-btn {
+      padding: 4px 12px; border-radius: 20px; border: 1px solid #d0d7de;
+      background: #fff; font-size: 12px; cursor: pointer; color: #57606a;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: #0969da; color: #0969da; }
+    .filter-btn.active { background: #0969da; color: #fff; border-color: #0969da; font-weight: 600; }
 
     /* Search */
     .search-wrap { margin-bottom: 8px; }
     #search {
-      width: 100%;
-      padding: 12px 16px;
-      font-size: 16px;
-      border: 1px solid #d0d7de;
-      border-radius: 8px;
-      outline: none;
-      background: #fff;
+      width: 100%; padding: 12px 16px; font-size: 16px;
+      border: 1px solid #d0d7de; border-radius: 8px; outline: none; background: #fff;
     }
     #search:focus { border-color: #0969da; box-shadow: 0 0 0 3px rgba(9,105,218,.15); }
     .search-options {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      font-size: 13px;
-      color: #57606a;
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 8px; font-size: 13px; color: #57606a; flex-wrap: wrap;
     }
     .search-options input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; }
     .search-options label { cursor: pointer; user-select: none; }
@@ -45,47 +61,36 @@
 
     /* Cards */
     .card {
-      background: #fff;
-      border: 1px solid #d0d7de;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      overflow: hidden;
+      background: #fff; border: 1px solid #d0d7de;
+      border-radius: 10px; margin-bottom: 20px; overflow: hidden;
     }
     .card-header {
-      padding: 14px 18px;
-      background: #f6f8fa;
-      border-bottom: 1px solid #d0d7de;
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      flex-wrap: wrap;
+      padding: 14px 18px; background: #f6f8fa; border-bottom: 1px solid #d0d7de;
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
     }
     .card-company { font-size: 18px; font-weight: 700; }
     .card-ticker {
-      font-family: monospace;
-      font-size: 14px;
-      background: #0969da;
-      color: #fff;
-      padding: 2px 8px;
-      border-radius: 4px;
+      font-family: monospace; font-size: 14px;
+      background: #0969da; color: #fff; padding: 2px 8px; border-radius: 4px;
     }
     .mention-count { font-size: 12px; color: #57606a; margin-left: auto; }
+
+    /* Chart */
+    .chart-wrap {
+      height: 230px; padding: 14px 18px 10px;
+      border-top: 1px solid #eaeef2;
+    }
 
     /* Table */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th {
-      text-align: left;
-      padding: 8px 12px;
-      background: #f6f8fa;
-      border-bottom: 2px solid #d0d7de;
-      white-space: nowrap;
-      color: #57606a;
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .04em;
+      text-align: left; padding: 8px 12px; background: #f6f8fa;
+      border-bottom: 2px solid #d0d7de; white-space: nowrap;
+      color: #57606a; font-weight: 600; font-size: 12px;
+      text-transform: uppercase; letter-spacing: .04em; cursor: pointer;
     }
+    th:hover { color: #0969da; }
     td { padding: 8px 12px; border-bottom: 1px solid #eaeef2; vertical-align: top; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: #f6f8fa; }
@@ -98,17 +103,19 @@
     .note-cell { color: #24292f; line-height: 1.5; max-width: 300px; }
     .note-block { margin-bottom: 0; }
 
+    /* Recent picks */
+    .ticker-link {
+      font-family: monospace; font-weight: 700; color: #0969da;
+      text-decoration: none; cursor: pointer;
+    }
+    .ticker-link:hover { text-decoration: underline; }
+    #recent-table tr { cursor: pointer; }
+
     /* Sentiment badges */
     .badge {
-      display: inline-block;
-      padding: 2px 7px;
-      border-radius: 3px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-      white-space: nowrap;
-      text-transform: uppercase;
-      letter-spacing: .03em;
+      display: inline-block; padding: 2px 7px; border-radius: 3px;
+      font-size: 11px; font-weight: 700; color: #fff;
+      white-space: nowrap; text-transform: uppercase; letter-spacing: .03em;
     }
 
     /* Empty / loading */
@@ -124,34 +131,84 @@
     &nbsp;·&nbsp; <a href="index.html">← Home</a>
   </p>
 
-  <div class="search-wrap">
-    <input id="search" type="text" placeholder="Ticker prefix (e.g. MU, NV)…" autofocus autocomplete="off">
-    <div class="search-options">
-      <input type="checkbox" id="nameMode">
-      <label for="nameMode">Search by company name instead</label>
-    </div>
-    <div class="status" id="status"></div>
+  <div class="tab-bar">
+    <button class="tab-btn tab-active" id="tab-search" onclick="showTab('search')">🔍 Search</button>
+    <button class="tab-btn" id="tab-recent" onclick="showTab('recent')">📋 Recent Picks</button>
   </div>
 
-  <div id="results"></div>
+  <!-- ── Search panel ── -->
+  <div id="search-panel">
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="Ticker prefix (e.g. MU, NV)…" autofocus autocomplete="off">
+      <div class="search-options">
+        <span>
+          <input type="checkbox" id="nameMode">
+          <label for="nameMode">Search by company name</label>
+        </span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:12px;color:#57606a;font-weight:600">Min mentions:</span>
+          <button class="filter-btn active" id="min1" onclick="setMinMentions(1,this)">Any</button>
+          <button class="filter-btn" id="min2" onclick="setMinMentions(2,this)">2+</button>
+          <button class="filter-btn" id="min5" onclick="setMinMentions(5,this)">5+</button>
+          <button class="filter-btn" id="min10" onclick="setMinMentions(10,this)">10+</button>
+        </span>
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+    <div id="results"></div>
+  </div>
+
+  <!-- ── Recent Picks panel ── -->
+  <div id="recent-panel" style="display:none">
+    <div class="filter-bar">
+      <span class="filter-label">Period:</span>
+      <button class="filter-btn" id="r7" onclick="setRecentFilter('days',7,this)">7d</button>
+      <button class="filter-btn active" id="r30" onclick="setRecentFilter('days',30,this)">30d</button>
+      <button class="filter-btn" id="r90" onclick="setRecentFilter('days',90,this)">90d</button>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">Sentiment:</span>
+      <button class="filter-btn active" id="rAll" onclick="setRecentFilter('sentiment','all',this)">All</button>
+      <button class="filter-btn" id="rBull" onclick="setRecentFilter('sentiment','bullish',this)">▲ Bullish</button>
+      <button class="filter-btn" id="rNeut" onclick="setRecentFilter('sentiment','neutral',this)">→ Neutral</button>
+      <button class="filter-btn" id="rBear" onclick="setRecentFilter('sentiment','bearish',this)">▼ Bearish</button>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">Min mentions:</span>
+      <button class="filter-btn active" id="rm1" onclick="setRecentFilter('minMentions',1,this)">Any</button>
+      <button class="filter-btn" id="rm2" onclick="setRecentFilter('minMentions',2,this)">2+</button>
+      <button class="filter-btn" id="rm5" onclick="setRecentFilter('minMentions',5,this)">5+</button>
+    </div>
+    <div class="status" id="recent-status"></div>
+    <div id="recent-table"></div>
+  </div>
 </div>
 
 <script>
-const INDEX_URL  = './data/index.json';
+const INDEX_URL   = './data/index.json';
 const TICKER_BASE = './data/';
+const RECENT_URL  = './data/recent.json';
+
+const SEGMENT_PRIORITY = [
+  'in_depth_analysis','interview','opening_commentary',
+  'closing_commentary','caller_qa','lightning_round',
+];
+
+const BULLISH_SET = new Set(['strong_buy','buy','buy_on_pullback','mild_buy']);
+const BEARISH_SET = new Set(['concern','avoid','sell']);
 
 const SENTIMENT_COLORS = {
-  strong_buy:     '#1a7f37',
-  buy:            '#2da44e',
-  buy_on_pullback:'#4ac26b',
-  mild_buy:       '#80e09a',
-  hold:           '#d4a017',
-  wait:           '#f0c040',
-  caution:        '#f0a030',
-  neutral:        '#8b949e',
-  concern:        '#e06060',
-  avoid:          '#d03030',
-  sell:           '#a00000',
+  strong_buy:      '#1a7f37',
+  buy:             '#2da44e',
+  buy_on_pullback: '#4ac26b',
+  mild_buy:        '#80e09a',
+  hold:            '#d4a017',
+  wait:            '#f0c040',
+  caution:         '#f0a030',
+  neutral:         '#8b949e',
+  concern:         '#e06060',
+  avoid:           '#d03030',
+  sell:            '#a00000',
 };
 
 function sentimentBadge(s) {
@@ -177,51 +234,128 @@ function groupByDate(mentions) {
   return Object.entries(byDate).sort(([a], [b]) => b.localeCompare(a));
 }
 
+// ── Chart ─────────────────────────────────────────────────────────────────────
+
+function renderChart(ticker, entry) {
+  if (typeof Chart === 'undefined') return '';
+  const dateGroups = groupByDate(entry.mentions || []);
+  if (dateGroups.length < 3) return '';
+
+  // Build per-date points oldest→newest; pick highest-priority segment's sentiment
+  const pts = dateGroups.slice().reverse().map(([dt, group]) => {
+    const price = (group.find(m => m.closing_price != null) || {}).closing_price;
+    const top = [...group].sort((a, b) => {
+      const pa = SEGMENT_PRIORITY.indexOf(a.segment);
+      const pb = SEGMENT_PRIORITY.indexOf(b.segment);
+      return (pa === -1 ? 99 : pa) - (pb === -1 ? 99 : pb);
+    })[0];
+    return { date: dt, price, sentiment: top?.sentiment, note: top?.note };
+  }).filter(p => p.price != null);
+
+  if (pts.length < 3) return '';
+
+  const canvasId = `chart-${ticker}`;
+  setTimeout(() => {
+    const el = document.getElementById(canvasId);
+    if (!el || el._chartInitialized) return;
+    el._chartInitialized = true;
+    new Chart(el, {
+      type: 'line',
+      data: {
+        labels: pts.map(p => p.date),
+        datasets: [{
+          data: pts.map(p => p.price),
+          borderColor: '#0969da',
+          borderWidth: 2,
+          tension: 0.1,
+          fill: false,
+          pointStyle: pts.map(() => 'triangle'),
+          pointRadius: pts.map(() => 7),
+          pointHoverRadius: pts.map(() => 10),
+          pointBackgroundColor: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) ? '#2da44e'
+            : BEARISH_SET.has(p.sentiment) ? '#d03030' : '#d4a017'
+          ),
+          pointRotation: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) ? 0
+            : BEARISH_SET.has(p.sentiment) ? 180 : 90
+          ),
+          pointBorderColor: pts.map(() => '#fff'),
+          pointBorderWidth: pts.map(() => 1.5),
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { maxTicksLimit: 10, font: { size: 11 }, maxRotation: 30 },
+          },
+          y: {
+            ticks: { callback: v => `$${v}`, font: { size: 11 } },
+            grid: { color: '#eaeef2' },
+          },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: items => items[0]?.label || '',
+              label: item => {
+                const p = pts[item.dataIndex];
+                const lines = [`Close: $${Number(item.parsed.y).toFixed(2)}`];
+                if (p.sentiment) lines.push((p.sentiment).replace(/_/g, ' ').toUpperCase());
+                if (p.note) lines.push((p.note).slice(0, 90) + (p.note.length > 90 ? '…' : ''));
+                return lines;
+              },
+            },
+          },
+        },
+      },
+    });
+  }, 0);
+
+  return `<div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+}
+
+// ── Card rendering ────────────────────────────────────────────────────────────
+
 function renderCard(ticker, entry) {
   const dateGroups = groupByDate(entry.mentions || []);
 
-  const rows = dateGroups.map(([date, group]) => {
+  const rows = dateGroups.map(([dt, group]) => {
     const closePrice = fmtPrice((group.find(m => m.closing_price != null) || {}).closing_price);
-
-    const SEGMENT_PRIORITY = [
-      'in_depth_analysis', 'interview', 'opening_commentary',
-      'closing_commentary', 'caller_qa', 'lightning_round',
-    ];
     const bySegment = {};
     for (const m of group) {
       const seg = m.segment || '';
-      if (!bySegment[seg] || (m.note || '').length > (bySegment[seg].note || '').length) {
+      if (!bySegment[seg] || (m.note || '').length > (bySegment[seg].note || '').length)
         bySegment[seg] = m;
-      }
     }
     const deduped = Object.values(bySegment).sort((a, b) => {
       const pa = SEGMENT_PRIORITY.indexOf(a.segment);
       const pb = SEGMENT_PRIORITY.indexOf(b.segment);
       return (pa === -1 ? 99 : pa) - (pb === -1 ? 99 : pb);
     });
-
     const sentiments = deduped.map(m => sentimentBadge(m.sentiment)).join('<br>');
-    const targets = deduped.map(m =>
+    const targets    = deduped.map(m =>
       m.price_target != null ? fmtPrice(m.price_target) :
       m.price_level  != null ? fmtPrice(m.price_level)  : '—'
     ).join('<br>');
-    const segments = deduped.map(m => humanizeSegment(m.segment)).join('<br>');
-
-    const seenNotes = new Set();
-    const noteParts = [];
+    const segments   = deduped.map(m => humanizeSegment(m.segment)).join('<br>');
+    const seenNotes  = new Set();
+    const noteParts  = [];
     for (const m of deduped) {
       const n = (m.note || '').trim();
       if (n && !seenNotes.has(n)) { seenNotes.add(n); noteParts.push(n); }
     }
-    const notes = `<div class="note-block">${noteParts.join(' ')}</div>`;
-
     return `<tr>
-      <td class="date-cell">${date}</td>
+      <td class="date-cell">${dt}</td>
       <td class="sent-cell">${sentiments}</td>
       <td class="price-cell">${closePrice}</td>
       <td class="target-cell">${targets}</td>
       <td class="seg-cell">${segments}</td>
-      <td class="note-cell">${notes}</td>
+      <td class="note-cell"><div class="note-block">${noteParts.join(' ')}</div></td>
     </tr>`;
   }).join('');
 
@@ -241,13 +375,14 @@ function renderCard(ticker, entry) {
         <tbody>${rows}</tbody>
       </table>
     </div>
+    ${renderChart(ticker, entry)}
   </div>`;
 }
 
 // ── Data loading ──────────────────────────────────────────────────────────────
 
-let index = null;           // { TICKER: "Company Name" }
-const cache = new Map();    // TICKER -> full entry data (session cache)
+let index = null;           // { TICKER: {name, count} }
+const cache = new Map();    // TICKER -> full entry
 
 async function loadIndex() {
   document.getElementById('status').textContent = 'Loading…';
@@ -256,7 +391,7 @@ async function loadIndex() {
     index = await resp.json();
     document.getElementById('status').textContent =
       `${Object.keys(index).length} tickers indexed. Start typing to search.`;
-  } catch (e) {
+  } catch {
     document.getElementById('status').textContent = 'Failed to load index. Try refreshing.';
   }
 }
@@ -275,6 +410,16 @@ async function fetchTicker(ticker) {
 }
 
 // ── Search ────────────────────────────────────────────────────────────────────
+
+let minMentions = 1;
+
+function setMinMentions(n, btn) {
+  minMentions = n;
+  document.querySelectorAll('#search-panel .search-options .filter-btn')
+    .forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  search();
+}
 
 async function search() {
   const resultsEl = document.getElementById('results');
@@ -296,27 +441,26 @@ async function search() {
 
   if (nameMode) {
     matchedTickers = Object.entries(index)
-      .filter(([, name]) => name.toUpperCase().includes(q))
-      .map(([t]) => t)
-      .sort();
+      .filter(([, e]) => (e.name || '').toUpperCase().includes(q) && (e.count || 1) >= minMentions)
+      .map(([t]) => t).sort();
   } else {
-    matchedTickers = Object.keys(index).filter(t => t.startsWith(q)).sort();
+    matchedTickers = Object.keys(index)
+      .filter(t => t.startsWith(q) && (index[t].count || 1) >= minMentions)
+      .sort();
   }
 
   if (matchedTickers.length === 0) {
     resultsEl.innerHTML = `<div class="empty">
       <div class="big">🔍</div>
-      <div>No results for <strong>${query}</strong></div>
+      <div>No results for <strong>${query}</strong>${minMentions > 1 ? ` with ${minMentions}+ mentions` : ''}</div>
     </div>`;
     statusEl.textContent = '';
     return;
   }
 
   statusEl.textContent = `${matchedTickers.length} result${matchedTickers.length !== 1 ? 's' : ''} — loading…`;
-
   const entries = await Promise.all(matchedTickers.map(t => fetchTicker(t)));
   const pairs = matchedTickers.map((t, i) => [t, entries[i]]).filter(([, e]) => e);
-
   statusEl.textContent = `${pairs.length} result${pairs.length !== 1 ? 's' : ''}`;
   resultsEl.innerHTML = pairs.map(([t, e]) => renderCard(t, e)).join('');
 }
@@ -328,6 +472,106 @@ document.getElementById('nameMode').addEventListener('change', () => {
     nameMode ? 'Company name (e.g. Nvidia, Honeywell)…' : 'Ticker prefix (e.g. MU, NV)…';
   search();
 });
+
+// ── Recent Picks ──────────────────────────────────────────────────────────────
+
+let recentData = null;
+let recentFilter = { days: 30, sentiment: 'all', minMentions: 1 };
+const recentFilterGroups = {
+  days:        ['r7','r30','r90'],
+  sentiment:   ['rAll','rBull','rNeut','rBear'],
+  minMentions: ['rm1','rm2','rm5'],
+};
+
+function setRecentFilter(key, val, btn) {
+  recentFilter[key] = val;
+  recentFilterGroups[key].forEach(id => document.getElementById(id)?.classList.remove('active'));
+  btn.classList.add('active');
+  renderRecent();
+}
+
+async function loadRecent() {
+  if (recentData) { renderRecent(); return; }
+  document.getElementById('recent-status').textContent = 'Loading…';
+  try {
+    const resp = await fetch(RECENT_URL);
+    recentData = await resp.json();
+    renderRecent();
+  } catch {
+    document.getElementById('recent-status').textContent = 'Failed to load. Try refreshing.';
+  }
+}
+
+function renderRecent() {
+  if (!recentData) return;
+
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - recentFilter.days);
+  const cutoffStr = cutoff.toISOString().slice(0, 10);
+
+  const rows = recentData.mentions.filter(m => {
+    if (m.date < cutoffStr) return false;
+    const s = m.sentiment;
+    if (recentFilter.sentiment === 'bullish' && !BULLISH_SET.has(s)) return false;
+    if (recentFilter.sentiment === 'bearish' && !BEARISH_SET.has(s)) return false;
+    if (recentFilter.sentiment === 'neutral' && (BULLISH_SET.has(s) || BEARISH_SET.has(s))) return false;
+    if ((m.total_mentions || 1) < recentFilter.minMentions) return false;
+    return true;
+  });
+
+  document.getElementById('recent-status').textContent =
+    `${rows.length} mention${rows.length !== 1 ? 's' : ''} — generated ${recentData.generated}`;
+
+  if (rows.length === 0) {
+    document.getElementById('recent-table').innerHTML =
+      `<div class="empty"><div class="big">📋</div><div>No results for this filter.</div></div>`;
+    return;
+  }
+
+  const tableRows = rows.map(m => {
+    const note = (m.note || '');
+    const noteShort = note.length > 120 ? note.slice(0, 120) + '…' : note;
+    return `<tr onclick="jumpToTicker('${m.ticker}')">
+      <td class="date-cell">${m.date}</td>
+      <td><a class="ticker-link" onclick="event.stopPropagation();jumpToTicker('${m.ticker}')">${m.ticker}</a></td>
+      <td style="font-size:13px">${m.company || ''}</td>
+      <td class="sent-cell">${sentimentBadge(m.sentiment)}</td>
+      <td class="price-cell">${fmtPrice(m.closing_price)}</td>
+      <td class="seg-cell">${humanizeSegment(m.segment)}</td>
+      <td class="note-cell" style="max-width:280px">${noteShort}</td>
+      <td style="font-size:12px;color:#57606a;white-space:nowrap;text-align:center">${m.total_mentions}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('recent-table').innerHTML = `<div class="table-wrap"><table>
+    <thead><tr>
+      <th>Date</th><th>Ticker</th><th>Company</th><th>Sentiment</th>
+      <th>Close</th><th>Segment</th><th>Note</th><th title="Total mentions in 2026">#</th>
+    </tr></thead>
+    <tbody>${tableRows}</tbody>
+  </table></div>`;
+}
+
+function jumpToTicker(ticker) {
+  showTab('search');
+  const inp = document.getElementById('search');
+  inp.value = ticker;
+  document.getElementById('nameMode').checked = false;
+  inp.placeholder = 'Ticker prefix (e.g. MU, NV)…';
+  search();
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+
+function showTab(tab) {
+  const isSearch = tab === 'search';
+  document.getElementById('search-panel').style.display = isSearch ? '' : 'none';
+  document.getElementById('recent-panel').style.display  = isSearch ? 'none' : '';
+  document.getElementById('tab-search').classList.toggle('tab-active', isSearch);
+  document.getElementById('tab-recent').classList.toggle('tab-active', !isSearch);
+  if (!isSearch) loadRecent();
+}
+
 loadIndex();
 </script>
 </body>
