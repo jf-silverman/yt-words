@@ -237,7 +237,7 @@ def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, s
     if cookie_file:
         opts['cookiefile'] = cookie_file
     with yt_dlp.YoutubeDL(opts) as ydl:
-        info = ydl.extract_info(f'https://www.youtube.com/watch?v={video_id}', download=False)
+        info = ydl.extract_info(f'https://www.youtube.com/watch?v={video_id}', download=False, process=False)
 
     en_caps = (info or {}).get('automatic_captions', {}).get('en', [])
     if not en_caps:
