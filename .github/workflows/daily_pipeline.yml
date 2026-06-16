@@ -30,9 +30,19 @@ jobs:
           git config user.name "github-actions[bot]"
 
       - name: Write YouTube cookies
-        run: echo "$YOUTUBE_COOKIES" > /tmp/yt_cookies.txt
         env:
           YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
+        run: |
+          python3 -c "
+          import os, sys
+          c = os.environ.get('YOUTUBE_COOKIES', '')
+          if not c.strip():
+              print('WARNING: YOUTUBE_COOKIES secret is empty')
+              sys.exit(1)
+          with open('/tmp/yt_cookies.txt', 'w') as f:
+              f.write(c)
+          print(f'Cookie file written: {c.count(chr(10))} lines, {len(c)} bytes')
+          "
 
       - name: Run pipeline
         env:
