@@ -27,7 +27,7 @@ import re
 import smtplib
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, date, timezone
+from datetime import datetime, date, timezone, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -358,8 +358,25 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     for ticker in targets:
         if ticker in stocks:
             (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(stocks[ticker]))
-    index = {t: e.get("company", "") for t, e in stocks.items()}
+    index = {t: {"name": e.get("company", ""), "count": len(e.get("mentions", []))}
+             for t, e in stocks.items()}
     (TICKER_DATA_DIR / "index.json").write_text(json.dumps(index, separators=(",", ":")))
+    _write_recent_json(stocks)
+
+
+def _write_recent_json(stocks: dict) -> None:
+    """Write docs/data/recent.json with all mentions from the last 90 days."""
+    cutoff = (date.today() - timedelta(days=90)).isoformat()
+    mentions = []
+    for ticker, entry in stocks.items():
+        total = len(entry.get("mentions", []))
+        for m in entry.get("mentions", []):
+            if m.get("date", "") >= cutoff:
+                mentions.append({"ticker": ticker, "company": entry.get("company", ""),
+                                  "total_mentions": total, **m})
+    mentions.sort(key=lambda x: x["date"], reverse=True)
+    out = {"generated": date.today().isoformat(), "mentions": mentions}
+    (TICKER_DATA_DIR / "recent.json").write_text(json.dumps(out, separators=(",", ":")))
 
 
 def rebuild_ticker_shards() -> None:
