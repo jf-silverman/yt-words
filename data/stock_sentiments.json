@@ -633,6 +633,13 @@
           "segment": "opening_commentary",
           "note": "Cramer highlights Nvidia as one of few winners in PC supply chain and early AI play; viewer portfolio 30% NVDA, worth $1M+; consistent strong conviction pick across decades.",
           "closing_price": 188.85
+        },
+        {
+          "date": "2026-06-15",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "While a powerful technology leader, Cramer warns against concentrating retirement savings in single stocks; prefer diversified index funds for long-term buy-and-hold investing.",
+          "closing_price": 212.45
         }
       ]
     },
@@ -1420,6 +1427,13 @@
           "segment": "opening_commentary",
           "note": "Slammed over AI displacement fears; market irrationally treats AI as existential threat to software companies.",
           "closing_price": 241.06
+        },
+        {
+          "date": "2026-06-15",
+          "sentiment": "buy_on_pullback",
+          "segment": "opening_commentary",
+          "note": "High-quality cloud software company that became too expensive in late 2021 rally; should have been trimmed into strength; good company but better buying opportunity after pullbacks.",
+          "closing_price": 164.55
         }
       ]
     },
@@ -6476,6 +6490,14 @@
           "segment": "opening_commentary",
           "note": "Up 15%, peaked at $555 in July then rolled over; Azure guidance light, capex growth reset higher disappointing; OpenAI debt concerns (27% stake, $250B Azure spend) easing if raises at $800B+ valuation; if Azure hits 39-40% growth, stock could roar; Cramer owns for CNBC Investing Club.",
           "closing_price": 478.51
+        },
+        {
+          "date": "2026-06-15",
+          "sentiment": "hold",
+          "segment": "opening_commentary",
+          "note": "While Cramer likes Microsoft, he emphasizes the stock is far less attractive at $350 than at $250\u2014valuation matters; higher prices make even great companies less desirable on risk-reward.",
+          "price_level": 350,
+          "closing_price": 399.76
         }
       ]
     },
@@ -6694,6 +6716,13 @@
           "segment": "opening_commentary",
           "note": "Software crushed by hardware/AI competition; 42x P/E still too high despite stock split; gave up points Friday, weak bounce today.",
           "closing_price": 147.6
+        },
+        {
+          "date": "2026-06-15",
+          "sentiment": "buy_on_pullback",
+          "segment": "opening_commentary",
+          "note": "Cramer favorite with strong fundamentals; caught up in 2021 cloud software mania and repriced sharply lower in 2022; buy on weakness, not on rallies.",
+          "closing_price": 104.15
         }
       ]
     },
