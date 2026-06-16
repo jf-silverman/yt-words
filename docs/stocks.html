@@ -66,19 +66,22 @@
     }
     .card-header {
       padding: 14px 18px; background: #f6f8fa; border-bottom: 1px solid #d0d7de;
-      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     }
     .card-company { font-size: 18px; font-weight: 700; }
     .card-ticker {
       font-family: monospace; font-size: 14px;
       background: #0969da; color: #fff; padding: 2px 8px; border-radius: 4px;
     }
-    .mention-count { font-size: 12px; color: #57606a; margin-left: auto; }
+    .card-meta {
+      margin-left: auto; text-align: right; line-height: 1.5;
+    }
+    .mention-count { font-size: 12px; color: #57606a; }
 
     /* Chart */
     .chart-wrap {
       height: 230px; padding: 14px 18px 10px;
-      border-top: 1px solid #eaeef2;
+      border-bottom: 1px solid #eaeef2;
     }
 
     /* Table */
@@ -234,6 +237,64 @@ function groupByDate(mentions) {
   return Object.entries(byDate).sort(([a], [b]) => b.localeCompare(a));
 }
 
+// ── Live price ────────────────────────────────────────────────────────────────
+
+function mostRecentClose(entry) {
+  const sorted = [...(entry.mentions || [])].sort((a, b) => b.date.localeCompare(a.date));
+  const m = sorted.find(r => r.closing_price != null);
+  return m ? { price: m.closing_price, date: m.date } : null;
+}
+
+function initialPriceHtml(entry) {
+  const c = mostRecentClose(entry);
+  if (!c) return '';
+  return `<span style="font-family:monospace;font-size:14px;font-weight:600">$${c.price.toFixed(2)}</span>`
+    + ` <span style="font-size:11px;color:#57606a">as of ${c.date}</span>`;
+}
+
+async function fetchLivePrice(ticker) {
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const meta = (await r.json())?.chart?.result?.[0]?.meta;
+    if (!meta) return null;
+    return {
+      price:     meta.regularMarketPrice,
+      prevClose: meta.chartPreviousClose || meta.previousClose,
+      ts:        meta.regularMarketTime * 1000,
+      state:     meta.marketState,
+    };
+  } catch { return null; }
+}
+
+function livePriceHtml(info) {
+  const { price, prevClose, ts, state } = info;
+  const p = `<span style="font-family:monospace;font-size:14px;font-weight:600">$${Number(price).toFixed(2)}</span>`;
+
+  let changeHtml = '';
+  if (prevClose) {
+    const chg = price - prevClose;
+    const pct = (chg / prevClose * 100).toFixed(1);
+    const sign = chg >= 0 ? '+' : '';
+    const col  = chg >= 0 ? '#2da44e' : '#d03030';
+    changeHtml = ` <span style="font-size:12px;color:${col}">${sign}${chg.toFixed(2)} (${sign}${pct}%)</span>`;
+  }
+
+  const timeStr = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', hour12: true,
+  }).format(new Date(ts));
+
+  const stateHtml = {
+    REGULAR: `<span style="color:#2da44e;font-size:11px">● Live</span> · ${timeStr} ET`,
+    PRE:     `<span style="color:#d4a017;font-size:11px">Pre-market</span> · ${timeStr} ET`,
+    POST:    `<span style="color:#8b949e;font-size:11px">After hours</span> · ${timeStr} ET`,
+    CLOSED:  `<span style="color:#8b949e;font-size:11px">Closed</span> · ${timeStr} ET`,
+  }[state] || `${timeStr} ET`;
+
+  return `${p}${changeHtml} <span style="font-size:11px;color:#57606a">${stateHtml}</span>`;
+}
+
 // ── Chart ─────────────────────────────────────────────────────────────────────
 
 function renderChart(ticker, entry) {
@@ -364,8 +425,12 @@ function renderCard(ticker, entry) {
     <div class="card-header">
       <span class="card-company">${entry.company || ticker}</span>
       <span class="card-ticker">${ticker}</span>
-      <span class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</span>
+      <div class="card-meta">
+        <div id="price-${ticker}">${initialPriceHtml(entry)}</div>
+        <div class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</div>
+      </div>
     </div>
+    ${renderChart(ticker, entry)}
     <div class="table-wrap">
       <table>
         <thead><tr>
@@ -375,7 +440,6 @@ function renderCard(ticker, entry) {
         <tbody>${rows}</tbody>
       </table>
     </div>
-    ${renderChart(ticker, entry)}
   </div>`;
 }
 
@@ -463,6 +527,12 @@ async function search() {
   const pairs = matchedTickers.map((t, i) => [t, entries[i]]).filter(([, e]) => e);
   statusEl.textContent = `${pairs.length} result${pairs.length !== 1 ? 's' : ''}`;
   resultsEl.innerHTML = pairs.map(([t, e]) => renderCard(t, e)).join('');
+  pairs.forEach(([t]) => {
+    fetchLivePrice(t).then(info => {
+      const el = document.getElementById(`price-${t}`);
+      if (el && info) el.innerHTML = livePriceHtml(info);
+    });
+  });
 }
 
 document.getElementById('search').addEventListener('input', search);
