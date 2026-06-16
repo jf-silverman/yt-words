@@ -21,12 +21,10 @@ Environment variables:
 """
 
 import argparse
-import glob
 import json
 import os
 import re
 import smtplib
-import tempfile
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, date, timezone
@@ -186,10 +184,23 @@ def _fmt_ts(seconds: float) -> str:
     return f"[{h}:{m:02d}:{s:02d}]" if h else f"[{m}:{s:02d}]"
 
 
+def _parse_json3(data: dict) -> str:
+    """Convert YouTube JSON3 caption data to timestamp-prefixed transcript text."""
+    lines, prev = [], None
+    for event in data.get('events', []):
+        if 'segs' not in event:
+            continue
+        secs = event['tStartMs'] / 1000.0
+        text = ''.join(seg.get('utf8', '') for seg in event['segs']).replace('\n', ' ').strip()
+        if text and text != prev:
+            lines.append(f'{_fmt_ts(secs)} {text}')
+            prev = text
+    return '\n'.join(lines)
+
+
 def _parse_vtt(vtt: str) -> str:
     """Convert WebVTT captions to timestamp-prefixed transcript text, deduplicating the sliding window."""
-    lines = []
-    prev_text = None
+    lines, prev_text = [], None
     for block in re.split(r'\n\n+', vtt.strip()):
         if '-->' not in block:
             continue
@@ -197,7 +208,7 @@ def _parse_vtt(vtt: str) -> str:
         ts_line = next((l for l in blines if '-->' in l), None)
         if not ts_line:
             continue
-        start_raw = ts_line.split('-->')[0].strip().split()[0]  # HH:MM:SS.mmm
+        start_raw = ts_line.split('-->')[0].strip().split()[0]
         try:
             h, m, s = start_raw.split(':')
             secs = int(h) * 3600 + int(m) * 60 + float(s)
@@ -222,25 +233,24 @@ def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, s
         return date_str, [], out_path.read_text()
 
     cookie_file = os.environ.get("YOUTUBE_COOKIE_FILE")
-    with tempfile.TemporaryDirectory() as tmpdir:
-        opts = {
-            'skip_download': True,
-            'writeautomaticsub': True,
-            'subtitleslangs': ['en'],
-            'outtmpl': os.path.join(tmpdir, 'sub'),
-            'quiet': True,
-            'no_warnings': True,
-        }
-        if cookie_file:
-            opts['cookiefile'] = cookie_file
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            ydl.download([f'https://www.youtube.com/watch?v={video_id}'])
-        vtt_files = glob.glob(os.path.join(tmpdir, '*.vtt'))
-        if not vtt_files:
-            raise ValueError(f'No captions found for video {video_id}')
-        raw_vtt = open(vtt_files[0], encoding='utf-8').read()
+    opts = {'quiet': True, 'no_warnings': True}
+    if cookie_file:
+        opts['cookiefile'] = cookie_file
+    with yt_dlp.YoutubeDL(opts) as ydl:
+        info = ydl.extract_info(f'https://www.youtube.com/watch?v={video_id}', download=False)
 
-    text = _parse_vtt(raw_vtt)
+    en_caps = (info or {}).get('automatic_captions', {}).get('en', [])
+    if not en_caps:
+        raise ValueError(f'No English auto-captions for {video_id}')
+    cap = (next((c for c in en_caps if c.get('ext') == 'json3'), None) or
+           next((c for c in en_caps if c.get('ext') == 'vtt'), None))
+    if not cap:
+        raise ValueError(f'No usable caption format for {video_id}')
+
+    resp = requests.get(cap['url'], timeout=30)
+    resp.raise_for_status()
+    text = _parse_json3(resp.json()) if cap['ext'] == 'json3' else _parse_vtt(resp.text)
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     out_path.write_text(text)
     return date_str, [], text
