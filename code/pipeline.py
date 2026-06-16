@@ -200,7 +200,8 @@ def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, s
         # Return empty snippets list — text is all we need for analysis
         return date_str, [], text
 
-    api = YouTubeTranscriptApi()
+    cookie_file = os.environ.get("YOUTUBE_COOKIE_FILE")
+    api = YouTubeTranscriptApi(cookies=cookie_file) if cookie_file else YouTubeTranscriptApi()
     snippets = api.fetch(video_id).snippets
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     lines = [f"{_fmt_ts(s.start)} {s.text}" for s in snippets]
