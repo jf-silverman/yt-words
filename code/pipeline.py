@@ -1117,6 +1117,17 @@ def fix_redirect_pages(date_str: str) -> None:
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 
+def _cookie_age_days() -> int | None:
+    """Return age of YOUTUBE_COOKIE_FILE in days, or None if not using a file."""
+    path = os.environ.get("YOUTUBE_COOKIE_FILE")
+    if not path:
+        return None
+    try:
+        return int((time.time() - Path(path).stat().st_mtime) / 86400)
+    except Exception:
+        return None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--max-episodes", type=int, default=1,
@@ -1137,6 +1148,13 @@ def main() -> None:
     parser.add_argument("--fetch-sectors", action="store_true",
                         help="Batch-fetch sector/style from Yahoo Finance for all tickers and rebuild shards")
     args = parser.parse_args()
+
+    age = _cookie_age_days()
+    if age is not None:
+        if age > 60:
+            print(f"\n⚠️  WARNING: YouTube cookie file is {age} days old — refresh soon or the pipeline may fail.\n")
+        else:
+            print(f"  YouTube cookie file age: {age} days")
 
     if args.fix_redirects:
         fix_redirect_pages(args.fix_redirects)

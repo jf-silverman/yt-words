@@ -35,5 +35,5 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           OVERCAST_EMAIL: ${{ secrets.OVERCAST_EMAIL }}
           OVERCAST_PASSWORD: ${{ secrets.OVERCAST_PASSWORD }}
-          YOUTUBE_COOKIES_FROM_BROWSER: chrome
+          YOUTUBE_COOKIE_FILE: /volume1/pipeline/yt_cookies.txt
         run: python code/pipeline.py --email-mode smtp
