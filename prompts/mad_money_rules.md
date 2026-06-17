@@ -90,6 +90,18 @@ and the context (sector, product type, CEO, customer base):
 - If you genuinely cannot determine the correct ticker, use `"????"` as the ticker value.
 - Use the corrected ticker everywhere: `ticker` field, `segment` assignment, all references.
 
+### Special Tickers for Private / Recently-IPO'd Companies
+
+Always use these exact ticker symbols regardless of what Cramer says:
+
+| Company | Ticker | Notes |
+|---------|--------|-------|
+| SpaceX | SPCX | IPO'd 2026-06-12; no closing price available for mentions before that date |
+| Anthropic | ANTH | Pre-IPO / private; no price data |
+| OpenAI | OPAI | Pre-IPO / private; no price data |
+
+Include them in the `stocks` array with the correct sentiment and note as usual. Do **not** add a `price_target` or `price_level` unless Cramer explicitly states one.
+
 ---
 
 ## Required Output Format
