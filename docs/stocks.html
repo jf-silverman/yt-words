@@ -6,6 +6,7 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Mad Money · Stock Lookup</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -146,7 +147,11 @@
       <div class="search-options">
         <span>
           <input type="checkbox" id="nameMode">
-          <label for="nameMode">Search by company name</label>
+          <label for="nameMode">Search by Name</label>
+        </span>
+        <span>
+          <input type="checkbox" id="dailyHistory" onchange="toggleDailyHistory(this.checked)">
+          <label for="dailyHistory">Show daily price history</label>
         </span>
         <span style="display:flex;align-items:center;gap:6px">
           <span style="font-size:12px;color:#57606a;font-weight:600">Min mentions:</span>
@@ -181,6 +186,14 @@
       <button class="filter-btn active" id="rm1" onclick="setRecentFilter('minMentions',1,this)">Any</button>
       <button class="filter-btn" id="rm2" onclick="setRecentFilter('minMentions',2,this)">2+</button>
       <button class="filter-btn" id="rm5" onclick="setRecentFilter('minMentions',5,this)">5+</button>
+    </div>
+    <div class="filter-bar" id="sector-filter-bar" style="display:none"></div>
+    <div class="filter-bar">
+      <span class="filter-label">Style:</span>
+      <button class="filter-btn active" id="rstAll"    onclick="setRecentFilter('style','all',this)">All</button>
+      <button class="filter-btn"        id="rstGrowth" onclick="setRecentFilter('style','growth',this)">Growth</button>
+      <button class="filter-btn"        id="rstBlend"  onclick="setRecentFilter('style','blend',this)">Blend</button>
+      <button class="filter-btn"        id="rstValue"  onclick="setRecentFilter('style','value',this)">Value</button>
     </div>
     <div class="status" id="recent-status"></div>
     <div id="recent-table"></div>
@@ -297,12 +310,13 @@ function livePriceHtml(info) {
 
 // ── Chart ─────────────────────────────────────────────────────────────────────
 
+const DAILY_DATASET_LABEL = '__daily__';
+
 function renderChart(ticker, entry) {
   if (typeof Chart === 'undefined') return '';
   const dateGroups = groupByDate(entry.mentions || []);
   if (dateGroups.length < 3) return '';
 
-  // Build per-date points oldest→newest; pick highest-priority segment's sentiment
   const pts = dateGroups.slice().reverse().map(([dt, group]) => {
     const price = (group.find(m => m.closing_price != null) || {}).closing_price;
     const top = [...group].sort((a, b) => {
@@ -320,12 +334,13 @@ function renderChart(ticker, entry) {
     const el = document.getElementById(canvasId);
     if (!el || el._chartInitialized) return;
     el._chartInitialized = true;
-    new Chart(el, {
+    if (chartInstances.has(ticker)) chartInstances.get(ticker).destroy();
+
+    const chart = new Chart(el, {
       type: 'line',
       data: {
-        labels: pts.map(p => p.date),
         datasets: [{
-          data: pts.map(p => p.price),
+          data: pts.map(p => ({ x: p.date, y: p.price })),
           borderColor: '#0969da',
           borderWidth: 2,
           tension: 0.1,
@@ -350,8 +365,10 @@ function renderChart(ticker, entry) {
         maintainAspectRatio: false,
         scales: {
           x: {
+            type: 'time',
+            time: { unit: 'month', tooltipFormat: 'MMM d, yyyy' },
             grid: { display: false },
-            ticks: { maxTicksLimit: 10, font: { size: 11 }, maxRotation: 30 },
+            ticks: { font: { size: 11 } },
           },
           y: {
             ticks: { callback: v => `$${v}`, font: { size: 11 } },
@@ -364,10 +381,13 @@ function renderChart(ticker, entry) {
             callbacks: {
               title: items => items[0]?.label || '',
               label: item => {
+                if (item.dataset.label === DAILY_DATASET_LABEL)
+                  return `Daily close: $${Number(item.parsed.y).toFixed(2)}`;
                 const p = pts[item.dataIndex];
+                if (!p) return `$${Number(item.parsed.y).toFixed(2)}`;
                 const lines = [`Close: $${Number(item.parsed.y).toFixed(2)}`];
-                if (p.sentiment) lines.push((p.sentiment).replace(/_/g, ' ').toUpperCase());
-                if (p.note) lines.push((p.note).slice(0, 90) + (p.note.length > 90 ? '…' : ''));
+                if (p.sentiment) lines.push(p.sentiment.replace(/_/g, ' ').toUpperCase());
+                if (p.note) lines.push(p.note.slice(0, 90) + (p.note.length > 90 ? '…' : ''));
                 return lines;
               },
             },
@@ -375,9 +395,65 @@ function renderChart(ticker, entry) {
         },
       },
     });
+    chartInstances.set(ticker, chart);
+
+    if (document.getElementById('dailyHistory')?.checked) {
+      fetchDailyHistory(ticker).then(hist => {
+        if (!hist) return;
+        chart.data.datasets.push({
+          label: DAILY_DATASET_LABEL,
+          data: hist,
+          borderColor: '#8250df',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.1,
+          fill: false,
+        });
+        chart.update();
+      });
+    }
   }, 0);
 
   return `<div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+}
+
+async function fetchDailyHistory(ticker) {
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=6mo`;
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const result = (await r.json())?.chart?.result?.[0];
+    if (!result) return null;
+    const ts = result.timestamp || [];
+    const closes = result.indicators?.quote?.[0]?.close || [];
+    return ts.map((t, i) => ({
+      x: new Date(t * 1000).toISOString().slice(0, 10),
+      y: closes[i],
+    })).filter(pt => pt.y != null);
+  } catch { return null; }
+}
+
+async function toggleDailyHistory(checked) {
+  for (const [ticker, chart] of chartInstances) {
+    const idx = chart.data.datasets.findIndex(d => d.label === DAILY_DATASET_LABEL);
+    if (!checked) {
+      if (idx !== -1) { chart.data.datasets.splice(idx, 1); chart.update(); }
+    } else {
+      if (idx !== -1) continue;
+      const hist = await fetchDailyHistory(ticker);
+      if (!hist) continue;
+      chart.data.datasets.push({
+        label: DAILY_DATASET_LABEL,
+        data: hist,
+        borderColor: '#8250df',
+        borderWidth: 1.5,
+        pointRadius: 0,
+        tension: 0.1,
+        fill: false,
+      });
+      chart.update();
+    }
+  }
 }
 
 // ── Card rendering ────────────────────────────────────────────────────────────
@@ -447,6 +523,7 @@ function renderCard(ticker, entry) {
 
 let index = null;           // { TICKER: {name, count} }
 const cache = new Map();    // TICKER -> full entry
+const chartInstances = new Map(); // TICKER -> Chart instance
 
 async function loadIndex() {
   document.getElementById('status').textContent = 'Loading…';
@@ -526,6 +603,8 @@ async function search() {
   const entries = await Promise.all(matchedTickers.map(t => fetchTicker(t)));
   const pairs = matchedTickers.map((t, i) => [t, entries[i]]).filter(([, e]) => e);
   statusEl.textContent = `${pairs.length} result${pairs.length !== 1 ? 's' : ''}`;
+  chartInstances.forEach(c => c.destroy());
+  chartInstances.clear();
   resultsEl.innerHTML = pairs.map(([t, e]) => renderCard(t, e)).join('');
   pairs.forEach(([t]) => {
     fetchLivePrice(t).then(info => {
@@ -546,11 +625,12 @@ document.getElementById('nameMode').addEventListener('change', () => {
 // ── Recent Picks ──────────────────────────────────────────────────────────────
 
 let recentData = null;
-let recentFilter = { days: 30, sentiment: 'all', minMentions: 1 };
+let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', sector: 'All' };
 const recentFilterGroups = {
   days:        ['r7','r30','r90'],
   sentiment:   ['rAll','rBull','rNeut','rBear'],
   minMentions: ['rm1','rm2','rm5'],
+  style:       ['rstAll','rstGrowth','rstBlend','rstValue'],
 };
 
 function setRecentFilter(key, val, btn) {
@@ -560,12 +640,33 @@ function setRecentFilter(key, val, btn) {
   renderRecent();
 }
 
+function renderSectorFilters() {
+  const bar = document.getElementById('sector-filter-bar');
+  if (!recentData) { bar.style.display = 'none'; return; }
+  const sectors = [...new Set(recentData.mentions.map(m => m.sector).filter(Boolean))].sort();
+  if (sectors.length === 0) { bar.style.display = 'none'; return; }
+  bar.style.display = 'flex';
+  bar.innerHTML = `<span class="filter-label">Sector:</span>`
+    + `<button class="filter-btn ${recentFilter.sector === 'All' ? 'active' : ''}" onclick="setSectorFilter('All',this)">All</button>`
+    + sectors.map(s =>
+        `<button class="filter-btn ${recentFilter.sector === s ? 'active' : ''}" onclick="setSectorFilter(${JSON.stringify(s)},this)">${s}</button>`
+      ).join('');
+}
+
+function setSectorFilter(val, btn) {
+  recentFilter.sector = val;
+  document.querySelectorAll('#sector-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRecent();
+}
+
 async function loadRecent() {
-  if (recentData) { renderRecent(); return; }
+  if (recentData) { renderSectorFilters(); renderRecent(); return; }
   document.getElementById('recent-status').textContent = 'Loading…';
   try {
     const resp = await fetch(RECENT_URL);
     recentData = await resp.json();
+    renderSectorFilters();
     renderRecent();
   } catch {
     document.getElementById('recent-status').textContent = 'Failed to load. Try refreshing.';
@@ -586,6 +687,8 @@ function renderRecent() {
     if (recentFilter.sentiment === 'bearish' && !BEARISH_SET.has(s)) return false;
     if (recentFilter.sentiment === 'neutral' && (BULLISH_SET.has(s) || BEARISH_SET.has(s))) return false;
     if ((m.total_mentions || 1) < recentFilter.minMentions) return false;
+    if (recentFilter.style !== 'all' && (m.style || '').toLowerCase() !== recentFilter.style) return false;
+    if (recentFilter.sector !== 'All' && m.sector !== recentFilter.sector) return false;
     return true;
   });
 
