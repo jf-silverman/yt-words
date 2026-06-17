@@ -251,9 +251,12 @@ def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, s
         return date_str, [], out_path.read_text()
 
     cookie_file = os.environ.get("YOUTUBE_COOKIE_FILE")
+    browser     = os.environ.get("YOUTUBE_COOKIES_FROM_BROWSER")
     opts = {'quiet': True, 'no_warnings': True}
     if cookie_file:
         opts['cookiefile'] = cookie_file
+    elif browser:
+        opts['cookiesfrombrowser'] = (browser,)
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(f'https://www.youtube.com/watch?v={video_id}', download=False, process=False)
 
