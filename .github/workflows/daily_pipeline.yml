@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   pipeline:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v6
@@ -29,26 +29,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
 
-      - name: Write YouTube cookies
-        env:
-          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
-        run: |
-          python3 -c "
-          import os, sys
-          c = os.environ.get('YOUTUBE_COOKIES', '')
-          if not c.strip():
-              print('WARNING: YOUTUBE_COOKIES secret is empty')
-              sys.exit(1)
-          with open('/tmp/yt_cookies.txt', 'w') as f:
-              f.write(c)
-          print(f'Cookie file written: {c.count(chr(10))} lines, {len(c)} bytes')
-          "
-
       - name: Run pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           OVERCAST_EMAIL: ${{ secrets.OVERCAST_EMAIL }}
           OVERCAST_PASSWORD: ${{ secrets.OVERCAST_PASSWORD }}
-          YOUTUBE_COOKIE_FILE: /tmp/yt_cookies.txt
+          YOUTUBE_COOKIES_FROM_BROWSER: chrome
         run: python code/pipeline.py --email-mode smtp
