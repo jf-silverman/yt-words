@@ -5,3 +5,4 @@ __pycache__/
 .DS_Store
 data/output/*_email_preview.html
 code/transcripts/
+CLAUDE.md
