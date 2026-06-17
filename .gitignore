@@ -3,6 +3,6 @@
 __pycache__/
 *.pyc
 .DS_Store
-data/output/*_email_preview.html
-code/transcripts/
+data/transcripts/*_email_preview.html
+_archive/
 CLAUDE.md

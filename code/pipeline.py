@@ -62,7 +62,7 @@ import re
 import subprocess
 
 DATA_DIR = ROOT / "data"
-OUTPUT_DIR = DATA_DIR / "output"
+OUTPUT_DIR = DATA_DIR / "transcripts"
 SUMMARIES_DIR = DATA_DIR / "summaries"
 DOCS_DIR = ROOT / "docs"
 TICKER_DATA_DIR = DOCS_DIR / "data"
