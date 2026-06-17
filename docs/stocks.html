@@ -439,17 +439,10 @@ function renderChart(ticker, entry) {
 
 async function fetchDailyHistory(ticker) {
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=6mo`;
-    const r = await fetch(url);
+    const r = await fetch(`${TICKER_BASE}${ticker}_prices.json`);
     if (!r.ok) return null;
-    const result = (await r.json())?.chart?.result?.[0];
-    if (!result) return null;
-    const ts = result.timestamp || [];
-    const closes = result.indicators?.quote?.[0]?.close || [];
-    return ts.map((t, i) => ({
-      x: new Date(t * 1000).toISOString().slice(0, 10),
-      y: closes[i],
-    })).filter(pt => pt.y != null);
+    const data = await r.json();
+    return data.map(pt => ({ x: pt.date, y: pt.close }));
   } catch { return null; }
 }
 

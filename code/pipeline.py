@@ -323,6 +323,63 @@ def fetch_closing_price(ticker: str, date_str: str) -> float | None:
         return None
 
 
+def fetch_price_history(ticker: str, days: int = 180) -> list[dict]:
+    """Fetch daily closing prices for the past `days` days from Yahoo Finance.
+    Returns [{date, close}, ...] sorted oldest-first, empty list on error."""
+    try:
+        end = datetime.now(timezone.utc)
+        start = end - timedelta(days=days)
+        p1 = int(start.timestamp())
+        p2 = int(end.timestamp())
+        url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+               f"?interval=1d&period1={p1}&period2={p2}")
+        resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+        resp.raise_for_status()
+        result = resp.json()["chart"]["result"][0]
+        timestamps = result.get("timestamp", [])
+        closes = result["indicators"]["quote"][0]["close"]
+        out = []
+        for t, c in zip(timestamps, closes):
+            if c is None:
+                continue
+            day = datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d")
+            out.append({"date": day, "close": round(c, 2)})
+        return out
+    except Exception:
+        return []
+
+
+def write_price_files(stocks: dict, only: set[str] | None = None) -> None:
+    """Write docs/data/{TICKER}_prices.json for active tickers.
+
+    When only is None, fetches all public tickers mentioned in the last 180 days.
+    When only is a set, fetches just those tickers (still skips private ones).
+    """
+    cutoff = (date.today() - timedelta(days=180)).isoformat()
+    today  = date.today().isoformat()
+    targets = []
+    for ticker, entry in stocks.items():
+        if only is not None and ticker not in only:
+            continue
+        if _is_private(ticker, today):
+            continue
+        if any(m.get("date", "") >= cutoff for m in entry.get("mentions", [])):
+            targets.append(ticker)
+
+    if not targets:
+        return
+    print(f"  Fetching daily price history for {len(targets)} ticker(s)…")
+    for i, ticker in enumerate(targets, 1):
+        hist = fetch_price_history(ticker)
+        if hist:
+            (TICKER_DATA_DIR / f"{ticker}_prices.json").write_text(
+                json.dumps(hist, separators=(",", ":"))
+            )
+        if i % 20 == 0:
+            print(f"    {i}/{len(targets)} done")
+        time.sleep(0.2)
+
+
 def update_stock_sentiments(analysis: dict) -> None:
     if SENTIMENTS_FILE.exists():
         db = json.loads(SENTIMENTS_FILE.read_text())
@@ -368,6 +425,7 @@ def update_stock_sentiments(analysis: dict) -> None:
     # Write per-ticker shards for touched tickers + refresh index
     touched = {s.get("ticker", "").upper() for s in analysis.get("stocks", []) if s.get("ticker")}
     _write_ticker_shards(stocks, only=touched)
+    write_price_files(stocks, only=touched)
 
 
 def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
@@ -466,6 +524,17 @@ def rebuild_ticker_shards() -> None:
     stocks = db.get("stocks", {})
     _write_ticker_shards(stocks)
     print(f"Wrote {len(stocks)} ticker shards + index.json to {TICKER_DATA_DIR}")
+
+
+def update_all_prices() -> None:
+    """Fetch/refresh price history files for all public tickers with recent mentions."""
+    if not SENTIMENTS_FILE.exists():
+        print("stock_sentiments.json not found.")
+        return
+    db = json.loads(SENTIMENTS_FILE.read_text())
+    stocks = db.get("stocks", {})
+    write_price_files(stocks)
+    print(f"Done. Price files written to {TICKER_DATA_DIR}")
 
 
 def backfill_prices() -> None:
@@ -1060,6 +1129,8 @@ def main() -> None:
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
     parser.add_argument("--rebuild-shards", action="store_true",
                         help="Rebuild all per-ticker JSON shards in docs/data/ from stock_sentiments.json")
+    parser.add_argument("--update-prices", action="store_true",
+                        help="Fetch/refresh daily price history files for all active tickers in docs/data/")
     parser.add_argument("--fetch-sectors", action="store_true",
                         help="Batch-fetch sector/style from Yahoo Finance for all tickers and rebuild shards")
     args = parser.parse_args()
@@ -1070,6 +1141,10 @@ def main() -> None:
 
     if args.rebuild_shards:
         rebuild_ticker_shards()
+        return
+
+    if args.update_prices:
+        update_all_prices()
         return
 
     if args.fetch_sectors:
