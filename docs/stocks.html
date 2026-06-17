@@ -53,9 +53,11 @@
     }
     #search:focus { border-color: #0969da; box-shadow: 0 0 0 3px rgba(9,105,218,.15); }
     .search-options {
-      display: flex; align-items: center; gap: 8px;
+      display: flex; align-items: center; gap: 16px;
       margin-top: 8px; font-size: 13px; color: #57606a; flex-wrap: wrap;
     }
+    .search-options input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; }
+    .search-options label { cursor: pointer; user-select: none; }
     .status { margin-top: 6px; font-size: 13px; color: #57606a; min-height: 18px; }
 
     /* Cards */
@@ -143,8 +145,14 @@
     <div class="search-wrap">
       <input id="search" type="text" placeholder="Ticker prefix (e.g. MU, NV)…" autofocus autocomplete="off">
       <div class="search-options">
-        <button class="filter-btn" id="nameMode" onclick="toggleNameMode(this)">Search by Name</button>
-        <button class="filter-btn" id="dailyHistory" onclick="toggleDailyHistoryBtn(this)">Daily price overlay</button>
+        <span>
+          <input type="checkbox" id="nameMode">
+          <label for="nameMode">Search by Name</label>
+        </span>
+        <span>
+          <input type="checkbox" id="dailyHistory" onchange="toggleDailyHistory(this.checked)">
+          <label for="dailyHistory">Show daily price history</label>
+        </span>
         <span style="display:flex;align-items:center;gap:6px">
           <span style="font-size:12px;color:#57606a;font-weight:600">Min mentions:</span>
           <button class="filter-btn active" id="min1" onclick="setMinMentions(1,this)">Any</button>
@@ -409,7 +417,7 @@ function renderChart(ticker, entry) {
     });
     chartInstances.set(ticker, chart);
 
-    if (document.getElementById('dailyHistory')?.classList.contains('active')) {
+    if (document.getElementById('dailyHistory')?.checked) {
       fetchDailyHistory(ticker).then(hist => {
         if (!hist) return;
         chart.data.datasets.push({
@@ -430,59 +438,42 @@ function renderChart(ticker, entry) {
 }
 
 async function fetchDailyHistory(ticker) {
-  // Yahoo Finance freely serves 1-day meta (used by fetchLivePrice) but requires
-  // consent cookies for multi-month OHLCV. Use period1/period2 + credentials:include
-  // and fall back to the query2 subdomain if query1 is rate-limited.
-  const now = Math.floor(Date.now() / 1000);
-  const p1  = now - 183 * 24 * 3600; // ~6 months
-  for (const host of ['query1', 'query2']) {
-    try {
-      const url = `https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}`
-        + `?interval=1d&period1=${p1}&period2=${now}&includePrePost=false`;
-      const r = await fetch(url, { credentials: 'include' });
-      if (!r.ok) continue;
-      const data = await r.json();
-      const result = data?.chart?.result?.[0];
-      if (!result) continue;
-      const ts     = result.timestamp || [];
-      const closes = result.indicators?.quote?.[0]?.close || [];
-      if (!ts.length) continue;
-      return ts
-        .map((t, i) => ({ x: new Date(t * 1000).toISOString().slice(0, 10), y: closes[i] }))
-        .filter(pt => pt.y != null);
-    } catch { continue; }
-  }
-  return null;
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=6mo`;
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const result = (await r.json())?.chart?.result?.[0];
+    if (!result) return null;
+    const ts = result.timestamp || [];
+    const closes = result.indicators?.quote?.[0]?.close || [];
+    return ts.map((t, i) => ({
+      x: new Date(t * 1000).toISOString().slice(0, 10),
+      y: closes[i],
+    })).filter(pt => pt.y != null);
+  } catch { return null; }
 }
 
 async function toggleDailyHistory(checked) {
-  const btn = document.getElementById('dailyHistory');
-  if (!checked) {
-    for (const [, chart] of chartInstances) {
-      const idx = chart.data.datasets.findIndex(d => d.label === DAILY_DATASET_LABEL);
-      if (idx !== -1) { chart.data.datasets.splice(idx, 1); chart.update(); }
-    }
-    return;
-  }
-  const origText = btn ? btn.textContent : '';
-  if (btn) btn.textContent = 'Loading…';
   for (const [ticker, chart] of chartInstances) {
     const idx = chart.data.datasets.findIndex(d => d.label === DAILY_DATASET_LABEL);
-    if (idx !== -1) continue;
-    const hist = await fetchDailyHistory(ticker);
-    if (!hist || !hist.length) continue;
-    chart.data.datasets.push({
-      label: DAILY_DATASET_LABEL,
-      data: hist,
-      borderColor: '#8250df',
-      borderWidth: 1.5,
-      pointRadius: 0,
-      tension: 0.1,
-      fill: false,
-    });
-    chart.update();
+    if (!checked) {
+      if (idx !== -1) { chart.data.datasets.splice(idx, 1); chart.update(); }
+    } else {
+      if (idx !== -1) continue;
+      const hist = await fetchDailyHistory(ticker);
+      if (!hist) continue;
+      chart.data.datasets.push({
+        label: DAILY_DATASET_LABEL,
+        data: hist,
+        borderColor: '#8250df',
+        borderWidth: 1.5,
+        pointRadius: 0,
+        tension: 0.1,
+        fill: false,
+      });
+      chart.update();
+    }
   }
-  if (btn) btn.textContent = origText;
 }
 
 // ── Card rendering ────────────────────────────────────────────────────────────
@@ -592,7 +583,8 @@ let minMentions = 1;
 
 function setMinMentions(n, btn) {
   minMentions = n;
-  ['min1','min2','min5','min10'].forEach(id => document.getElementById(id)?.classList.remove('active'));
+  document.querySelectorAll('#search-panel .search-options .filter-btn')
+    .forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   search();
 }
@@ -601,7 +593,7 @@ async function search() {
   const resultsEl = document.getElementById('results');
   const statusEl  = document.getElementById('status');
   const query     = document.getElementById('search').value.trim();
-  const nameMode  = document.getElementById('nameMode').classList.contains('active');
+  const nameMode  = document.getElementById('nameMode').checked;
 
   if (!index) { statusEl.textContent = 'Still loading…'; return; }
 
@@ -651,19 +643,12 @@ async function search() {
 }
 
 document.getElementById('search').addEventListener('input', search);
-
-function toggleNameMode(btn) {
-  btn.classList.toggle('active');
-  const nameMode = btn.classList.contains('active');
+document.getElementById('nameMode').addEventListener('change', () => {
+  const nameMode = document.getElementById('nameMode').checked;
   document.getElementById('search').placeholder =
     nameMode ? 'Company name (e.g. Nvidia, Honeywell)…' : 'Ticker prefix (e.g. MU, NV)…';
   search();
-}
-
-function toggleDailyHistoryBtn(btn) {
-  btn.classList.toggle('active');
-  toggleDailyHistory(btn.classList.contains('active'));
-}
+});
 
 // ── Recent Picks ──────────────────────────────────────────────────────────────
 
@@ -772,7 +757,7 @@ function jumpToTicker(ticker) {
   showTab('search');
   const inp = document.getElementById('search');
   inp.value = ticker;
-  document.getElementById('nameMode').classList.remove('active');
+  document.getElementById('nameMode').checked = false;
   inp.placeholder = 'Ticker prefix (e.g. MU, NV)…';
   search();
 }
