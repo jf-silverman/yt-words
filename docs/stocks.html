@@ -205,6 +205,23 @@ const INDEX_URL   = './data/index.json';
 const TICKER_BASE = './data/';
 const RECENT_URL  = './data/recent.json';
 
+// Companies that are private or recently IPO'd — ipoDate null = still private
+const PRIVATE_COMPANIES = {
+  ANTH: { name: 'Anthropic', ipoDate: null },
+  OPAI: { name: 'OpenAI',    ipoDate: null },
+  SPCX: { name: 'SpaceX',   ipoDate: '2026-06-12' },
+};
+
+function isPrivate(ticker, dateStr) {
+  const info = PRIVATE_COMPANIES[ticker];
+  if (!info) return false;
+  return !info.ipoDate || dateStr < info.ipoDate;
+}
+
+function isCurrentlyPrivate(ticker) {
+  return isPrivate(ticker, new Date().toISOString().slice(0, 10));
+}
+
 const SEGMENT_PRIORITY = [
   'in_depth_analysis','interview','opening_commentary',
   'closing_commentary','caller_qa','lightning_round',
@@ -258,7 +275,10 @@ function mostRecentClose(entry) {
   return m ? { price: m.closing_price, date: m.date } : null;
 }
 
-function initialPriceHtml(entry) {
+function initialPriceHtml(entry, ticker) {
+  if (isCurrentlyPrivate(ticker)) {
+    return `<span style="font-size:12px;color:#8b949e;font-style:italic">not publicly traded</span>`;
+  }
   const c = mostRecentClose(entry);
   if (!c) return '';
   return `<span style="font-family:monospace;font-size:14px;font-weight:600">$${c.price.toFixed(2)}</span>`
@@ -462,7 +482,10 @@ function renderCard(ticker, entry) {
   const dateGroups = groupByDate(entry.mentions || []);
 
   const rows = dateGroups.map(([dt, group]) => {
-    const closePrice = fmtPrice((group.find(m => m.closing_price != null) || {}).closing_price);
+    const priceVal = (group.find(m => m.closing_price != null) || {}).closing_price;
+    const closePrice = isPrivate(ticker, dt)
+      ? '<span style="color:#8b949e;font-style:italic">N/A</span>'
+      : fmtPrice(priceVal);
     const bySegment = {};
     for (const m of group) {
       const seg = m.segment || '';
@@ -497,12 +520,16 @@ function renderCard(ticker, entry) {
   }).join('');
 
   const dayCount = dateGroups.length;
+  const privNow = isCurrentlyPrivate(ticker);
+  const tickerBadge = privNow
+    ? `<span class="card-ticker" style="background:#8b949e">${ticker} <span style="font-size:11px;opacity:.8">(private)</span></span>`
+    : `<span class="card-ticker">${ticker}</span>`;
   return `<div class="card">
     <div class="card-header">
       <span class="card-company">${entry.company || ticker}</span>
-      <span class="card-ticker">${ticker}</span>
+      ${tickerBadge}
       <div class="card-meta">
-        <div id="price-${ticker}">${initialPriceHtml(entry)}</div>
+        <div id="price-${ticker}">${initialPriceHtml(entry, ticker)}</div>
         <div class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</div>
       </div>
     </div>
@@ -607,6 +634,7 @@ async function search() {
   chartInstances.clear();
   resultsEl.innerHTML = pairs.map(([t, e]) => renderCard(t, e)).join('');
   pairs.forEach(([t]) => {
+    if (isCurrentlyPrivate(t)) return;
     fetchLivePrice(t).then(info => {
       const el = document.getElementById(`price-${t}`);
       if (el && info) el.innerHTML = livePriceHtml(info);

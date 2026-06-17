@@ -83,6 +83,24 @@ GMAIL_SMTP = ("smtp.gmail.com", 587)
 BROTHER_TO = "riversdirect@hotmail.com"
 BROTHER_TICKERS = {"MU", "RVI", "UVXY", "WD", "AMD"}
 
+# Companies that are private or recently IPO'd; skip Yahoo Finance price lookup
+# ipo_date = None means still private; otherwise price data exists from that date onward
+PRIVATE_COMPANIES: dict[str, dict] = {
+    "ANTH": {"name": "Anthropic", "ipo_date": None},
+    "OPAI": {"name": "OpenAI",    "ipo_date": None},
+    "SPCX": {"name": "SpaceX",   "ipo_date": "2026-06-12"},
+}
+
+
+def _is_private(ticker: str, date_str: str) -> bool:
+    """Return True if ticker had no public market on date_str."""
+    info = PRIVATE_COMPANIES.get(ticker)
+    if not info:
+        return False
+    if info["ipo_date"] is None:
+        return True
+    return date_str < info["ipo_date"]
+
 USER_HOLDINGS = {
     "ARM", "AEVA", "INTC", "CRWV", "BE", "AUR", "ABSI", "PWR", "RVMD", "LRCX",
     "GNRC", "LIN", "NEE", "ABNB", "MP", "NUE", "GOOGL", "VXUS", "QUBT", "COST",
@@ -339,9 +357,10 @@ def update_stock_sentiments(analysis: dict) -> None:
             mention["price_target"] = stock["price_target"]
         if "price_level" in stock:
             mention["price_level"] = stock["price_level"]
-        price = fetch_closing_price(ticker, analysis["episode_date"])
-        if price is not None:
-            mention["closing_price"] = price
+        if not _is_private(ticker, analysis["episode_date"]):
+            price = fetch_closing_price(ticker, analysis["episode_date"])
+            if price is not None:
+                mention["closing_price"] = price
         entry["mentions"].append(mention)
 
     SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
@@ -370,13 +389,72 @@ def _write_recent_json(stocks: dict) -> None:
     mentions = []
     for ticker, entry in stocks.items():
         total = len(entry.get("mentions", []))
+        sector = entry.get("sector", "")
+        style  = entry.get("style", "")
         for m in entry.get("mentions", []):
             if m.get("date", "") >= cutoff:
                 mentions.append({"ticker": ticker, "company": entry.get("company", ""),
+                                  "sector": sector, "style": style,
                                   "total_mentions": total, **m})
     mentions.sort(key=lambda x: x["date"], reverse=True)
     out = {"generated": date.today().isoformat(), "mentions": mentions}
     (TICKER_DATA_DIR / "recent.json").write_text(json.dumps(out, separators=(",", ":")))
+
+
+def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
+    """Fetch sector + style for each ticker via yfinance (parallel). Returns {ticker: {sector, style}}."""
+    import yfinance as yf
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    def _one(ticker):
+        try:
+            info = yf.Ticker(ticker).info
+            sector = info.get("sector") or ""
+            pe = info.get("trailingPE")
+            if pe is None or pe <= 0:
+                style = ""
+            elif pe > 30:
+                style = "growth"
+            elif pe < 12:
+                style = "value"
+            else:
+                style = "blend"
+            return ticker, {"sector": sector, "style": style}
+        except Exception:
+            return ticker, {"sector": "", "style": ""}
+
+    result = {}
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        futures = {ex.submit(_one, t): t for t in tickers}
+        for i, f in enumerate(as_completed(futures), 1):
+            ticker, meta = f.result()
+            result[ticker] = meta
+            if i % 50 == 0:
+                print(f"  {i}/{len(tickers)} tickers fetched…")
+    return result
+
+
+def fetch_all_sectors() -> None:
+    """Batch-fetch sector/style for all tickers and rebuild shards."""
+    if not SENTIMENTS_FILE.exists():
+        print("stock_sentiments.json not found.")
+        return
+    db = json.loads(SENTIMENTS_FILE.read_text())
+    stocks = db.get("stocks", {})
+    tickers = list(stocks.keys())
+    print(f"Fetching metadata for {len(tickers)} tickers in batches of 50…")
+    metadata = _fetch_ticker_metadata(tickers)
+    updated = 0
+    for ticker, meta in metadata.items():
+        if ticker in stocks:
+            stocks[ticker]["sector"] = meta["sector"]
+            stocks[ticker]["style"]  = meta["style"]
+            if meta["sector"]:
+                updated += 1
+    db["stocks"] = stocks
+    SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
+    _write_ticker_shards(stocks)
+    print(f"Updated metadata for {updated}/{len(tickers)} tickers.")
 
 
 def rebuild_ticker_shards() -> None:
@@ -400,6 +478,9 @@ def backfill_prices() -> None:
     for ticker, entry in db.get("stocks", {}).items():
         for mention in entry.get("mentions", []):
             if "closing_price" in mention:
+                skipped += 1
+                continue
+            if _is_private(ticker, mention["date"]):
                 skipped += 1
                 continue
             price = fetch_closing_price(ticker, mention["date"])
@@ -979,6 +1060,8 @@ def main() -> None:
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
     parser.add_argument("--rebuild-shards", action="store_true",
                         help="Rebuild all per-ticker JSON shards in docs/data/ from stock_sentiments.json")
+    parser.add_argument("--fetch-sectors", action="store_true",
+                        help="Batch-fetch sector/style from Yahoo Finance for all tickers and rebuild shards")
     args = parser.parse_args()
 
     if args.fix_redirects:
@@ -987,6 +1070,10 @@ def main() -> None:
 
     if args.rebuild_shards:
         rebuild_ticker_shards()
+        return
+
+    if args.fetch_sectors:
+        fetch_all_sectors()
         return
 
     if args.backfill_prices:
