@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Backfill Mad Money episodes for a date range into stock_sentiments.json.
 
