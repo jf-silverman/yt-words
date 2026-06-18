@@ -17,12 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-
       - name: Install dependencies
-        run: pip install anthropic requests yt-dlp
+        run: python3 -m pip install --user anthropic requests yt-dlp
 
       - name: Configure git identity
         run: |
@@ -36,4 +32,4 @@ jobs:
           OVERCAST_EMAIL: ${{ secrets.OVERCAST_EMAIL }}
           OVERCAST_PASSWORD: ${{ secrets.OVERCAST_PASSWORD }}
           YOUTUBE_COOKIE_FILE: /volume1/pipeline/yt_cookies.txt
-        run: python code/pipeline.py --email-mode smtp
+        run: python3 code/pipeline.py --email-mode smtp
