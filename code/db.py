@@ -77,16 +77,174 @@ def init_db():
         )
     """)
 
-    # Create indices for common queries
+    # Indices for common queries
     c.execute("CREATE INDEX IF NOT EXISTS idx_mentions_episode ON mentions(episode_id)")
     c.execute("CREATE INDEX IF NOT EXISTS idx_mentions_ticker ON mentions(ticker)")
     c.execute("CREATE INDEX IF NOT EXISTS idx_mentions_date ON mentions(date)")
     c.execute("CREATE INDEX IF NOT EXISTS idx_mentions_sentiment ON mentions(sentiment)")
     c.execute("CREATE INDEX IF NOT EXISTS idx_daily_prices_ticker ON daily_prices(ticker)")
     c.execute("CREATE INDEX IF NOT EXISTS idx_daily_prices_date ON daily_prices(date)")
+    # Composite index speeds up the forward-return subqueries
+    c.execute("""
+        CREATE INDEX IF NOT EXISTS idx_daily_prices_ticker_date
+        ON daily_prices(ticker, date)
+    """)
+
+    _create_views(c)
 
     conn.commit()
     conn.close()
+
+
+def _create_views(c):
+    """Create or replace analytical views. Called from init_db()."""
+
+    # forward_returns —————————————————————————————————————————————————————————
+    # One row per mention that has a closing price.
+    # Returns are NULL when price data doesn't reach that far out yet.
+    # Search windows cap at 1.5× the target to avoid accidentally grabbing
+    # prices from a much later period (e.g. after a delisting/relisting).
+    #
+    # Columns:
+    #   return_7d / 30d / 90d / 180d  — % gain from mention close to ~N trading days later
+    #   return_since_mention           — % gain from mention close to the latest price in DB
+    #   days_since_mention             — how many calendar days ago this mention was
+    #   price_latest / price_latest_date — most recent price we have for this ticker
+    c.execute("DROP VIEW IF EXISTS forward_returns")
+    c.execute("""
+        CREATE VIEW forward_returns AS
+        WITH base AS (
+            SELECT
+                m.id           AS mention_id,
+                m.episode_id,
+                m.ticker,
+                m.date         AS mention_date,
+                m.sentiment,
+                m.segment,
+                m.closing_price AS price_at_mention,
+                m.note,
+                s.company,
+                s.sector,
+                s.style
+            FROM mentions m
+            JOIN stocks s ON s.ticker = m.ticker
+            WHERE m.closing_price IS NOT NULL AND m.closing_price > 0
+        )
+        SELECT
+            b.*,
+
+            -- Forward prices (nearest trading day at/after target, capped to avoid stale data)
+            p7.close   AS price_7d,
+            p30.close  AS price_30d,
+            p90.close  AS price_90d,
+            p180.close AS price_180d,
+
+            -- Latest available price for this ticker
+            p_latest.close AS price_latest,
+            p_latest.date  AS price_latest_date,
+
+            -- Calendar days since the mention (always available once there's a latest price)
+            CAST(JULIANDAY(p_latest.date) - JULIANDAY(b.mention_date) AS INTEGER)
+                AS days_since_mention,
+
+            -- Forward returns (NULL when we don't have price data that far out yet)
+            ROUND((p7.close   - b.price_at_mention) / b.price_at_mention * 100, 2) AS return_7d,
+            ROUND((p30.close  - b.price_at_mention) / b.price_at_mention * 100, 2) AS return_30d,
+            ROUND((p90.close  - b.price_at_mention) / b.price_at_mention * 100, 2) AS return_90d,
+            ROUND((p180.close - b.price_at_mention) / b.price_at_mention * 100, 2) AS return_180d,
+
+            -- Return from mention price to today (always computed when latest price exists)
+            ROUND((p_latest.close - b.price_at_mention) / b.price_at_mention * 100, 2)
+                AS return_since_mention
+
+        FROM base b
+
+        -- 7-day: nearest trading day in [mention+7, mention+14]
+        LEFT JOIN daily_prices p7 ON p7.ticker = b.ticker
+            AND p7.date = (
+                SELECT MIN(date) FROM daily_prices
+                WHERE ticker = b.ticker
+                  AND date >= DATE(b.mention_date, '+7 days')
+                  AND date <= DATE(b.mention_date, '+14 days')
+            )
+
+        -- 30-day: nearest trading day in [mention+30, mention+45]
+        LEFT JOIN daily_prices p30 ON p30.ticker = b.ticker
+            AND p30.date = (
+                SELECT MIN(date) FROM daily_prices
+                WHERE ticker = b.ticker
+                  AND date >= DATE(b.mention_date, '+30 days')
+                  AND date <= DATE(b.mention_date, '+45 days')
+            )
+
+        -- 90-day: nearest trading day in [mention+90, mention+120]
+        LEFT JOIN daily_prices p90 ON p90.ticker = b.ticker
+            AND p90.date = (
+                SELECT MIN(date) FROM daily_prices
+                WHERE ticker = b.ticker
+                  AND date >= DATE(b.mention_date, '+90 days')
+                  AND date <= DATE(b.mention_date, '+120 days')
+            )
+
+        -- 180-day: nearest trading day in [mention+180, mention+210]
+        LEFT JOIN daily_prices p180 ON p180.ticker = b.ticker
+            AND p180.date = (
+                SELECT MIN(date) FROM daily_prices
+                WHERE ticker = b.ticker
+                  AND date >= DATE(b.mention_date, '+180 days')
+                  AND date <= DATE(b.mention_date, '+210 days')
+            )
+
+        -- Latest price (for return_since_mention and days_since_mention)
+        LEFT JOIN daily_prices p_latest ON p_latest.ticker = b.ticker
+            AND p_latest.date = (
+                SELECT MAX(date) FROM daily_prices WHERE ticker = b.ticker
+            )
+    """)
+
+    # sentiment_performance ———————————————————————————————————————————————————
+    # Aggregates forward_returns by sentiment level.
+    # n_with_Xd counts only mentions where that window's price exists.
+    c.execute("DROP VIEW IF EXISTS sentiment_performance")
+    c.execute("""
+        CREATE VIEW sentiment_performance AS
+        SELECT
+            sentiment,
+            COUNT(*)                                                AS n_mentions,
+            COUNT(return_7d)                                        AS n_with_7d,
+            COUNT(return_30d)                                       AS n_with_30d,
+            COUNT(return_90d)                                       AS n_with_90d,
+            COUNT(return_180d)                                      AS n_with_180d,
+            ROUND(AVG(return_7d),   2)                              AS avg_return_7d,
+            ROUND(AVG(return_30d),  2)                              AS avg_return_30d,
+            ROUND(AVG(return_90d),  2)                              AS avg_return_90d,
+            ROUND(AVG(return_180d), 2)                              AS avg_return_180d,
+            ROUND(AVG(return_since_mention), 2)                     AS avg_return_since_mention,
+            ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
+                        / NULLIF(COUNT(return_30d),  0), 1)         AS win_rate_30d,
+            ROUND(100.0 * SUM(CASE WHEN return_90d  > 0 THEN 1 ELSE 0 END)
+                        / NULLIF(COUNT(return_90d),  0), 1)         AS win_rate_90d,
+            ROUND(100.0 * SUM(CASE WHEN return_180d > 0 THEN 1 ELSE 0 END)
+                        / NULLIF(COUNT(return_180d), 0), 1)         AS win_rate_180d
+        FROM forward_returns
+        GROUP BY sentiment
+        ORDER BY avg_return_30d DESC
+    """)
+
+    # latest_mention_performance ——————————————————————————————————————————————
+    # For each ticker, only the most recent mention — with its return since then.
+    # Useful for a live "how are Cramer's recent calls doing?" dashboard.
+    c.execute("DROP VIEW IF EXISTS latest_mention_performance")
+    c.execute("""
+        CREATE VIEW latest_mention_performance AS
+        SELECT fr.*
+        FROM forward_returns fr
+        WHERE fr.mention_date = (
+            SELECT MAX(mention_date) FROM forward_returns fr2
+            WHERE fr2.ticker = fr.ticker
+        )
+        ORDER BY return_since_mention DESC
+    """)
 
 
 def migrate_from_json(stock_sentiments_path, processed_episodes_path, daily_prices_dir):
