@@ -640,6 +640,13 @@
           "segment": "opening_commentary",
           "note": "While a powerful technology leader, Cramer warns against concentrating retirement savings in single stocks; prefer diversified index funds for long-term buy-and-hold investing.",
           "closing_price": 212.45
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Jensen Wong saw data center demand coming in memory space; hyperscaler demand driving chip shortage; Cramer assumes Nvidia's dominance continues.",
+          "closing_price": 210.69
         }
       ],
       "sector": "Technology",
@@ -939,6 +946,13 @@
           "segment": "opening_commentary",
           "note": "Fantastic winner; CEO Raj Subramaniam just done fantastic job; expect continued strong results from logistics leader.",
           "closing_price": 251.7
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Cramer told club members and Charitable Trust to buy; well-run under CEO Raj Subramaniam; winning against UPS in trenches; own for long haul.",
+          "closing_price": 326.2
         }
       ],
       "sector": "Industrials",
@@ -1222,6 +1236,13 @@
           "segment": "in_depth_analysis",
           "note": "Up 239% in 2025; favorite of show; 30-year history shows multiple 200%+ years in a row (2013 +200%, 2014 +60%); trim on rallies.",
           "closing_price": 312.15
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Stock up ~300% YTD; needs to beat and raise well beyond consensus to continue higher; memory chip shortage ensures insane pricing power; chips in short supply.",
+          "closing_price": 1133.99
         }
       ],
       "sector": "Technology",
@@ -4388,6 +4409,13 @@
           "note": "Down 4 bucks today; Cramer recommends buying on pullback, add if it drops further; competitive pressure but long-term strength remains.",
           "price_level": null,
           "closing_price": 267.26
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "hold",
+          "segment": "closing_commentary",
+          "note": "Raising phone prices to pass on soaring memory and storage chip costs to consumers; hyperscaler demand creating bottleneck in semiconductor supply chain.",
+          "closing_price": 298.01
         }
       ],
       "sector": "Technology",
@@ -7400,6 +7428,13 @@
           "segment": "opening_commentary",
           "note": "2,900-store convenience chain immune to oil price pressure; sells gasoline but crowd will like it; earnings after close.",
           "closing_price": 664.6
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "",
+          "note": "Cramer's absolute favorite company; analyst day Wednesday; small-city convenience store model underappreciated by market; people don't know Casey story yet.",
+          "closing_price": 842.25
         }
       ],
       "sector": "Consumer Cyclical",
@@ -10102,6 +10137,12 @@
           "segment": "opening_commentary",
           "note": "Filed for IPO today with $14B Amazon investment; listed as Computex client alongside OpenAI and SpaceX. IPO will prove AI client economic sustainability. Amazon's Trainium chips crucial; Nvidia still validates on client list.",
           "closing_price": 0.0
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Pre-IPO/private AI company; doing incredibly well with Claude product; fantastic growth company; Cramer wants club members to put in for as much stock as possible."
         }
       ],
       "sector": "Healthcare",
@@ -10276,6 +10317,13 @@
           "segment": "caller_qa",
           "note": "Wait for earnings report next week before buying; solid medical device and pharma company.",
           "closing_price": 121.76
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Medical device sector weakness; device cohort in decline; same pressures as Boston Scientific.",
+          "closing_price": 88.41
         }
       ],
       "sector": "Healthcare",
@@ -10325,6 +10373,13 @@
           "segment": "opening_commentary",
           "note": "Clobbered this week as competition intensified in once-dominant pulse field ablation business; lost competitive moat.",
           "closing_price": 76.27
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Medical device sector from Hades; one really good product didn't deliver; Abbott and Medtronic also weak; entire device cohort too hard to own\u2014somebody knows something Cramer doesn't.",
+          "closing_price": 45.29
         }
       ],
       "sector": "Healthcare",
@@ -10390,6 +10445,13 @@
           "segment": "interview",
           "note": "AI colonoscopy, Hugo robot, pulse field ablation, and renal denervation all hitting inflection; CEO delivered on promises; earnings upside likely; best-in-class execution across medtech portfolio.",
           "closing_price": 96.95
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Medical device sector weakness; entire device cohort struggling and hard to own.",
+          "closing_price": 79.34
         }
       ],
       "sector": "Healthcare",
@@ -10823,6 +10885,13 @@
           "segment": "in_depth_analysis",
           "note": "Up 84% in 2025 after years of underperformance; turnaround under new CEO Lip Bhutan; Trump ($9B) and Nvidia ($5B) investments; long road ahead but headed right direction.",
           "closing_price": 39.37
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Cramer's favorite stock in Charitable Trust; CPUs will be next big shortage after memory; Intel's wheelhouse; told club members to buy aggressively; wants bigger position for trust.",
+          "closing_price": 133.99
         }
       ],
       "sector": "Technology",
@@ -11660,6 +11729,13 @@
           "segment": "in_depth_analysis",
           "note": "Up 135% in 2025 at 175x earnings; fastest-growing large cap; bulls disregard valuation; needs fresh jolt (earnings beat or market momentum); +4% today on positive tape.",
           "closing_price": 174.04
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "hold",
+          "segment": "opening_commentary",
+          "note": "Fine as long as recognized as long-term growth story; stock clubbed today but growth hasn't slowed, just stock price; memory chip cohort on ridiculous run, CPUs next.",
+          "closing_price": 128.47
         }
       ],
       "sector": "Technology",
@@ -13105,6 +13181,13 @@
           "segment": "opening_commentary",
           "note": "Housing stock rally leader as supply arrives and prices normalize; led group higher alongside Lennar and homebuilders.",
           "closing_price": 149.04
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Only homebuilder well-positioned for high-rate environment; ~25% of homes bought with cash, providing insulation from mortgage pressure.",
+          "closing_price": 155.67
         }
       ],
       "sector": "Consumer Cyclical",
@@ -14682,6 +14765,13 @@
           "segment": "opening_commentary",
           "note": "Monster quarter last time; still expecting upside surprise; competition from Medtronic building but not yet major threat.",
           "closing_price": 535.0
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "opening_commentary",
+          "note": "Too much competition now; used to be king, now there are three or four kings in surgical robotics; competition problem makes it unattractive.",
+          "closing_price": 406.78
         }
       ],
       "sector": "Healthcare",
@@ -16587,6 +16677,13 @@
           "segment": "lightning_round",
           "note": "Rare earths / domestic resource critical minerals; caller held since 2020, recovered entry; president backing ensures strategic importance. Long-term growth intact; market should not treat as speculation.",
           "closing_price": 63.73
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Preferred rare earth materials play over Niakore due to government backing; traditionalist approach.",
+          "closing_price": 60.88
         }
       ],
       "sector": "Basic Materials",
@@ -17437,6 +17534,13 @@
           "note": "Down 30% to $18; Cramer flipped positive given growth rate and pullback; was concerned at $26, sees value at current depressed level.",
           "price_level": 18,
           "closing_price": 18.22
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Cramer liked at $5\u20138, disliked at $28, likes again at $18 after pullback; hanging around $18 level; continue to believe time to buy.",
+          "closing_price": 17.91
         }
       ],
       "sector": "Financial Services",
@@ -18388,6 +18492,13 @@
           "segment": "lightning_round",
           "note": "Better EV exposure than Lucid at $16 if must choose; but Cramer doesn't prefer EV sector here; gets no credit.",
           "closing_price": 16.32
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Losing too much money; R2 release did not spark momentum; Cramer won't recommend buy at current levels.",
+          "closing_price": 16.52
         }
       ],
       "sector": "Consumer Cyclical",
@@ -19048,6 +19159,13 @@
           "segment": "opening_commentary",
           "note": "Part of 'Big Five Travel' thesis; benefits from affluent consumer travel spending.",
           "closing_price": 364.79
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Down 9% despite rarely being down for year; CEO Steve Cer doing dynamite job; Cramer recommends buying 50% position now, rest if it comes down; lower gas prices will help.",
+          "closing_price": 338.0
         }
       ],
       "sector": "Financial Services",
@@ -20525,6 +20643,13 @@
           "segment": "opening_commentary",
           "note": "Cheapest bank at 12x earnings post-Discover acquisition; rate cut cycle assured given Trump Fed replacement candidates; buying back stock.",
           "closing_price": 250.51
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "hold",
+          "segment": "opening_commentary",
+          "note": "Same charge-down as American Express; credit card sector experiencing similar compression; not a concern.",
+          "closing_price": 201.53
         }
       ],
       "sector": "Financial Services",
@@ -20649,6 +20774,13 @@
           "segment": "opening_commentary",
           "note": "Down 3%; parent of Olive Garden; restaurant discretionary spending cooling; consumer caution spreading to dining.",
           "closing_price": 190.63
+        },
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Fabulous restaurant chain (Olive Garden); almost always surprises upside; nearly as good as Marriott (MAR); lower gas prices positive determinant for 25+ years.",
+          "closing_price": 213.45
         }
       ],
       "sector": "Consumer Cyclical",
@@ -27063,6 +27195,121 @@
       ],
       "sector": "",
       "style": ""
+    },
+    "SPCX": {
+      "company": "SpaceX",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "neutral",
+          "segment": "opening_commentary",
+          "note": "Largest IPO in history recently completed; Cramer notes aftermath creates opportunity for sleepy interregnum in market.",
+          "closing_price": 185.0
+        }
+      ]
+    },
+    "KBH": {
+      "company": "KB Homes",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "hold",
+          "segment": "opening_commentary",
+          "note": "Well-run home builder reporting this week; housing dead in water due to high rates; only Toll Brothers (TOL) can handle situation with 25% cash-purchase model.",
+          "closing_price": 54.2
+        }
+      ]
+    },
+    "FDRT": {
+      "company": "FedEx Freight",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Recent LTL spinoff from FedEx; freight stocks on fire due to strong economy and e-commerce share gains; set to cut costs and gain market share; self-driving trucks coming."
+        }
+      ]
+    },
+    "CUNY": {
+      "company": "Unity Electronics Supply",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Pure-play materials leader for semiconductor packaging and advanced electronics; already doubled YTD; partnerships with Nvidia and global tech leaders; materials innovation hidden hero of AI era; 17% organic growth."
+        }
+      ]
+    },
+    "MSGS": {
+      "company": "Madison Square Garden Sports",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Owns Knicks and Rangers; trades at discount to sum-of-parts; Rangers spin-off catalyst could unlock value; enterprise value ~$10B vs. Knicks alone worth $10.1B; Rangers worth $3.8B; spin-off filing increases price target expectations.",
+          "closing_price": 370.1
+        }
+      ]
+    },
+    "TSCO": {
+      "company": "Tractor Supply Company",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Down 50%+ from high; COVID-era rural homestead boom over; people moving back to cities; Amazon competition on apparel real; no takeover catalyst; no reason to own.",
+          "closing_price": 30.24
+        }
+      ]
+    },
+    "IRBT": {
+      "company": "iRobot",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "hold",
+          "segment": "lightning_round",
+          "note": "Robotics/engineering plays in favor; stock fine but a little too speculative for Cramer; hammered today but engineering market likes this sector."
+        }
+      ]
+    },
+    "SOUN": {
+      "company": "SoundHound AI",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "AI-light meme stock; once memed, becomes meme forever; $4 stock masquerading as $7; Cramer won't own it.",
+          "closing_price": 7.12
+        }
+      ]
+    },
+    "MGHI": {
+      "company": "McGraw Hill",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "avoid",
+          "segment": "lightning_round",
+          "note": "Down 42%; Cramer sees further downside ahead; AI-exposed education/content companies are falling knives; don't try to catch them."
+        }
+      ]
+    },
+    "OPAI": {
+      "company": "OpenAI",
+      "mentions": [
+        {
+          "date": "2026-06-18",
+          "sentiment": "caution",
+          "segment": "opening_commentary",
+          "note": "Pre-IPO/private; good people and products but not good balance sheet; likely last in IPO queue; deal timing uncertain."
+        }
+      ]
     }
   }
 }
