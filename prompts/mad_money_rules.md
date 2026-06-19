@@ -34,6 +34,59 @@ relevant line. Convert `[MM:SS]` → integer seconds: `M * 60 + S`.
 
 ---
 
+## Segment Tease Detection — Do NOT Count These as Real Picks
+
+Every episode contains forward-referencing "tease" mentions at the END of segments that advertise
+the NEXT segment. These companies are NOT being discussed in the current segment — they are simply
+being promoted for a future segment. **Do not record tease mentions as stock picks.**
+
+### How to identify a tease mention
+
+Teases appear in three locations:
+
+**1. Opening monologue tease** (at the very end of the first segment, just before the first ad break):
+Cramer lists all upcoming segments for the night. Characteristic phrases:
+- `"On Mad Money tonight, [Company A]... Then, [Company B]... And then, [Company C]... Stay with Cramer."`
+- `"Starting with my conversation with [CEO]... Then [Company]... And [Company]... So stay with Kramer."`
+
+Any company mentioned in this block that Cramer has NOT already discussed substantively in the monologue
+is a tease — do not record it as a pick from the opening commentary.
+
+**2. Between-segment "Coming up" tease** (most machine-readable pattern):
+After one CEO interview ends and before the next segment begins, a narrator voice announces:
+- `"Coming up, [description of next segment]. Next."`
+- `"Coming up, [CEO name] is joining Cramer to make the case why [Company stock] should be a buy..."`
+- Examples from real episodes:
+  - `"Coming up, what will Yum Brands look like now that it has cut out Pizza Hut? Kramer's digging in with the CEO. Next"`
+  - `"Coming up, Cloudflare's CEO is joining Kramer to make the case why his company stock should be a buy... Next,"`
+  - `"Coming up, Kramer's checking in with Energy's CEO... Next,"`
+
+The company named in a "Coming up... Next." block belongs to the FOLLOWING segment, not the current one.
+Do not record it as a pick for the current segment.
+
+**3. Mid-episode "Much more Mad Money" tease**:
+After a segment ends but before the lightning round, Cramer summarizes upcoming content:
+- `"Much more Mad Money ahead. [topic]. Then, [topic]. And all your calls rapid-fire in the lightning round. So stay with Cramer."`
+- `"Much more man, including my deep dive into [Company]... Then, [topic]... So stay with Craig."`
+
+Companies mentioned in "Much more... stay with Cramer" blocks are upcoming — do not record them
+as picks in the current segment.
+
+**4. Standard Lightning Round / No Huddle teases** (these are never stock picks):
+- `"Coming up, he's the fastest mind on Wall Street, so we're putting him to the test with your help. Bring on the lightning round. Next."`
+- `"Coming up, as we wrap up another busy day, Kramer has some final thoughts. Don't miss his No Huddle next."`
+
+These phrases are structural transitions with no stock content.
+
+### Rule of thumb
+
+If a company appears ONLY in a "Coming up... Next." block or in the opening "On Mad Money tonight...
+Stay with Cramer" tease list — without any actual analysis, price commentary, or CEO interview in
+the current segment — it is a tease. Skip it. Only record a stock once Cramer actually discusses it
+with analysis, price commentary, or a CEO interview in that same segment.
+
+---
+
 ## Stock Mention Extraction
 
 For every company Cramer discusses, extract:
