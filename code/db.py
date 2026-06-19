@@ -41,13 +41,29 @@ def init_db():
             ticker TEXT PRIMARY KEY,
             company TEXT NOT NULL,
             sector TEXT,
+            industry TEXT,
             style TEXT,
+            pe_ratio REAL,
+            market_cap REAL,
+            market_cap_category TEXT,
             ipo_date TEXT,
             is_private INTEGER DEFAULT 0,
             created_at TEXT NOT NULL,
             updated_at TEXT NOT NULL
         )
     """)
+    # Add new columns to existing DBs (idempotent — ALTER TABLE IF NOT EXISTS column
+    # isn't supported in SQLite, so we catch the error if the column already exists)
+    for col, typedef in [
+        ("industry",           "TEXT"),
+        ("pe_ratio",           "REAL"),
+        ("market_cap",         "REAL"),
+        ("market_cap_category","TEXT"),
+    ]:
+        try:
+            c.execute(f"ALTER TABLE stocks ADD COLUMN {col} {typedef}")
+        except sqlite3.OperationalError:
+            pass  # column already exists
 
     c.execute("""
         CREATE TABLE IF NOT EXISTS mentions (
@@ -125,7 +141,11 @@ def _create_views(c):
                 m.note,
                 s.company,
                 s.sector,
-                s.style
+                s.industry,
+                s.style,
+                s.pe_ratio,
+                s.market_cap,
+                s.market_cap_category
             FROM mentions m
             JOIN stocks s ON s.ticker = m.ticker
             WHERE m.closing_price IS NOT NULL AND m.closing_price > 0
@@ -287,13 +307,18 @@ def migrate_from_json(stock_sentiments_path, processed_episodes_path, daily_pric
         is_private = 1 if entry.get("is_private") else 0
         c.execute("""
             INSERT OR REPLACE INTO stocks
-            (ticker, company, sector, style, ipo_date, is_private, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (ticker, company, sector, industry, style, pe_ratio,
+             market_cap, market_cap_category, ipo_date, is_private, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             ticker,
             entry.get("company", ""),
             entry.get("sector"),
+            entry.get("industry"),
             entry.get("style"),
+            entry.get("pe_ratio"),
+            entry.get("market_cap"),
+            entry.get("market_cap_category"),
             ipo_date,
             is_private,
             now, now,
@@ -410,23 +435,32 @@ def upsert_episode(date: str, video_id: str, transcript_text: str = None,
     return episode_id
 
 
-def upsert_stock(ticker: str, company: str, sector: str = None, style: str = None,
-                 ipo_date: str = None, is_private: bool = False) -> None:
+def upsert_stock(ticker: str, company: str, sector: str = None, industry: str = None,
+                 style: str = None, pe_ratio: float = None, market_cap: float = None,
+                 market_cap_category: str = None, ipo_date: str = None,
+                 is_private: bool = False) -> None:
     """Insert or update a stock row."""
     now = datetime.utcnow().isoformat()
     conn = get_connection()
     c = conn.cursor()
     c.execute("""
-        INSERT INTO stocks (ticker, company, sector, style, ipo_date, is_private, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO stocks (ticker, company, sector, industry, style, pe_ratio,
+                            market_cap, market_cap_category, ipo_date, is_private,
+                            created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(ticker) DO UPDATE SET
-            company    = excluded.company,
-            sector     = COALESCE(excluded.sector, sector),
-            style      = COALESCE(excluded.style, style),
-            ipo_date   = COALESCE(excluded.ipo_date, ipo_date),
-            is_private = excluded.is_private,
-            updated_at = excluded.updated_at
-    """, (ticker, company, sector, style, ipo_date, 1 if is_private else 0, now, now))
+            company              = excluded.company,
+            sector               = COALESCE(excluded.sector,               sector),
+            industry             = COALESCE(excluded.industry,             industry),
+            style                = COALESCE(excluded.style,                style),
+            pe_ratio             = COALESCE(excluded.pe_ratio,             pe_ratio),
+            market_cap           = COALESCE(excluded.market_cap,           market_cap),
+            market_cap_category  = COALESCE(excluded.market_cap_category,  market_cap_category),
+            ipo_date             = COALESCE(excluded.ipo_date,             ipo_date),
+            is_private           = excluded.is_private,
+            updated_at           = excluded.updated_at
+    """, (ticker, company, sector, industry, style, pe_ratio, market_cap,
+          market_cap_category, ipo_date, 1 if is_private else 0, now, now))
     conn.commit()
     conn.close()
 
