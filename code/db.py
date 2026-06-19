@@ -226,6 +226,85 @@ def migrate_from_json(stock_sentiments_path, processed_episodes_path, daily_pric
     print(f"\nMigration complete. Database: {DB_PATH}")
 
 
+# Write helpers — called by pipeline.py during normal processing
+
+def upsert_episode(date: str, video_id: str, transcript_text: str = None,
+                   summary_html: str = None, overcast_episode_id: str = None) -> int:
+    """Insert or update an episode row. Returns the episode id."""
+    now = datetime.utcnow().isoformat()
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO episodes (date, video_id, transcript_text, summary_html,
+                              overcast_episode_id, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(date) DO UPDATE SET
+            video_id           = excluded.video_id,
+            transcript_text    = COALESCE(excluded.transcript_text, transcript_text),
+            summary_html       = COALESCE(excluded.summary_html, summary_html),
+            overcast_episode_id= COALESCE(excluded.overcast_episode_id, overcast_episode_id),
+            updated_at         = excluded.updated_at
+    """, (date, video_id, transcript_text, summary_html, overcast_episode_id, now, now))
+    c.execute("SELECT id FROM episodes WHERE date = ?", (date,))
+    episode_id = c.fetchone()[0]
+    conn.commit()
+    conn.close()
+    return episode_id
+
+
+def upsert_stock(ticker: str, company: str, sector: str = None, style: str = None,
+                 ipo_date: str = None, is_private: bool = False) -> None:
+    """Insert or update a stock row."""
+    now = datetime.utcnow().isoformat()
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO stocks (ticker, company, sector, style, ipo_date, is_private, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(ticker) DO UPDATE SET
+            company    = excluded.company,
+            sector     = COALESCE(excluded.sector, sector),
+            style      = COALESCE(excluded.style, style),
+            ipo_date   = COALESCE(excluded.ipo_date, ipo_date),
+            is_private = excluded.is_private,
+            updated_at = excluded.updated_at
+    """, (ticker, company, sector, style, ipo_date, 1 if is_private else 0, now, now))
+    conn.commit()
+    conn.close()
+
+
+def upsert_mention(episode_id: int, ticker: str, sentiment: str, segment: str,
+                   closing_price: float = None, note: str = None, date: str = "") -> None:
+    """Insert or update a mention row."""
+    now = datetime.utcnow().isoformat()
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO mentions
+            (episode_id, ticker, sentiment, segment, closing_price, note, date, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(episode_id, ticker, segment) DO UPDATE SET
+            sentiment     = excluded.sentiment,
+            closing_price = COALESCE(excluded.closing_price, closing_price),
+            note          = COALESCE(excluded.note, note),
+            updated_at    = excluded.updated_at
+    """, (episode_id, ticker, sentiment, segment, closing_price, note, date, now, now))
+    conn.commit()
+    conn.close()
+
+
+def upsert_daily_prices(ticker: str, prices: list) -> None:
+    """Insert or replace daily price rows for a ticker. prices = [{date, close}, ...]"""
+    conn = get_connection()
+    c = conn.cursor()
+    c.executemany("""
+        INSERT OR REPLACE INTO daily_prices (ticker, date, close)
+        VALUES (?, ?, ?)
+    """, [(ticker, p["date"], p["close"]) for p in prices])
+    conn.commit()
+    conn.close()
+
+
 # Query helpers
 
 def get_stock(ticker: str):

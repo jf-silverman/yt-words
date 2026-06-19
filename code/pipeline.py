@@ -39,6 +39,14 @@ import anthropic
 import requests
 import yt_dlp
 
+from db import (
+    init_db,
+    upsert_episode,
+    upsert_mention,
+    upsert_stock,
+    upsert_daily_prices,
+)
+
 # ── Paths ──────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent
 
@@ -61,6 +69,9 @@ def _load_dotenv() -> None:
 
 _load_dotenv()
 import re
+
+# Ensure SQLite DB is initialized on first run
+init_db()
 import subprocess
 
 DATA_DIR = ROOT / "data"
@@ -408,6 +419,7 @@ def write_price_files(stocks: dict, only: set[str] | None = None) -> None:
             existing = _load_price_archive(ticker)
             merged = _merge_prices(existing, hist)
             _save_price_archive(ticker, merged)
+            upsert_daily_prices(ticker, merged)
             (TICKER_DATA_DIR / f"{ticker}_prices.json").write_text(
                 json.dumps(hist, separators=(",", ":"))
             )
@@ -416,7 +428,7 @@ def write_price_files(stocks: dict, only: set[str] | None = None) -> None:
         time.sleep(0.2)
 
 
-def update_stock_sentiments(analysis: dict) -> None:
+def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
     if SENTIMENTS_FILE.exists():
         db = json.loads(SENTIMENTS_FILE.read_text())
     else:
@@ -432,6 +444,14 @@ def update_stock_sentiments(analysis: dict) -> None:
         }
 
     stocks = db.setdefault("stocks", {})
+    episode_date = analysis["episode_date"]
+
+    # Ensure episode row exists in DB (video_id may be filled in later by main loop)
+    if video_id:
+        episode_id = upsert_episode(date=episode_date, video_id=video_id)
+    else:
+        episode_id = None
+
     for stock in analysis.get("stocks", []):
         ticker = stock.get("ticker", "").upper()
         if not ticker:
@@ -441,7 +461,7 @@ def update_stock_sentiments(analysis: dict) -> None:
             "mentions": [],
         })
         mention = {
-            "date": analysis["episode_date"],
+            "date": episode_date,
             "sentiment": stock.get("sentiment", "neutral"),
             "segment": stock.get("segment", ""),
             "note": stock.get("note", ""),
@@ -450,11 +470,29 @@ def update_stock_sentiments(analysis: dict) -> None:
             mention["price_target"] = stock["price_target"]
         if "price_level" in stock:
             mention["price_level"] = stock["price_level"]
-        if not _is_private(ticker, analysis["episode_date"]):
-            price = fetch_closing_price(ticker, analysis["episode_date"])
+        if not _is_private(ticker, episode_date):
+            price = fetch_closing_price(ticker, episode_date)
             if price is not None:
                 mention["closing_price"] = price
         entry["mentions"].append(mention)
+
+        # Write to SQLite
+        upsert_stock(
+            ticker=ticker,
+            company=stock.get("company", entry.get("company", "")),
+            sector=entry.get("sector"),
+            style=entry.get("style"),
+        )
+        if episode_id:
+            upsert_mention(
+                episode_id=episode_id,
+                ticker=ticker,
+                sentiment=mention["sentiment"],
+                segment=mention["segment"],
+                closing_price=mention.get("closing_price"),
+                note=mention.get("note", ""),
+                date=episode_date,
+            )
 
     SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
 
@@ -1241,13 +1279,21 @@ def main() -> None:
         print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
 
         print("  Updating stock_sentiments.json...")
-        update_stock_sentiments(analysis)
+        update_stock_sentiments(analysis, video_id=video_id)
 
         print("  Looking up podcast episode in RSS feed...")
         audio_url = find_podcast_episode(date_str)
 
         print("  Looking up Overcast episode ID...")
         overcast_episode_id = fetch_overcast_episode_id(date_str)
+
+        # Update episode row with transcript and overcast ID now that we have them
+        upsert_episode(
+            date=date_str,
+            video_id=video_id,
+            transcript_text=transcript_text,
+            overcast_episode_id=overcast_episode_id,
+        )
 
         if overcast_episode_id:
             link_mode = "Overcast universal links (https://overcast.fm/+ID/MM:SS)"
