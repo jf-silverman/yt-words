@@ -45,6 +45,7 @@ from db import (
     upsert_mention,
     upsert_stock,
     upsert_daily_prices,
+    build_analytics_json,
 )
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
@@ -516,6 +517,7 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
         index[t] = {"name": e.get("company", ""), "count": len(mentions), "dates": dates_with_price}
     (TICKER_DATA_DIR / "index.json").write_text(json.dumps(index, separators=(",", ":")))
     _write_recent_json(stocks)
+    build_analytics_json(str(TICKER_DATA_DIR / "analytics.json"))
 
 
 def _write_recent_json(stocks: dict) -> None:

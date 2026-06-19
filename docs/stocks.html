@@ -125,6 +125,57 @@
     /* Empty / loading */
     .empty { text-align: center; padding: 48px 16px; color: #57606a; }
     .empty .big { font-size: 40px; margin-bottom: 12px; }
+
+    /* Analytics tab */
+    .analytics-grid {
+      display: grid; gap: 20px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 700px) { .analytics-grid { grid-template-columns: 1fr; } }
+    .analytics-card {
+      background: #fff; border: 1px solid #d0d7de;
+      border-radius: 10px; overflow: hidden;
+    }
+    .analytics-card-header {
+      padding: 12px 16px; background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      font-weight: 700; font-size: 14px;
+    }
+    .analytics-card-sub {
+      font-size: 11px; color: #57606a; font-weight: 400; margin-top: 2px;
+    }
+    .analytics-card-body { padding: 14px 16px; }
+    .analytics-full { grid-column: 1 / -1; }
+    .a-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .a-table th {
+      text-align: left; padding: 6px 10px; background: #f6f8fa;
+      border-bottom: 2px solid #d0d7de; white-space: nowrap;
+      font-size: 11px; color: #57606a; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .a-table td { padding: 7px 10px; border-bottom: 1px solid #eaeef2; }
+    .a-table tr:last-child td { border-bottom: none; }
+    .a-table tr:hover td { background: #f6f8fa; }
+    .ret-pos { color: #1a7f37; font-weight: 700; }
+    .ret-neg { color: #d03030; font-weight: 700; }
+    .ret-neu { color: #57606a; }
+    .ret-null { color: #bbb; }
+    .cap-badge {
+      display: inline-block; padding: 1px 6px; border-radius: 3px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      background: #eaeef2; color: #57606a;
+    }
+    .cap-mega  { background: #ddf4ff; color: #0550ae; }
+    .cap-large { background: #dafbe1; color: #1a7f37; }
+    .cap-mid   { background: #fff8c5; color: #9a6700; }
+    .cap-small { background: #ffebe9; color: #d03030; }
+    .cap-micro,.cap-nano { background: #f6f8fa; color: #57606a; }
+    .analytics-note { font-size: 11px; color: #57606a; margin-top: 10px; }
+    .chart-bar-wrap { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+    .chart-bar-label { font-size: 12px; width: 140px; flex-shrink: 0; text-align: right; }
+    .chart-bar-track { flex: 1; height: 16px; background: #eaeef2; border-radius: 3px; overflow: hidden; position: relative; }
+    .chart-bar-fill  { height: 100%; border-radius: 3px; transition: width .3s; }
+    .chart-bar-val   { font-size: 11px; color: #57606a; width: 50px; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -136,8 +187,9 @@
   </p>
 
   <div class="tab-bar">
-    <button class="tab-btn tab-active" id="tab-search" onclick="showTab('search')">🔍 Search</button>
-    <button class="tab-btn" id="tab-recent" onclick="showTab('recent')">📋 Recent Picks</button>
+    <button class="tab-btn tab-active" id="tab-search" onclick="showTab('search')">Search</button>
+    <button class="tab-btn" id="tab-recent" onclick="showTab('recent')">Recent Picks</button>
+    <button class="tab-btn" id="tab-analytics" onclick="showTab('analytics')">Analytics</button>
   </div>
 
   <!-- ── Search panel ── -->
@@ -198,12 +250,19 @@
     <div class="status" id="recent-status"></div>
     <div id="recent-table"></div>
   </div>
+
+  <!-- ── Analytics panel ── -->
+  <div id="analytics-panel" style="display:none">
+    <div class="status" id="analytics-status"></div>
+    <div id="analytics-body"></div>
+  </div>
 </div>
 
 <script>
-const INDEX_URL   = './data/index.json';
-const TICKER_BASE = './data/';
-const RECENT_URL  = './data/recent.json';
+const INDEX_URL      = './data/index.json';
+const TICKER_BASE    = './data/';
+const RECENT_URL     = './data/recent.json';
+const ANALYTICS_URL  = './data/analytics.json';
 
 // Companies that are private or recently IPO'd — ipoDate null = still private
 const PRIVATE_COMPANIES = {
@@ -758,12 +817,285 @@ function jumpToTicker(ticker) {
 // ── Tab switching ─────────────────────────────────────────────────────────────
 
 function showTab(tab) {
-  const isSearch = tab === 'search';
-  document.getElementById('search-panel').style.display = isSearch ? '' : 'none';
-  document.getElementById('recent-panel').style.display  = isSearch ? 'none' : '';
-  document.getElementById('tab-search').classList.toggle('tab-active', isSearch);
-  document.getElementById('tab-recent').classList.toggle('tab-active', !isSearch);
-  if (!isSearch) loadRecent();
+  ['search','recent','analytics'].forEach(t => {
+    document.getElementById(`${t}-panel`).style.display = t === tab ? '' : 'none';
+    document.getElementById(`tab-${t}`).classList.toggle('tab-active', t === tab);
+  });
+  if (tab === 'recent')    loadRecent();
+  if (tab === 'analytics') loadAnalytics();
+}
+
+// ── Analytics ─────────────────────────────────────────────────────────────────
+
+let analyticsData = null;
+
+function retClass(v) {
+  if (v == null) return 'ret-null';
+  return v > 0 ? 'ret-pos' : v < 0 ? 'ret-neg' : 'ret-neu';
+}
+function retFmt(v, suffix='%') {
+  if (v == null) return '<span class="ret-null">—</span>';
+  const cls = retClass(v);
+  return `<span class="${cls}">${v > 0 ? '+' : ''}${v.toFixed(1)}${suffix}</span>`;
+}
+function capBadge(cat) {
+  if (!cat) return '';
+  return `<span class="cap-badge cap-${cat}">${cat}</span>`;
+}
+function sentBadge(s) {
+  if (!s) return '';
+  const color = SENTIMENT_COLORS[s] || '#888';
+  return `<span class="badge" style="background:${color}">${s.replace(/_/g,' ')}</span>`;
+}
+
+function barChart(rows, labelKey, valKey, maxAbs) {
+  return rows.map(r => {
+    const v = r[valKey];
+    const label = r[labelKey];
+    if (v == null) {
+      return `<div class="chart-bar-wrap">
+        <div class="chart-bar-label">${label}</div>
+        <div class="chart-bar-track"></div>
+        <div class="chart-bar-val ret-null">—</div>
+      </div>`;
+    }
+    const pct = Math.min(Math.abs(v) / maxAbs * 100, 100);
+    const color = v >= 0 ? '#2da44e' : '#d03030';
+    return `<div class="chart-bar-wrap">
+      <div class="chart-bar-label">${label}</div>
+      <div class="chart-bar-track">
+        <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
+      </div>
+      <div class="chart-bar-val ${retClass(v)}">${v > 0 ? '+' : ''}${v.toFixed(1)}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAnalytics(d) {
+  const gen = new Date(d.generated_at).toLocaleDateString('en-US',
+    {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'});
+
+  // ── Sentiment scorecard ────────────────────────────────────────────────────
+  const sentRows = d.sentiment_perf.map(r => `
+    <tr>
+      <td>${sentBadge(r.sentiment)}</td>
+      <td style="text-align:right">${r.n_mentions}</td>
+      <td style="text-align:right">${retFmt(r.avg_return_7d)}<br>
+        <span class="ret-null" style="font-size:10px">n=${r.n_with_7d}</span></td>
+      <td style="text-align:right">${retFmt(r.avg_return_30d)}<br>
+        <span class="ret-null" style="font-size:10px">n=${r.n_with_30d}</span></td>
+      <td style="text-align:right">${retFmt(r.avg_return_90d)}<br>
+        <span class="ret-null" style="font-size:10px">n=${r.n_with_90d}</span></td>
+      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
+      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
+    </tr>`).join('');
+
+  // ── Segment bar chart ──────────────────────────────────────────────────────
+  const segMax = Math.max(...d.segment_perf.map(r => Math.abs(r.avg_return_30d || 0)), 1);
+  const segBars = barChart(d.segment_perf, 'segment', 'avg_return_30d', segMax);
+
+  // ── Market cap bar chart ───────────────────────────────────────────────────
+  const capMax = Math.max(...d.mktcap_perf.map(r => Math.abs(r.avg_return_30d || 0)), 1);
+  const capRows = d.mktcap_perf.map(r => `
+    <tr>
+      <td>${capBadge(r.market_cap_category)}</td>
+      <td style="text-align:right">${r.n_mentions}</td>
+      <td style="text-align:right">${retFmt(r.avg_return_30d)}</td>
+      <td style="text-align:right">${retFmt(r.avg_return_90d)}</td>
+      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
+      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
+    </tr>`).join('');
+
+  // ── Sector table ───────────────────────────────────────────────────────────
+  const sectorRows = d.sector_perf.map(r => `
+    <tr>
+      <td>${r.sector}</td>
+      <td style="text-align:right">${r.n_mentions}</td>
+      <td style="text-align:right">${r.n_tickers}</td>
+      <td style="text-align:right">${retFmt(r.avg_return_30d)}</td>
+      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
+      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
+    </tr>`).join('');
+
+  // ── Latest calls leaderboard ───────────────────────────────────────────────
+  const latestRows = d.latest_calls.map(r => `
+    <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
+      <td><a class="ticker-link">${r.ticker}</a></td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.company}</td>
+      <td class="date-cell">${r.mention_date}</td>
+      <td>${sentBadge(r.sentiment)}</td>
+      <td style="font-size:11px;color:#57606a">${r.segment || ''}</td>
+      <td>${capBadge(r.market_cap_category)}</td>
+      <td style="text-align:right;font-family:monospace">${r.price_at_mention != null ? '$'+r.price_at_mention.toFixed(2) : '—'}</td>
+      <td style="text-align:right;font-family:monospace">${r.price_latest != null ? '$'+r.price_latest.toFixed(2) : '—'}</td>
+      <td style="text-align:right">${retFmt(r.return_since_mention)}</td>
+      <td style="text-align:right;color:#57606a;font-size:12px">${r.days_since_mention}d</td>
+    </tr>`).join('');
+
+  // ── Winners / Losers ───────────────────────────────────────────────────────
+  function wlRows(rows) {
+    return rows.map(r => `
+      <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
+        <td><a class="ticker-link">${r.ticker}</a></td>
+        <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.company}</td>
+        <td class="date-cell">${r.mention_date}</td>
+        <td>${sentBadge(r.sentiment)}</td>
+        <td style="text-align:right">${retFmt(r.return_since_mention)}</td>
+      </tr>`).join('');
+  }
+
+  document.getElementById('analytics-body').innerHTML = `
+    <p style="font-size:12px;color:#57606a;margin-bottom:16px">
+      Pre-computed from SQLite · Updated ${gen}
+      · Returns are NULL until price data reaches that window
+    </p>
+
+    <!-- Sentiment scorecard (full width) -->
+    <div class="analytics-card analytics-full" style="margin-bottom:20px">
+      <div class="analytics-card-header">
+        Sentiment Scorecard
+        <div class="analytics-card-sub">Avg % return after each mention, by Cramer's conviction level</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="a-table">
+          <thead><tr>
+            <th>Sentiment</th><th style="text-align:right">Mentions</th>
+            <th style="text-align:right">Avg 7d</th>
+            <th style="text-align:right">Avg 30d</th>
+            <th style="text-align:right">Avg 90d</th>
+            <th style="text-align:right">Win% 30d</th>
+            <th style="text-align:right">Since Mention</th>
+          </tr></thead>
+          <tbody>${sentRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="analytics-grid" style="margin-bottom:20px">
+
+      <!-- Segment bar chart -->
+      <div class="analytics-card">
+        <div class="analytics-card-header">
+          By Segment
+          <div class="analytics-card-sub">Avg 30d return — are prepared segments better than Lightning Round?</div>
+        </div>
+        <div class="analytics-card-body">${segBars}</div>
+      </div>
+
+      <!-- Market cap table -->
+      <div class="analytics-card">
+        <div class="analytics-card-header">
+          By Market Cap
+          <div class="analytics-card-sub">Do his mega-cap or small-cap calls perform better?</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="a-table">
+            <thead><tr>
+              <th>Cap</th><th style="text-align:right">n</th>
+              <th style="text-align:right">Avg 30d</th>
+              <th style="text-align:right">Avg 90d</th>
+              <th style="text-align:right">Win% 30d</th>
+              <th style="text-align:right">Since Mention</th>
+            </tr></thead>
+            <tbody>${capRows}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sector table -->
+      <div class="analytics-card analytics-full">
+        <div class="analytics-card-header">
+          By Sector
+          <div class="analytics-card-sub">Which sectors does Cramer call correctly most often?</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="a-table">
+            <thead><tr>
+              <th>Sector</th><th style="text-align:right">Mentions</th>
+              <th style="text-align:right">Tickers</th>
+              <th style="text-align:right">Avg 30d</th>
+              <th style="text-align:right">Win% 30d</th>
+              <th style="text-align:right">Since Mention</th>
+            </tr></thead>
+            <tbody>${sectorRows}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Winners -->
+      <div class="analytics-card">
+        <div class="analytics-card-header">Top Winners <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
+        <div style="overflow-x:auto">
+          <table class="a-table">
+            <thead><tr>
+              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
+            </tr></thead>
+            <tbody>${wlRows(d.top_winners)}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Losers -->
+      <div class="analytics-card">
+        <div class="analytics-card-header">Top Losers <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
+        <div style="overflow-x:auto">
+          <table class="a-table">
+            <thead><tr>
+              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
+            </tr></thead>
+            <tbody>${wlRows(d.top_losers)}</tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Latest calls (full width) -->
+    <div class="analytics-card analytics-full">
+      <div class="analytics-card-header">
+        Latest Calls — Live Performance
+        <div class="analytics-card-sub">Most recent mention per ticker, with return since that date · Click a row to open the stock card</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="a-table">
+          <thead><tr>
+            <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
+            <th>Segment</th><th>Cap</th>
+            <th style="text-align:right">At Mention</th>
+            <th style="text-align:right">Now</th>
+            <th style="text-align:right">Return</th>
+            <th style="text-align:right">Age</th>
+          </tr></thead>
+          <tbody>${latestRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="analytics-note">
+      * 30d/90d returns use nearest trading day in a ±50% window of the target (e.g. 30d looks in days 30–45).
+      Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
+    </p>
+  `;
+}
+
+function showSearchForTicker(ticker) {
+  showTab('search');
+  document.getElementById('search').value = ticker;
+  document.getElementById('nameMode').checked = false;
+  search();
+}
+
+async function loadAnalytics() {
+  if (analyticsData) { renderAnalytics(analyticsData); return; }
+  document.getElementById('analytics-status').textContent = 'Loading…';
+  try {
+    const resp = await fetch(ANALYTICS_URL);
+    analyticsData = await resp.json();
+    document.getElementById('analytics-status').textContent = '';
+    renderAnalytics(analyticsData);
+  } catch {
+    document.getElementById('analytics-status').textContent = 'Failed to load analytics. Try refreshing.';
+  }
 }
 
 loadIndex();

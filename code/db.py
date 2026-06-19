@@ -564,6 +564,137 @@ def get_daily_prices(ticker: str, days: int = None):
     return [dict(row) for row in rows]
 
 
+def build_analytics_json(out_path: str) -> None:
+    """Query the DB and write docs/data/analytics.json for the Analytics tab."""
+    conn = get_connection()
+    c = conn.cursor()
+
+    # ── Sentiment performance ─────────────────────────────────────────────────
+    c.execute("""
+        SELECT sentiment,
+               n_mentions, n_with_7d, n_with_30d, n_with_90d, n_with_180d,
+               avg_return_7d, avg_return_30d, avg_return_90d, avg_return_180d,
+               avg_return_since_mention, win_rate_30d, win_rate_90d, win_rate_180d
+        FROM sentiment_performance
+        WHERE n_mentions >= 10
+        ORDER BY avg_return_30d DESC
+    """)
+    sentiment_perf = [dict(r) for r in c.fetchall()]
+
+    # ── Segment performance ───────────────────────────────────────────────────
+    c.execute("""
+        SELECT segment,
+               COUNT(*)                                          AS n_mentions,
+               COUNT(return_30d)                                 AS n_with_30d,
+               COUNT(return_90d)                                 AS n_with_90d,
+               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
+               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
+               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
+               ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d,
+               ROUND(100.0 * SUM(CASE WHEN return_90d  > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_90d), 0), 1)    AS win_rate_90d
+        FROM forward_returns
+        WHERE segment IS NOT NULL AND segment != ''
+        GROUP BY segment
+        HAVING n_mentions >= 5
+        ORDER BY avg_return_30d DESC
+    """)
+    segment_perf = [dict(r) for r in c.fetchall()]
+
+    # ── Market cap performance ────────────────────────────────────────────────
+    cap_order = {'mega': 1, 'large': 2, 'mid': 3, 'small': 4, 'micro': 5, 'nano': 6}
+    c.execute("""
+        SELECT market_cap_category,
+               COUNT(*)                                          AS n_mentions,
+               COUNT(return_30d)                                 AS n_with_30d,
+               COUNT(return_90d)                                 AS n_with_90d,
+               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
+               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
+               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
+               ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d
+        FROM forward_returns
+        WHERE market_cap_category IS NOT NULL AND market_cap_category != ''
+        GROUP BY market_cap_category
+        HAVING n_mentions >= 5
+        ORDER BY avg_return_30d DESC
+    """)
+    mktcap_perf = sorted([dict(r) for r in c.fetchall()],
+                         key=lambda r: cap_order.get(r['market_cap_category'], 99))
+
+    # ── Sector performance ────────────────────────────────────────────────────
+    c.execute("""
+        SELECT sector,
+               COUNT(*)                                          AS n_mentions,
+               COUNT(DISTINCT ticker)                            AS n_tickers,
+               COUNT(return_30d)                                 AS n_with_30d,
+               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
+               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
+               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
+               ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d
+        FROM forward_returns
+        WHERE sector IS NOT NULL AND sector != ''
+        GROUP BY sector
+        HAVING n_mentions >= 5
+        ORDER BY n_mentions DESC
+    """)
+    sector_perf = [dict(r) for r in c.fetchall()]
+
+    # ── Latest calls leaderboard ──────────────────────────────────────────────
+    c.execute("""
+        SELECT ticker, company, mention_date, sentiment, segment,
+               sector, market_cap_category, style,
+               price_at_mention, price_latest, price_latest_date,
+               return_7d, return_30d, return_since_mention, days_since_mention
+        FROM latest_mention_performance
+        WHERE return_since_mention IS NOT NULL
+        ORDER BY mention_date DESC, ticker
+        LIMIT 100
+    """)
+    latest_calls = [dict(r) for r in c.fetchall()]
+
+    # ── Top winners / losers (all time, by return_since_mention) ─────────────
+    c.execute("""
+        SELECT ticker, company, mention_date, sentiment,
+               price_at_mention, price_latest, return_since_mention, days_since_mention,
+               sector, market_cap_category
+        FROM latest_mention_performance
+        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+        ORDER BY return_since_mention DESC
+        LIMIT 10
+    """)
+    top_winners = [dict(r) for r in c.fetchall()]
+
+    c.execute("""
+        SELECT ticker, company, mention_date, sentiment,
+               price_at_mention, price_latest, return_since_mention, days_since_mention,
+               sector, market_cap_category
+        FROM latest_mention_performance
+        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+        ORDER BY return_since_mention ASC
+        LIMIT 10
+    """)
+    top_losers = [dict(r) for r in c.fetchall()]
+
+    conn.close()
+
+    payload = {
+        "generated_at":      datetime.utcnow().isoformat(),
+        "sentiment_perf":    sentiment_perf,
+        "segment_perf":      segment_perf,
+        "mktcap_perf":       mktcap_perf,
+        "sector_perf":       sector_perf,
+        "latest_calls":      latest_calls,
+        "top_winners":       top_winners,
+        "top_losers":        top_losers,
+    }
+
+    Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))
+    print(f"  analytics.json written → {out_path}")
+
+
 def list_tickers(min_mentions: int = 1):
     """List all tickers with mention count."""
     conn = get_connection()
