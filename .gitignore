@@ -6,3 +6,4 @@ __pycache__/
 data/transcripts/*_email_preview.html
 _archive/
 CLAUDE.md
+secrets/
