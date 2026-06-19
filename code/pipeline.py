@@ -536,16 +536,36 @@ def _write_recent_json(stocks: dict) -> None:
     (TICKER_DATA_DIR / "recent.json").write_text(json.dumps(out, separators=(",", ":")))
 
 
+def _market_cap_category(market_cap: float | None) -> str:
+    """Classify market cap into standard size categories."""
+    if market_cap is None:
+        return ""
+    if market_cap >= 200_000_000_000:
+        return "mega"
+    if market_cap >= 10_000_000_000:
+        return "large"
+    if market_cap >= 2_000_000_000:
+        return "mid"
+    if market_cap >= 300_000_000:
+        return "small"
+    if market_cap >= 50_000_000:
+        return "micro"
+    return "nano"
+
+
 def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
-    """Fetch sector + style for each ticker via yfinance (parallel). Returns {ticker: {sector, style}}."""
+    """Fetch sector, industry, style, pe_ratio, market_cap for each ticker via yfinance (parallel)."""
     import yfinance as yf
     from concurrent.futures import ThreadPoolExecutor, as_completed
 
     def _one(ticker):
         try:
             info = yf.Ticker(ticker).info
-            sector = info.get("sector") or ""
-            pe = info.get("trailingPE")
+            sector   = info.get("sector")   or ""
+            industry = info.get("industry") or ""
+            pe       = info.get("trailingPE")
+            mktcap   = info.get("marketCap")
+
             if pe is None or pe <= 0:
                 style = ""
             elif pe > 30:
@@ -554,9 +574,20 @@ def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
                 style = "value"
             else:
                 style = "blend"
-            return ticker, {"sector": sector, "style": style}
+
+            return ticker, {
+                "sector":               sector,
+                "industry":             industry,
+                "style":                style,
+                "pe_ratio":             round(pe, 2) if pe else None,
+                "market_cap":           mktcap,
+                "market_cap_category":  _market_cap_category(mktcap),
+            }
         except Exception:
-            return ticker, {"sector": "", "style": ""}
+            return ticker, {
+                "sector": "", "industry": "", "style": "",
+                "pe_ratio": None, "market_cap": None, "market_cap_category": "",
+            }
 
     result = {}
     with ThreadPoolExecutor(max_workers=8) as ex:
@@ -570,22 +601,38 @@ def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
 
 
 def fetch_all_sectors() -> None:
-    """Batch-fetch sector/style for all tickers and rebuild shards."""
+    """Batch-fetch sector/industry/style/pe_ratio/market_cap for all tickers and rebuild shards."""
     if not SENTIMENTS_FILE.exists():
         print("stock_sentiments.json not found.")
         return
     db = json.loads(SENTIMENTS_FILE.read_text())
     stocks = db.get("stocks", {})
     tickers = list(stocks.keys())
-    print(f"Fetching metadata for {len(tickers)} tickers in batches of 50…")
+    print(f"Fetching metadata for {len(tickers)} tickers…")
     metadata = _fetch_ticker_metadata(tickers)
     updated = 0
     for ticker, meta in metadata.items():
-        if ticker in stocks:
-            stocks[ticker]["sector"] = meta["sector"]
-            stocks[ticker]["style"]  = meta["style"]
-            if meta["sector"]:
-                updated += 1
+        if ticker not in stocks:
+            continue
+        stocks[ticker]["sector"]              = meta["sector"]
+        stocks[ticker]["industry"]            = meta["industry"]
+        stocks[ticker]["style"]               = meta["style"]
+        stocks[ticker]["pe_ratio"]            = meta["pe_ratio"]
+        stocks[ticker]["market_cap"]          = meta["market_cap"]
+        stocks[ticker]["market_cap_category"] = meta["market_cap_category"]
+        if meta["sector"]:
+            updated += 1
+        # Sync to SQLite
+        upsert_stock(
+            ticker=ticker,
+            company=stocks[ticker].get("company", ""),
+            sector=meta["sector"] or None,
+            industry=meta["industry"] or None,
+            style=meta["style"] or None,
+            pe_ratio=meta["pe_ratio"],
+            market_cap=meta["market_cap"],
+            market_cap_category=meta["market_cap_category"] or None,
+        )
     db["stocks"] = stocks
     SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
     _write_ticker_shards(stocks)
