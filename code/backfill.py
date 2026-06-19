@@ -3,16 +3,25 @@ from __future__ import annotations
 """
 Backfill Mad Money episodes for a date range into stock_sentiments.json.
 
-Scans the CNBC YouTube channel, finds episodes within the requested range,
-skips any already in processed_episodes.json, and analyzes the rest with
-Claude Haiku. No email is sent; run git push afterwards to update the website.
+Normal mode: scans the CNBC YouTube channel, finds episodes within the
+requested range, skips any already in processed_episodes.json, and analyzes
+the rest with Claude Haiku. No email is sent.
+
+Reanalyze mode (--reanalyze): re-runs Claude Haiku on already-downloaded
+transcripts using the current prompt. Does NOT re-download from YouTube.
+Clears existing mentions for each date before writing fresh ones, so there
+are no duplicates. Also regenerates data/summaries/{date}_summary.html.
 
 Usage:
     python code/backfill.py --start 2026-05-01 --end 2026-05-31
     python code/backfill.py --start 2026-04-01 --end 2026-04-30 --max-scan 5000
+    python code/backfill.py --reanalyze                          # all dates with transcripts
+    python code/backfill.py --reanalyze --start 2026-06-01      # on or after date
+    python code/backfill.py --reanalyze --end 2026-05-31        # on or before date
 """
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -22,12 +31,20 @@ sys.path.insert(0, str(Path(__file__).parent))
 import yt_dlp
 from pipeline import (
     CNBC_CHANNEL_ID,
+    DATA_DIR,
+    OUTPUT_DIR,
+    SENTIMENTS_FILE,
+    SUMMARIES_DIR,
     analyze_with_haiku,
+    build_email_html,
+    fetch_overcast_episode_id,
     fetch_transcript,
+    generate_redirect_pages,
     load_processed,
     save_processed,
     update_stock_sentiments,
 )
+from db import get_connection
 
 
 def _date_from_title(title: str) -> str:
@@ -67,15 +84,134 @@ def discover_episodes_in_range(start: str, end: str, max_scan: int) -> list[dict
     return episodes
 
 
+def _clear_mentions_for_date(date_str: str) -> None:
+    """Remove all mentions for a given episode date from stock_sentiments.json and SQLite."""
+    # JSON: remove mentions with this date from every ticker
+    if SENTIMENTS_FILE.exists():
+        db = json.loads(SENTIMENTS_FILE.read_text())
+        stocks = db.get("stocks", {})
+        for entry in stocks.values():
+            entry["mentions"] = [
+                m for m in entry.get("mentions", [])
+                if m.get("date") != date_str
+            ]
+        SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
+
+    # SQLite: delete mentions for this episode date
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        DELETE FROM mentions
+        WHERE episode_id IN (SELECT id FROM episodes WHERE date = ?)
+    """, (date_str,))
+    conn.commit()
+    conn.close()
+
+
+def reanalyze_from_transcripts(start: str | None, end: str | None) -> None:
+    """Re-run Haiku analysis on existing local transcripts. No YouTube calls."""
+    transcript_files = sorted(OUTPUT_DIR.glob("*_transcript.txt"))
+    if not transcript_files:
+        print(f"No transcript files found in {OUTPUT_DIR}")
+        return
+
+    # Build date → video_id map from processed_episodes.json
+    processed = load_processed()
+    date_to_vid = {ep["date"]: ep["video_id"] for ep in processed}
+
+    # Load overcast cache for summary links
+    overcast_cache_file = DATA_DIR / "overcast_episode_ids.json"
+    overcast_cache = {}
+    if overcast_cache_file.exists():
+        overcast_cache = json.loads(overcast_cache_file.read_text())
+
+    # Filter to requested date range
+    episodes = []
+    for f in transcript_files:
+        date_str = f.name.replace("_transcript.txt", "")
+        if start and date_str < start:
+            continue
+        if end and date_str > end:
+            continue
+        video_id = date_to_vid.get(date_str, "")
+        episodes.append({"date": date_str, "path": f, "video_id": video_id})
+
+    episodes.sort(key=lambda e: e["date"])
+    print(f"Found {len(episodes)} transcript(s) to reanalyze.")
+
+    SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
+    done = errors = 0
+
+    for ep in episodes:
+        date_str = ep["date"]
+        transcript_path = ep["path"]
+        video_id = ep["video_id"]
+
+        print(f"\n── {date_str} ──")
+        try:
+            transcript_text = transcript_path.read_text(encoding="utf-8")
+            if not transcript_text.strip():
+                print(f"  SKIP: transcript is empty")
+                continue
+
+            print(f"  Analyzing with Claude Haiku… ({len(transcript_text):,} chars)")
+            analysis = analyze_with_haiku(date_str, transcript_text)
+            n_sec = len(analysis.get("sections", []))
+            n_stk = len(analysis.get("stocks", []))
+            print(f"  Sections: {n_sec}  Stocks: {n_stk}")
+
+            # Clear old mentions before writing fresh ones
+            print(f"  Clearing old mentions for {date_str}…")
+            _clear_mentions_for_date(date_str)
+
+            # Write fresh mentions to JSON + SQLite
+            update_stock_sentiments(analysis, video_id=video_id)
+
+            # Regenerate summary HTML
+            overcast_episode_id = overcast_cache.get(date_str)
+            summary_dict = {
+                "date_str":          date_str,
+                "analysis":          analysis,
+                "audio_url":         None,
+                "video_id":          video_id,
+                "redirect_pages":    {},
+                "overcast_episode_id": overcast_episode_id,
+            }
+            ep_html = build_email_html([summary_dict])
+            arc = SUMMARIES_DIR / f"{date_str}_summary.html"
+            arc.write_text(ep_html)
+            print(f"  Summary regenerated → {arc.name}")
+
+            done += 1
+        except Exception as e:
+            import traceback
+            print(f"  ERROR: {e}")
+            traceback.print_exc()
+            errors += 1
+
+    print(f"\nDone. Reanalyzed: {done}  Errors: {errors}")
+    print("Run 'python code/pipeline.py --rebuild-shards' then commit + push to publish.")
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--start", required=True, metavar="YYYY-MM-DD",
-                        help="Start date inclusive")
-    parser.add_argument("--end", required=True, metavar="YYYY-MM-DD",
-                        help="End date inclusive")
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--start", metavar="YYYY-MM-DD",
+                        help="Start date inclusive (required for normal mode)")
+    parser.add_argument("--end", metavar="YYYY-MM-DD",
+                        help="End date inclusive (required for normal mode)")
+    parser.add_argument("--reanalyze", action="store_true",
+                        help="Re-run Haiku on existing local transcripts; no YouTube download")
     parser.add_argument("--max-scan", type=int, default=3000, metavar="N",
-                        help="Max channel entries to scan (default: 3000; increase for older dates)")
+                        help="Max channel entries to scan in normal mode (default: 3000)")
     args = parser.parse_args()
+
+    if args.reanalyze:
+        reanalyze_from_transcripts(args.start, args.end)
+        return
+
+    if not args.start or not args.end:
+        parser.error("--start and --end are required in normal (non-reanalyze) mode")
 
     episodes = discover_episodes_in_range(args.start, args.end, args.max_scan)
     print(f"Found {len(episodes)} Mad Money episode(s) in range.")
