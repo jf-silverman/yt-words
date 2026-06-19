@@ -440,8 +440,11 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     for ticker in targets:
         if ticker in stocks:
             (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(stocks[ticker]))
-    index = {t: {"name": e.get("company", ""), "count": len(e.get("mentions", []))}
-             for t, e in stocks.items()}
+    index = {}
+    for t, e in stocks.items():
+        mentions = e.get("mentions", [])
+        dates_with_price = len({m.get("date") for m in mentions if m.get("closing_price") is not None})
+        index[t] = {"name": e.get("company", ""), "count": len(mentions), "dates": dates_with_price}
     (TICKER_DATA_DIR / "index.json").write_text(json.dumps(index, separators=(",", ":")))
     _write_recent_json(stocks)
 
