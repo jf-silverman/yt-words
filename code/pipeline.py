@@ -354,11 +354,39 @@ def fetch_price_history(ticker: str, days: int = 180) -> list[dict]:
         return []
 
 
+def _load_price_archive(ticker: str) -> list[dict]:
+    """Load accumulated daily prices from data/daily_prices/{TICKER}.json."""
+    archive_dir = DATA_DIR / "daily_prices"
+    path = archive_dir / f"{ticker}.json"
+    if not path.exists():
+        return []
+    try:
+        return json.loads(path.read_text())
+    except Exception:
+        return []
+
+
+def _save_price_archive(ticker: str, prices: list[dict]) -> None:
+    """Save accumulated daily prices to data/daily_prices/{TICKER}.json."""
+    archive_dir = DATA_DIR / "daily_prices"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    path = archive_dir / f"{ticker}.json"
+    path.write_text(json.dumps(prices, separators=(",", ":")))
+
+
+def _merge_prices(existing: list[dict], new: list[dict]) -> list[dict]:
+    """Merge new prices into existing, avoiding duplicates by date. Returns sorted oldest-first."""
+    by_date = {p["date"]: p for p in existing}
+    by_date.update({p["date"]: p for p in new})
+    return sorted(by_date.values(), key=lambda p: p["date"])
+
+
 def write_price_files(stocks: dict, only: set[str] | None = None) -> None:
-    """Write docs/data/{TICKER}_prices.json for active tickers.
+    """Write docs/data/{TICKER}_prices.json for active tickers and archive to data/daily_prices/.
 
     When only is None, fetches all public tickers mentioned in the last 180 days.
     When only is a set, fetches just those tickers (still skips private ones).
+    Archives all fetched prices to data/daily_prices/{TICKER}.json for long-term history.
     """
     cutoff = (date.today() - timedelta(days=180)).isoformat()
     today  = date.today().isoformat()
@@ -377,6 +405,9 @@ def write_price_files(stocks: dict, only: set[str] | None = None) -> None:
     for i, ticker in enumerate(targets, 1):
         hist = fetch_price_history(ticker)
         if hist:
+            existing = _load_price_archive(ticker)
+            merged = _merge_prices(existing, hist)
+            _save_price_archive(ticker, merged)
             (TICKER_DATA_DIR / f"{ticker}_prices.json").write_text(
                 json.dumps(hist, separators=(",", ":"))
             )
