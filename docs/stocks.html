@@ -154,7 +154,7 @@
           <label for="dailyHistory">Show daily price history</label>
         </span>
         <span style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:12px;color:#57606a;font-weight:600">Min mentions (3+ show charts):</span>
+          <span style="font-size:12px;color:#57606a;font-weight:600">Min episodes w/ a mention:</span>
           <button class="filter-btn active" id="min1" onclick="setMinMentions(1,this)">Any</button>
           <button class="filter-btn" id="min3" onclick="setMinMentions(3,this)">3+</button>
           <button class="filter-btn" id="min5" onclick="setMinMentions(5,this)">5+</button>
@@ -602,18 +602,18 @@ async function search() {
 
   if (nameMode) {
     matchedTickers = Object.entries(index)
-      .filter(([, e]) => (e.name || '').toUpperCase().includes(q) && (e.count || 1) >= minMentions)
+      .filter(([, e]) => (e.name || '').toUpperCase().includes(q) && (e.dates || 1) >= minMentions)
       .map(([t]) => t).sort();
   } else {
     matchedTickers = Object.keys(index)
-      .filter(t => t.startsWith(q) && (index[t].count || 1) >= minMentions)
+      .filter(t => t.startsWith(q) && (index[t].dates || 1) >= minMentions)
       .sort();
   }
 
   if (matchedTickers.length === 0) {
     resultsEl.innerHTML = `<div class="empty">
       <div class="big">🔍</div>
-      <div>No results for <strong>${query}</strong>${minMentions > 1 ? ` with ${minMentions}+ mentions` : ''}</div>
+      <div>No results for <strong>${query}</strong>${minMentions > 1 ? ` with ${minMentions}+ episodes` : ''}</div>
     </div>`;
     statusEl.textContent = '';
     return;
