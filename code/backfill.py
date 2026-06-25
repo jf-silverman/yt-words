@@ -7,7 +7,7 @@ Normal mode: scans the CNBC YouTube channel, finds episodes within the
 requested range, skips any already in processed_episodes.json, and analyzes
 the rest with Claude Haiku. No email is sent.
 
-Reanalyze mode (--reanalyze): re-runs Claude Haiku on already-downloaded
+Reanalyze mode (--reanalyze): re-runs analysis on already-downloaded
 transcripts using the current prompt. Does NOT re-download from YouTube.
 Clears existing mentions for each date before writing fresh ones, so there
 are no duplicates. Also regenerates data/summaries/{date}_summary.html.
@@ -18,11 +18,14 @@ Usage:
     python code/backfill.py --reanalyze                          # all dates with transcripts
     python code/backfill.py --reanalyze --start 2026-06-01      # on or after date
     python code/backfill.py --reanalyze --end 2026-05-31        # on or before date
+    python code/backfill.py --reanalyze --backend claude-code   # use this Claude Code session
 """
 
 import argparse
 import json
+import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -33,6 +36,7 @@ from pipeline import (
     CNBC_CHANNEL_ID,
     DATA_DIR,
     OUTPUT_DIR,
+    RULES_FILE,
     SENTIMENTS_FILE,
     SUMMARIES_DIR,
     analyze_with_haiku,
@@ -53,6 +57,30 @@ def _date_from_title(title: str) -> str:
         mo, dy, yr = m.groups()
         return f"20{yr}-{mo}-{dy}"
     return ""
+
+
+def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
+    """Run analysis via the claude CLI (uses Claude Code subscription, not API credits)."""
+    system_prompt = RULES_FILE.read_text()
+    user_msg = f"Episode date: {date_str}\n\nTranscript:\n{transcript_text}"
+    full_prompt = f"{system_prompt}\n\n---\n\n{user_msg}"
+
+    # Remove ANTHROPIC_API_KEY from subprocess env so claude CLI uses claude.ai login
+    env = os.environ.copy()
+    env.pop("ANTHROPIC_API_KEY", None)
+
+    result = subprocess.run(
+        ["claude", "-p", full_prompt],
+        capture_output=True, text=True, timeout=300,
+        env=env,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"claude CLI error (rc={result.returncode}): {result.stderr[:500]}")
+
+    raw = result.stdout.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+    return json.loads(raw)
 
 
 def discover_episodes_in_range(start: str, end: str, max_scan: int) -> list[dict]:
@@ -86,7 +114,6 @@ def discover_episodes_in_range(start: str, end: str, max_scan: int) -> list[dict
 
 def _clear_mentions_for_date(date_str: str) -> None:
     """Remove all mentions for a given episode date from stock_sentiments.json and SQLite."""
-    # JSON: remove mentions with this date from every ticker
     if SENTIMENTS_FILE.exists():
         db = json.loads(SENTIMENTS_FILE.read_text())
         stocks = db.get("stocks", {})
@@ -97,7 +124,6 @@ def _clear_mentions_for_date(date_str: str) -> None:
             ]
         SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
 
-    # SQLite: delete mentions for this episode date
     conn = get_connection()
     c = conn.cursor()
     c.execute("""
@@ -108,12 +134,19 @@ def _clear_mentions_for_date(date_str: str) -> None:
     conn.close()
 
 
-def reanalyze_from_transcripts(start: str | None, end: str | None) -> None:
-    """Re-run Haiku analysis on existing local transcripts. No YouTube calls."""
+def reanalyze_from_transcripts(
+    start: str | None,
+    end: str | None,
+    backend: str = "api",
+) -> None:
+    """Re-run analysis on existing local transcripts. No YouTube calls."""
     transcript_files = sorted(OUTPUT_DIR.glob("*_transcript.txt"))
     if not transcript_files:
         print(f"No transcript files found in {OUTPUT_DIR}")
         return
+
+    analyze_fn = analyze_with_claude_code if backend == "claude-code" else analyze_with_haiku
+    backend_label = "Claude Code session" if backend == "claude-code" else "Haiku API"
 
     # Build date → video_id map from processed_episodes.json
     processed = load_processed()
@@ -137,7 +170,7 @@ def reanalyze_from_transcripts(start: str | None, end: str | None) -> None:
         episodes.append({"date": date_str, "path": f, "video_id": video_id})
 
     episodes.sort(key=lambda e: e["date"])
-    print(f"Found {len(episodes)} transcript(s) to reanalyze.")
+    print(f"Found {len(episodes)} transcript(s) to reanalyze via {backend_label}.")
 
     SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
     done = errors = 0
@@ -154,13 +187,24 @@ def reanalyze_from_transcripts(start: str | None, end: str | None) -> None:
                 print(f"  SKIP: transcript is empty")
                 continue
 
-            print(f"  Analyzing with Claude Haiku… ({len(transcript_text):,} chars)")
-            analysis = analyze_with_haiku(date_str, transcript_text)
+            print(f"  Analyzing via {backend_label}… ({len(transcript_text):,} chars)")
+            analysis = None
+            for attempt, limit in enumerate([None, 40_000, 25_000]):
+                try:
+                    text = transcript_text if limit is None else transcript_text[:limit]
+                    analysis = analyze_fn(date_str, text)
+                    break
+                except Exception as err:
+                    if attempt < 2:
+                        print(f"  Attempt {attempt+1} failed ({err}), retrying with {[40_000,25_000][attempt]:,} chars…")
+                    else:
+                        raise RuntimeError(f"All attempts failed: {err}") from err
+
             n_sec = len(analysis.get("sections", []))
             n_stk = len(analysis.get("stocks", []))
             print(f"  Sections: {n_sec}  Stocks: {n_stk}")
 
-            # Clear old mentions before writing fresh ones
+            # Clear old mentions AFTER successful analysis so bad transcripts don't wipe data
             print(f"  Clearing old mentions for {date_str}…")
             _clear_mentions_for_date(date_str)
 
@@ -170,11 +214,11 @@ def reanalyze_from_transcripts(start: str | None, end: str | None) -> None:
             # Regenerate summary HTML
             overcast_episode_id = overcast_cache.get(date_str)
             summary_dict = {
-                "date_str":          date_str,
-                "analysis":          analysis,
-                "audio_url":         None,
-                "video_id":          video_id,
-                "redirect_pages":    {},
+                "date_str":            date_str,
+                "analysis":            analysis,
+                "audio_url":           None,
+                "video_id":            video_id,
+                "redirect_pages":      {},
                 "overcast_episode_id": overcast_episode_id,
             }
             ep_html = build_email_html([summary_dict])
@@ -201,13 +245,16 @@ def main() -> None:
     parser.add_argument("--end", metavar="YYYY-MM-DD",
                         help="End date inclusive (required for normal mode)")
     parser.add_argument("--reanalyze", action="store_true",
-                        help="Re-run Haiku on existing local transcripts; no YouTube download")
+                        help="Re-run analysis on existing local transcripts; no YouTube download")
+    parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
+                        help="Analysis backend: 'api' uses Haiku API credits (default); "
+                             "'claude-code' shells out to the claude CLI (uses your subscription)")
     parser.add_argument("--max-scan", type=int, default=3000, metavar="N",
                         help="Max channel entries to scan in normal mode (default: 3000)")
     args = parser.parse_args()
 
     if args.reanalyze:
-        reanalyze_from_transcripts(args.start, args.end)
+        reanalyze_from_transcripts(args.start, args.end, backend=args.backend)
         return
 
     if not args.start or not args.end:
