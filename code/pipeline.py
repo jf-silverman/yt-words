@@ -321,6 +321,31 @@ def analyze_with_haiku(date_str: str, transcript_text: str) -> dict:
     return json.loads(raw)
 
 
+def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
+    """Run analysis via the claude CLI (uses Claude Code subscription, not API credits)."""
+    import subprocess
+    system_prompt = RULES_FILE.read_text()
+    user_msg = f"Episode date: {date_str}\n\nTranscript:\n{transcript_text}"
+    full_prompt = f"{system_prompt}\n\n---\n\n{user_msg}"
+
+    # Remove ANTHROPIC_API_KEY from subprocess env so claude CLI uses claude.ai login
+    env = os.environ.copy()
+    env.pop("ANTHROPIC_API_KEY", None)
+
+    result = subprocess.run(
+        ["claude", "-p", full_prompt],
+        capture_output=True, text=True, timeout=300,
+        env=env,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"claude CLI error (rc={result.returncode}): {result.stderr[:500]}")
+
+    raw = result.stdout.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+    return json.loads(raw)
+
+
 # ── 4. Sentiment JSON update ───────────────────────────────────────────────────
 
 def fetch_closing_price(ticker: str, date_str: str) -> float | None:
@@ -1257,6 +1282,9 @@ def main() -> None:
                         help="Max new episodes to process (default: 1)")
     parser.add_argument("--email-mode", choices=["smtp", "mcp"], default="smtp",
                         help="Email delivery mode (default: smtp)")
+    parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
+                        help="Analysis backend: 'api' uses Haiku API credits (default); "
+                             "'claude-code' shells out to the claude CLI (uses your subscription)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Analyze and format but do not send email")
     parser.add_argument("--fix-redirects", metavar="DATE",
@@ -1311,6 +1339,9 @@ def main() -> None:
     summaries = []
     processed = load_processed()
 
+    analyze_fn = analyze_with_claude_code if args.backend == "claude-code" else analyze_with_haiku
+    backend_label = "Claude Code session" if args.backend == "claude-code" else "Claude Haiku"
+
     for ep in episodes:
         video_id = ep["id"]
         print(f"\n── Processing {video_id} ──")
@@ -1321,8 +1352,8 @@ def main() -> None:
         )
         print(f"  Date: {date_str}  Lines: {len(snippets)}")
 
-        print("  Analyzing with Claude Haiku...")
-        analysis = analyze_with_haiku(date_str, transcript_text)
+        print(f"  Analyzing with {backend_label}...")
+        analysis = analyze_fn(date_str, transcript_text)
         n_stocks = len(analysis.get("stocks", []))
         n_sections = len(analysis.get("sections", []))
         print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
