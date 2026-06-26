@@ -54,15 +54,11 @@ For every company Cramer discusses, extract:
 |---|---|
 | `strong_buy` | Emphatic, pound-the-table recommendation. "Buy buy buy", "own it don't trade it", "I'd back up the truck" |
 | `buy` | Clear positive recommendation without special emphasis |
-| `buy_on_pullback` | Likes it fundamentally but wants a lower entry. "Wait for a pullback", "I'd buy it lower", "buy on weakness" |
 | `mild_buy` | Cautiously positive. "Okay to buy if you don't own any", "I like it here", "not a bad entry" |
-| `hold` | Keep existing position, don't add or sell. "I'm not going to sell it", "hold here", "sit tight" |
-| `wait` | Likes the stock but timing is wrong — wait for catalyst/earnings/clarity. "Wait and see", "I'd wait for earnings" |
-| `caution` | Proceed carefully, don't chase. "Be careful here", "don't chase", "it's had a big run" |
-| `neutral` | No strong view. "Nothing interesting", "not my cup of tea but I understand the bull case" |
-| `concern` | Worried about a specific risk. High yield, dividend sustainability, weakening fundamentals |
-| `avoid` | Don't buy. "I would not own this", "stay away", "nothing about this interests me" |
-| `sell` | Explicit sell recommendation |
+| `buy_on_pullback` | Likes it fundamentally but wants a lower entry. "Wait for a pullback", "I'd buy it lower", "buy on weakness" |
+| `wait_hold_neutral` | No action needed or timing is wrong — hold existing position, wait for catalyst/earnings/clarity, or no strong view. "Hold here", "sit tight", "wait and see", "I'd wait for earnings", "not my cup of tea" |
+| `caution_concern` | Proceed carefully or worried about a specific risk. "Be careful here", "don't chase", "it's had a big run", high yield concerns, weakening fundamentals |
+| `sell_avoid` | Don't buy or explicit sell. "I would not own this", "stay away", "sell sell sell" |
 
 ### Lightning Round Signals
 In the Lightning Round, Cramer is very brief. Map his shorthand:
