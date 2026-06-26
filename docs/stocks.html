@@ -1171,6 +1171,22 @@ function renderAnalytics(d) {
         </div>
       </div>
 
+      <!-- Worst avoid calls (neutral/sell-type, stock rose most = missed opportunity) -->
+      <div class="analytics-card analytics-full">
+        <div class="analytics-card-header">
+          Worst Avoid Calls 🤦
+          <div class="analytics-card-sub">Cautious/sell calls where the stock surged anyway — the biggest missed opportunities</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="table-worst-avoids" class="a-table">
+            <thead><tr>
+              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return Since</th>
+            </tr></thead>
+            <tbody>${wlRows(d.worst_avoid_calls)}</tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
 
     <!-- Latest calls (full width) -->
@@ -1213,6 +1229,8 @@ function renderAnalytics(d) {
   makeSortable('table-best-avoids', 4, true);
   // Worst buys: default by return ascending (col 4, most negative = worst call)
   makeSortable('table-worst-buys', 4, true);
+  // Worst avoids: default by return descending (col 4, highest gain = biggest miss)
+  makeSortable('table-worst-avoids', 4, false);
   // Latest calls: default by date descending (col 2)
   makeSortable('table-latest', 2, false);
 }

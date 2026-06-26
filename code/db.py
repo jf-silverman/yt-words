@@ -756,6 +756,19 @@ def build_analytics_json(out_path: str) -> None:
     """)
     worst_buy_calls = [dict(r) for r in c.fetchall()]
 
+    # ── Worst avoid calls (neutral/sell-type, stock rose most = wrong call) ───
+    c.execute(f"""
+        SELECT ticker, company, mention_date, sentiment,
+               price_at_mention, price_latest, return_since_mention, days_since_mention,
+               sector, market_cap_category
+        FROM latest_mention_performance
+        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+          AND sentiment IN {SELL_TYPES}
+        ORDER BY return_since_mention DESC
+        LIMIT 10
+    """)
+    worst_avoid_calls = [dict(r) for r in c.fetchall()]
+
     conn.close()
 
     payload = {
@@ -768,6 +781,7 @@ def build_analytics_json(out_path: str) -> None:
         "best_buy_calls":    best_buy_calls,
         "best_avoid_calls":  best_avoid_calls,
         "worst_buy_calls":   worst_buy_calls,
+        "worst_avoid_calls": worst_avoid_calls,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))
