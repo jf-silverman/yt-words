@@ -895,6 +895,13 @@ function sortTableBody(tbody, colIndex, ascending) {
     const bCell = b.children[colIndex];
     if (!aCell || !bCell) return 0;
 
+    // Sentiment columns carry data-rank for conviction-order sorting
+    const aRank = aCell.dataset.rank;
+    const bRank = bCell.dataset.rank;
+    if (aRank !== undefined && bRank !== undefined) {
+      return ascending ? aRank - bRank : bRank - aRank;
+    }
+
     let aVal = aCell.textContent.trim();
     let bVal = bCell.textContent.trim();
 
@@ -971,7 +978,7 @@ function renderAnalytics(d) {
 
   const sentRows = sortedSent.map(r => `
     <tr>
-      <td>${sentBadge(r.sentiment)}</td>
+      <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
       <td style="text-align:right">${retFmt(r.median_return_7d)}<br>
         <span class="ret-null" style="font-size:10px">n=${r.n_with_7d}</span></td>
@@ -1016,7 +1023,7 @@ function renderAnalytics(d) {
       <td><a class="ticker-link">${r.ticker}</a></td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.company}</td>
       <td class="date-cell">${r.mention_date}</td>
-      <td>${sentBadge(r.sentiment)}</td>
+      <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
       <td style="font-size:11px;color:#57606a">${r.segment || ''}</td>
       <td>${capBadge(r.market_cap_category)}</td>
       <td style="text-align:right;font-family:monospace">${r.price_at_mention != null ? '$'+r.price_at_mention.toFixed(2) : '—'}</td>
@@ -1025,14 +1032,14 @@ function renderAnalytics(d) {
       <td style="text-align:right;color:#57606a;font-size:12px">${r.days_since_mention}d</td>
     </tr>`).join('');
 
-  // ── Winners / Losers ───────────────────────────────────────────────────────
+  // ── Best / Worst call tables ──────────────────────────────────────────────
   function wlRows(rows) {
     return rows.map(r => `
       <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
         <td><a class="ticker-link">${r.ticker}</a></td>
         <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.company}</td>
         <td class="date-cell">${r.mention_date}</td>
-        <td>${sentBadge(r.sentiment)}</td>
+        <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
         <td style="text-align:right">${retFmt(r.return_since_mention)}</td>
       </tr>`).join('');
   }
@@ -1116,28 +1123,50 @@ function renderAnalytics(d) {
         </div>
       </div>
 
-      <!-- Winners -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">Top Winners <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
+      <!-- Calls that made the most money (buy-type, highest return) -->
+      <div class="analytics-card analytics-full">
+        <div class="analytics-card-header">
+          Calls That Made the Most 💰
+          <div class="analytics-card-sub">Buy-type calls (Strong Buy / Buy / Mild Buy / Buy on Pullback) with the highest return since mention</div>
+        </div>
         <div style="overflow-x:auto">
-          <table id="table-winners" class="a-table">
+          <table id="table-best-buys" class="a-table">
             <thead><tr>
-              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
+              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return Since</th>
             </tr></thead>
-            <tbody>${wlRows(d.top_winners)}</tbody>
+            <tbody>${wlRows(d.best_buy_calls)}</tbody>
           </table>
         </div>
       </div>
 
-      <!-- Losers -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">Top Losers <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
+      <!-- Calls that avoided the biggest losses (neutral/sell-type, stock dropped most) -->
+      <div class="analytics-card analytics-full">
+        <div class="analytics-card-header">
+          Calls That Avoided the Biggest Losses 🛡️
+          <div class="analytics-card-sub">Cautious/sell calls (Wait / Caution / Sell) where the stock dropped the most — Cramer was right to avoid</div>
+        </div>
         <div style="overflow-x:auto">
-          <table id="table-losers" class="a-table">
+          <table id="table-best-avoids" class="a-table">
             <thead><tr>
-              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
+              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return Since</th>
             </tr></thead>
-            <tbody>${wlRows(d.top_losers)}</tbody>
+            <tbody>${wlRows(d.best_avoid_calls)}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Calls that lost the most money (buy-type, most negative return) -->
+      <div class="analytics-card analytics-full">
+        <div class="analytics-card-header">
+          Calls That Lost the Most 📉
+          <div class="analytics-card-sub">Buy-type calls where the stock dropped the most after mention — Cramer was wrong</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="table-worst-buys" class="a-table">
+            <thead><tr>
+              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return Since</th>
+            </tr></thead>
+            <tbody>${wlRows(d.worst_buy_calls)}</tbody>
           </table>
         </div>
       </div>
@@ -1178,10 +1207,12 @@ function renderAnalytics(d) {
   makeSortable('table-mktcap', null);
   // Sector: default by mentions descending (col 1)
   makeSortable('table-sector', 1, false);
-  // Winners: default by return descending (col 4)
-  makeSortable('table-winners', 4, false);
-  // Losers: default by return ascending (col 4)
-  makeSortable('table-losers', 4, true);
+  // Best buys: default by return descending (col 4)
+  makeSortable('table-best-buys', 4, false);
+  // Best avoids: default by return ascending (col 4, most negative = best avoid)
+  makeSortable('table-best-avoids', 4, true);
+  // Worst buys: default by return ascending (col 4, most negative = worst call)
+  makeSortable('table-worst-buys', 4, true);
   // Latest calls: default by date descending (col 2)
   makeSortable('table-latest', 2, false);
 }
