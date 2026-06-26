@@ -617,15 +617,31 @@ def build_analytics_json(out_path: str) -> None:
         row['median_return_90d']          = _median(b['r90'])
         row['median_return_since_mention'] = _median(b['rs'])
 
+    # Fetch all forward_returns rows once for median computation across all tables
+    c.execute("""
+        SELECT segment, market_cap_category, sector,
+               return_30d, return_90d, return_since_mention
+        FROM forward_returns
+    """)
+    from collections import defaultdict
+    seg_buckets  = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    cap_buckets  = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    sect_buckets = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        for key, buckets in [(row['segment'], seg_buckets),
+                             (row['market_cap_category'], cap_buckets),
+                             (row['sector'], sect_buckets)]:
+            if key:
+                buckets[key]['r30'].append(row['return_30d'])
+                buckets[key]['r90'].append(row['return_90d'])
+                buckets[key]['rs'].append(row['return_since_mention'])
+
     # ── Segment performance ───────────────────────────────────────────────────
     c.execute("""
         SELECT segment,
                COUNT(*)                                          AS n_mentions,
                COUNT(return_30d)                                 AS n_with_30d,
                COUNT(return_90d)                                 AS n_with_90d,
-               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
-               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
-               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
                ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
                            / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d,
                ROUND(100.0 * SUM(CASE WHEN return_90d  > 0 THEN 1 ELSE 0 END)
@@ -634,9 +650,14 @@ def build_analytics_json(out_path: str) -> None:
         WHERE segment IS NOT NULL AND segment != ''
         GROUP BY segment
         HAVING n_mentions >= 5
-        ORDER BY avg_return_30d DESC
     """)
     segment_perf = [dict(r) for r in c.fetchall()]
+    for row in segment_perf:
+        b = seg_buckets[row['segment']]
+        row['median_return_30d']          = _median(b['r30'])
+        row['median_return_90d']          = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
+    segment_perf.sort(key=lambda r: r['median_return_30d'] or 0, reverse=True)
 
     # ── Market cap performance ────────────────────────────────────────────────
     cap_order = {'mega': 1, 'large': 2, 'mid': 3, 'small': 4, 'micro': 5, 'nano': 6}
@@ -645,19 +666,20 @@ def build_analytics_json(out_path: str) -> None:
                COUNT(*)                                          AS n_mentions,
                COUNT(return_30d)                                 AS n_with_30d,
                COUNT(return_90d)                                 AS n_with_90d,
-               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
-               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
-               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
                ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
                            / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d
         FROM forward_returns
         WHERE market_cap_category IS NOT NULL AND market_cap_category != ''
         GROUP BY market_cap_category
         HAVING n_mentions >= 5
-        ORDER BY avg_return_30d DESC
     """)
-    mktcap_perf = sorted([dict(r) for r in c.fetchall()],
-                         key=lambda r: cap_order.get(r['market_cap_category'], 99))
+    mktcap_rows = [dict(r) for r in c.fetchall()]
+    for row in mktcap_rows:
+        b = cap_buckets[row['market_cap_category']]
+        row['median_return_30d']          = _median(b['r30'])
+        row['median_return_90d']          = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
+    mktcap_perf = sorted(mktcap_rows, key=lambda r: cap_order.get(r['market_cap_category'], 99))
 
     # ── Sector performance ────────────────────────────────────────────────────
     c.execute("""
@@ -665,9 +687,6 @@ def build_analytics_json(out_path: str) -> None:
                COUNT(*)                                          AS n_mentions,
                COUNT(DISTINCT ticker)                            AS n_tickers,
                COUNT(return_30d)                                 AS n_with_30d,
-               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
-               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
-               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
                ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
                            / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d
         FROM forward_returns
@@ -677,6 +696,10 @@ def build_analytics_json(out_path: str) -> None:
         ORDER BY n_mentions DESC
     """)
     sector_perf = [dict(r) for r in c.fetchall()]
+    for row in sector_perf:
+        b = sect_buckets[row['sector']]
+        row['median_return_30d']          = _median(b['r30'])
+        row['median_return_since_mention'] = _median(b['rs'])
 
     # ── Latest calls leaderboard ──────────────────────────────────────────────
     c.execute("""

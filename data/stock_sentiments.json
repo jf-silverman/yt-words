@@ -664,6 +664,20 @@
           "segment": "caller_qa",
           "note": "Cramer's favorite in semiconductors; done nothing lately but fundamentals strong; prefer over AMD but both terrific at these levels.",
           "closing_price": 205.19
+        },
+        {
+          "date": "2026-06-23",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "Named as great momentum stock alongside Eli Lilly; exemplifies need for longer-term price target methodology on high-growth names.",
+          "closing_price": 200.04
+        },
+        {
+          "date": "2026-06-24",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Exemplifies high-growth companies that consistently beat forward-earnings estimates, making the stock appear cheap in hindsight; secret to sustained outperformance since 2012.",
+          "closing_price": 199.0
         }
       ],
       "sector": "Technology",
@@ -4834,6 +4848,13 @@
           "segment": "closing_commentary",
           "note": "Up 15% YoY on shortage, dollar weakness, geopolitical uncertainty. Own gold, don't trade it.",
           "closing_price": 458.0
+        },
+        {
+          "date": "2026-06-22",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Simple, low-cost gold ETF; exception to general skepticism toward sector-focused and actively trading ETFs.",
+          "closing_price": 384.59
         }
       ],
       "sector": "",
@@ -10038,6 +10059,20 @@
           "segment": "caller_qa",
           "note": "Earnings coming through, GLP-1 drugs ramping, new factories built; want huge position; stay in stock despite high share price.",
           "closing_price": 1133.0
+        },
+        {
+          "date": "2026-06-22",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "Strong pharmaceutical company with superior growth profile; growth rate justifies premium valuation relative to peers.",
+          "closing_price": 1102.08
+        },
+        {
+          "date": "2026-06-23",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "Cited as one of the great momentum stocks requiring forward-looking price targets; GLP-1 sales opportunity extends through end of decade, justifying premium multiples.",
+          "closing_price": 1107.08
         }
       ],
       "sector": "Healthcare",
@@ -14131,6 +14166,12 @@
           "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
           "note": "New CEO Greg Abel expected to deliver Saturday earnings; more low-key style than Buffett; listen for words of wisdom from CEO running business for shareholder returns."
+        },
+        {
+          "date": "2026-06-23",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Caller asked about using Berkshire B for 20-30 year inheritance; Cramer advised against single-stock concentration despite admiration for Buffett\u2014recommend diversified index fund instead to avoid single-name risk."
         }
       ],
       "sector": "",
@@ -32007,6 +32048,29 @@
       "pe_ratio": null,
       "market_cap": null,
       "market_cap_category": ""
+    },
+    "FL": {
+      "company": "Foot Locker",
+      "mentions": [
+        {
+          "date": "2026-06-23",
+          "sentiment": "sell_avoid",
+          "segment": "closing_commentary",
+          "note": "Cautionary example of dividend trap; looked attractive as income play but cash flow decline eliminated dividend sustainability. Homework required to avoid 'dividend stocks' masking fundamental deterioration."
+        }
+      ]
+    },
+    "VTI": {
+      "company": "Vanguard Total Stock Market ETF (proxy for passive index investing)",
+      "mentions": [
+        {
+          "date": "2026-06-23",
+          "sentiment": "strong_buy",
+          "segment": "closing_commentary",
+          "note": "Recommended over concentrated single stocks for long-term wealth building, especially for inheritances and 20+ year horizons; lowest-friction vehicle for retail investors to participate in market gains.",
+          "closing_price": 363.7
+        }
+      ]
     }
   }
 }
