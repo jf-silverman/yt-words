@@ -985,19 +985,18 @@ function renderAnalytics(d) {
     </tr>`).join('');
 
   // ── Segment bar chart ──────────────────────────────────────────────────────
-  const segMax = Math.max(...d.segment_perf.map(r => Math.abs(r.avg_return_30d || 0)), 1);
-  const segBars = barChart(d.segment_perf, 'segment', 'avg_return_30d', segMax);
+  const segMax = Math.max(...d.segment_perf.map(r => Math.abs(r.median_return_30d || 0)), 1);
+  const segBars = barChart(d.segment_perf, 'segment', 'median_return_30d', segMax);
 
-  // ── Market cap bar chart ───────────────────────────────────────────────────
-  const capMax = Math.max(...d.mktcap_perf.map(r => Math.abs(r.avg_return_30d || 0)), 1);
+  // ── Market cap table ───────────────────────────────────────────────────────
   const capRows = d.mktcap_perf.map(r => `
     <tr>
       <td>${capBadge(r.market_cap_category)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_30d)}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_90d)}</td>
+      <td style="text-align:right">${retFmt(r.median_return_30d)}</td>
+      <td style="text-align:right">${retFmt(r.median_return_90d)}</td>
       <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
+      <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
     </tr>`).join('');
 
   // ── Sector table ───────────────────────────────────────────────────────────
@@ -1006,9 +1005,9 @@ function renderAnalytics(d) {
       <td>${r.sector}</td>
       <td style="text-align:right">${r.n_mentions}</td>
       <td style="text-align:right">${r.n_tickers}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_30d)}</td>
+      <td style="text-align:right">${retFmt(r.median_return_30d)}</td>
       <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
+      <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
     </tr>`).join('');
 
   // ── Latest calls leaderboard ───────────────────────────────────────────────
@@ -1072,7 +1071,7 @@ function renderAnalytics(d) {
       <div class="analytics-card">
         <div class="analytics-card-header">
           By Segment
-          <div class="analytics-card-sub">Avg 30d return — are prepared segments better than Lightning Round?</div>
+          <div class="analytics-card-sub">Median 30d return — are prepared segments better than Lightning Round?</div>
         </div>
         <div class="analytics-card-body">${segBars}</div>
       </div>
@@ -1087,8 +1086,8 @@ function renderAnalytics(d) {
           <table id="table-mktcap" class="a-table">
             <thead><tr>
               <th>Cap</th><th style="text-align:right">n</th>
-              <th style="text-align:right">Avg 30d</th>
-              <th style="text-align:right">Avg 90d</th>
+              <th style="text-align:right">Median 30d</th>
+              <th style="text-align:right">Median 90d</th>
               <th style="text-align:right">Win% 30d</th>
               <th style="text-align:right">Since Mention</th>
             </tr></thead>
@@ -1108,7 +1107,7 @@ function renderAnalytics(d) {
             <thead><tr>
               <th>Sector</th><th style="text-align:right">Mentions</th>
               <th style="text-align:right">Tickers</th>
-              <th style="text-align:right">Avg 30d</th>
+              <th style="text-align:right">Median 30d</th>
               <th style="text-align:right">Win% 30d</th>
               <th style="text-align:right">Since Mention</th>
             </tr></thead>
