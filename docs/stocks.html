@@ -153,6 +153,7 @@
       font-size: 11px; color: #57606a; font-weight: 700;
       text-transform: uppercase; letter-spacing: .04em;
     }
+    .a-table th:hover { background: #eaeef2; color: #24292f; }
     .a-table td { padding: 7px 10px; border-bottom: 1px solid #eaeef2; }
     .a-table tr:last-child td { border-bottom: none; }
     .a-table tr:hover td { background: #f6f8fa; }
@@ -287,25 +288,36 @@ const SEGMENT_PRIORITY = [
 ];
 
 const BULLISH_SET = new Set(['strong_buy','buy','buy_on_pullback','mild_buy']);
-const BEARISH_SET = new Set(['concern','avoid','sell']);
+const BEARISH_SET = new Set(['sell_avoid','caution_concern']);
 
 const SENTIMENT_COLORS = {
-  strong_buy:      '#1a7f37',
-  buy:             '#2da44e',
-  buy_on_pullback: '#4ac26b',
-  mild_buy:        '#80e09a',
-  hold:            '#d4a017',
-  wait:            '#f0c040',
-  caution:         '#f0a030',
-  neutral:         '#8b949e',
-  concern:         '#e06060',
-  avoid:           '#d03030',
-  sell:            '#a00000',
+  strong_buy:        '#1a7f37',
+  buy:               '#2da44e',
+  mild_buy:          '#80e09a',
+  buy_on_pullback:   '#4ac26b',
+  wait_hold_neutral: '#8b949e',
+  caution_concern:   '#f0a030',
+  sell_avoid:        '#a00000',
 };
+
+const SENTIMENT_LABELS = {
+  strong_buy:        'Strong Buy',
+  buy:               'Buy',
+  mild_buy:          'Mild Buy',
+  buy_on_pullback:   'Buy on Pullback',
+  wait_hold_neutral: 'Wait / Hold / Neutral',
+  caution_concern:   'Caution / Concern',
+  sell_avoid:        'Sell / Avoid',
+};
+
+const SENTIMENT_ORDER = [
+  'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback',
+  'wait_hold_neutral', 'caution_concern', 'sell_avoid',
+];
 
 function sentimentBadge(s) {
   const color = SENTIMENT_COLORS[s] || '#8b949e';
-  const label = (s || 'unknown').replace(/_/g, ' ').toUpperCase();
+  const label = SENTIMENT_LABELS[s] || (s || 'unknown').replace(/_/g, ' ');
   return `<span class="badge" style="background:${color}">${label}</span>`;
 }
 
@@ -829,6 +841,74 @@ function showTab(tab) {
 
 let analyticsData = null;
 
+// Sort a table by column index. Add sort arrows to headers.
+function makeSortable(tableId, defaultColIndex = null, defaultAsc = true) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const thead = table.querySelector('thead tr');
+  const tbody = table.querySelector('tbody');
+  if (!thead || !tbody) return;
+
+  const headers = thead.querySelectorAll('th');
+  let currentSort = { col: defaultColIndex, asc: defaultAsc };
+
+  headers.forEach((th, idx) => {
+    th.style.cursor = 'pointer';
+    th.style.userSelect = 'none';
+
+    // Add click handler
+    th.addEventListener('click', () => {
+      // Clear previous indicators
+      headers.forEach(h => h.innerHTML = h.innerHTML.replace(/\s*[▲▼]/g, ''));
+
+      if (currentSort.col === idx) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort = { col: idx, asc: true };
+      }
+
+      sortTableBody(tbody, idx, currentSort.asc);
+      th.innerHTML += (currentSort.asc ? ' ▲' : ' ▼');
+    });
+
+    // Add default sort indicator
+    if (defaultColIndex !== null && idx === defaultColIndex) {
+      th.innerHTML += (defaultAsc ? ' ▲' : ' ▼');
+    }
+  });
+
+  // Apply default sort
+  if (defaultColIndex !== null) {
+    sortTableBody(tbody, defaultColIndex, defaultAsc);
+  }
+}
+
+function sortTableBody(tbody, colIndex, ascending) {
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a, b) => {
+    const aCell = a.children[colIndex];
+    const bCell = b.children[colIndex];
+    if (!aCell || !bCell) return 0;
+
+    let aVal = aCell.textContent.trim();
+    let bVal = bCell.textContent.trim();
+
+    // Try numeric sort
+    const aNum = parseFloat(aVal);
+    const bNum = parseFloat(bVal);
+    if (!isNaN(aNum) && !isNaN(bNum)) {
+      return ascending ? aNum - bNum : bNum - aNum;
+    }
+
+    // String sort
+    return ascending
+      ? aVal.localeCompare(bVal)
+      : bVal.localeCompare(aVal);
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+}
+
 function retClass(v) {
   if (v == null) return 'ret-null';
   return v > 0 ? 'ret-pos' : v < 0 ? 'ret-neg' : 'ret-neu';
@@ -845,7 +925,8 @@ function capBadge(cat) {
 function sentBadge(s) {
   if (!s) return '';
   const color = SENTIMENT_COLORS[s] || '#888';
-  return `<span class="badge" style="background:${color}">${s.replace(/_/g,' ')}</span>`;
+  const label = SENTIMENT_LABELS[s] || s.replace(/_/g, ' ');
+  return `<span class="badge" style="background:${color}">${label}</span>`;
 }
 
 function barChart(rows, labelKey, valKey, maxAbs) {
@@ -876,7 +957,14 @@ function renderAnalytics(d) {
     {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'});
 
   // ── Sentiment scorecard ────────────────────────────────────────────────────
-  const sentRows = d.sentiment_perf.map(r => `
+  // Sort by conviction order: Strong Buy → Buy → Mild Buy → Buy on Pullback → Wait/Hold/Neutral → Caution/Concern → Sell/Avoid
+  const sortedSent = [...d.sentiment_perf].sort((a, b) => {
+    const aIdx = SENTIMENT_ORDER.indexOf(a.sentiment);
+    const bIdx = SENTIMENT_ORDER.indexOf(b.sentiment);
+    return aIdx - bIdx;
+  });
+
+  const sentRows = sortedSent.map(r => `
     <tr>
       <td>${sentBadge(r.sentiment)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
@@ -957,7 +1045,7 @@ function renderAnalytics(d) {
         <div class="analytics-card-sub">Avg % return after each mention, by Cramer's conviction level</div>
       </div>
       <div style="overflow-x:auto">
-        <table class="a-table">
+        <table id="table-sentiment" class="a-table">
           <thead><tr>
             <th>Sentiment</th><th style="text-align:right">Mentions</th>
             <th style="text-align:right">Avg 7d</th>
@@ -989,7 +1077,7 @@ function renderAnalytics(d) {
           <div class="analytics-card-sub">Do his mega-cap or small-cap calls perform better?</div>
         </div>
         <div style="overflow-x:auto">
-          <table class="a-table">
+          <table id="table-mktcap" class="a-table">
             <thead><tr>
               <th>Cap</th><th style="text-align:right">n</th>
               <th style="text-align:right">Avg 30d</th>
@@ -1009,7 +1097,7 @@ function renderAnalytics(d) {
           <div class="analytics-card-sub">Which sectors does Cramer call correctly most often?</div>
         </div>
         <div style="overflow-x:auto">
-          <table class="a-table">
+          <table id="table-sector" class="a-table">
             <thead><tr>
               <th>Sector</th><th style="text-align:right">Mentions</th>
               <th style="text-align:right">Tickers</th>
@@ -1026,7 +1114,7 @@ function renderAnalytics(d) {
       <div class="analytics-card">
         <div class="analytics-card-header">Top Winners <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
         <div style="overflow-x:auto">
-          <table class="a-table">
+          <table id="table-winners" class="a-table">
             <thead><tr>
               <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
             </tr></thead>
@@ -1039,7 +1127,7 @@ function renderAnalytics(d) {
       <div class="analytics-card">
         <div class="analytics-card-header">Top Losers <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
         <div style="overflow-x:auto">
-          <table class="a-table">
+          <table id="table-losers" class="a-table">
             <thead><tr>
               <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
             </tr></thead>
@@ -1057,7 +1145,7 @@ function renderAnalytics(d) {
         <div class="analytics-card-sub">Most recent mention per ticker, with return since that date · Click a row to open the stock card</div>
       </div>
       <div style="overflow-x:auto">
-        <table class="a-table">
+        <table id="table-latest" class="a-table">
           <thead><tr>
             <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
             <th>Segment</th><th>Cap</th>
@@ -1076,6 +1164,20 @@ function renderAnalytics(d) {
       Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
     </p>
   `;
+
+  // Sentiment: default sort by col 0 (sentiment name) ascending — but rows were
+  // pre-sorted by conviction order, so col=null keeps that order; clicking a header sorts.
+  makeSortable('table-sentiment', null);
+  // Market cap: default order as returned (mega→large→mid→small→micro→nano)
+  makeSortable('table-mktcap', null);
+  // Sector: default by mentions descending (col 1)
+  makeSortable('table-sector', 1, false);
+  // Winners: default by return descending (col 4)
+  makeSortable('table-winners', 4, false);
+  // Losers: default by return ascending (col 4)
+  makeSortable('table-losers', 4, true);
+  // Latest calls: default by date descending (col 2)
+  makeSortable('table-latest', 2, false);
 }
 
 function showSearchForTicker(ticker) {

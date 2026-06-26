@@ -124,18 +124,37 @@ USER_HOLDINGS = {
 }
 
 SENTIMENT_COLORS = {
-    "strong_buy":    "#1a7f37",
-    "buy":           "#2da44e",
-    "buy_on_pullback": "#4ac26b",
-    "mild_buy":      "#80e09a",
-    "hold":          "#d4a017",
-    "wait":          "#f0c040",
-    "caution":       "#f0a030",
-    "neutral":       "#8b949e",
-    "concern":       "#e06060",
-    "avoid":         "#d03030",
-    "sell":          "#a00000",
+    "strong_buy":        "#1a7f37",
+    "buy":               "#2da44e",
+    "mild_buy":          "#80e09a",
+    "buy_on_pullback":   "#4ac26b",
+    "wait_hold_neutral": "#8b949e",
+    "caution_concern":   "#f0a030",
+    "sell_avoid":        "#a00000",
 }
+
+# Canonical order (most bullish → most bearish)
+SENTIMENT_ORDER = [
+    "strong_buy", "buy", "mild_buy", "buy_on_pullback",
+    "wait_hold_neutral", "caution_concern", "sell_avoid",
+]
+
+# Map legacy values to consolidated canonical values
+_SENTIMENT_MAP = {
+    "hold":    "wait_hold_neutral",
+    "wait":    "wait_hold_neutral",
+    "neutral": "wait_hold_neutral",
+    "caution": "caution_concern",
+    "concern": "caution_concern",
+    "sell":    "sell_avoid",
+    "avoid":   "sell_avoid",
+}
+
+def normalize_sentiment(s: str) -> str:
+    """Map any legacy or raw sentiment string to a canonical value."""
+    if not s:
+        return "wait_hold_neutral"
+    return _SENTIMENT_MAP.get(s, s)
 
 
 # ── 1. Episode discovery ───────────────────────────────────────────────────────
@@ -463,7 +482,7 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
         })
         mention = {
             "date": episode_date,
-            "sentiment": stock.get("sentiment", "neutral"),
+            "sentiment": normalize_sentiment(stock.get("sentiment", "wait_hold_neutral")),
             "segment": stock.get("segment", ""),
             "note": stock.get("note", ""),
         }
