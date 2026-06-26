@@ -225,6 +225,7 @@ def _create_views(c):
     # sentiment_performance ———————————————————————————————————————————————————
     # Aggregates forward_returns by sentiment level.
     # n_with_Xd counts only mentions where that window's price exists.
+    # Note: medians are computed in Python in build_analytics_json (SQLite has no MEDIAN).
     c.execute("DROP VIEW IF EXISTS sentiment_performance")
     c.execute("""
         CREATE VIEW sentiment_performance AS
@@ -240,6 +241,8 @@ def _create_views(c):
             ROUND(AVG(return_90d),  2)                              AS avg_return_90d,
             ROUND(AVG(return_180d), 2)                              AS avg_return_180d,
             ROUND(AVG(return_since_mention), 2)                     AS avg_return_since_mention,
+            ROUND(100.0 * SUM(CASE WHEN return_7d   > 0 THEN 1 ELSE 0 END)
+                        / NULLIF(COUNT(return_7d),   0), 1)         AS win_rate_7d,
             ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
                         / NULLIF(COUNT(return_30d),  0), 1)         AS win_rate_30d,
             ROUND(100.0 * SUM(CASE WHEN return_90d  > 0 THEN 1 ELSE 0 END)
@@ -564,22 +567,55 @@ def get_daily_prices(ticker: str, days: int = None):
     return [dict(row) for row in rows]
 
 
+def _median(values: list) -> float | None:
+    """Return median of a list, ignoring Nones."""
+    vals = sorted(v for v in values if v is not None)
+    if not vals:
+        return None
+    mid = len(vals) // 2
+    if len(vals) % 2 == 1:
+        return round(vals[mid], 2)
+    return round((vals[mid - 1] + vals[mid]) / 2, 2)
+
+
 def build_analytics_json(out_path: str) -> None:
     """Query the DB and write docs/data/analytics.json for the Analytics tab."""
     conn = get_connection()
     c = conn.cursor()
 
     # ── Sentiment performance ─────────────────────────────────────────────────
+    # Fetch aggregate counts/win-rates from view, then compute medians from raw rows.
     c.execute("""
         SELECT sentiment,
                n_mentions, n_with_7d, n_with_30d, n_with_90d, n_with_180d,
                avg_return_7d, avg_return_30d, avg_return_90d, avg_return_180d,
-               avg_return_since_mention, win_rate_30d, win_rate_90d, win_rate_180d
+               avg_return_since_mention,
+               win_rate_7d, win_rate_30d, win_rate_90d, win_rate_180d
         FROM sentiment_performance
         WHERE n_mentions >= 10
-        ORDER BY avg_return_30d DESC
     """)
     sentiment_perf = [dict(r) for r in c.fetchall()]
+
+    # Compute medians per sentiment from raw forward_returns rows
+    c.execute("""
+        SELECT sentiment, return_7d, return_30d, return_90d, return_since_mention
+        FROM forward_returns
+    """)
+    from collections import defaultdict
+    sent_buckets = defaultdict(lambda: {'r7': [], 'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        b = sent_buckets[row['sentiment']]
+        b['r7'].append(row['return_7d'])
+        b['r30'].append(row['return_30d'])
+        b['r90'].append(row['return_90d'])
+        b['rs'].append(row['return_since_mention'])
+
+    for row in sentiment_perf:
+        b = sent_buckets[row['sentiment']]
+        row['median_return_7d']           = _median(b['r7'])
+        row['median_return_30d']          = _median(b['r30'])
+        row['median_return_90d']          = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
 
     # ── Segment performance ───────────────────────────────────────────────────
     c.execute("""
