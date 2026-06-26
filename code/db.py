@@ -714,28 +714,47 @@ def build_analytics_json(out_path: str) -> None:
     """)
     latest_calls = [dict(r) for r in c.fetchall()]
 
-    # ── Top winners / losers (all time, by return_since_mention) ─────────────
-    c.execute("""
+    BUY_TYPES  = "('strong_buy','buy','mild_buy','buy_on_pullback')"
+    SELL_TYPES = "('wait_hold_neutral','caution_concern','sell_avoid')"
+
+    # ── Best buy calls (buy-type, highest return = right call) ────────────────
+    c.execute(f"""
         SELECT ticker, company, mention_date, sentiment,
                price_at_mention, price_latest, return_since_mention, days_since_mention,
                sector, market_cap_category
         FROM latest_mention_performance
         WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+          AND sentiment IN {BUY_TYPES}
         ORDER BY return_since_mention DESC
         LIMIT 10
     """)
-    top_winners = [dict(r) for r in c.fetchall()]
+    best_buy_calls = [dict(r) for r in c.fetchall()]
 
-    c.execute("""
+    # ── Best avoid calls (neutral/sell-type, stock dropped most = right call) ─
+    c.execute(f"""
         SELECT ticker, company, mention_date, sentiment,
                price_at_mention, price_latest, return_since_mention, days_since_mention,
                sector, market_cap_category
         FROM latest_mention_performance
         WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+          AND sentiment IN {SELL_TYPES}
         ORDER BY return_since_mention ASC
         LIMIT 10
     """)
-    top_losers = [dict(r) for r in c.fetchall()]
+    best_avoid_calls = [dict(r) for r in c.fetchall()]
+
+    # ── Worst buy calls (buy-type, most negative return = wrong call) ─────────
+    c.execute(f"""
+        SELECT ticker, company, mention_date, sentiment,
+               price_at_mention, price_latest, return_since_mention, days_since_mention,
+               sector, market_cap_category
+        FROM latest_mention_performance
+        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+          AND sentiment IN {BUY_TYPES}
+        ORDER BY return_since_mention ASC
+        LIMIT 10
+    """)
+    worst_buy_calls = [dict(r) for r in c.fetchall()]
 
     conn.close()
 
@@ -746,8 +765,9 @@ def build_analytics_json(out_path: str) -> None:
         "mktcap_perf":       mktcap_perf,
         "sector_perf":       sector_perf,
         "latest_calls":      latest_calls,
-        "top_winners":       top_winners,
-        "top_losers":        top_losers,
+        "best_buy_calls":    best_buy_calls,
+        "best_avoid_calls":  best_avoid_calls,
+        "worst_buy_calls":   worst_buy_calls,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))
