@@ -246,6 +246,7 @@
       <button class="filter-btn" id="rm5" onclick="setRecentFilter('minMentions',5,this)">5+</button>
     </div>
     <div class="filter-bar" id="sector-filter-bar" style="display:none"></div>
+    <div class="filter-bar" id="segment-filter-bar" style="display:none"></div>
     <div class="filter-bar">
       <span class="filter-label">Style:</span>
       <button class="filter-btn active" id="rstAll"    onclick="setRecentFilter('style','all',this)">All</button>
@@ -721,8 +722,19 @@ document.getElementById('nameMode').addEventListener('change', () => {
 
 // ── Recent Picks ──────────────────────────────────────────────────────────────
 
+const SEG_LABELS = {
+  'opening_commentary': 'Opening Commentary',
+  'closing_commentary': 'Closing Commentary',
+  'lightning_round':    'Lightning Round',
+  'caller_qa':          'Caller Q&A',
+  'interview':          'Interview',
+  'in_depth_analysis':  'In-Depth Analysis',
+  'mag7_analysis':      'Mag 7 Analysis',
+  'am_i_diversified':   'Am I Diversified?',
+};
+
 let recentData = null;
-let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', sector: 'All' };
+let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', sector: 'All', segment: 'All' };
 const recentFilterGroups = {
   days:        ['r7','r30','r90'],
   sentiment:   ['rAll','rBull','rNeut','rBear'],
@@ -757,13 +769,34 @@ function setSectorFilter(val, btn) {
   renderRecent();
 }
 
+function renderSegmentFilter() {
+  const bar = document.getElementById('segment-filter-bar');
+  if (!recentData) { bar.style.display = 'none'; return; }
+  const segs = [...new Set(recentData.mentions.map(m => m.segment).filter(Boolean))].sort();
+  if (segs.length === 0) { bar.style.display = 'none'; return; }
+  bar.style.display = 'flex';
+  bar.innerHTML = `<span class="filter-label">Segment:</span>`
+    + `<button class="filter-btn ${recentFilter.segment === 'All' ? 'active' : ''}" onclick="setSegmentFilter('All',this)">All</button>`
+    + segs.map(s =>
+        `<button class="filter-btn ${recentFilter.segment === s ? 'active' : ''}" onclick="setSegmentFilter(${JSON.stringify(s)},this)">${SEG_LABELS[s] || s}</button>`
+      ).join('');
+}
+
+function setSegmentFilter(val, btn) {
+  recentFilter.segment = val;
+  document.querySelectorAll('#segment-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRecent();
+}
+
 async function loadRecent() {
-  if (recentData) { renderSectorFilters(); renderRecent(); return; }
+  if (recentData) { renderSectorFilters(); renderSegmentFilter(); renderRecent(); return; }
   document.getElementById('recent-status').textContent = 'Loading…';
   try {
     const resp = await fetch(RECENT_URL);
     recentData = await resp.json();
     renderSectorFilters();
+    renderSegmentFilter();
     renderRecent();
   } catch {
     document.getElementById('recent-status').textContent = 'Failed to load. Try refreshing.';
@@ -786,6 +819,7 @@ function renderRecent() {
     if ((m.total_mentions || 1) < recentFilter.minMentions) return false;
     if (recentFilter.style !== 'all' && (m.style || '').toLowerCase() !== recentFilter.style) return false;
     if (recentFilter.sector !== 'All' && m.sector !== recentFilter.sector) return false;
+    if (recentFilter.segment !== 'All' && m.segment !== recentFilter.segment) return false;
     return true;
   });
 
@@ -1374,17 +1408,6 @@ function renderAnalytics(d) {
   renderSectorBars();
 
   // ── Segment interactive chart ──────────────────────────────────────────────
-  const SEG_LABELS = {
-    'opening_commentary': 'Opening Commentary',
-    'closing_commentary': 'Closing Commentary',
-    'lightning_round':    'Lightning Round',
-    'caller_qa':          'Caller Q&A',
-    'interview':          'Interview',
-    'in_depth_analysis':  'In-Depth Analysis',
-    'mag7_analysis':      'Mag 7 Analysis',
-    'am_i_diversified':   'Am I Diversified?',
-  };
-
   const sbt_seg = {};
   for (const r of d.segment_by_type || []) {
     if (!sbt_seg[r.segment]) sbt_seg[r.segment] = {};
