@@ -525,11 +525,32 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
 
 def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     """Write docs/data/{TICKER}.json shards and refresh docs/data/index.json."""
+    from db import get_connection
     TICKER_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Batch-fetch each ticker's most recent closing price from the DB so shards
+    # show the latest pipeline-fetched price rather than the mention-date close.
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT ticker, close, date FROM daily_prices
+        WHERE (ticker, date) IN (
+            SELECT ticker, MAX(date) FROM daily_prices GROUP BY ticker
+        )
+    """)
+    latest_prices = {r["ticker"]: {"price": r["close"], "date": r["date"]}
+                     for r in cur.fetchall()}
+    conn.close()
+
     targets = only if only is not None else set(stocks.keys())
     for ticker in targets:
         if ticker in stocks:
-            (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(stocks[ticker]))
+            lp = latest_prices.get(ticker)
+            shard = {**stocks[ticker]}
+            if lp:
+                shard["price_latest"]      = lp["price"]
+                shard["price_latest_date"] = lp["date"]
+            (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(shard))
     index = {}
     for t, e in stocks.items():
         mentions = e.get("mentions", [])
@@ -594,11 +615,17 @@ def _market_cap_category(market_cap: float | None) -> str:
 
 
 def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
-    """Fetch sector, industry, style, pe_ratio, market_cap for each ticker via yfinance (parallel)."""
+    """Fetch sector, industry, style, pe_ratio, market_cap for each ticker via yfinance.
+
+    Uses 3 workers with a 0.5 s per-request sleep to stay well under Yahoo
+    Finance's rate limit (~6 req/s vs the 8-worker burst that caused lockouts).
+    """
+    import time
     import yfinance as yf
     from concurrent.futures import ThreadPoolExecutor, as_completed
 
     def _one(ticker):
+        time.sleep(0.5)   # throttle to avoid Yahoo Finance rate limits
         try:
             info = yf.Ticker(ticker).info
             sector   = info.get("sector")   or ""
@@ -630,7 +657,7 @@ def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
             }
 
     result = {}
-    with ThreadPoolExecutor(max_workers=8) as ex:
+    with ThreadPoolExecutor(max_workers=3) as ex:
         futures = {ex.submit(_one, t): t for t in tickers}
         for i, f in enumerate(as_completed(futures), 1):
             ticker, meta = f.result()
