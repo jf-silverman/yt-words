@@ -1090,7 +1090,6 @@ function renderAnalytics(d) {
       <td style="text-align:right">${retFmt(r.median_return_30d)}</td>
       <td style="text-align:right">${retFmt(r.median_return_90d)}</td>
       <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
     </tr>`).join('');
 
 
@@ -1230,7 +1229,6 @@ function renderAnalytics(d) {
             <th style="text-align:right">Median 30d</th>
             <th style="text-align:right">Median 90d</th>
             <th style="text-align:right">Win% 30d</th>
-            <th style="text-align:right">Since Mention</th>
           </tr></thead>
           <tbody>${capRows}</tbody>
         </table>
@@ -1658,6 +1656,7 @@ function renderAnalytics(d) {
         ${detailHero ? `<div style="font-size:12px;color:#444;margin-bottom:8px;line-height:1.5">${detailHero}</div>` : ''}
         <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
           <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
+          <div><span style="color:#57606a">Stocks:</span> <strong>${r.n_tickers ?? '—'}</strong></div>
           <div><span style="color:#57606a">Median 30d:</span> <strong>${r.median_return_30d != null ? (r.median_return_30d > 0 ? '+' : '') + r.median_return_30d.toFixed(2) + '%' : '—'}</strong></div>
           <div><span style="color:#57606a">Median 90d:</span> <strong>${r.median_return_90d != null ? (r.median_return_90d > 0 ? '+' : '') + r.median_return_90d.toFixed(2) + '%' : '—'}</strong></div>
           <div><span style="color:#57606a">% Right 30d:</span> <strong>${pr30}</strong></div>

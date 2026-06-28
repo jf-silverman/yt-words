@@ -844,6 +844,7 @@ def build_analytics_json(out_path: str) -> None:
         SELECT ({_SEG_NORM}) AS segment,
                CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
                COUNT(*)                                            AS n_mentions,
+               COUNT(DISTINCT ticker)                             AS n_tickers,
                ROUND(100.0 * SUM(CASE WHEN return_30d > 0 THEN 1 ELSE 0 END)
                            / NULLIF(COUNT(return_30d), 0), 1)     AS win_rate_30d,
                ROUND(100.0 * SUM(CASE WHEN return_90d > 0 THEN 1 ELSE 0 END)
