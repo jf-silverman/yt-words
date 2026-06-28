@@ -1181,9 +1181,16 @@ function renderAnalytics(d) {
     <div id="chart-segment" class="analytics-card" style="display:none;margin-bottom:20px">
       <div class="analytics-card-header">
         By Segment
-        <div class="analytics-card-sub">Choose a call type and metric — click a bar for details</div>
+        <div class="analytics-card-sub">Click a bar for details &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="seg-details-chk" onchange="document.getElementById('seg-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="seg-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>Segments</strong> are the parts of the Mad Money show where a stock is mentioned. <em>Opening Commentary</em> is Cramer's prepared monologue at the top of the show — his highest-conviction picks. <em>In-Depth Analysis</em> is a deeper segment devoted to one stock or theme. <em>Lightning Round</em> is the rapid-fire call-in section. <em>Closing Commentary</em> wraps the show. <em>Caller Q&amp;A</em> is when callers ask about a stock outside the Lightning Round.</p>
+          <p style="margin:0 0 6px"><strong>Win% 30d / 90d</strong> — For buy calls, this is the % of stocks that were higher at 30 or 90 days (Cramer right = stock went up). For sell calls, a <em>lower</em> Win% means Cramer was more right — fewer stocks went up despite his warning.</p>
+          <p style="margin:0 0 6px"><strong>Median 30d / 90d</strong> — Median % return from the episode close to 30 or 90 days later. For sell calls, a negative median means the stocks Cramer cautioned against actually fell — his warning was correct on average.</p>
+          <p style="margin:0">Only segments with 30 or more mentions are shown.</p>
+        </div>
       </div>
       <div class="analytics-card-body">
+        <p id="seg-hero" style="margin:0 0 10px;font-size:13px;color:#444;max-width:680px;line-height:1.5"></p>
         <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <button class="filter-btn active" id="seg-btn-buy">Buy Calls</button>
           <button class="filter-btn" id="seg-btn-sell">Sell Calls</button>
@@ -1529,6 +1536,25 @@ function renderAnalytics(d) {
   let segMetric     = 'median_return_30d';
   let selectedSeg   = null;
 
+  const SEG_HERO = {
+    buy:  "Closing Commentary is Cramer's strongest buy segment — nearly 70% right at 30 days with a +6.4% median return. In-Depth Analysis picks start slow (53% at 30d) but build to 66% accuracy at 90 days. Lightning Round and Opening Commentary are consistent, high-volume performers.",
+    sell: "In-Depth Analysis is his sharpest sell segment: 58% of stocks he flagged in deep dives declined over 30 days, with a median drop of 2.9%. Opening and Closing Commentary sell calls are closer to a coin flip — those stocks often rose despite his warnings.",
+  };
+
+  const SEG_DETAIL_HERO = {
+    'opening_commentary:buy':  "The largest buy segment by volume. Steady and consistent across both timeframes — the most reliable baseline for Cramer's overall buy call accuracy.",
+    'closing_commentary:buy':  "Cramer's top buy segment. When he opens the show by recommending a stock, his conviction runs high — nearly 70% right at 30 days with a median return of +6.4%.",
+    'in_depth_analysis:buy':   "Slow starters that reward patience. Only 53% right at 30 days, but the thesis tends to play out: 66% win rate and +6.7% median return by 90 days.",
+    'lightning_round:buy':     "Quick-fire calls with consistent performance that improves over time — 57% right at 30 days, rising to 63% at 90 days. High volume makes this segment statistically reliable.",
+    'caller_qa:buy':           "Good short-term momentum but fades fast — 61% right at 30 days, dropping to a coin flip at 90 days. These picks tend to work best as shorter-term trades.",
+    'interview:buy':           "Decent short-term accuracy at 59%, but the thesis fades at 90 days (coin flip). Interview picks appear to capture near-term momentum without lasting conviction.",
+    'opening_commentary:sell': "Cramer's most common sell context, but close to a coin flip — 56% of stocks he cautioned against during Opening Commentary still went up at 30 days.",
+    'closing_commentary:sell': "Closing Commentary sell calls are his least reliable — 60% of stocks went up at 30 days despite his warnings. Smaller sample than other sell segments.",
+    'in_depth_analysis:sell':  "Cramer's sharpest sell calls. 58% of stocks he flagged in deep dives declined over 30 days, with a median drop of 2.9%. These are his highest-conviction warnings.",
+    'lightning_round:sell':    "Roughly a coin flip at 30 days, but improves over time — stocks Cramer warned about in Lightning Round ended down 2.6% on average by 90 days.",
+    'caller_qa:sell':          "Small sample (30 mentions). Results are roughly a coin flip — about half the stocks Cramer cautioned callers away from still went up at 30 days.",
+  };
+
   function renderSegmentBars() {
     const isWinPct = metricIsWinPct(segMetric);
     const rows = Object.keys(sbt_seg)
@@ -1549,13 +1575,16 @@ function renderAnalytics(d) {
       const label = SEG_LABELS[r.segment] || r.segment;
       return `<div class="chart-bar-wrap" data-seg="${r.segment}"
                    style="cursor:pointer;outline:${isSel ? '2px solid #0969da' : 'none'};border-radius:4px">
-        <div class="chart-bar-label">${label} <span style="color:#57606a;font-size:11px;font-weight:400">(${r.n_mentions})</span></div>
+        <div class="chart-bar-label">${label}</div>
         <div class="chart-bar-track">
           <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
         </div>
         <div class="chart-bar-val ${barClass(v, isWinPct)}">${barFmt(v, isWinPct)}</div>
       </div>`;
     }).join('');
+
+    const heroEl = document.getElementById('seg-hero');
+    if (heroEl) heroEl.textContent = SEG_HERO[segCallType] || '';
 
     renderSegmentDetail();
   }
@@ -1570,11 +1599,17 @@ function renderAnalytics(d) {
     const r = sbt_seg[selectedSeg][segCallType];
     const typeLabel = segCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
     const segLabel  = SEG_LABELS[selectedSeg] || selectedSeg;
+    const detailHero = SEG_DETAIL_HERO[`${selectedSeg}:${segCallType}`] || '';
     el.innerHTML = `
       <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
-        <div style="font-weight:600;margin-bottom:8px">${segLabel} — ${typeLabel}</div>
+        <div style="font-weight:600;margin-bottom:4px">${segLabel} — ${typeLabel}</div>
+        ${detailHero ? `<div style="font-size:12px;color:#444;margin-bottom:8px;line-height:1.5">${detailHero}</div>` : ''}
         <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
           <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
+          <div><span style="color:#57606a">Median 30d:</span> <strong>${r.median_return_30d != null ? (r.median_return_30d > 0 ? '+' : '') + r.median_return_30d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Median 90d:</span> <strong>${r.median_return_90d != null ? (r.median_return_90d > 0 ? '+' : '') + r.median_return_90d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Win% 30d:</span> <strong>${r.win_rate_30d != null ? r.win_rate_30d.toFixed(1) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Win% 90d:</span> <strong>${r.win_rate_90d != null ? r.win_rate_90d.toFixed(1) + '%' : '—'}</strong></div>
         </div>
       </div>`;
   }
