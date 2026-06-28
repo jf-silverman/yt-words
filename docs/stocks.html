@@ -1184,7 +1184,7 @@ function renderAnalytics(d) {
         <div class="analytics-card-sub">Click a bar for details &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="seg-details-chk" onchange="document.getElementById('seg-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
         <div id="seg-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
           <p style="margin:0 0 6px"><strong>Segments</strong> are the parts of the Mad Money show where a stock is mentioned. <em>Opening Commentary</em> is Cramer's prepared monologue at the top of the show — his highest-conviction picks. <em>In-Depth Analysis</em> is a deeper segment devoted to one stock or theme. <em>Lightning Round</em> is the rapid-fire call-in section. <em>Closing Commentary</em> wraps the show. <em>Caller Q&amp;A</em> is when callers ask about a stock outside the Lightning Round.</p>
-          <p style="margin:0 0 6px"><strong>Win% 30d / 90d</strong> — For buy calls, this is the % of stocks that were higher at 30 or 90 days (Cramer right = stock went up). For sell calls, a <em>lower</em> Win% means Cramer was more right — fewer stocks went up despite his warning.</p>
+          <p style="margin:0 0 6px"><strong>% Right 30d / 90d</strong> — The percentage of calls where Cramer was correct about price direction. For buy calls, this means the stock was higher at 30 or 90 days. For sell calls it's inverted — Cramer was right when the stock went <em>down</em>, so % Right = 100 minus the raw win rate. Above 50% means he was right more often than not.</p>
           <p style="margin:0 0 6px"><strong>Median 30d / 90d</strong> — Median % return from the episode close to 30 or 90 days later. For sell calls, a negative median means the stocks Cramer cautioned against actually fell — his warning was correct on average.</p>
           <p style="margin:0">Only segments with 30 or more mentions are shown.</p>
         </div>
@@ -1198,8 +1198,8 @@ function renderAnalytics(d) {
         <div style="margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
           <button class="filter-btn active" id="seg-metric-m30">Median 30</button>
           <button class="filter-btn" id="seg-metric-m90">Median 90</button>
-          <button class="filter-btn" id="seg-metric-w30">Win% 30D</button>
-          <button class="filter-btn" id="seg-metric-w90">Win% 90D</button>
+          <button class="filter-btn" id="seg-metric-w30">% Right 30D</button>
+          <button class="filter-btn" id="seg-metric-w90">% Right 90D</button>
         </div>
         <div id="segment-chart-bars"></div>
         <div id="segment-detail"></div>
@@ -1538,37 +1538,41 @@ function renderAnalytics(d) {
 
   const SEG_HERO = {
     buy:  "Closing Commentary is Cramer's strongest buy segment — nearly 70% right at 30 days with a +6.4% median return. In-Depth Analysis picks start slow (53% at 30d) but build to 66% accuracy at 90 days. Lightning Round and Opening Commentary are consistent, high-volume performers.",
-    sell: "In-Depth Analysis is his sharpest sell segment: 58% of stocks he flagged in deep dives declined over 30 days, with a median drop of 2.9%. Opening and Closing Commentary sell calls are closer to a coin flip — those stocks often rose despite his warnings.",
+    sell: "In-Depth Analysis is his sharpest sell segment — 58% right at 30 days with a median decline of 2.9%. Opening Commentary (44% right) and Closing Commentary (40% right) are below a coin flip, meaning the stocks he warned against often rose anyway.",
   };
 
   const SEG_DETAIL_HERO = {
     'opening_commentary:buy':  "The largest buy segment by volume. Steady and consistent across both timeframes — the most reliable baseline for Cramer's overall buy call accuracy.",
     'closing_commentary:buy':  "Cramer's top buy segment. When he opens the show by recommending a stock, his conviction runs high — nearly 70% right at 30 days with a median return of +6.4%.",
-    'in_depth_analysis:buy':   "Slow starters that reward patience. Only 53% right at 30 days, but the thesis tends to play out: 66% win rate and +6.7% median return by 90 days.",
+    'in_depth_analysis:buy':   "Slow starters that reward patience. Only 53% right at 30 days, but the thesis tends to play out: 66% right and +6.7% median return by 90 days.",
     'lightning_round:buy':     "Quick-fire calls with consistent performance that improves over time — 57% right at 30 days, rising to 63% at 90 days. High volume makes this segment statistically reliable.",
-    'caller_qa:buy':           "Good short-term momentum but fades fast — 61% right at 30 days, dropping to a coin flip at 90 days. These picks tend to work best as shorter-term trades.",
-    'interview:buy':           "Decent short-term accuracy at 59%, but the thesis fades at 90 days (coin flip). Interview picks appear to capture near-term momentum without lasting conviction.",
-    'opening_commentary:sell': "Cramer's most common sell context, but close to a coin flip — 56% of stocks he cautioned against during Opening Commentary still went up at 30 days.",
-    'closing_commentary:sell': "Closing Commentary sell calls are his least reliable — 60% of stocks went up at 30 days despite his warnings. Smaller sample than other sell segments.",
-    'in_depth_analysis:sell':  "Cramer's sharpest sell calls. 58% of stocks he flagged in deep dives declined over 30 days, with a median drop of 2.9%. These are his highest-conviction warnings.",
-    'lightning_round:sell':    "Roughly a coin flip at 30 days, but improves over time — stocks Cramer warned about in Lightning Round ended down 2.6% on average by 90 days.",
-    'caller_qa:sell':          "Small sample (30 mentions). Results are roughly a coin flip — about half the stocks Cramer cautioned callers away from still went up at 30 days.",
+    'caller_qa:buy':           "Good short-term accuracy at 61% but fades fast — drops to a coin flip at 90 days. These picks tend to work best as shorter-term trades.",
+    'interview:buy':           "Decent short-term accuracy at 59%, but fades to a coin flip at 90 days. Interview picks appear to capture near-term momentum without lasting conviction.",
+    'opening_commentary:sell': "Below a coin flip at 44% right — more than half the stocks Cramer cautioned against during Opening Commentary still went up at 30 days. His most common sell context but least accurate.",
+    'closing_commentary:sell': "Cramer's least reliable sell segment — only 40% right at 30 days. Three in five stocks he warned against at show's end went up anyway.",
+    'in_depth_analysis:sell':  "Cramer's sharpest sell calls — 58% right at 30 days with a median decline of 2.9%. When he dedicates a deep dive to warning against a stock, the data backs him up.",
+    'lightning_round:sell':    "Just under a coin flip at 30 days (48% right), but improves over time — 58% right at 90 days with a median decline of 2.6% by then.",
+    'caller_qa:sell':          "Small sample (30 mentions). About 48% right at 30 days — essentially a coin flip. Performance edges above 50% at 90 days.",
   };
 
   function renderSegmentBars() {
     const isWinPct = metricIsWinPct(segMetric);
+    // For sell calls on a win-pct metric, % Right = 100 - win_rate
+    const invertSell = isWinPct && segCallType === 'sell';
+    const effV = v => (v != null && invertSell) ? 100 - v : v;
+
     const rows = Object.keys(sbt_seg)
       .filter(s => sbt_seg[s][segCallType])
       .map(s => ({ segment: s, ...sbt_seg[s][segCallType] }))
       .filter(r => r.n_mentions >= 30)
-      .sort((a, b) => (b[segMetric] ?? -Infinity) - (a[segMetric] ?? -Infinity));
+      .sort((a, b) => (effV(b[segMetric]) ?? -Infinity) - (effV(a[segMetric]) ?? -Infinity));
 
-    const maxAbs = Math.max(...rows.map(r => Math.abs(r[segMetric] ?? 0)), 1);
+    const maxAbs = Math.max(...rows.map(r => Math.abs(effV(r[segMetric]) ?? 0)), 1);
     const barsEl = document.getElementById('segment-chart-bars');
     if (!barsEl) return;
 
     barsEl.innerHTML = rows.map(r => {
-      const v = r[segMetric] ?? null;
+      const v = effV(r[segMetric] ?? null);
       const pct = v != null ? Math.min(Math.abs(v) / maxAbs * 100, 100) : 0;
       const color = barColor(v, isWinPct);
       const isSel = selectedSeg === r.segment;
@@ -1600,6 +1604,9 @@ function renderAnalytics(d) {
     const typeLabel = segCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
     const segLabel  = SEG_LABELS[selectedSeg] || selectedSeg;
     const detailHero = SEG_DETAIL_HERO[`${selectedSeg}:${segCallType}`] || '';
+    const isSell = segCallType === 'sell';
+    const pr30 = r.win_rate_30d != null ? (isSell ? 100 - r.win_rate_30d : r.win_rate_30d).toFixed(1) + '%' : '—';
+    const pr90 = r.win_rate_90d != null ? (isSell ? 100 - r.win_rate_90d : r.win_rate_90d).toFixed(1) + '%' : '—';
     el.innerHTML = `
       <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
         <div style="font-weight:600;margin-bottom:4px">${segLabel} — ${typeLabel}</div>
@@ -1608,8 +1615,8 @@ function renderAnalytics(d) {
           <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
           <div><span style="color:#57606a">Median 30d:</span> <strong>${r.median_return_30d != null ? (r.median_return_30d > 0 ? '+' : '') + r.median_return_30d.toFixed(2) + '%' : '—'}</strong></div>
           <div><span style="color:#57606a">Median 90d:</span> <strong>${r.median_return_90d != null ? (r.median_return_90d > 0 ? '+' : '') + r.median_return_90d.toFixed(2) + '%' : '—'}</strong></div>
-          <div><span style="color:#57606a">Win% 30d:</span> <strong>${r.win_rate_30d != null ? r.win_rate_30d.toFixed(1) + '%' : '—'}</strong></div>
-          <div><span style="color:#57606a">Win% 90d:</span> <strong>${r.win_rate_90d != null ? r.win_rate_90d.toFixed(1) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">% Right 30d:</span> <strong>${pr30}</strong></div>
+          <div><span style="color:#57606a">% Right 90d:</span> <strong>${pr90}</strong></div>
         </div>
       </div>`;
   }
