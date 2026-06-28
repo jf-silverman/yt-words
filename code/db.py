@@ -260,12 +260,15 @@ def _create_views(c):
     c.execute("DROP VIEW IF EXISTS latest_mention_performance")
     c.execute("""
         CREATE VIEW latest_mention_performance AS
-        SELECT fr.*
-        FROM forward_returns fr
-        WHERE fr.mention_date = (
-            SELECT MAX(mention_date) FROM forward_returns fr2
-            WHERE fr2.ticker = fr.ticker
+        WITH ranked AS (
+            SELECT fr.*,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY fr.ticker
+                       ORDER BY fr.mention_date DESC, fr.mention_id DESC
+                   ) AS rn
+            FROM forward_returns fr
         )
+        SELECT * FROM ranked WHERE rn = 1
         ORDER BY return_since_mention DESC
     """)
 
