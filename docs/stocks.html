@@ -44,6 +44,13 @@
     }
     .filter-btn:hover { border-color: #0969da; color: #0969da; }
     .filter-btn.active { background: #0969da; color: #fff; border-color: #0969da; font-weight: 600; }
+    .chk-label {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; color: #1f2328; cursor: pointer;
+      padding: 3px 8px; border-radius: 4px; user-select: none; white-space: nowrap;
+    }
+    .chk-label:hover { background: #f6f8fa; }
+    .chk-label input[type=checkbox] { accent-color: #0969da; cursor: pointer; width: 13px; height: 13px; }
 
     /* Search */
     .search-wrap { margin-bottom: 8px; }
@@ -182,6 +189,10 @@
 <body>
 <div class="container">
   <h1>Mad Money · Stock Lookup</h1>
+  <p class="subtitle" style="margin-bottom:6px">
+    Find your stock of interest and see how it performed after each of his calls.
+    This shows how well he's called the price direction from January 2026 to present.
+  </p>
   <p class="subtitle">
     Every stock Cramer has mentioned on Mad Money, with sentiment and closing price.
     &nbsp;·&nbsp; <a href="index.html">← Home</a>
@@ -236,7 +247,7 @@
       <span class="filter-label">Sentiment:</span>
       <button class="filter-btn active" id="rAll" onclick="setRecentFilter('sentiment','all',this)">All</button>
       <button class="filter-btn" id="rBull" onclick="setRecentFilter('sentiment','bullish',this)">▲ Bullish</button>
-      <button class="filter-btn" id="rNeut" onclick="setRecentFilter('sentiment','neutral',this)">→ Neutral</button>
+      <button class="filter-btn" id="rNeut" onclick="setRecentFilter('sentiment','neutral',this)"><span style="color:#8b949e">●</span> Neutral</button>
       <button class="filter-btn" id="rBear" onclick="setRecentFilter('sentiment','bearish',this)">▼ Bearish</button>
     </div>
     <div class="filter-bar">
@@ -255,6 +266,7 @@
       <button class="filter-btn"        id="rstValue"  onclick="setRecentFilter('style','value',this)">Value</button>
     </div>
     <div class="status" id="recent-status"></div>
+    <div id="recent-filter-status" style="font-size:12px;color:#57606a;min-height:20px;padding:2px 0 6px;display:flex;align-items:center;gap:8px"></div>
     <div id="recent-table"></div>
   </div>
 
@@ -442,16 +454,22 @@ function renderChart(ticker, entry) {
           borderWidth: 2,
           tension: 0.1,
           fill: false,
-          pointStyle: pts.map(() => 'triangle'),
-          pointRadius: pts.map(() => 7),
-          pointHoverRadius: pts.map(() => 10),
+          pointStyle: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 'triangle' : 'circle'
+          ),
+          pointRadius: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 7 : 5
+          ),
+          pointHoverRadius: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 10 : 7
+          ),
           pointBackgroundColor: pts.map(p =>
             BULLISH_SET.has(p.sentiment) ? '#2da44e'
-            : BEARISH_SET.has(p.sentiment) ? '#d03030' : '#d4a017'
+            : BEARISH_SET.has(p.sentiment) ? '#d03030' : '#8b949e'
           ),
           pointRotation: pts.map(p =>
             BULLISH_SET.has(p.sentiment) ? 0
-            : BEARISH_SET.has(p.sentiment) ? 180 : 90
+            : BEARISH_SET.has(p.sentiment) ? 180 : 0
           ),
           pointBorderColor: pts.map(() => '#fff'),
           pointBorderWidth: pts.map(() => 1.5),
@@ -511,7 +529,7 @@ function renderChart(ticker, entry) {
     }
   }, 0);
 
-  return `<div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+  return `<div style="text-align:right;font-size:11px;color:#57606a;margin-bottom:2px"><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish</div><div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
 }
 
 async function fetchDailyHistory(ticker) {
@@ -722,6 +740,12 @@ document.getElementById('nameMode').addEventListener('change', () => {
 
 // ── Recent Picks ──────────────────────────────────────────────────────────────
 
+const SECTOR_DISPLAY_NAMES = {
+  'Consumer Cyclical':  'Consumer Discretionary',
+  'Consumer Defensive': 'Consumer Staples',
+};
+function sectorLabel(s) { return SECTOR_DISPLAY_NAMES[s] || s || '—'; }
+
 const SEG_LABELS = {
   'opening_commentary': 'Opening Commentary',
   'closing_commentary': 'Closing Commentary',
@@ -734,13 +758,43 @@ const SEG_LABELS = {
 };
 
 let recentData = null;
-let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', sector: 'All', segment: 'All' };
+let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', sectors: new Set(), segments: new Set() };
 const recentFilterGroups = {
   days:        ['r7','r30','r90'],
   sentiment:   ['rAll','rBull','rNeut','rBear'],
   minMentions: ['rm1','rm2','rm5'],
   style:       ['rstAll','rstGrowth','rstBlend','rstValue'],
 };
+
+const RECENT_FILTER_DEFAULTS = { days: 30, sentiment: 'all', minMentions: 1, style: 'all' };
+
+function updateRecentFilterStatus() {
+  const active = (recentFilter.days !== 30 ? 1 : 0)
+    + (recentFilter.sentiment !== 'all' ? 1 : 0)
+    + (recentFilter.minMentions !== 1 ? 1 : 0)
+    + (recentFilter.style !== 'all' ? 1 : 0)
+    + (recentFilter.sectors.size > 0 ? 1 : 0)
+    + (recentFilter.segments.size > 0 ? 1 : 0);
+  const el = document.getElementById('recent-filter-status');
+  if (!el) return;
+  el.innerHTML = active === 0 ? '' :
+    `<span style="color:#0969da">${active} filter${active > 1 ? 's' : ''} active</span>` +
+    ` · <a href="#" onclick="clearRecentFilters();return false" style="color:#0969da;text-decoration:none">Clear all</a>`;
+}
+
+function clearRecentFilters() {
+  recentFilter = { ...RECENT_FILTER_DEFAULTS, sectors: new Set(), segments: new Set() };
+  [['r7','r30','r90'], ['rAll','rBull','rNeut','rBear'], ['rm1','rm2','rm5'],
+   ['rstAll','rstGrowth','rstBlend','rstValue']
+  ].forEach(ids => ids.forEach(id => document.getElementById(id)?.classList.remove('active')));
+  document.getElementById('r30')?.classList.add('active');
+  document.getElementById('rAll')?.classList.add('active');
+  document.getElementById('rm1')?.classList.add('active');
+  document.getElementById('rstAll')?.classList.add('active');
+  renderSectorFilters();
+  renderSegmentFilter();
+  renderRecent();
+}
 
 function setRecentFilter(key, val, btn) {
   recentFilter[key] = val;
@@ -756,9 +810,8 @@ function renderSectorFilters() {
   if (sectors.length === 0) { bar.style.display = 'none'; return; }
   bar.style.display = 'flex';
   bar.innerHTML = `<span class="filter-label">Sector:</span>`
-    + `<button class="filter-btn ${recentFilter.sector === 'All' ? 'active' : ''}" data-val="All">All</button>`
     + sectors.map(s =>
-        `<button class="filter-btn ${recentFilter.sector === s ? 'active' : ''}" data-val=${JSON.stringify(s)}>${s}</button>`
+        `<label class="chk-label"><input type="checkbox" data-group="sector" data-val=${JSON.stringify(s)} ${recentFilter.sectors.has(s) ? 'checked' : ''}> ${sectorLabel(s)}</label>`
       ).join('');
 }
 
@@ -769,27 +822,22 @@ function renderSegmentFilter() {
   if (segs.length === 0) { bar.style.display = 'none'; return; }
   bar.style.display = 'flex';
   bar.innerHTML = `<span class="filter-label">Segment:</span>`
-    + `<button class="filter-btn ${recentFilter.segment === 'All' ? 'active' : ''}" data-val="All">All</button>`
     + segs.map(s =>
-        `<button class="filter-btn ${recentFilter.segment === s ? 'active' : ''}" data-val=${JSON.stringify(s)}>${SEG_LABELS[s] || s}</button>`
+        `<label class="chk-label"><input type="checkbox" data-group="segment" data-val=${JSON.stringify(s)} ${recentFilter.segments.has(s) ? 'checked' : ''}> ${SEG_LABELS[s] || s}</label>`
       ).join('');
 }
 
-document.getElementById('sector-filter-bar').addEventListener('click', e => {
-  const btn = e.target.closest('[data-val]');
-  if (!btn) return;
-  recentFilter.sector = btn.dataset.val;
-  document.querySelectorAll('#sector-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+document.getElementById('sector-filter-bar').addEventListener('change', e => {
+  const cb = e.target.closest('input[type=checkbox]');
+  if (!cb) return;
+  cb.checked ? recentFilter.sectors.add(cb.dataset.val) : recentFilter.sectors.delete(cb.dataset.val);
   renderRecent();
 });
 
-document.getElementById('segment-filter-bar').addEventListener('click', e => {
-  const btn = e.target.closest('[data-val]');
-  if (!btn) return;
-  recentFilter.segment = btn.dataset.val;
-  document.querySelectorAll('#segment-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+document.getElementById('segment-filter-bar').addEventListener('change', e => {
+  const cb = e.target.closest('input[type=checkbox]');
+  if (!cb) return;
+  cb.checked ? recentFilter.segments.add(cb.dataset.val) : recentFilter.segments.delete(cb.dataset.val);
   renderRecent();
 });
 
@@ -822,13 +870,14 @@ function renderRecent() {
     if (recentFilter.sentiment === 'neutral' && (BULLISH_SET.has(s) || BEARISH_SET.has(s))) return false;
     if ((m.total_mentions || 1) < recentFilter.minMentions) return false;
     if (recentFilter.style !== 'all' && (m.style || '').toLowerCase() !== recentFilter.style) return false;
-    if (recentFilter.sector !== 'All' && m.sector !== recentFilter.sector) return false;
-    if (recentFilter.segment !== 'All' && m.segment !== recentFilter.segment) return false;
+    if (recentFilter.sectors.size > 0 && !recentFilter.sectors.has(m.sector)) return false;
+    if (recentFilter.segments.size > 0 && !recentFilter.segments.has(m.segment)) return false;
     return true;
   });
 
   document.getElementById('recent-status').textContent =
     `${rows.length} mention${rows.length !== 1 ? 's' : ''} — generated ${recentData.generated}`;
+  updateRecentFilterStatus();
 
   if (rows.length === 0) {
     document.getElementById('recent-table').innerHTML =
@@ -1007,8 +1056,9 @@ function renderAnalytics(d) {
     {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'});
 
   // ── Sentiment scorecard ────────────────────────────────────────────────────
-  // Sort by conviction order: Strong Buy → Buy → Mild Buy → Buy on Pullback → Wait/Hold/Neutral → Caution/Concern → Sell/Avoid
-  const sortedSent = [...d.sentiment_perf].sort((a, b) => {
+  // Sort by conviction order: Strong Buy → Buy → Mild Buy → Wait/Hold/Neutral → Caution/Concern → Sell/Avoid
+  // Buy on Pullback is excluded here — it has its own dedicated chart
+  const sortedSent = [...d.sentiment_perf].filter(r => r.sentiment !== 'buy_on_pullback' && r.n_mentions >= 100).sort((a, b) => {
     const aIdx = SENTIMENT_ORDER.indexOf(a.sentiment);
     const bIdx = SENTIMENT_ORDER.indexOf(b.sentiment);
     return aIdx - bIdx;
@@ -1018,15 +1068,16 @@ function renderAnalytics(d) {
     <tr>
       <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
-      <td style="text-align:right">${retFmt(r.median_return_30d)}<br>
+      <td class="col-30" style="text-align:right">${r.win_rate_30d != null ? (BEARISH_SET.has(r.sentiment) ? (100-r.win_rate_30d).toFixed(1) : r.win_rate_30d)+'%' : '—'}</td>
+      <td class="col-30" style="text-align:right">${retFmt(r.median_return_30d)}<br>
         <span class="ret-null" style="font-size:10px">n=${r.n_with_30d}</span></td>
-      <td style="text-align:right">${retFmt(r.median_return_90d)}<br>
+      <td class="bench-30 bspy" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_spy_30d)}</td>
+      <td class="bench-30 bqqq" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_qqq_30d)}</td>
+      <td class="col-90" style="text-align:right">${r.win_rate_90d != null ? (BEARISH_SET.has(r.sentiment) ? (100-r.win_rate_90d).toFixed(1) : r.win_rate_90d)+'%' : '—'}</td>
+      <td class="col-90" style="text-align:right">${retFmt(r.median_return_90d)}<br>
         <span class="ret-null" style="font-size:10px">n=${r.n_with_90d}</span></td>
-      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${r.win_rate_90d != null ? r.win_rate_90d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
-      <td style="text-align:right">${retFmt(r.median_spy_since_mention)}</td>
-      <td style="text-align:right">${retFmt(r.median_qqq_since_mention)}</td>
+      <td class="bench-90 bspy" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_spy_90d)}</td>
+      <td class="bench-90 bqqq" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_qqq_90d)}</td>
     </tr>`).join('');
 
   // ── Market cap table ───────────────────────────────────────────────────────
@@ -1064,7 +1115,7 @@ function renderAnalytics(d) {
         <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.company}</td>
         <td class="date-cell">${r.mention_date}</td>
         <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
-        <td style="font-size:12px;color:#57606a">${r.sector || '—'}</td>
+        <td style="font-size:12px;color:#57606a">${sectorLabel(r.sector)}</td>
         <td style="text-align:right">${retFmt(r.return_since_mention)}</td>
       </tr>`).join('');
   }
@@ -1086,19 +1137,38 @@ function renderAnalytics(d) {
     <div id="chart-sentiment" class="analytics-card" style="margin-bottom:20px">
       <div class="analytics-card-header">
         Sentiment Scorecard
-        <div class="analytics-card-sub">Median % return after each mention, by Cramer's conviction level</div>
+        <div class="analytics-card-sub">Median % return by conviction level · <em>Buy on Pullback</em> in separate chart · Compare to S&amp;P 500 or Nasdaq using toggles below. &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="sent-details-chk" onchange="document.getElementById('sent-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="sent-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>% Right 30d / 90d</strong> — The percentage of calls where Cramer was correct about price direction. For bullish sentiments (Strong Buy, Buy, Mild Buy) this means the stock was <em>higher</em> at the 30- or 90-day mark. For bearish sentiments (Caution/Concern, Sell/Avoid) it's inverted — Cramer was right when the stock went <em>down</em>. Above 50% means he was right more often than wrong.</p>
+          <p style="margin:0 0 6px"><strong>Cramer 30d / 90d</strong> — The median % return across all mentions of that sentiment, from the episode closing price to the price 30 or 90 calendar days later. Median is used instead of average so that a few big winners or losers don't skew the result.</p>
+          <p style="margin:0 0 6px"><strong>Index comparison (S&amp;P 500 / Nasdaq columns)</strong> — For each Cramer mention, the index return is measured over the exact same calendar window (same start date, same +30 or +90 day end). So if Cramer's Buy calls mostly came during a rising market, the index column reflects that same rising market. A Cramer 30d of +2.6% vs. S&amp;P 500 30d of +0.1% means his picks beat a passive index by ~2.5 percentage points on those specific dates — not over the full year.</p>
+          <p style="margin:0"><strong>Minimum sample size</strong> — Only sentiments with 100 or more mentions are shown. Smaller samples (like Mild Buy) are excluded because the percentages aren't reliable enough to draw conclusions.</p>
+        </div>
+      </div>
+      <div style="margin:10px 0 12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:12px;color:#57606a;font-weight:600">Compare to:</span>
+          <button class="filter-btn active" id="sent-bench-spy" onclick="setSentBench('spy')">S&amp;P 500</button>
+          <button class="filter-btn" id="sent-bench-qqq" onclick="setSentBench('qqq')">Nasdaq</button>
+        </span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:12px;color:#57606a;font-weight:600">Period:</span>
+          <button class="filter-btn active" id="sent-period-30d" onclick="setSentPeriod('30d')">30d</button>
+          <button class="filter-btn" id="sent-period-90d" onclick="setSentPeriod('90d')">90d</button>
+        </span>
       </div>
       <div style="overflow-x:auto">
         <table id="table-sentiment" class="a-table">
           <thead><tr>
             <th>Sentiment</th><th style="text-align:right">Mentions</th>
-            <th style="text-align:right">Median 30d</th>
-            <th style="text-align:right">Median 90d</th>
-            <th style="text-align:right">Win% 30d</th>
-            <th style="text-align:right">Win% 90d</th>
-            <th style="text-align:right">Median Since</th>
-            <th style="text-align:right">S&amp;P 500 Since</th>
-            <th style="text-align:right">Nasdaq Since</th>
+            <th class="col-30" style="text-align:right">% Right 30d</th>
+            <th class="col-30" style="text-align:right">Cramer 30d</th>
+            <th class="bench-30 bspy" style="display:none;text-align:right;background:#e8f4fd">S&amp;P 500 30d</th>
+            <th class="bench-30 bqqq" style="display:none;text-align:right;background:#e8f4fd">Nasdaq 30d</th>
+            <th class="col-90" style="text-align:right">% Right 90d</th>
+            <th class="col-90" style="text-align:right">Cramer 90d</th>
+            <th class="bench-90 bspy" style="display:none;text-align:right;background:#e8f4fd">S&amp;P 500 90d</th>
+            <th class="bench-90 bqqq" style="display:none;text-align:right;background:#e8f4fd">Nasdaq 90d</th>
           </tr></thead>
           <tbody>${sentRows}</tbody>
         </table>
@@ -1227,6 +1297,33 @@ function renderAnalytics(d) {
   // Sentiment: default sort by col 0 (sentiment name) ascending — but rows were
   // pre-sorted by conviction order, so col=null keeps that order; clicking a header sorts.
   makeSortable('table-sentiment', null);
+
+  let sentBenchmark = 'spy', sentPeriod = '30d';
+  function updateSentCols() {
+    const show30 = sentPeriod !== '90d';
+    const show90 = sentPeriod !== '30d';
+    const tbl = document.getElementById('table-sentiment');
+    if (!tbl) return;
+    tbl.querySelectorAll('.col-30').forEach(el => { el.style.display = show30 ? '' : 'none'; });
+    tbl.querySelectorAll('.col-90').forEach(el => { el.style.display = show90 ? '' : 'none'; });
+    tbl.querySelectorAll('.bench-30').forEach(el => {
+      el.style.display = (show30 && el.classList.contains('b'+sentBenchmark)) ? '' : 'none';
+    });
+    tbl.querySelectorAll('.bench-90').forEach(el => {
+      el.style.display = (show90 && el.classList.contains('b'+sentBenchmark)) ? '' : 'none';
+    });
+  }
+  window.setSentBench = function(val) {
+    sentBenchmark = val;
+    ['spy','qqq'].forEach(v => document.getElementById('sent-bench-'+v)?.classList.toggle('active', v === val));
+    updateSentCols();
+  };
+  window.setSentPeriod = function(val) {
+    sentPeriod = val;
+    ['30d','90d'].forEach(v => document.getElementById('sent-period-'+v)?.classList.toggle('active', v === val));
+    updateSentCols();
+  };
+  updateSentCols();
   // Market cap: default order as returned (mega→large→mid→small→micro→nano)
   makeSortable('table-mktcap', null);
   // Calls table: default sort by Return Since descending (col 5)
@@ -1289,7 +1386,7 @@ function renderAnalytics(d) {
     const cfg = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
     const sectors = [...new Set(cfg.pool.map(r => r.sector).filter(Boolean))].sort();
     callSectorEl.innerHTML = '<option value="">All Sectors</option>'
-      + sectors.map(s => `<option value="${s}">${s}</option>`).join('');
+      + sectors.map(s => `<option value="${s}">${sectorLabel(s)}</option>`).join('');
   }
 
   callTypeEl.addEventListener('change', () => {
@@ -1352,7 +1449,7 @@ function renderAnalytics(d) {
       const isSelected = selectedSector === r.sector;
       return `<div class="chart-bar-wrap" data-sector="${r.sector}"
                    style="cursor:pointer;outline:${isSelected ? '2px solid #0969da' : 'none'};border-radius:4px">
-        <div class="chart-bar-label">${r.sector}</div>
+        <div class="chart-bar-label">${sectorLabel(r.sector)}</div>
         <div class="chart-bar-track">
           <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
         </div>
@@ -1374,7 +1471,7 @@ function renderAnalytics(d) {
     const typeLabel = sectorCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
     el.innerHTML = `
       <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
-        <div style="font-weight:600;margin-bottom:8px">${selectedSector} — ${typeLabel}</div>
+        <div style="font-weight:600;margin-bottom:8px">${sectorLabel(selectedSector)} — ${typeLabel}</div>
         <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
           <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
           <div><span style="color:#57606a">Tickers:</span> <strong>${r.n_tickers}</strong></div>

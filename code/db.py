@@ -668,28 +668,42 @@ def build_analytics_json(out_path: str) -> None:
     c.execute("""
         SELECT sentiment, mention_date, price_latest_date
         FROM forward_returns
-        WHERE return_since_mention IS NOT NULL
+        WHERE return_since_mention IS NOT NULL OR return_30d IS NOT NULL OR return_90d IS NOT NULL
     """)
     from collections import defaultdict as _dd
-    spy_buckets = _dd(list)
-    qqq_buckets = _dd(list)
+    spy_30d_buckets  = _dd(list); spy_90d_buckets  = _dd(list)
+    qqq_30d_buckets  = _dd(list); qqq_90d_buckets  = _dd(list)
     mention_rows = c.fetchall()
 
     for row in mention_rows:
-        end_date = row['price_latest_date']
-        for prices, bucket in [(voo_prices, spy_buckets), (qqq_prices, qqq_buckets)]:
+        d = row['mention_date']
+        try:
+            base = datetime.strptime(d, '%Y-%m-%d')
+        except (ValueError, TypeError):
+            continue
+        d30 = (base + timedelta(days=30)).strftime('%Y-%m-%d')
+        d90 = (base + timedelta(days=90)).strftime('%Y-%m-%d')
+        for prices, b30, b90 in [
+            (voo_prices, spy_30d_buckets, spy_90d_buckets),
+            (qqq_prices, qqq_30d_buckets, qqq_90d_buckets),
+        ]:
             if not prices:
                 continue
-            at_mention = _nearest_price(prices, row['mention_date'])
-            at_end     = _nearest_price(prices, end_date or max(prices))
-            if at_mention and at_end:
-                bucket[row['sentiment']].append(
-                    round((at_end - at_mention) / at_mention * 100, 2)
-                )
+            at_mention = _nearest_price(prices, d)
+            if not at_mention:
+                continue
+            p30 = _nearest_price(prices, d30)
+            p90 = _nearest_price(prices, d90)
+            if p30:
+                b30[row['sentiment']].append(round((p30 - at_mention) / at_mention * 100, 2))
+            if p90:
+                b90[row['sentiment']].append(round((p90 - at_mention) / at_mention * 100, 2))
 
     for row in sentiment_perf:
-        row['median_spy_since_mention'] = _median(spy_buckets.get(row['sentiment'], []))
-        row['median_qqq_since_mention'] = _median(qqq_buckets.get(row['sentiment'], []))
+        row['median_spy_30d'] = _median(spy_30d_buckets.get(row['sentiment'], []))
+        row['median_spy_90d'] = _median(spy_90d_buckets.get(row['sentiment'], []))
+        row['median_qqq_30d'] = _median(qqq_30d_buckets.get(row['sentiment'], []))
+        row['median_qqq_90d'] = _median(qqq_90d_buckets.get(row['sentiment'], []))
 
     # Fetch all forward_returns rows once for median computation across all tables
     c.execute("""
