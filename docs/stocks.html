@@ -1137,15 +1137,16 @@ function renderAnalytics(d) {
     <div id="chart-sentiment" class="analytics-card" style="margin-bottom:20px">
       <div class="analytics-card-header">
         Sentiment Scorecard
-        <div class="analytics-card-sub">Median % return by conviction level · <em>Buy on Pullback</em> in separate chart · Compare to S&amp;P 500 or Nasdaq using toggles below. &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="sent-details-chk" onchange="document.getElementById('sent-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div class="analytics-card-sub">Median % return by conviction level · &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="sent-details-chk" onchange="document.getElementById('sent-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
         <div id="sent-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
           <p style="margin:0 0 6px"><strong>% Right 30d / 90d</strong> — The percentage of calls where Cramer was correct about price direction. For bullish sentiments (Strong Buy, Buy, Mild Buy) this means the stock was <em>higher</em> at the 30- or 90-day mark. For bearish sentiments (Caution/Concern, Sell/Avoid) it's inverted — Cramer was right when the stock went <em>down</em>. Above 50% means he was right more often than wrong.</p>
           <p style="margin:0 0 6px"><strong>Cramer 30d / 90d</strong> — The median % return across all mentions of that sentiment, from the episode closing price to the price 30 or 90 calendar days later. Median is used instead of average so that a few big winners or losers don't skew the result.</p>
           <p style="margin:0 0 6px"><strong>Index comparison (S&amp;P 500 / Nasdaq columns)</strong> — For each Cramer mention, the index return is measured over the exact same calendar window (same start date, same +30 or +90 day end). So if Cramer's Buy calls mostly came during a rising market, the index column reflects that same rising market. A Cramer 30d of +2.6% vs. S&amp;P 500 30d of +0.1% means his picks beat a passive index by ~2.5 percentage points on those specific dates — not over the full year.</p>
-          <p style="margin:0"><strong>Minimum sample size</strong> — Only sentiments with 100 or more mentions are shown. Smaller samples (like Mild Buy) are excluded because the percentages aren't reliable enough to draw conclusions.</p>
+          <p style="margin:0 0 6px"><strong>Minimum sample size</strong> — Only sentiments with 100 or more mentions are shown. Smaller samples (like Mild Buy) are excluded because the percentages aren't reliable enough to draw conclusions.</p>
+          <p style="margin:0"><strong>Buy on Pullback</strong> — Cramer's highest-accuracy call type (65% win rate at 30d, +3.9% median return vs. +0.4% for the S&P 500) is excluded here because it sits just below the 100-mention threshold. It gets its own dedicated chart.</p>
         </div>
       </div>
-      <div style="margin:10px 0 12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="margin:10px 0 4px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
         <span style="display:flex;align-items:center;gap:6px">
           <span style="font-size:12px;color:#57606a;font-weight:600">Compare to:</span>
           <button class="filter-btn active" id="sent-bench-spy" onclick="setSentBench('spy')">S&amp;P 500</button>
@@ -1157,6 +1158,7 @@ function renderAnalytics(d) {
           <button class="filter-btn" id="sent-period-90d" onclick="setSentPeriod('90d')">90d</button>
         </span>
       </div>
+      <p id="sent-hero" style="margin:0 0 12px;font-size:13px;color:#444;max-width:680px;line-height:1.5"></p>
       <div style="overflow-x:auto">
         <table id="table-sentiment" class="a-table">
           <thead><tr>
@@ -1299,6 +1301,12 @@ function renderAnalytics(d) {
   makeSortable('table-sentiment', null);
 
   let sentBenchmark = 'spy', sentPeriod = '30d';
+  const SENT_HERO = {
+    'spy+30d': "Cramer's buy calls were right more than half the time and returned more than the S&P 500 over 30 days. His hold and sell calls were about as good as a coin flip and wouldn't have beat the index. His caution calls weren't as good as a coin flip and would have made about 1.1% more than the S&P 500 if bought.",
+    'qqq+30d': "Compared to the Nasdaq, Cramer's buy calls look even stronger — the Nasdaq was slightly negative on average over these 30-day windows, so his picks beat it by about 3–4%. Even his hold and sell calls came out ahead of the index. His caution calls weren't as accurate as a coin flip, but those stocks still gained about 2.3% more than the Nasdaq.",
+    'spy+90d': "Over 90 days, Cramer's Strong Buy calls outperformed the S&P 500 by about 2.4%, but regular Buy calls narrowly lagged — the market rose across most of these windows. His sell calls were his strongest 90-day signal: the stocks he warned against fell 2.6% while the S&P 500 gained 5.9% over the same periods. Hold and caution calls significantly trailed the index.",
+    'qqq+90d': "The Nasdaq surged over most 90-day windows in this dataset, making it a very tough benchmark — even Cramer's buy calls lagged by 5–8%. The clearest signal at 90 days is his sell calls: stocks he said to avoid fell 2.6% while the Nasdaq gained nearly 14% over those same periods — a 17-point gap.",
+  };
   function updateSentCols() {
     const show30 = sentPeriod !== '90d';
     const show90 = sentPeriod !== '30d';
@@ -1312,6 +1320,8 @@ function renderAnalytics(d) {
     tbl.querySelectorAll('.bench-90').forEach(el => {
       el.style.display = (show90 && el.classList.contains('b'+sentBenchmark)) ? '' : 'none';
     });
+    const hero = document.getElementById('sent-hero');
+    if (hero) hero.textContent = SENT_HERO[sentBenchmark+'+'+sentPeriod] || '';
   }
   window.setSentBench = function(val) {
     sentBenchmark = val;
