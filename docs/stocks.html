@@ -1108,7 +1108,9 @@ function renderAnalytics(d) {
     </tr>`).join('');
 
   // ── Calls performance table ───────────────────────────────────────────────
-  function callRows(rows) {
+  const CALL_PERIOD_FIELD = { since: 'return_since_mention', '7d': 'return_7d', '30d': 'return_30d', '90d': 'return_90d' };
+  function callRows(rows, period) {
+    const field = CALL_PERIOD_FIELD[period] || 'return_since_mention';
     return rows.map(r => `
       <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
         <td><a class="ticker-link">${r.ticker}</a></td>
@@ -1116,7 +1118,7 @@ function renderAnalytics(d) {
         <td class="date-cell">${r.mention_date}</td>
         <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
         <td style="font-size:12px;color:#57606a">${sectorLabel(r.sector)}</td>
-        <td style="text-align:right">${retFmt(r.return_since_mention)}</td>
+        <td style="text-align:right">${retFmt(r[field])}</td>
       </tr>`).join('');
   }
 
@@ -1264,14 +1266,20 @@ function renderAnalytics(d) {
         <select id="call-sector-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:160px">
           <option value="">All Sectors</option>
         </select>
+        <select id="call-period-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:140px">
+          <option value="since">Since Mention</option>
+          <option value="7d">7 Days</option>
+          <option value="30d">30 Days</option>
+          <option value="90d">90 Days</option>
+        </select>
       </div>
       <div style="overflow-x:auto">
         <table id="table-calls" class="a-table">
           <thead><tr>
             <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
-            <th>Sector</th><th style="text-align:right">Return Since</th>
+            <th>Sector</th><th id="calls-return-header" style="text-align:right">Return Since</th>
           </tr></thead>
-          <tbody>${callRows(d.buy_call_pool.filter(r => r.return_since_mention > 0).slice(0, 12))}</tbody>
+          <tbody>${callRows(d.buy_call_pool.filter(r => r.return_since_mention > 0).slice(0, 12), 'since')}</tbody>
         </table>
       </div>
     </div>
@@ -1361,13 +1369,14 @@ function renderAnalytics(d) {
 
   document.getElementById('analytics-chart-select').addEventListener('change', e => showAnalyticsChart(e.target.value));
 
-  // ── Calls type + sector dropdowns ────────────────────────────────────────
+  // ── Calls type + sector + period dropdowns ───────────────────────────────
   const buyPool  = d.buy_call_pool  || [];
   const sellPool = d.sell_call_pool || [];
   const callsBody    = document.querySelector('#table-calls tbody');
-  const callsHeaders = document.querySelectorAll('#table-calls thead th');
   const callTypeEl   = document.getElementById('call-type-select');
   const callSectorEl = document.getElementById('call-sector-select');
+  const callPeriodEl = document.getElementById('call-period-select');
+  const callsReturnHeader = document.getElementById('calls-return-header');
 
   const CALL_CFG = {
     best_buy:    { pool: buyPool,  asc: false, dir: 'pos' },
@@ -1376,27 +1385,28 @@ function renderAnalytics(d) {
     worst_avoid: { pool: sellPool, asc: false, dir: 'pos' },
   };
 
+  const PERIOD_LABEL = { since: 'Return Since', '7d': 'Return 7d', '30d': 'Return 30d', '90d': 'Return 90d' };
+
   function renderCallsTable() {
     const cfg    = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
     const sector = callSectorEl.value;
+    const period = callPeriodEl.value || 'since';
+    const field  = CALL_PERIOD_FIELD[period] || 'return_since_mention';
 
     const dirPass = cfg.dir === 'pos'
-      ? r => r.return_since_mention > 0
-      : r => r.return_since_mention < 0;
+      ? r => r[field] != null && r[field] > 0
+      : r => r[field] != null && r[field] < 0;
     const filtered = cfg.pool
       .filter(dirPass)
       .filter(r => !sector || r.sector === sector);
     const sorted = [...filtered].sort((a, b) =>
       cfg.asc
-        ? (a.return_since_mention || 0) - (b.return_since_mention || 0)
-        : (b.return_since_mention || 0) - (a.return_since_mention || 0)
+        ? (a[field] || 0) - (b[field] || 0)
+        : (b[field] || 0) - (a[field] || 0)
     ).slice(0, 12);
 
-    callsBody.innerHTML = callRows(sorted);
-    callsHeaders.forEach((th, i) => {
-      th.innerHTML = th.innerHTML.replace(/\s*[▲▼]/g, '');
-      if (i === 5) th.innerHTML += cfg.asc ? ' ▲' : ' ▼';
-    });
+    callsBody.innerHTML = callRows(sorted, period);
+    callsReturnHeader.textContent = (PERIOD_LABEL[period] || 'Return Since') + (cfg.asc ? ' ▲' : ' ▼');
   }
 
   function populateSectorDropdown() {
@@ -1412,6 +1422,7 @@ function renderAnalytics(d) {
     renderCallsTable();
   });
   callSectorEl.addEventListener('change', renderCallsTable);
+  callPeriodEl.addEventListener('change', renderCallsTable);
 
   populateSectorDropdown();  // seed sector options for initial call type
 

@@ -881,7 +881,8 @@ def build_analytics_json(out_path: str) -> None:
     # ── Call performance pools (all tickers, for unified calls table) ─────────
     c.execute(f"""
         SELECT ticker, company, mention_date, sentiment,
-               price_at_mention, price_latest, return_since_mention, days_since_mention,
+               price_at_mention, price_latest, return_7d, return_30d, return_90d,
+               return_since_mention, days_since_mention,
                sector, market_cap_category
         FROM latest_mention_performance
         WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
@@ -892,7 +893,8 @@ def build_analytics_json(out_path: str) -> None:
 
     c.execute(f"""
         SELECT ticker, company, mention_date, sentiment,
-               price_at_mention, price_latest, return_since_mention, days_since_mention,
+               price_at_mention, price_latest, return_7d, return_30d, return_90d,
+               return_since_mention, days_since_mention,
                sector, market_cap_category
         FROM latest_mention_performance
         WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
