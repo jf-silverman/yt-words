@@ -29,6 +29,8 @@ Findings synthesized below — strengths first, then prioritized suggestions.
 - Add a **hero/summary row** above the tab bar: e.g. "57% buy-call win rate · Tech sector: 69% · Best segment: Closing Commentary (64.5%)" — three headline stats, always visible
 - The "Cramer's Calls" leaderboard shows 795% returns (AVX) as the first row. Without context this looks like he's a genius; a note like "Positive-return calls only · includes all holding periods" is needed
 - The Analytics dropdown order should be: Overview (hero stats) → Sentiment → Segment → Sector → Market Cap → Calls → Latest
+- ✅ **Hero lines added to Sentiment Scorecard** — dynamic one-liner below the benchmark toggle summarizes the key finding for each S&P/Nasdaq × 30d/90d combination
+- ✅ **Hero lines added to By Segment** — overall hero below the chart header, plus per-segment hero in each detail pane
 
 ---
 
@@ -41,6 +43,7 @@ Findings synthesized below — strengths first, then prioritized suggestions.
 2. **Win rate has no confidence intervals** — "Mild Buy" 37.5% win rate at n=40 has ±15.2% margin of error. Could easily be noise. "Buy on Pullback" 65% at n=80 has ±10.7% — possibly meaningful. Users can't tell.
 
 3. **"Return since mention" mixes incomparable timeframes** — A 2026-06-24 mention has 1 day of data; a 2026-01-05 mention has 175 days. A 20% return over 175 days ≠ 20% over 1 day. This metric needs a disclaimer or should be excluded from aggregates.
+   - ✅ **Partially addressed** — Cramer's Calls now has a time period filter (7d / 30d / 90d / Since Mention). Fixed-window periods are apples-to-apples. A disclaimer on the "Since Mention" view is still missing.
 
 4. **Survivorship bias in buy_call_pool** — The Cramer's Calls table is filtered to `return_since_mention > 0`. Every stock that went down is excluded. This should be labelled explicitly ("Positive-return calls only") or the table should show a representative sample that includes losers.
 
@@ -110,9 +113,12 @@ Findings synthesized below — strengths first, then prioritized suggestions.
 | 🔴 High | Label Cramer's Calls table as "Positive-return only" | Data analyst | |
 | 🔴 High | Add "Clear filters" + active filter count to Recent Picks | UX | ✅ done |
 | 🟡 Med | Hero stats bar above tabs (3 headline numbers) | Storytelling | |
+| 🟡 Med | Hero lines per chart (Sentiment Scorecard + By Segment) | Storytelling | ✅ done |
 | 🟡 Med | Add chart legend for sentiment triangles | UX | ✅ done |
-| 🟡 Med | Surface "Buy on Pullback" as a featured callout | Financial | |
-| 🟡 Med | Add return disclaimer on "return since mention" mixing timeframes | Data analyst | |
+| 🟡 Med | Surface "Buy on Pullback" as a featured callout | Financial | ✅ done (note in Sentiment details) |
+| 🟡 Med | Add return disclaimer on "return since mention" mixing timeframes | Data analyst | ✅ partial — time period filter (7d/30d/90d) added; disclaimer text still missing |
+| 🟡 Med | Sector data for all real tickers in Analytics | Data | ✅ partial — pipeline fixed; data refresh pending (see bugs.md PENDING) |
+| 🟡 Med | Show details checkbox + % Right rename in By Segment | UX/Data | ✅ done |
 | 🟢 Low | Sector-relative benchmark column | Financial | |
 | 🟢 Low | Mobile filter button sizing / accessibility | UX | |
 | 🟢 Low | Hold-period return curve (plot return vs. days held) | Financial/Data | |
