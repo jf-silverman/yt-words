@@ -37,12 +37,4 @@ python3 code/pipeline.py --backfill-prices --tickers LITE,CRWV
 
 ## Open
 
-### PENDING — Sector data refresh blocked by Yahoo Finance rate limit
-**Discovered:** 2026-06-28  
-**Status:** Pipeline fix committed (BUG-003). ~200 real tickers (MPC, CSX, CAKE, RPRX, etc.) still show no sector in Analytics because the data refresh was rate-limited mid-run. The remaining ~350 blank tickers are hallucinated/OTC and will never get sector data.  
-**To resolve:** Wait ~30 minutes after the last `--fetch-sectors` run, then:
-```bash
-python3 code/pipeline.py --fetch-sectors
-python3 code/pipeline.py --rebuild-shards
-git add docs/data && git commit -m "Refresh sector data" && git push
-```
+*(none)*
