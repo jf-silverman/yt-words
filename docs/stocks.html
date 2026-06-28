@@ -756,17 +756,10 @@ function renderSectorFilters() {
   if (sectors.length === 0) { bar.style.display = 'none'; return; }
   bar.style.display = 'flex';
   bar.innerHTML = `<span class="filter-label">Sector:</span>`
-    + `<button class="filter-btn ${recentFilter.sector === 'All' ? 'active' : ''}" onclick="setSectorFilter('All',this)">All</button>`
+    + `<button class="filter-btn ${recentFilter.sector === 'All' ? 'active' : ''}" data-val="All">All</button>`
     + sectors.map(s =>
-        `<button class="filter-btn ${recentFilter.sector === s ? 'active' : ''}" onclick="setSectorFilter(${JSON.stringify(s)},this)">${s}</button>`
+        `<button class="filter-btn ${recentFilter.sector === s ? 'active' : ''}" data-val=${JSON.stringify(s)}>${s}</button>`
       ).join('');
-}
-
-function setSectorFilter(val, btn) {
-  recentFilter.sector = val;
-  document.querySelectorAll('#sector-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderRecent();
 }
 
 function renderSegmentFilter() {
@@ -776,18 +769,29 @@ function renderSegmentFilter() {
   if (segs.length === 0) { bar.style.display = 'none'; return; }
   bar.style.display = 'flex';
   bar.innerHTML = `<span class="filter-label">Segment:</span>`
-    + `<button class="filter-btn ${recentFilter.segment === 'All' ? 'active' : ''}" onclick="setSegmentFilter('All',this)">All</button>`
+    + `<button class="filter-btn ${recentFilter.segment === 'All' ? 'active' : ''}" data-val="All">All</button>`
     + segs.map(s =>
-        `<button class="filter-btn ${recentFilter.segment === s ? 'active' : ''}" onclick="setSegmentFilter(${JSON.stringify(s)},this)">${SEG_LABELS[s] || s}</button>`
+        `<button class="filter-btn ${recentFilter.segment === s ? 'active' : ''}" data-val=${JSON.stringify(s)}>${SEG_LABELS[s] || s}</button>`
       ).join('');
 }
 
-function setSegmentFilter(val, btn) {
-  recentFilter.segment = val;
+document.getElementById('sector-filter-bar').addEventListener('click', e => {
+  const btn = e.target.closest('[data-val]');
+  if (!btn) return;
+  recentFilter.sector = btn.dataset.val;
+  document.querySelectorAll('#sector-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRecent();
+});
+
+document.getElementById('segment-filter-bar').addEventListener('click', e => {
+  const btn = e.target.closest('[data-val]');
+  if (!btn) return;
+  recentFilter.segment = btn.dataset.val;
   document.querySelectorAll('#segment-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderRecent();
-}
+});
 
 async function loadRecent() {
   if (recentData) { renderSectorFilters(); renderSegmentFilter(); renderRecent(); return; }
