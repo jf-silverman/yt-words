@@ -1006,16 +1006,6 @@ function renderAnalytics(d) {
       <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
     </tr>`).join('');
 
-  // ── Sector table ───────────────────────────────────────────────────────────
-  const sectorRows = d.sector_perf.map(r => `
-    <tr>
-      <td>${r.sector}</td>
-      <td style="text-align:right">${r.n_mentions}</td>
-      <td style="text-align:right">${r.n_tickers}</td>
-      <td style="text-align:right">${retFmt(r.median_return_30d)}</td>
-      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
-    </tr>`).join('');
 
   // ── Latest calls leaderboard ───────────────────────────────────────────────
   const latestRows = d.latest_calls.map(r => `
@@ -1103,23 +1093,20 @@ function renderAnalytics(d) {
         </div>
       </div>
 
-      <!-- Sector table -->
+      <!-- Sector interactive chart -->
       <div class="analytics-card analytics-full">
         <div class="analytics-card-header">
           By Sector
-          <div class="analytics-card-sub">Which sectors does Cramer call correctly most often?</div>
+          <div class="analytics-card-sub">Median 30d return by sector — choose a call type, then click a bar for details</div>
         </div>
-        <div style="overflow-x:auto">
-          <table id="table-sector" class="a-table">
-            <thead><tr>
-              <th>Sector</th><th style="text-align:right">Mentions</th>
-              <th style="text-align:right">Tickers</th>
-              <th style="text-align:right">Median 30d</th>
-              <th style="text-align:right">Win% 30d</th>
-              <th style="text-align:right">Since Mention</th>
-            </tr></thead>
-            <tbody>${sectorRows}</tbody>
-          </table>
+        <div class="analytics-card-body">
+          <div style="margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <button class="filter-btn active" id="sect-btn-buy">Buy Calls</button>
+            <button class="filter-btn" id="sect-btn-sell">Sell Calls</button>
+            <span style="font-size:12px;color:#57606a;margin-left:4px">click a bar to see details</span>
+          </div>
+          <div id="sector-chart-bars"></div>
+          <div id="sector-detail"></div>
         </div>
       </div>
 
@@ -1221,8 +1208,6 @@ function renderAnalytics(d) {
   makeSortable('table-sentiment', null);
   // Market cap: default order as returned (mega→large→mid→small→micro→nano)
   makeSortable('table-mktcap', null);
-  // Sector: default by mentions descending (col 1)
-  makeSortable('table-sector', 1, false);
   // Best buys: default by return descending (col 4)
   makeSortable('table-best-buys', 4, false);
   // Best avoids: default by return ascending (col 4, most negative = best avoid)
@@ -1233,6 +1218,91 @@ function renderAnalytics(d) {
   makeSortable('table-worst-avoids', 4, false);
   // Latest calls: default by date descending (col 2)
   makeSortable('table-latest', 2, false);
+
+  // ── Sector interactive chart ──────────────────────────────────────────────
+  const sbt = {};
+  for (const r of d.sector_by_type || []) {
+    if (!sbt[r.sector]) sbt[r.sector] = {};
+    sbt[r.sector][r.call_type] = r;
+  }
+
+  let sectorCallType = 'buy';
+  let selectedSector = null;
+
+  function renderSectorBars() {
+    const rows = Object.keys(sbt)
+      .filter(s => sbt[s][sectorCallType])
+      .map(s => ({ sector: s, ...sbt[s][sectorCallType] }))
+      .sort((a, b) => (b.median_return_30d || 0) - (a.median_return_30d || 0));
+
+    const maxAbs = Math.max(...rows.map(r => Math.abs(r.median_return_30d || 0)), 1);
+    const barsEl = document.getElementById('sector-chart-bars');
+    if (!barsEl) return;
+
+    barsEl.innerHTML = rows.map(r => {
+      const v = r.median_return_30d;
+      const pct = v != null ? Math.min(Math.abs(v) / maxAbs * 100, 100) : 0;
+      const color = v != null ? (v >= 0 ? '#2da44e' : '#d03030') : '#8b949e';
+      const isSelected = selectedSector === r.sector;
+      return `<div class="chart-bar-wrap" data-sector="${r.sector}"
+                   style="cursor:pointer;outline:${isSelected ? '2px solid #0969da' : 'none'};border-radius:4px">
+        <div class="chart-bar-label">${r.sector}</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+        <div class="chart-bar-val ${v != null ? retClass(v) : 'ret-null'}">${v != null ? (v > 0 ? '+' : '') + v.toFixed(1) + '%' : '—'}</div>
+      </div>`;
+    }).join('');
+
+    renderSectorDetail();
+  }
+
+  function renderSectorDetail() {
+    const el = document.getElementById('sector-detail');
+    if (!el) return;
+    if (!selectedSector || !sbt[selectedSector]?.[sectorCallType]) {
+      el.innerHTML = '';
+      return;
+    }
+    const r = sbt[selectedSector][sectorCallType];
+    const typeLabel = sectorCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
+    el.innerHTML = `
+      <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
+        <div style="font-weight:600;margin-bottom:8px">${selectedSector} — ${typeLabel}</div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
+          <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
+          <div><span style="color:#57606a">Tickers:</span> <strong>${r.n_tickers}</strong></div>
+          <div><span style="color:#57606a">Win% 30d:</span> <strong>${r.win_rate_30d != null ? r.win_rate_30d + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Median 30d:</span> ${retFmt(r.median_return_30d)}</div>
+          <div><span style="color:#57606a">Median 90d:</span> ${retFmt(r.median_return_90d)}</div>
+          <div><span style="color:#57606a">Median Since:</span> ${retFmt(r.median_return_since_mention)}</div>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById('sector-chart-bars').addEventListener('click', e => {
+    const bar = e.target.closest('[data-sector]');
+    if (!bar) return;
+    const s = bar.dataset.sector;
+    selectedSector = selectedSector === s ? null : s;
+    renderSectorBars();
+  });
+
+  document.getElementById('sect-btn-buy').addEventListener('click', () => {
+    sectorCallType = 'buy';
+    document.getElementById('sect-btn-buy').classList.add('active');
+    document.getElementById('sect-btn-sell').classList.remove('active');
+    renderSectorBars();
+  });
+
+  document.getElementById('sect-btn-sell').addEventListener('click', () => {
+    sectorCallType = 'sell';
+    document.getElementById('sect-btn-sell').classList.add('active');
+    document.getElementById('sect-btn-buy').classList.remove('active');
+    renderSectorBars();
+  });
+
+  renderSectorBars();
 }
 
 function showSearchForTicker(ticker) {

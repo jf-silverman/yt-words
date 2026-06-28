@@ -684,24 +684,46 @@ def build_analytics_json(out_path: str) -> None:
         row['median_return_since_mention'] = _median(b['rs'])
     mktcap_perf = sorted(mktcap_rows, key=lambda r: cap_order.get(r['market_cap_category'], 99))
 
-    # ── Sector performance ────────────────────────────────────────────────────
-    c.execute("""
+    # ── Sector performance by call type (buy vs sell, excluding neutral) ─────
+    BUY_SENTS  = "('strong_buy','buy','mild_buy','buy_on_pullback')"
+    SELL_SENTS = "('caution_concern','sell_avoid')"
+    NON_NEUTRAL = "('strong_buy','buy','mild_buy','buy_on_pullback','caution_concern','sell_avoid')"
+
+    c.execute(f"""
         SELECT sector,
-               COUNT(*)                                          AS n_mentions,
-               COUNT(DISTINCT ticker)                            AS n_tickers,
-               COUNT(return_30d)                                 AS n_with_30d,
-               ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
-                           / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               return_30d, return_90d, return_since_mention
         FROM forward_returns
         WHERE sector IS NOT NULL AND sector != ''
-        GROUP BY sector
-        HAVING n_mentions >= 5
-        ORDER BY n_mentions DESC
+          AND sentiment IN {NON_NEUTRAL}
     """)
-    sector_perf = [dict(r) for r in c.fetchall()]
-    for row in sector_perf:
-        b = sect_buckets[row['sector']]
-        row['median_return_30d']          = _median(b['r30'])
+    sbt_buckets = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        key = (row[0], row[1])
+        b = sbt_buckets[key]
+        if row[2] is not None: b['r30'].append(row[2])
+        if row[3] is not None: b['r90'].append(row[3])
+        if row[4] is not None: b['rs'].append(row[4])
+
+    c.execute(f"""
+        SELECT sector,
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               COUNT(*)                                            AS n_mentions,
+               COUNT(DISTINCT ticker)                              AS n_tickers,
+               ROUND(100.0 * SUM(CASE WHEN return_30d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_30d), 0), 1)     AS win_rate_30d
+        FROM forward_returns
+        WHERE sector IS NOT NULL AND sector != ''
+          AND sentiment IN {NON_NEUTRAL}
+        GROUP BY sector, call_type
+        HAVING n_mentions >= 3
+        ORDER BY sector, call_type
+    """)
+    sector_by_type = [dict(r) for r in c.fetchall()]
+    for row in sector_by_type:
+        b = sbt_buckets[(row['sector'], row['call_type'])]
+        row['median_return_30d']           = _median(b['r30'])
+        row['median_return_90d']           = _median(b['r90'])
         row['median_return_since_mention'] = _median(b['rs'])
 
     # ── Latest calls leaderboard ──────────────────────────────────────────────
@@ -779,7 +801,7 @@ def build_analytics_json(out_path: str) -> None:
         "sentiment_perf":    sentiment_perf,
         "segment_perf":      segment_perf,
         "mktcap_perf":       mktcap_perf,
-        "sector_perf":       sector_perf,
+        "sector_by_type":    sector_by_type,
         "latest_calls":      latest_calls,
         "best_buy_calls":    best_buy_calls,
         "best_avoid_calls":  best_avoid_calls,
