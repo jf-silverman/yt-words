@@ -988,6 +988,7 @@ function renderAnalytics(d) {
       <td style="text-align:right">${r.win_rate_90d != null ? r.win_rate_90d+'%' : '—'}</td>
       <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
       <td style="text-align:right">${retFmt(r.median_spy_since_mention)}</td>
+      <td style="text-align:right">${retFmt(r.median_qqq_since_mention)}</td>
     </tr>`).join('');
 
   // ── Segment bar chart ──────────────────────────────────────────────────────
@@ -1063,6 +1064,7 @@ function renderAnalytics(d) {
             <th style="text-align:right">Win% 90d</th>
             <th style="text-align:right">Median Since</th>
             <th style="text-align:right">S&amp;P 500 Since</th>
+            <th style="text-align:right">Nasdaq Since</th>
           </tr></thead>
           <tbody>${sentRows}</tbody>
         </table>

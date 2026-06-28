@@ -576,13 +576,13 @@ def get_daily_prices(ticker: str, days: int = None):
     return [dict(row) for row in rows]
 
 
-def _fetch_voo_prices() -> dict:
-    """Fetch VOO daily closes from Yahoo Finance. Returns {date_str: close}."""
+def _fetch_benchmark_prices(ticker: str) -> dict:
+    """Fetch daily closes for a benchmark ticker from Yahoo Finance. Returns {date_str: close}."""
     if not _requests:
         return {}
     end_ts   = int(time.time())
     start_ts = end_ts - 6 * 365 * 86400
-    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/VOO"
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
            f"?interval=1d&period1={start_ts}&period2={end_ts}")
     try:
         r = _requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=15)
@@ -593,7 +593,7 @@ def _fetch_voo_prices() -> dict:
                 prices[datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d')] = round(close, 2)
         return prices
     except Exception as e:
-        print(f"  Warning: could not fetch VOO prices: {e}")
+        print(f"  Warning: could not fetch {ticker} prices: {e}")
         return {}
 
 
@@ -660,31 +660,36 @@ def build_analytics_json(out_path: str) -> None:
         row['median_return_90d']          = _median(b['r90'])
         row['median_return_since_mention'] = _median(b['rs'])
 
-    # ── S&P 500 (VOO) benchmark per sentiment ─────────────────────────────────
-    print("  Fetching VOO prices for S&P 500 benchmark…")
-    voo_prices = _fetch_voo_prices()
-    if voo_prices:
-        c.execute("""
-            SELECT sentiment, mention_date, price_latest_date
-            FROM forward_returns
-            WHERE return_since_mention IS NOT NULL
-        """)
-        from collections import defaultdict as _dd
-        spy_buckets = _dd(list)
-        latest_voo_date = max(voo_prices)
-        for row in c.fetchall():
-            voo_at_mention = _nearest_price(voo_prices, row['mention_date'])
-            end_date = row['price_latest_date'] or latest_voo_date
-            voo_at_end = _nearest_price(voo_prices, end_date)
-            if voo_at_mention and voo_at_end:
-                spy_buckets[row['sentiment']].append(
-                    round((voo_at_end - voo_at_mention) / voo_at_mention * 100, 2)
+    # ── S&P 500 (VOO) and Nasdaq (QQQ) benchmark per sentiment ───────────────
+    print("  Fetching VOO + QQQ prices for benchmark comparison…")
+    voo_prices = _fetch_benchmark_prices('VOO')
+    qqq_prices = _fetch_benchmark_prices('QQQ')
+
+    c.execute("""
+        SELECT sentiment, mention_date, price_latest_date
+        FROM forward_returns
+        WHERE return_since_mention IS NOT NULL
+    """)
+    from collections import defaultdict as _dd
+    spy_buckets = _dd(list)
+    qqq_buckets = _dd(list)
+    mention_rows = c.fetchall()
+
+    for row in mention_rows:
+        end_date = row['price_latest_date']
+        for prices, bucket in [(voo_prices, spy_buckets), (qqq_prices, qqq_buckets)]:
+            if not prices:
+                continue
+            at_mention = _nearest_price(prices, row['mention_date'])
+            at_end     = _nearest_price(prices, end_date or max(prices))
+            if at_mention and at_end:
+                bucket[row['sentiment']].append(
+                    round((at_end - at_mention) / at_mention * 100, 2)
                 )
-        for row in sentiment_perf:
-            row['median_spy_since_mention'] = _median(spy_buckets.get(row['sentiment'], []))
-    else:
-        for row in sentiment_perf:
-            row['median_spy_since_mention'] = None
+
+    for row in sentiment_perf:
+        row['median_spy_since_mention'] = _median(spy_buckets.get(row['sentiment'], []))
+        row['median_qqq_since_mention'] = _median(qqq_buckets.get(row['sentiment'], []))
 
     # Fetch all forward_returns rows once for median computation across all tables
     c.execute("""
