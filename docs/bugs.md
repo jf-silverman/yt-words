@@ -37,4 +37,41 @@ python3 code/pipeline.py --backfill-prices --tickers LITE,CRWV
 
 ## Open
 
-*(none)*
+### BUG-004 — 18 tickers in Cramer's Calls pool have no sector (ETFs, crypto, or wrong symbols)
+**Discovered:** 2026-06-28  
+**Status:** These tickers will never resolve via `--fetch-sectors`. Two categories:
+
+**Category A — ETFs / crypto (no Yahoo Finance sector by design, may want to delete):**
+
+| Ticker | Date | Segment | Note |
+|--------|------|---------|------|
+| BTC | multiple (2026-02-06 through 2026-06-10) | various | Bitcoin — crypto, not a stock |
+| GLD | multiple (2026-01-23 through 2026-06-22) | various | SPDR Gold ETF |
+| SLV | multiple (2026-01-23 through 2026-03-06) | various | iShares Silver Trust ETF |
+| AGQ | 2026-01-20 | in_depth_analysis | ProShares Ultra Silver (2× leveraged ETF) |
+| VTI | 2026-06-23 | closing_commentary | Vanguard Total Stock Market ETF |
+| FREL | 2026-06-10 | opening_commentary | iShares US Real Estate ETF |
+| CORN | 2026-03-09 | opening_commentary | Teucrium Corn Fund ETF |
+| SIJ | 2026-06-02 | interview | ProShares UltraShort Industrials ETF |
+
+**Category B — Likely wrong ticker from Haiku (needs human verification):**
+
+| Ticker | Date | Segment | Cramer's description | YouTube |
+|--------|------|---------|----------------------|---------|
+| USO | 2026-02-25 | lightning_round | "Brad Jacobs's company. Don't bet against Brad. Roofing/building materials." — USO is the oil ETF; probably QXO or XPO | [link](https://youtu.be/EkHR3syFwHc) |
+| BWX | 2026-01-15 | in_depth_analysis | "Nuclear/defense supplier, 80% government/Navy; commercial nuclear up 122%" — probably BWXT (BWX Technologies) | [link](https://youtu.be/-dnfldqfazA) |
+| BWX | 2026-05-15 | interview | "Legacy 160-year-old power equipment maker thriving on data center power" — probably BWXT | [link](https://youtu.be/JIQheuNzaAI) |
+| ETP | 2026-06-12 | closing_commentary + caller_qa | "MLP yielding ~7%; cleaned up past debt" — ETP is delisted; probably ET (Energy Transfer) | [link](https://youtu.be/ECuFlhGtUsg) |
+| FLAG | 2026-04-29 | lightning_round | "Generic bank without edge, small dividend" — unknown small bank ticker | [link](https://youtu.be/5-rWrj-ZgK8) |
+| FLOW | 2026-01-30 | lightning_round | "Analog chipmaker similar to Roper of old (pipes and valves); great quarter" — unknown | [link](https://youtu.be/LmFPOWVLnwo) |
+| HF | 2026-04-21 | lightning_round | "Data center play in booming sector; Cramer called it 'mini burden' (strong buy signal)" — unknown | [link](https://youtu.be/BOPCHZNJZiU) |
+| PSI | 2026-06-01 | lightning_round | "Missed quarter badly and cut guidance; cut losses immediately" — unknown | [link](https://youtu.be/oHrBBaAh4Jc) |
+| RDCT | 2026-05-28 | opening_commentary | "Manufactures tactical drones for US Army; fan favorite with proven execution" — possibly RCAT (Red Cat Holdings) or AVAV | [link](https://youtu.be/G_nPvcsM8LA) |
+| TSCM | 2026-06-08 | lightning_round | "Numbers are bad. Possibly end of COVID-era urban-to-rural trade." — unknown | [link](https://youtu.be/JIu6vZ3sLlQ) |
+
+**To fix Category B:** Listen to the linked episodes, identify the real ticker, then:
+```bash
+# In SQLite: UPDATE mentions SET ticker='CORRECT' WHERE ticker='WRONG' AND date='YYYY-MM-DD';
+python3 code/pipeline.py --backfill-prices --tickers CORRECT
+python3 code/pipeline.py --rebuild-shards
+```
