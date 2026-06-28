@@ -679,13 +679,67 @@ def fetch_all_sectors() -> None:
     print(f"Updated metadata for {updated}/{len(tickers)} tickers.")
 
 
+def _sync_mentions_from_db(stocks: dict) -> None:
+    """Overwrite mention lists in stocks dict with data pulled from the DB.
+
+    The DB is the authoritative source for mention data after any manual
+    correction (ticker rename, deletion, price fix).  stock_sentiments.json
+    is authoritative only for ticker metadata (company, sector, style).
+    """
+    from db import get_connection
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT ticker, date, sentiment, segment, note, closing_price
+        FROM mentions ORDER BY ticker, date
+    """)
+    rows = cur.fetchall()
+    conn.close()
+
+    db_mentions: dict[str, list] = {}
+    for row in rows:
+        ticker = row["ticker"]
+        db_mentions.setdefault(ticker, []).append({
+            "date":          row["date"],
+            "sentiment":     row["sentiment"],
+            "segment":       row["segment"],
+            "note":          row["note"],
+            "closing_price": row["closing_price"],
+        })
+
+    # Add stub entries for DB tickers not yet in JSON metadata
+    for ticker in db_mentions:
+        if ticker not in stocks:
+            stocks[ticker] = {"company": ticker, "sector": "", "style": "", "mentions": []}
+
+    # Overwrite mentions from DB; tickers removed from DB get empty lists (pruned below)
+    for ticker in list(stocks):
+        stocks[ticker]["mentions"] = db_mentions.get(ticker, [])
+
+    # Prune tickers that have been fully deleted from the DB
+    for ticker in [t for t, e in stocks.items() if not e.get("mentions")]:
+        del stocks[ticker]
+
+
 def rebuild_ticker_shards() -> None:
-    """Rebuild all per-ticker shards from the current stock_sentiments.json."""
+    """Rebuild all per-ticker shards, syncing mention data from the DB first.
+
+    After any manual DB correction (ticker rename, deletion, closing-price fix)
+    simply run --rebuild-shards and the shards will reflect the current DB state
+    without needing to also hand-edit stock_sentiments.json.
+    """
     if not SENTIMENTS_FILE.exists():
         print("stock_sentiments.json not found.")
         return
-    db = json.loads(SENTIMENTS_FILE.read_text())
-    stocks = db.get("stocks", {})
+    db_json = json.loads(SENTIMENTS_FILE.read_text())
+    stocks = db_json.get("stocks", {})
+
+    # DB is authoritative for mention data — sync before building shards
+    _sync_mentions_from_db(stocks)
+
+    # Persist synced state back to stock_sentiments.json so it stays consistent
+    SENTIMENTS_FILE.write_text(json.dumps(db_json, separators=(",", ":")))
+
     _write_ticker_shards(stocks)
     print(f"Wrote {len(stocks)} ticker shards + index.json to {TICKER_DATA_DIR}")
 
@@ -701,16 +755,41 @@ def update_all_prices() -> None:
     print(f"Done. Price files written to {TICKER_DATA_DIR}")
 
 
-def backfill_prices() -> None:
-    """Fetch closing prices for all mentions in stock_sentiments.json that don't have one."""
+def _update_db_closing_price(ticker: str, date: str, segment: str, price: float) -> None:
+    """Update closing_price in the DB for a specific mention row."""
+    from db import get_connection
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "UPDATE mentions SET closing_price=? WHERE ticker=? AND date=? AND segment=?",
+        (price, ticker, date, segment),
+    )
+    conn.commit()
+    conn.close()
+
+
+def backfill_prices(tickers: list[str] | None = None) -> None:
+    """Fetch closing prices for mentions that are missing them.
+
+    Args:
+        tickers: if supplied, re-fetch prices for these specific tickers even
+                 when a closing_price already exists.  Use this after a manual
+                 ticker correction in the DB so the old (wrong-ticker) price is
+                 replaced with the correct one.
+                 Example: --backfill-prices --tickers LITE,CRWV
+    """
     if not SENTIMENTS_FILE.exists():
         print("stock_sentiments.json not found.")
         return
+    force_set = {t.upper() for t in tickers} if tickers else set()
+    if force_set:
+        print(f"Force-refreshing prices for: {', '.join(sorted(force_set))}")
     db = json.loads(SENTIMENTS_FILE.read_text())
     filled = skipped = failed = 0
     for ticker, entry in db.get("stocks", {}).items():
+        force = ticker in force_set
         for mention in entry.get("mentions", []):
-            if "closing_price" in mention:
+            if "closing_price" in mention and not force:
                 skipped += 1
                 continue
             if _is_private(ticker, mention["date"]):
@@ -721,6 +800,8 @@ def backfill_prices() -> None:
                 mention["closing_price"] = price
                 filled += 1
                 print(f"  {ticker} {mention['date']} → ${price}")
+                # Keep the DB in sync
+                _update_db_closing_price(ticker, mention["date"], mention.get("segment", ""), price)
             else:
                 failed += 1
                 print(f"  {ticker} {mention['date']} → no data")
@@ -1302,6 +1383,9 @@ def main() -> None:
                              "with correct Overcast universal links")
     parser.add_argument("--backfill-prices", action="store_true",
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
+    parser.add_argument("--tickers", metavar="TICKER1,TICKER2",
+                        help="With --backfill-prices: comma-separated tickers to force-refresh "
+                             "even when a closing price already exists (use after ticker corrections)")
     parser.add_argument("--rebuild-shards", action="store_true",
                         help="Rebuild all per-ticker JSON shards in docs/data/ from stock_sentiments.json")
     parser.add_argument("--update-prices", action="store_true",
@@ -1334,7 +1418,8 @@ def main() -> None:
         return
 
     if args.backfill_prices:
-        backfill_prices()
+        tickers = [t.strip() for t in args.tickers.split(",")] if args.tickers else None
+        backfill_prices(tickers=tickers)
         return
 
     episodes = discover_new_episodes(args.max_episodes)
