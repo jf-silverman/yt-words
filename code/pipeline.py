@@ -542,17 +542,27 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
 def _write_recent_json(stocks: dict) -> None:
     """Write docs/data/recent.json with all mentions from the last 90 days."""
     cutoff = (date.today() - timedelta(days=90)).isoformat()
-    mentions = []
+    # Deduplicate per (ticker, date, segment): keep highest-conviction sentiment
+    _sent_rank = {s: i for i, s in enumerate(SENTIMENT_ORDER)}
+    best: dict[tuple, dict] = {}
     for ticker, entry in stocks.items():
         total = len(entry.get("mentions", []))
         sector = entry.get("sector", "")
         style  = entry.get("style", "")
         for m in entry.get("mentions", []):
-            if m.get("date", "") >= cutoff:
-                mentions.append({"ticker": ticker, "company": entry.get("company", ""),
-                                  "sector": sector, "style": style,
-                                  "total_mentions": total, **m})
-    mentions.sort(key=lambda x: x["date"], reverse=True)
+            if m.get("date", "") < cutoff:
+                continue
+            key = (ticker, m["date"], m.get("segment", ""))
+            row = {"ticker": ticker, "company": entry.get("company", ""),
+                   "sector": sector, "style": style, "total_mentions": total, **m}
+            existing = best.get(key)
+            if existing is None:
+                best[key] = row
+            else:
+                # Keep the entry whose sentiment is earlier in SENTIMENT_ORDER (more conviction)
+                if _sent_rank.get(m.get("sentiment", ""), 99) < _sent_rank.get(existing.get("sentiment", ""), 99):
+                    best[key] = row
+    mentions = sorted(best.values(), key=lambda x: x["date"], reverse=True)
     out = {"generated": date.today().isoformat(), "mentions": mentions}
     (TICKER_DATA_DIR / "recent.json").write_text(json.dumps(out, separators=(",", ":")))
 
