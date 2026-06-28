@@ -1081,20 +1081,17 @@ function renderAnalytics(d) {
     </tr>`).join('');
 
   // ── Market cap table ───────────────────────────────────────────────────────
-  const capRows = d.mktcap_perf.map(r => {
-    const dim = r.n_mentions < 30;
-    const rs = dim ? 'opacity:0.4' : '';
-    const ns = dim ? ` <span style="font-size:10px;color:#8b949e">(n&lt;30)</span>` : '';
-    return `
-    <tr style="${rs}">
-      <td>${capBadge(r.market_cap_category)}${ns}</td>
+  const capRows = d.mktcap_perf
+    .filter(r => !['micro','nano'].includes(r.market_cap_category))
+    .map(r => `
+    <tr>
+      <td>${capBadge(r.market_cap_category)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
       <td style="text-align:right">${retFmt(r.median_return_30d)}</td>
       <td style="text-align:right">${retFmt(r.median_return_90d)}</td>
       <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
       <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
-    </tr>`;
-  }).join('');
+    </tr>`).join('');
 
 
   // ── Latest calls leaderboard ───────────────────────────────────────────────
@@ -1219,13 +1216,13 @@ function renderAnalytics(d) {
         By Market Cap
         <div class="analytics-card-sub">How picks perform across market cap tiers &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="mktcap-details-chk" onchange="document.getElementById('mktcap-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
         <div id="mktcap-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
-          <p style="margin:0 0 6px"><strong>Cap tiers</strong> — Mega: &gt;$100B · Large: $10–100B · Mid: $2–10B · Small: $300M–2B · Micro: $50–300M · Nano: &lt;$50M. Categorized from Yahoo Finance market cap at time of data fetch.</p>
+          <p style="margin:0 0 6px"><strong>Cap tiers</strong> — Mega: &gt;$100B · Large: $10–100B · Mid: $2–10B · Small: $300M–2B. Categorized from Yahoo Finance market cap at time of data fetch.</p>
           <p style="margin:0 0 6px"><strong>Win% 30d</strong> — Percentage of buy calls where the stock was higher 30 calendar days after the episode. Above 50% means Cramer was right more often than not for that tier.</p>
           <p style="margin:0 0 6px"><strong>Median 30d / 90d</strong> — Median percentage return from the episode closing price to the price at the 30- or 90-day mark. Median is used so a few extreme outliers don't skew the result.</p>
-          <p style="margin:0"><strong>Greyed-out rows</strong> — Tiers with fewer than 30 mentions are shown at reduced opacity. With that few data points, the percentages are too noisy to draw conclusions.</p>
+          <p style="margin:0"><strong>Small-cap</strong> — Only 57 mentions, so treat those numbers with some caution compared to the mega and large tiers.</p>
         </div>
       </div>
-      <p style="font-size:13px;color:#444;margin:8px 16px 4px;line-height:1.5">Mega-cap is Cramer's strongest tier — 61% right at 30 days with a +3.8% median return and +11.7% at 90 days across 1,136 mentions. Large-cap (1,298 mentions) is essentially a coin flip at 52%. Mid-cap underperforms at 43% and –2.1% median 30d. Small-cap shows 65% win rate but only 57 mentions — too few to be conclusive. Micro and nano are greyed out.</p>
+      <p style="font-size:13px;color:#444;margin:8px 16px 4px;line-height:1.5">Mega-cap is Cramer's strongest tier — 61% right at 30 days with a +3.8% median return and +11.7% at 90 days across 1,136 mentions. Large-cap (1,298 mentions) is essentially a coin flip at 52%. Mid-cap underperforms at 43% and –2.1% median 30d. Small-cap shows 65% win rate but with only 57 mentions, treat that number with caution.</p>
       <div style="overflow-x:auto">
         <table id="table-mktcap" class="a-table">
           <thead><tr>
