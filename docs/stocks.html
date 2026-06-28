@@ -1036,16 +1036,23 @@ function renderAnalytics(d) {
   }
 
   document.getElementById('analytics-body').innerHTML = `
-    <p style="font-size:12px;color:#57606a;margin-bottom:16px">
-      Pre-computed from SQLite · Updated ${gen}
-      · Returns are NULL until price data reaches that window
-    </p>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <select id="analytics-chart-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:220px">
+        <option value="chart-sentiment">Sentiment Scorecard</option>
+        <option value="chart-segment">By Segment</option>
+        <option value="chart-mktcap">By Market Cap</option>
+        <option value="chart-sector">By Sector</option>
+        <option value="chart-calls">Cramer's Calls</option>
+        <option value="chart-latest">Latest Calls</option>
+      </select>
+      <span style="font-size:12px;color:#57606a">Pre-computed from SQLite · Updated ${gen}</span>
+    </div>
 
-    <!-- Sentiment scorecard (full width) -->
-    <div class="analytics-card analytics-full" style="margin-bottom:20px">
+    <!-- Sentiment scorecard -->
+    <div id="chart-sentiment" class="analytics-card" style="margin-bottom:20px">
       <div class="analytics-card-header">
         Sentiment Scorecard
-        <div class="analytics-card-sub">Avg % return after each mention, by Cramer's conviction level</div>
+        <div class="analytics-card-sub">Median % return after each mention, by Cramer's conviction level</div>
       </div>
       <div style="overflow-x:auto">
         <table id="table-sentiment" class="a-table">
@@ -1063,86 +1070,82 @@ function renderAnalytics(d) {
       </div>
     </div>
 
-    <div class="analytics-grid" style="margin-bottom:20px">
-
-      <!-- Segment bar chart -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">
-          By Segment
-          <div class="analytics-card-sub">Median 30d return — are prepared segments better than Lightning Round?</div>
-        </div>
-        <div class="analytics-card-body">${segBars}</div>
+    <!-- Segment bar chart -->
+    <div id="chart-segment" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        By Segment
+        <div class="analytics-card-sub">Median 30d return — are prepared segments better than Lightning Round?</div>
       </div>
-
-      <!-- Market cap table -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">
-          By Market Cap
-          <div class="analytics-card-sub">Do his mega-cap or small-cap calls perform better?</div>
-        </div>
-        <div style="overflow-x:auto">
-          <table id="table-mktcap" class="a-table">
-            <thead><tr>
-              <th>Cap</th><th style="text-align:right">n</th>
-              <th style="text-align:right">Median 30d</th>
-              <th style="text-align:right">Median 90d</th>
-              <th style="text-align:right">Win% 30d</th>
-              <th style="text-align:right">Since Mention</th>
-            </tr></thead>
-            <tbody>${capRows}</tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Sector interactive chart -->
-      <div class="analytics-card analytics-full">
-        <div class="analytics-card-header">
-          By Sector
-          <div class="analytics-card-sub">Median 30d return by sector — choose a call type, then click a bar for details</div>
-        </div>
-        <div class="analytics-card-body">
-          <div style="margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <button class="filter-btn active" id="sect-btn-buy">Buy Calls</button>
-            <button class="filter-btn" id="sect-btn-sell">Sell Calls</button>
-            <span style="font-size:12px;color:#57606a;margin-left:4px">click a bar to see details</span>
-          </div>
-          <div id="sector-chart-bars"></div>
-          <div id="sector-detail"></div>
-        </div>
-      </div>
-
-      <!-- Unified calls performance table -->
-      <div class="analytics-card analytics-full">
-        <div class="analytics-card-header">
-          Cramer's Calls — Performance
-          <div class="analytics-card-sub">How stocks performed after each type of call · click a row to open the stock card</div>
-        </div>
-        <div class="analytics-card-body" style="padding-bottom:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-          <select id="call-type-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;flex:1;min-width:260px;max-width:480px">
-            <option value="best_buy">Best "Buy" Calls — buy-type where stock went up</option>
-            <option value="worst_buy">Worst "Buy" Calls — buy-type where stock went down</option>
-            <option value="best_avoid">Best "Sell" Calls — cautious/sell where stock went down</option>
-            <option value="worst_avoid">Worst "Sell" Calls — cautious/sell where stock went up</option>
-          </select>
-          <select id="call-sector-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:160px">
-            <option value="">All Sectors</option>
-          </select>
-        </div>
-        <div style="overflow-x:auto">
-          <table id="table-calls" class="a-table">
-            <thead><tr>
-              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
-              <th>Sector</th><th style="text-align:right">Return Since</th>
-            </tr></thead>
-            <tbody>${callRows(d.buy_call_pool.slice(0, 12))}</tbody>
-          </table>
-        </div>
-      </div>
-
+      <div class="analytics-card-body">${segBars}</div>
     </div>
 
-    <!-- Latest calls (full width) -->
-    <div class="analytics-card analytics-full">
+    <!-- Market cap table -->
+    <div id="chart-mktcap" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        By Market Cap
+        <div class="analytics-card-sub">Do his mega-cap or small-cap calls perform better?</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="table-mktcap" class="a-table">
+          <thead><tr>
+            <th>Cap</th><th style="text-align:right">n</th>
+            <th style="text-align:right">Median 30d</th>
+            <th style="text-align:right">Median 90d</th>
+            <th style="text-align:right">Win% 30d</th>
+            <th style="text-align:right">Since Mention</th>
+          </tr></thead>
+          <tbody>${capRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Sector interactive chart -->
+    <div id="chart-sector" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        By Sector
+        <div class="analytics-card-sub">Median 30d return by sector — choose a call type, then click a bar for details</div>
+      </div>
+      <div class="analytics-card-body">
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button class="filter-btn active" id="sect-btn-buy">Buy Calls</button>
+          <button class="filter-btn" id="sect-btn-sell">Sell Calls</button>
+          <span style="font-size:12px;color:#57606a;margin-left:4px">click a bar to see details</span>
+        </div>
+        <div id="sector-chart-bars"></div>
+        <div id="sector-detail"></div>
+      </div>
+    </div>
+
+    <!-- Unified calls performance table -->
+    <div id="chart-calls" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        Cramer's Calls — Performance
+        <div class="analytics-card-sub">How stocks performed after each type of call · click a row to open the stock card</div>
+      </div>
+      <div class="analytics-card-body" style="padding-bottom:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <select id="call-type-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;flex:1;min-width:260px;max-width:480px">
+          <option value="best_buy">Best "Buy" Calls — buy-type where stock went up</option>
+          <option value="worst_buy">Worst "Buy" Calls — buy-type where stock went down</option>
+          <option value="best_avoid">Best "Sell" Calls — cautious/sell where stock went down</option>
+          <option value="worst_avoid">Worst "Sell" Calls — cautious/sell where stock went up</option>
+        </select>
+        <select id="call-sector-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:160px">
+          <option value="">All Sectors</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="table-calls" class="a-table">
+          <thead><tr>
+            <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
+            <th>Sector</th><th style="text-align:right">Return Since</th>
+          </tr></thead>
+          <tbody>${callRows(d.buy_call_pool.filter(r => r.return_since_mention > 0).slice(0, 12))}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Latest calls -->
+    <div id="chart-latest" class="analytics-card" style="display:none;margin-bottom:20px">
       <div class="analytics-card-header">
         Latest Calls — Live Performance
         <div class="analytics-card-sub">Most recent mention per ticker, with return since that date · Click a row to open the stock card</div>
@@ -1162,7 +1165,7 @@ function renderAnalytics(d) {
       </div>
     </div>
 
-    <p class="analytics-note">
+    <p class="analytics-note" style="display:none" id="analytics-note">
       * 30d/90d returns use nearest trading day in a ±50% window of the target (e.g. 30d looks in days 30–45).
       Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
     </p>
@@ -1177,6 +1180,19 @@ function renderAnalytics(d) {
   makeSortable('table-calls', 5, false);
   // Latest calls: default by date descending (col 2)
   makeSortable('table-latest', 2, false);
+
+  // ── Top-level chart switcher ──────────────────────────────────────────────
+  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest'];
+  const NOTE_IDS  = new Set(['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-latest']);
+
+  function showAnalyticsChart(id) {
+    CHART_IDS.forEach(cid => {
+      document.getElementById(cid).style.display = cid === id ? '' : 'none';
+    });
+    document.getElementById('analytics-note').style.display = NOTE_IDS.has(id) ? '' : 'none';
+  }
+
+  document.getElementById('analytics-chart-select').addEventListener('change', e => showAnalyticsChart(e.target.value));
 
   // ── Calls type + sector dropdowns ────────────────────────────────────────
   const buyPool  = d.buy_call_pool  || [];
