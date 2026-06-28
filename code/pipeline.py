@@ -641,18 +641,24 @@ def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
 
 
 def fetch_all_sectors() -> None:
-    """Batch-fetch sector/industry/style/pe_ratio/market_cap for all tickers and rebuild shards."""
+    """Batch-fetch sector/industry/style/pe_ratio/market_cap for tickers missing that data."""
     if not SENTIMENTS_FILE.exists():
         print("stock_sentiments.json not found.")
         return
     db = json.loads(SENTIMENTS_FILE.read_text())
     stocks = db.get("stocks", {})
-    tickers = list(stocks.keys())
-    print(f"Fetching metadata for {len(tickers)} tickers…")
+    # Only target tickers that have no sector yet — avoids unnecessary rate-limiting
+    # and prevents overwriting good data with empty strings on a rate-limited response.
+    tickers = [t for t, v in stocks.items() if not v.get("sector")]
+    if not tickers:
+        print("All tickers already have sector data.")
+        return
+    print(f"Fetching metadata for {len(tickers)} tickers missing sector data…")
     metadata = _fetch_ticker_metadata(tickers)
     updated = 0
     for ticker, meta in metadata.items():
-        if ticker not in stocks:
+        if ticker not in stocks or not meta["sector"]:
+            # Don't overwrite existing data with an empty result (e.g. rate limit hit)
             continue
         stocks[ticker]["sector"]              = meta["sector"]
         stocks[ticker]["industry"]            = meta["industry"]
@@ -660,8 +666,7 @@ def fetch_all_sectors() -> None:
         stocks[ticker]["pe_ratio"]            = meta["pe_ratio"]
         stocks[ticker]["market_cap"]          = meta["market_cap"]
         stocks[ticker]["market_cap_category"] = meta["market_cap_category"]
-        if meta["sector"]:
-            updated += 1
+        updated += 1
         # Sync to SQLite
         upsert_stock(
             ticker=ticker,

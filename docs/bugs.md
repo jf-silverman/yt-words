@@ -27,6 +27,17 @@ python3 code/pipeline.py --backfill-prices --tickers LITE,CRWV
 
 ---
 
+---
+
+### BUG-003 — `--fetch-sectors` overwrites good sector data with blank on rate limit
+**Discovered:** 2026-06-28  
+**Symptom:** After running `--fetch-sectors`, many legitimate tickers (MPC, CSX, CAKE, etc.) still show no sector in Analytics, even though yfinance knows their sector. Running `--fetch-sectors` a second time returns 0 updates despite 500+ tickers still missing sector.  
+**Root cause:** Two problems: (1) `fetch_all_sectors()` fetched all 1,156 tickers on every run, even ones that already had sector data. This caused Yahoo Finance to rate-limit the batch partway through. (2) When rate-limited, yfinance raises an exception that is caught silently, returning empty strings for sector/style. The old code then _overwrote_ any existing good sector data with those empty strings, erasing previously correct values.  
+**Fix:** `fetch_all_sectors()` now only targets tickers with no sector yet (skipping those already populated), and only writes new data if `meta["sector"]` is non-empty — rate-limit misses are silently skipped rather than overwriting. Safe to re-run repeatedly; each run fills in whatever yfinance returns until all real tickers are covered.  
+**Residual:** ~350 tickers in the DB are hallucinated/private/OTC and will never get sector data from yfinance. These show as blank sector in Analytics permanently. The remaining ~200 real-but-missing tickers need `--fetch-sectors` re-run after the Yahoo Finance rate limit clears (~15–30 minutes).
+
+---
+
 ## Open
 
 *(none)*
