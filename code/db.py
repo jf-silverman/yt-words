@@ -800,8 +800,18 @@ def build_analytics_json(out_path: str) -> None:
         row['median_return_since_mention'] = _median(b['rs'])
 
     # ── Segment by call type ──────────────────────────────────────────────────
+    # Normalize variant segment names produced by Haiku before aggregating
+    _SEG_NORM = """
+        CASE segment
+            WHEN 'investing_club_qa'  THEN 'caller_qa'
+            WHEN 'mag_seven_analysis' THEN 'mag7_analysis'
+            WHEN 'mag7_earnings'      THEN 'mag7_analysis'
+            WHEN 'software_opportunities' THEN 'in_depth_analysis'
+            ELSE segment
+        END
+    """
     c.execute(f"""
-        SELECT segment,
+        SELECT ({_SEG_NORM}) AS segment,
                CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
                return_30d, return_90d, return_since_mention
         FROM forward_returns
@@ -817,7 +827,7 @@ def build_analytics_json(out_path: str) -> None:
         if row[4] is not None: b['rs'].append(row[4])
 
     c.execute(f"""
-        SELECT segment,
+        SELECT ({_SEG_NORM}) AS segment,
                CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
                COUNT(*)                                            AS n_mentions,
                ROUND(100.0 * SUM(CASE WHEN return_30d > 0 THEN 1 ELSE 0 END)
@@ -827,9 +837,9 @@ def build_analytics_json(out_path: str) -> None:
         FROM forward_returns
         WHERE segment IS NOT NULL AND segment != ''
           AND sentiment IN {NON_NEUTRAL}
-        GROUP BY segment, call_type
+        GROUP BY 1, 2
         HAVING n_mentions >= 3
-        ORDER BY segment, call_type
+        ORDER BY 1, 2
     """)
     segment_by_type = [dict(r) for r in c.fetchall()]
     for row in segment_by_type:
