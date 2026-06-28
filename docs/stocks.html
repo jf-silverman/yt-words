@@ -1131,7 +1131,7 @@ function renderAnalytics(d) {
               <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
               <th>Sector</th><th style="text-align:right">Return Since</th>
             </tr></thead>
-            <tbody>${callRows(d.buy_call_pool)}</tbody>
+            <tbody>${callRows(d.buy_call_pool.slice(0, 12))}</tbody>
           </table>
         </div>
       </div>
@@ -1193,7 +1193,7 @@ function renderAnalytics(d) {
       cfg.asc
         ? (a.return_since_mention || 0) - (b.return_since_mention || 0)
         : (b.return_since_mention || 0) - (a.return_since_mention || 0)
-    );
+    ).slice(0, 12);
     callsBody.innerHTML = callRows(sorted);
     // Reset header indicators; mark Return Since (col 5)
     callsHeaders.forEach((th, i) => {
