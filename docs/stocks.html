@@ -1081,15 +1081,20 @@ function renderAnalytics(d) {
     </tr>`).join('');
 
   // ── Market cap table ───────────────────────────────────────────────────────
-  const capRows = d.mktcap_perf.map(r => `
-    <tr>
-      <td>${capBadge(r.market_cap_category)}</td>
+  const capRows = d.mktcap_perf.map(r => {
+    const dim = r.n_mentions < 30;
+    const rs = dim ? 'opacity:0.4' : '';
+    const ns = dim ? ` <span style="font-size:10px;color:#8b949e">(n&lt;30)</span>` : '';
+    return `
+    <tr style="${rs}">
+      <td>${capBadge(r.market_cap_category)}${ns}</td>
       <td style="text-align:right">${r.n_mentions}</td>
       <td style="text-align:right">${retFmt(r.median_return_30d)}</td>
       <td style="text-align:right">${retFmt(r.median_return_90d)}</td>
       <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
       <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 
 
   // ── Latest calls leaderboard ───────────────────────────────────────────────
@@ -1212,8 +1217,15 @@ function renderAnalytics(d) {
     <div id="chart-mktcap" class="analytics-card" style="display:none;margin-bottom:20px">
       <div class="analytics-card-header">
         By Market Cap
-        <div class="analytics-card-sub">Do his mega-cap or small-cap calls perform better?</div>
+        <div class="analytics-card-sub">How picks perform across market cap tiers &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="mktcap-details-chk" onchange="document.getElementById('mktcap-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="mktcap-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>Cap tiers</strong> — Mega: &gt;$100B · Large: $10–100B · Mid: $2–10B · Small: $300M–2B · Micro: $50–300M · Nano: &lt;$50M. Categorized from Yahoo Finance market cap at time of data fetch.</p>
+          <p style="margin:0 0 6px"><strong>Win% 30d</strong> — Percentage of buy calls where the stock was higher 30 calendar days after the episode. Above 50% means Cramer was right more often than not for that tier.</p>
+          <p style="margin:0 0 6px"><strong>Median 30d / 90d</strong> — Median percentage return from the episode closing price to the price at the 30- or 90-day mark. Median is used so a few extreme outliers don't skew the result.</p>
+          <p style="margin:0"><strong>Greyed-out rows</strong> — Tiers with fewer than 30 mentions are shown at reduced opacity. With that few data points, the percentages are too noisy to draw conclusions.</p>
+        </div>
       </div>
+      <p style="font-size:13px;color:#444;margin:8px 16px 4px;line-height:1.5">Mega-cap is Cramer's strongest tier — 61% right at 30 days with a +3.8% median return and +11.7% at 90 days across 1,136 mentions. Large-cap (1,298 mentions) is essentially a coin flip at 52%. Mid-cap underperforms at 43% and –2.1% median 30d. Small-cap shows 65% win rate but only 57 mentions — too few to be conclusive. Micro and nano are greyed out.</p>
       <div style="overflow-x:auto">
         <table id="table-mktcap" class="a-table">
           <thead><tr>
@@ -1232,7 +1244,13 @@ function renderAnalytics(d) {
     <div id="chart-sector" class="analytics-card" style="display:none;margin-bottom:20px">
       <div class="analytics-card-header">
         By Sector
-        <div class="analytics-card-sub">Choose a call type and metric — click a bar for details</div>
+        <div class="analytics-card-sub">Choose a call type and metric — click a bar for details &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="sector-details-chk" onchange="document.getElementById('sector-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="sector-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>Sectors</strong> — Yahoo Finance classifications (Technology, Healthcare, Industrials, etc.). Only tickers with known sector data are included — roughly 800 of 1,156 tickers in the database. Tickers without sector data are excluded from these charts.</p>
+          <p style="margin:0 0 6px"><strong>Win% 30d / 90d</strong> — For buy calls: % of calls where the stock was higher at the 30- or 90-day mark. For sell calls: % where the stock was higher (so <em>higher</em> Win% on sell calls means Cramer's caution was more often wrong).</p>
+          <p style="margin:0 0 6px"><strong>Greyed-out bars</strong> — Sectors with fewer than 30 mentions are shown in grey. With that few calls, the percentages are unreliable.</p>
+          <p style="margin:0"><strong>Clicking a bar</strong> shows the full stats for that sector below the chart.</p>
+        </div>
       </div>
       <div class="analytics-card-body">
         <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -1245,6 +1263,7 @@ function renderAnalytics(d) {
           <button class="filter-btn" id="sect-metric-w30">Win% 30D</button>
           <button class="filter-btn" id="sect-metric-w90">Win% 90D</button>
         </div>
+        <p id="sector-hero" style="font-size:13px;color:#444;margin:0 0 10px;line-height:1.5"></p>
         <div id="sector-chart-bars"></div>
         <div id="sector-detail"></div>
       </div>
@@ -1444,6 +1463,11 @@ function renderAnalytics(d) {
     'w90': 'win_rate_90d',
   };
 
+  const SECTOR_HERO = {
+    buy:  "Technology is Cramer's best sector by a wide margin — 68% win rate at 30 days, +8.1% median return, across 658 buy calls. Industrials (61%, +4.0%) and Energy (59%, +2.6%) are the only other sectors with above-50% accuracy and positive returns. Consumer Cyclical, Financial Services, and Communication Services show below-50% accuracy with negative 30-day median returns. Sectors greyed out have fewer than 30 mentions.",
+    sell: "Cramer's sector sell calls have mostly missed — Technology stocks went up 58% of the time after a cautious call, and Consumer Cyclical 59%. His most accurate sell reads are Healthcare (stocks fell 56% of the time) and Consumer Defensive (fell 54%). For sell calls, lower Win% means Cramer was more often right. Sectors greyed out have fewer than 30 mentions.",
+  };
+
   function metricIsWinPct(key) { return key === 'win_rate_30d' || key === 'win_rate_90d'; }
 
   function barColor(v, isWinPct) {
@@ -1466,24 +1490,33 @@ function renderAnalytics(d) {
       .map(s => ({ sector: s, ...sbt[s][sectorCallType] }))
       .sort((a, b) => (b[sectorMetric] ?? -Infinity) - (a[sectorMetric] ?? -Infinity));
 
-    const maxAbs = Math.max(...rows.map(r => Math.abs(r[sectorMetric] ?? 0)), 1);
+    const eligibleRows = rows.filter(r => r.n_mentions >= 30);
+    const maxAbs = Math.max(...eligibleRows.map(r => Math.abs(r[sectorMetric] ?? 0)), 1);
     const barsEl = document.getElementById('sector-chart-bars');
     if (!barsEl) return;
 
     barsEl.innerHTML = rows.map(r => {
-      const v = r[sectorMetric] ?? null;
+      const dim = r.n_mentions < 30;
+      const v = dim ? null : (r[sectorMetric] ?? null);
       const pct = v != null ? Math.min(Math.abs(v) / maxAbs * 100, 100) : 0;
-      const color = barColor(v, isWinPct);
+      const color = dim ? '#d0d7de' : barColor(r[sectorMetric] ?? null, isWinPct);
       const isSelected = selectedSector === r.sector;
+      const dimStyle = dim ? 'opacity:0.45' : '';
+      const valHtml = dim
+        ? `<div class="chart-bar-val" style="color:#8b949e;font-size:11px">n&lt;30</div>`
+        : `<div class="chart-bar-val ${barClass(r[sectorMetric] ?? null, isWinPct)}">${barFmt(r[sectorMetric] ?? null, isWinPct)}</div>`;
       return `<div class="chart-bar-wrap" data-sector="${r.sector}"
-                   style="cursor:pointer;outline:${isSelected ? '2px solid #0969da' : 'none'};border-radius:4px">
+                   style="cursor:pointer;outline:${isSelected ? '2px solid #0969da' : 'none'};border-radius:4px;${dimStyle}">
         <div class="chart-bar-label">${sectorLabel(r.sector)}</div>
         <div class="chart-bar-track">
           <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
         </div>
-        <div class="chart-bar-val ${barClass(v, isWinPct)}">${barFmt(v, isWinPct)}</div>
+        ${valHtml}
       </div>`;
     }).join('');
+
+    const heroEl = document.getElementById('sector-hero');
+    if (heroEl) heroEl.textContent = SECTOR_HERO[sectorCallType] || '';
 
     renderSectorDetail();
   }
@@ -1503,6 +1536,10 @@ function renderAnalytics(d) {
         <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
           <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
           <div><span style="color:#57606a">Tickers:</span> <strong>${r.n_tickers}</strong></div>
+          <div><span style="color:#57606a">Median 30d:</span> <strong>${r.median_return_30d != null ? (r.median_return_30d > 0 ? '+' : '') + r.median_return_30d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Median 90d:</span> <strong>${r.median_return_90d != null ? (r.median_return_90d > 0 ? '+' : '') + r.median_return_90d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Win% 30d:</span> <strong>${r.win_rate_30d != null ? r.win_rate_30d.toFixed(1) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Win% 90d:</span> <strong>${r.win_rate_90d != null ? r.win_rate_90d.toFixed(1) + '%' : '—'}</strong></div>
         </div>
       </div>`;
   }
