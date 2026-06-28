@@ -1117,12 +1117,15 @@ function renderAnalytics(d) {
           Cramer's Calls — Performance
           <div class="analytics-card-sub">How stocks performed after each type of call · click a row to open the stock card</div>
         </div>
-        <div class="analytics-card-body" style="padding-bottom:8px">
-          <select id="call-type-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;width:100%;max-width:480px">
+        <div class="analytics-card-body" style="padding-bottom:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <select id="call-type-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;flex:1;min-width:260px;max-width:480px">
             <option value="best_buy">Calls That Made the Most 💰 — buy-type, best return first</option>
             <option value="worst_buy">Calls That Lost the Most 📉 — buy-type, worst return first</option>
             <option value="best_avoid">Calls That Avoided Biggest Losses 🛡️ — cautious/sell, stock dropped most</option>
             <option value="worst_avoid">Worst Avoid Calls 🤦 — cautious/sell, stock surged anyway</option>
+          </select>
+          <select id="call-sector-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:160px">
+            <option value="">All Sectors</option>
           </select>
         </div>
         <div style="overflow-x:auto">
@@ -1175,34 +1178,54 @@ function renderAnalytics(d) {
   // Latest calls: default by date descending (col 2)
   makeSortable('table-latest', 2, false);
 
-  // ── Calls type dropdown ───────────────────────────────────────────────────
+  // ── Calls type + sector dropdowns ────────────────────────────────────────
   const buyPool  = d.buy_call_pool  || [];
   const sellPool = d.sell_call_pool || [];
-  const callsBody = document.querySelector('#table-calls tbody');
+  const callsBody    = document.querySelector('#table-calls tbody');
   const callsHeaders = document.querySelectorAll('#table-calls thead th');
+  const callTypeEl   = document.getElementById('call-type-select');
+  const callSectorEl = document.getElementById('call-sector-select');
 
-  function switchCallType(val) {
-    const cfg = {
-      best_buy:    { pool: buyPool,  asc: false },
-      worst_buy:   { pool: buyPool,  asc: true  },
-      best_avoid:  { pool: sellPool, asc: true  },
-      worst_avoid: { pool: sellPool, asc: false },
-    }[val] || { pool: buyPool, asc: false };
+  const CALL_CFG = {
+    best_buy:    { pool: buyPool,  asc: false },
+    worst_buy:   { pool: buyPool,  asc: true  },
+    best_avoid:  { pool: sellPool, asc: true  },
+    worst_avoid: { pool: sellPool, asc: false },
+  };
 
-    const sorted = [...cfg.pool].sort((a, b) =>
+  function renderCallsTable() {
+    const cfg    = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
+    const sector = callSectorEl.value;
+
+    const filtered = sector ? cfg.pool.filter(r => r.sector === sector) : cfg.pool;
+    const sorted = [...filtered].sort((a, b) =>
       cfg.asc
         ? (a.return_since_mention || 0) - (b.return_since_mention || 0)
         : (b.return_since_mention || 0) - (a.return_since_mention || 0)
     ).slice(0, 12);
+
     callsBody.innerHTML = callRows(sorted);
-    // Reset header indicators; mark Return Since (col 5)
     callsHeaders.forEach((th, i) => {
       th.innerHTML = th.innerHTML.replace(/\s*[▲▼]/g, '');
       if (i === 5) th.innerHTML += cfg.asc ? ' ▲' : ' ▼';
     });
   }
 
-  document.getElementById('call-type-select').addEventListener('change', e => switchCallType(e.target.value));
+  function populateSectorDropdown() {
+    const cfg = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
+    const sectors = [...new Set(cfg.pool.map(r => r.sector).filter(Boolean))].sort();
+    callSectorEl.innerHTML = '<option value="">All Sectors</option>'
+      + sectors.map(s => `<option value="${s}">${s}</option>`).join('');
+  }
+
+  callTypeEl.addEventListener('change', () => {
+    populateSectorDropdown();
+    callSectorEl.value = '';   // reset sector when call type changes
+    renderCallsTable();
+  });
+  callSectorEl.addEventListener('change', renderCallsTable);
+
+  populateSectorDropdown();  // seed sector options for initial call type
 
   // ── Sector interactive chart ──────────────────────────────────────────────
   const sbt = {};
