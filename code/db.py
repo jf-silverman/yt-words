@@ -742,7 +742,7 @@ def build_analytics_json(out_path: str) -> None:
     BUY_TYPES  = "('strong_buy','buy','mild_buy','buy_on_pullback')"
     SELL_TYPES = "('wait_hold_neutral','caution_concern','sell_avoid')"
 
-    # ── Best buy calls (buy-type, highest return = right call) ────────────────
+    # ── Call performance pools (all tickers, for unified calls table) ─────────
     c.execute(f"""
         SELECT ticker, company, mention_date, sentiment,
                price_at_mention, price_latest, return_since_mention, days_since_mention,
@@ -751,37 +751,9 @@ def build_analytics_json(out_path: str) -> None:
         WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
           AND sentiment IN {BUY_TYPES}
         ORDER BY return_since_mention DESC
-        LIMIT 10
     """)
-    best_buy_calls = [dict(r) for r in c.fetchall()]
+    buy_call_pool = [dict(r) for r in c.fetchall()]
 
-    # ── Best avoid calls (neutral/sell-type, stock dropped most = right call) ─
-    c.execute(f"""
-        SELECT ticker, company, mention_date, sentiment,
-               price_at_mention, price_latest, return_since_mention, days_since_mention,
-               sector, market_cap_category
-        FROM latest_mention_performance
-        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
-          AND sentiment IN {SELL_TYPES}
-        ORDER BY return_since_mention ASC
-        LIMIT 10
-    """)
-    best_avoid_calls = [dict(r) for r in c.fetchall()]
-
-    # ── Worst buy calls (buy-type, most negative return = wrong call) ─────────
-    c.execute(f"""
-        SELECT ticker, company, mention_date, sentiment,
-               price_at_mention, price_latest, return_since_mention, days_since_mention,
-               sector, market_cap_category
-        FROM latest_mention_performance
-        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
-          AND sentiment IN {BUY_TYPES}
-        ORDER BY return_since_mention ASC
-        LIMIT 10
-    """)
-    worst_buy_calls = [dict(r) for r in c.fetchall()]
-
-    # ── Worst avoid calls (neutral/sell-type, stock rose most = wrong call) ───
     c.execute(f"""
         SELECT ticker, company, mention_date, sentiment,
                price_at_mention, price_latest, return_since_mention, days_since_mention,
@@ -790,9 +762,8 @@ def build_analytics_json(out_path: str) -> None:
         WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
           AND sentiment IN {SELL_TYPES}
         ORDER BY return_since_mention DESC
-        LIMIT 10
     """)
-    worst_avoid_calls = [dict(r) for r in c.fetchall()]
+    sell_call_pool = [dict(r) for r in c.fetchall()]
 
     conn.close()
 
@@ -803,10 +774,8 @@ def build_analytics_json(out_path: str) -> None:
         "mktcap_perf":       mktcap_perf,
         "sector_by_type":    sector_by_type,
         "latest_calls":      latest_calls,
-        "best_buy_calls":    best_buy_calls,
-        "best_avoid_calls":  best_avoid_calls,
-        "worst_buy_calls":   worst_buy_calls,
-        "worst_avoid_calls": worst_avoid_calls,
+        "buy_call_pool":     buy_call_pool,
+        "sell_call_pool":    sell_call_pool,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))
