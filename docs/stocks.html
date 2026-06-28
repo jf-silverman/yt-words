@@ -980,15 +980,14 @@ function renderAnalytics(d) {
     <tr>
       <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
-      <td style="text-align:right">${retFmt(r.median_return_7d)}<br>
-        <span class="ret-null" style="font-size:10px">n=${r.n_with_7d}</span></td>
       <td style="text-align:right">${retFmt(r.median_return_30d)}<br>
         <span class="ret-null" style="font-size:10px">n=${r.n_with_30d}</span></td>
       <td style="text-align:right">${retFmt(r.median_return_90d)}<br>
         <span class="ret-null" style="font-size:10px">n=${r.n_with_90d}</span></td>
-      <td style="text-align:right">${r.win_rate_7d != null ? r.win_rate_7d+'%' : '—'}</td>
       <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
+      <td style="text-align:right">${r.win_rate_90d != null ? r.win_rate_90d+'%' : '—'}</td>
       <td style="text-align:right">${retFmt(r.median_return_since_mention)}</td>
+      <td style="text-align:right">${retFmt(r.median_spy_since_mention)}</td>
     </tr>`).join('');
 
   // ── Segment bar chart ──────────────────────────────────────────────────────
@@ -1058,12 +1057,12 @@ function renderAnalytics(d) {
         <table id="table-sentiment" class="a-table">
           <thead><tr>
             <th>Sentiment</th><th style="text-align:right">Mentions</th>
-            <th style="text-align:right">Median 7d</th>
             <th style="text-align:right">Median 30d</th>
             <th style="text-align:right">Median 90d</th>
-            <th style="text-align:right">Win% 7d</th>
             <th style="text-align:right">Win% 30d</th>
+            <th style="text-align:right">Win% 90d</th>
             <th style="text-align:right">Median Since</th>
+            <th style="text-align:right">S&amp;P 500 Since</th>
           </tr></thead>
           <tbody>${sentRows}</tbody>
         </table>

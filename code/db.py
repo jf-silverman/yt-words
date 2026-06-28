@@ -5,8 +5,14 @@ Manages schema, migrations, and provides ORM-like functions for data access.
 
 import json
 import sqlite3
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from pathlib import Path
+
+try:
+    import requests as _requests
+except ImportError:
+    _requests = None
 
 DB_PATH = Path(__file__).parent.parent / "data" / "mad_money.db"
 
@@ -570,6 +576,40 @@ def get_daily_prices(ticker: str, days: int = None):
     return [dict(row) for row in rows]
 
 
+def _fetch_voo_prices() -> dict:
+    """Fetch VOO daily closes from Yahoo Finance. Returns {date_str: close}."""
+    if not _requests:
+        return {}
+    end_ts   = int(time.time())
+    start_ts = end_ts - 6 * 365 * 86400
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/VOO"
+           f"?interval=1d&period1={start_ts}&period2={end_ts}")
+    try:
+        r = _requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=15)
+        result = r.json()['chart']['result'][0]
+        prices = {}
+        for ts, close in zip(result['timestamp'], result['indicators']['quote'][0]['close']):
+            if close is not None:
+                prices[datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d')] = round(close, 2)
+        return prices
+    except Exception as e:
+        print(f"  Warning: could not fetch VOO prices: {e}")
+        return {}
+
+
+def _nearest_price(prices: dict, date_str: str) -> float | None:
+    """Return the closest price at or before date_str (looks up to 7 days back)."""
+    try:
+        d = datetime.strptime(date_str, '%Y-%m-%d')
+    except (ValueError, TypeError):
+        return None
+    for offset in range(8):
+        key = (d - timedelta(days=offset)).strftime('%Y-%m-%d')
+        if key in prices:
+            return prices[key]
+    return None
+
+
 def _median(values: list) -> float | None:
     """Return median of a list, ignoring Nones."""
     vals = sorted(v for v in values if v is not None)
@@ -619,6 +659,32 @@ def build_analytics_json(out_path: str) -> None:
         row['median_return_30d']          = _median(b['r30'])
         row['median_return_90d']          = _median(b['r90'])
         row['median_return_since_mention'] = _median(b['rs'])
+
+    # ── S&P 500 (VOO) benchmark per sentiment ─────────────────────────────────
+    print("  Fetching VOO prices for S&P 500 benchmark…")
+    voo_prices = _fetch_voo_prices()
+    if voo_prices:
+        c.execute("""
+            SELECT sentiment, mention_date, price_latest_date
+            FROM forward_returns
+            WHERE return_since_mention IS NOT NULL
+        """)
+        from collections import defaultdict as _dd
+        spy_buckets = _dd(list)
+        latest_voo_date = max(voo_prices)
+        for row in c.fetchall():
+            voo_at_mention = _nearest_price(voo_prices, row['mention_date'])
+            end_date = row['price_latest_date'] or latest_voo_date
+            voo_at_end = _nearest_price(voo_prices, end_date)
+            if voo_at_mention and voo_at_end:
+                spy_buckets[row['sentiment']].append(
+                    round((voo_at_end - voo_at_mention) / voo_at_mention * 100, 2)
+                )
+        for row in sentiment_perf:
+            row['median_spy_since_mention'] = _median(spy_buckets.get(row['sentiment'], []))
+    else:
+        for row in sentiment_perf:
+            row['median_spy_since_mention'] = None
 
     # Fetch all forward_returns rows once for median computation across all tables
     c.execute("""
