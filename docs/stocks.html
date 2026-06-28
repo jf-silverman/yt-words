@@ -991,10 +991,6 @@ function renderAnalytics(d) {
       <td style="text-align:right">${retFmt(r.median_qqq_since_mention)}</td>
     </tr>`).join('');
 
-  // ── Segment bar chart ──────────────────────────────────────────────────────
-  const segMax = Math.max(...d.segment_perf.map(r => Math.abs(r.median_return_30d || 0)), 1);
-  const segBars = barChart(d.segment_perf, 'segment', 'median_return_30d', segMax);
-
   // ── Market cap table ───────────────────────────────────────────────────────
   const capRows = d.mktcap_perf.map(r => `
     <tr>
@@ -1071,13 +1067,26 @@ function renderAnalytics(d) {
       </div>
     </div>
 
-    <!-- Segment bar chart -->
+    <!-- Segment interactive chart -->
     <div id="chart-segment" class="analytics-card" style="display:none;margin-bottom:20px">
       <div class="analytics-card-header">
         By Segment
-        <div class="analytics-card-sub">Median 30d return — are prepared segments better than Lightning Round?</div>
+        <div class="analytics-card-sub">Choose a call type and metric — click a bar for details</div>
       </div>
-      <div class="analytics-card-body">${segBars}</div>
+      <div class="analytics-card-body">
+        <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button class="filter-btn active" id="seg-btn-buy">Buy Calls</button>
+          <button class="filter-btn" id="seg-btn-sell">Sell Calls</button>
+        </div>
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <button class="filter-btn active" id="seg-metric-m30">Median 30</button>
+          <button class="filter-btn" id="seg-metric-m90">Median 90</button>
+          <button class="filter-btn" id="seg-metric-w30">Win% 30D</button>
+          <button class="filter-btn" id="seg-metric-w90">Win% 90D</button>
+        </div>
+        <div id="segment-chart-bars"></div>
+        <div id="segment-detail"></div>
+      </div>
     </div>
 
     <!-- Market cap table -->
@@ -1104,13 +1113,18 @@ function renderAnalytics(d) {
     <div id="chart-sector" class="analytics-card" style="display:none;margin-bottom:20px">
       <div class="analytics-card-header">
         By Sector
-        <div class="analytics-card-sub">Median 30d return by sector — choose a call type, then click a bar for details</div>
+        <div class="analytics-card-sub">Choose a call type and metric — click a bar for details</div>
       </div>
       <div class="analytics-card-body">
-        <div style="margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <button class="filter-btn active" id="sect-btn-buy">Buy Calls</button>
           <button class="filter-btn" id="sect-btn-sell">Sell Calls</button>
-          <span style="font-size:12px;color:#57606a;margin-left:4px">click a bar to see details</span>
+        </div>
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <button class="filter-btn active" id="sect-metric-m30">Median 30</button>
+          <button class="filter-btn" id="sect-metric-m90">Median 90</button>
+          <button class="filter-btn" id="sect-metric-w30">Win% 30D</button>
+          <button class="filter-btn" id="sect-metric-w90">Win% 90D</button>
         </div>
         <div id="sector-chart-bars"></div>
         <div id="sector-detail"></div>
@@ -1257,22 +1271,46 @@ function renderAnalytics(d) {
   }
 
   let sectorCallType = 'buy';
+  let sectorMetric   = 'median_return_30d';
   let selectedSector = null;
 
+  const SECTOR_METRIC_KEYS = {
+    'm30': 'median_return_30d',
+    'm90': 'median_return_90d',
+    'w30': 'win_rate_30d',
+    'w90': 'win_rate_90d',
+  };
+
+  function metricIsWinPct(key) { return key === 'win_rate_30d' || key === 'win_rate_90d'; }
+
+  function barColor(v, isWinPct) {
+    if (v == null) return '#8b949e';
+    return isWinPct ? (v >= 50 ? '#2da44e' : '#d03030') : (v >= 0 ? '#2da44e' : '#d03030');
+  }
+  function barFmt(v, isWinPct) {
+    if (v == null) return '—';
+    return isWinPct ? v.toFixed(1) + '%' : (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+  }
+  function barClass(v, isWinPct) {
+    if (v == null) return 'ret-null';
+    return isWinPct ? (v >= 50 ? 'ret-pos' : 'ret-neg') : retClass(v);
+  }
+
   function renderSectorBars() {
+    const isWinPct = metricIsWinPct(sectorMetric);
     const rows = Object.keys(sbt)
       .filter(s => sbt[s][sectorCallType])
       .map(s => ({ sector: s, ...sbt[s][sectorCallType] }))
-      .sort((a, b) => (b.median_return_30d || 0) - (a.median_return_30d || 0));
+      .sort((a, b) => (b[sectorMetric] ?? -Infinity) - (a[sectorMetric] ?? -Infinity));
 
-    const maxAbs = Math.max(...rows.map(r => Math.abs(r.median_return_30d || 0)), 1);
+    const maxAbs = Math.max(...rows.map(r => Math.abs(r[sectorMetric] ?? 0)), 1);
     const barsEl = document.getElementById('sector-chart-bars');
     if (!barsEl) return;
 
     barsEl.innerHTML = rows.map(r => {
-      const v = r.median_return_30d;
+      const v = r[sectorMetric] ?? null;
       const pct = v != null ? Math.min(Math.abs(v) / maxAbs * 100, 100) : 0;
-      const color = v != null ? (v >= 0 ? '#2da44e' : '#d03030') : '#8b949e';
+      const color = barColor(v, isWinPct);
       const isSelected = selectedSector === r.sector;
       return `<div class="chart-bar-wrap" data-sector="${r.sector}"
                    style="cursor:pointer;outline:${isSelected ? '2px solid #0969da' : 'none'};border-radius:4px">
@@ -1280,7 +1318,7 @@ function renderAnalytics(d) {
         <div class="chart-bar-track">
           <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
         </div>
-        <div class="chart-bar-val ${v != null ? retClass(v) : 'ret-null'}">${v != null ? (v > 0 ? '+' : '') + v.toFixed(1) + '%' : '—'}</div>
+        <div class="chart-bar-val ${barClass(v, isWinPct)}">${barFmt(v, isWinPct)}</div>
       </div>`;
     }).join('');
 
@@ -1302,10 +1340,6 @@ function renderAnalytics(d) {
         <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
           <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
           <div><span style="color:#57606a">Tickers:</span> <strong>${r.n_tickers}</strong></div>
-          <div><span style="color:#57606a">Win% 30d:</span> <strong>${r.win_rate_30d != null ? r.win_rate_30d + '%' : '—'}</strong></div>
-          <div><span style="color:#57606a">Median 30d:</span> ${retFmt(r.median_return_30d)}</div>
-          <div><span style="color:#57606a">Median 90d:</span> ${retFmt(r.median_return_90d)}</div>
-          <div><span style="color:#57606a">Median Since:</span> ${retFmt(r.median_return_since_mention)}</div>
         </div>
       </div>`;
   }
@@ -1318,21 +1352,120 @@ function renderAnalytics(d) {
     renderSectorBars();
   });
 
-  document.getElementById('sect-btn-buy').addEventListener('click', () => {
-    sectorCallType = 'buy';
-    document.getElementById('sect-btn-buy').classList.add('active');
-    document.getElementById('sect-btn-sell').classList.remove('active');
-    renderSectorBars();
+  ['buy','sell'].forEach(type => {
+    document.getElementById(`sect-btn-${type}`).addEventListener('click', () => {
+      sectorCallType = type;
+      document.getElementById('sect-btn-buy').classList.toggle('active', type === 'buy');
+      document.getElementById('sect-btn-sell').classList.toggle('active', type === 'sell');
+      selectedSector = null;
+      renderSectorBars();
+    });
   });
 
-  document.getElementById('sect-btn-sell').addEventListener('click', () => {
-    sectorCallType = 'sell';
-    document.getElementById('sect-btn-sell').classList.add('active');
-    document.getElementById('sect-btn-buy').classList.remove('active');
-    renderSectorBars();
+  Object.entries(SECTOR_METRIC_KEYS).forEach(([id, key]) => {
+    document.getElementById(`sect-metric-${id}`).addEventListener('click', () => {
+      sectorMetric = key;
+      Object.keys(SECTOR_METRIC_KEYS).forEach(k =>
+        document.getElementById(`sect-metric-${k}`).classList.toggle('active', k === id));
+      renderSectorBars();
+    });
   });
 
   renderSectorBars();
+
+  // ── Segment interactive chart ──────────────────────────────────────────────
+  const sbt_seg = {};
+  for (const r of d.segment_by_type || []) {
+    if (!sbt_seg[r.segment]) sbt_seg[r.segment] = {};
+    sbt_seg[r.segment][r.call_type] = r;
+  }
+
+  let segCallType   = 'buy';
+  let segMetric     = 'median_return_30d';
+  let selectedSeg   = null;
+
+  function renderSegmentBars() {
+    const isWinPct = metricIsWinPct(segMetric);
+    const rows = Object.keys(sbt_seg)
+      .filter(s => sbt_seg[s][segCallType])
+      .map(s => ({ segment: s, ...sbt_seg[s][segCallType] }))
+      .sort((a, b) => (b[segMetric] ?? -Infinity) - (a[segMetric] ?? -Infinity));
+
+    const maxAbs = Math.max(...rows.map(r => Math.abs(r[segMetric] ?? 0)), 1);
+    const barsEl = document.getElementById('segment-chart-bars');
+    if (!barsEl) return;
+
+    barsEl.innerHTML = rows.map(r => {
+      const v = r[segMetric] ?? null;
+      const pct = v != null ? Math.min(Math.abs(v) / maxAbs * 100, 100) : 0;
+      const color = barColor(v, isWinPct);
+      const isSel = selectedSeg === r.segment;
+      return `<div class="chart-bar-wrap" data-seg="${r.segment}"
+                   style="cursor:pointer;outline:${isSel ? '2px solid #0969da' : 'none'};border-radius:4px">
+        <div class="chart-bar-label">${r.segment}</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+        <div class="chart-bar-val ${barClass(v, isWinPct)}">${barFmt(v, isWinPct)}</div>
+      </div>`;
+    }).join('');
+
+    renderSegmentDetail();
+  }
+
+  function renderSegmentDetail() {
+    const el = document.getElementById('segment-detail');
+    if (!el) return;
+    if (!selectedSeg || !sbt_seg[selectedSeg]?.[segCallType]) {
+      el.innerHTML = '';
+      return;
+    }
+    const r = sbt_seg[selectedSeg][segCallType];
+    const typeLabel = segCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
+    el.innerHTML = `
+      <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
+        <div style="font-weight:600;margin-bottom:8px">${selectedSeg} — ${typeLabel}</div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
+          <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById('segment-chart-bars').addEventListener('click', e => {
+    const bar = e.target.closest('[data-seg]');
+    if (!bar) return;
+    const s = bar.dataset.seg;
+    selectedSeg = selectedSeg === s ? null : s;
+    renderSegmentBars();
+  });
+
+  ['buy','sell'].forEach(type => {
+    document.getElementById(`seg-btn-${type}`).addEventListener('click', () => {
+      segCallType = type;
+      document.getElementById('seg-btn-buy').classList.toggle('active', type === 'buy');
+      document.getElementById('seg-btn-sell').classList.toggle('active', type === 'sell');
+      selectedSeg = null;
+      renderSegmentBars();
+    });
+  });
+
+  const SEG_METRIC_KEYS = {
+    'm30': 'median_return_30d',
+    'm90': 'median_return_90d',
+    'w30': 'win_rate_30d',
+    'w90': 'win_rate_90d',
+  };
+
+  Object.entries(SEG_METRIC_KEYS).forEach(([id, key]) => {
+    document.getElementById(`seg-metric-${id}`).addEventListener('click', () => {
+      segMetric = key;
+      Object.keys(SEG_METRIC_KEYS).forEach(k =>
+        document.getElementById(`seg-metric-${k}`).classList.toggle('active', k === id));
+      renderSegmentBars();
+    });
+  });
+
+  renderSegmentBars();
 }
 
 function showSearchForTicker(ticker) {

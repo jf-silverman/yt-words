@@ -782,7 +782,9 @@ def build_analytics_json(out_path: str) -> None:
                COUNT(*)                                            AS n_mentions,
                COUNT(DISTINCT ticker)                              AS n_tickers,
                ROUND(100.0 * SUM(CASE WHEN return_30d > 0 THEN 1 ELSE 0 END)
-                           / NULLIF(COUNT(return_30d), 0), 1)     AS win_rate_30d
+                           / NULLIF(COUNT(return_30d), 0), 1)     AS win_rate_30d,
+               ROUND(100.0 * SUM(CASE WHEN return_90d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_90d), 0), 1)     AS win_rate_90d
         FROM forward_returns
         WHERE sector IS NOT NULL AND sector != ''
           AND sentiment IN {NON_NEUTRAL}
@@ -793,6 +795,45 @@ def build_analytics_json(out_path: str) -> None:
     sector_by_type = [dict(r) for r in c.fetchall()]
     for row in sector_by_type:
         b = sbt_buckets[(row['sector'], row['call_type'])]
+        row['median_return_30d']           = _median(b['r30'])
+        row['median_return_90d']           = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
+
+    # ── Segment by call type ──────────────────────────────────────────────────
+    c.execute(f"""
+        SELECT segment,
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               return_30d, return_90d, return_since_mention
+        FROM forward_returns
+        WHERE segment IS NOT NULL AND segment != ''
+          AND sentiment IN {NON_NEUTRAL}
+    """)
+    seg_type_buckets = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        key = (row[0], row[1])
+        b = seg_type_buckets[key]
+        if row[2] is not None: b['r30'].append(row[2])
+        if row[3] is not None: b['r90'].append(row[3])
+        if row[4] is not None: b['rs'].append(row[4])
+
+    c.execute(f"""
+        SELECT segment,
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               COUNT(*)                                            AS n_mentions,
+               ROUND(100.0 * SUM(CASE WHEN return_30d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_30d), 0), 1)     AS win_rate_30d,
+               ROUND(100.0 * SUM(CASE WHEN return_90d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_90d), 0), 1)     AS win_rate_90d
+        FROM forward_returns
+        WHERE segment IS NOT NULL AND segment != ''
+          AND sentiment IN {NON_NEUTRAL}
+        GROUP BY segment, call_type
+        HAVING n_mentions >= 3
+        ORDER BY segment, call_type
+    """)
+    segment_by_type = [dict(r) for r in c.fetchall()]
+    for row in segment_by_type:
+        b = seg_type_buckets[(row['segment'], row['call_type'])]
         row['median_return_30d']           = _median(b['r30'])
         row['median_return_90d']           = _median(b['r90'])
         row['median_return_since_mention'] = _median(b['rs'])
@@ -844,6 +885,7 @@ def build_analytics_json(out_path: str) -> None:
         "segment_perf":      segment_perf,
         "mktcap_perf":       mktcap_perf,
         "sector_by_type":    sector_by_type,
+        "segment_by_type":   segment_by_type,
         "latest_calls":      latest_calls,
         "buy_call_pool":     buy_call_pool,
         "sell_call_pool":    sell_call_pool,
