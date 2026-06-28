@@ -1119,10 +1119,10 @@ function renderAnalytics(d) {
         </div>
         <div class="analytics-card-body" style="padding-bottom:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
           <select id="call-type-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;flex:1;min-width:260px;max-width:480px">
-            <option value="best_buy">Calls That Made the Most 💰 — buy-type, best return first</option>
-            <option value="worst_buy">Calls That Lost the Most 📉 — buy-type, worst return first</option>
-            <option value="best_avoid">Calls That Avoided Biggest Losses 🛡️ — cautious/sell, stock dropped most</option>
-            <option value="worst_avoid">Worst Avoid Calls 🤦 — cautious/sell, stock surged anyway</option>
+            <option value="best_buy">Best "Buy" Calls — buy-type where stock went up</option>
+            <option value="worst_buy">Worst "Buy" Calls — buy-type where stock went down</option>
+            <option value="best_avoid">Best "Sell" Calls — cautious/sell where stock went down</option>
+            <option value="worst_avoid">Worst "Sell" Calls — cautious/sell where stock went up</option>
           </select>
           <select id="call-sector-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:160px">
             <option value="">All Sectors</option>
@@ -1187,17 +1187,22 @@ function renderAnalytics(d) {
   const callSectorEl = document.getElementById('call-sector-select');
 
   const CALL_CFG = {
-    best_buy:    { pool: buyPool,  asc: false },
-    worst_buy:   { pool: buyPool,  asc: true  },
-    best_avoid:  { pool: sellPool, asc: true  },
-    worst_avoid: { pool: sellPool, asc: false },
+    best_buy:    { pool: buyPool,  asc: false, dir: 'pos' },
+    worst_buy:   { pool: buyPool,  asc: true,  dir: 'neg' },
+    best_avoid:  { pool: sellPool, asc: true,  dir: 'neg' },
+    worst_avoid: { pool: sellPool, asc: false, dir: 'pos' },
   };
 
   function renderCallsTable() {
     const cfg    = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
     const sector = callSectorEl.value;
 
-    const filtered = sector ? cfg.pool.filter(r => r.sector === sector) : cfg.pool;
+    const dirPass = cfg.dir === 'pos'
+      ? r => r.return_since_mention > 0
+      : r => r.return_since_mention < 0;
+    const filtered = cfg.pool
+      .filter(dirPass)
+      .filter(r => !sector || r.sector === sector);
     const sorted = [...filtered].sort((a, b) =>
       cfg.asc
         ? (a.return_since_mention || 0) - (b.return_since_mention || 0)
