@@ -1400,6 +1400,7 @@ function renderAnalytics(d) {
     const rows = Object.keys(sbt_seg)
       .filter(s => sbt_seg[s][segCallType])
       .map(s => ({ segment: s, ...sbt_seg[s][segCallType] }))
+      .filter(r => r.n_mentions >= 30)
       .sort((a, b) => (b[segMetric] ?? -Infinity) - (a[segMetric] ?? -Infinity));
 
     const maxAbs = Math.max(...rows.map(r => Math.abs(r[segMetric] ?? 0)), 1);
