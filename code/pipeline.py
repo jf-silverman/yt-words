@@ -24,6 +24,7 @@ Environment variables:
 
 import argparse
 import json
+from collections import Counter
 import os
 import re
 import smtplib
@@ -542,9 +543,9 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
 def _write_recent_json(stocks: dict) -> None:
     """Write docs/data/recent.json with all mentions from the last 90 days."""
     cutoff = (date.today() - timedelta(days=90)).isoformat()
-    # Deduplicate per (ticker, date, segment): keep highest-conviction sentiment
     _sent_rank = {s: i for i, s in enumerate(SENTIMENT_ORDER)}
-    best: dict[tuple, dict] = {}
+    # Group all mentions by (ticker, date, segment)
+    groups: dict[tuple, list[dict]] = {}
     for ticker, entry in stocks.items():
         total = len(entry.get("mentions", []))
         sector = entry.get("sector", "")
@@ -555,14 +556,22 @@ def _write_recent_json(stocks: dict) -> None:
             key = (ticker, m["date"], m.get("segment", ""))
             row = {"ticker": ticker, "company": entry.get("company", ""),
                    "sector": sector, "style": style, "total_mentions": total, **m}
-            existing = best.get(key)
-            if existing is None:
-                best[key] = row
-            else:
-                # Keep the entry whose sentiment is earlier in SENTIMENT_ORDER (more conviction)
-                if _sent_rank.get(m.get("sentiment", ""), 99) < _sent_rank.get(existing.get("sentiment", ""), 99):
-                    best[key] = row
-    mentions = sorted(best.values(), key=lambda x: x["date"], reverse=True)
+            groups.setdefault(key, []).append(row)
+    # Deduplicate: use mode sentiment; break ties by highest conviction (SENTIMENT_ORDER)
+    mentions = []
+    for rows in groups.values():
+        if len(rows) == 1:
+            mentions.append(rows[0])
+            continue
+        counts = Counter(r.get("sentiment", "") for r in rows)
+        max_count = max(counts.values())
+        modal_sents = {s for s, c in counts.items() if c == max_count}
+        # Among modal sentiments, pick the one with highest conviction
+        chosen_sent = min(modal_sents, key=lambda s: _sent_rank.get(s, 99))
+        # Use the first row that has the chosen sentiment as the base row
+        chosen_row = next(r for r in rows if r.get("sentiment") == chosen_sent)
+        mentions.append(chosen_row)
+    mentions.sort(key=lambda x: x["date"], reverse=True)
     out = {"generated": date.today().isoformat(), "mentions": mentions}
     (TICKER_DATA_DIR / "recent.json").write_text(json.dumps(out, separators=(",", ":")))
 
