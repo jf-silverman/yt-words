@@ -1025,7 +1025,7 @@ function renderAnalytics(d) {
   // ── Best / Worst call tables ──────────────────────────────────────────────
   function wlRows(rows) {
     return rows.map(r => `
-      <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
+      <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer" data-sector="${r.sector || ''}">
         <td><a class="ticker-link">${r.ticker}</a></td>
         <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.company}</td>
         <td class="date-cell">${r.mention_date}</td>
@@ -1033,6 +1033,13 @@ function renderAnalytics(d) {
         <td style="text-align:right">${retFmt(r.return_since_mention)}</td>
       </tr>`).join('');
   }
+
+  // Build sorted unique sector list from all 4 call datasets
+  const callSectors = [...new Set([
+    ...d.best_buy_calls, ...d.best_avoid_calls,
+    ...d.worst_buy_calls, ...d.worst_avoid_calls
+  ].map(r => r.sector).filter(Boolean))].sort();
+  const callSectorOptions = callSectors.map(s => `<option value="${s}">${s}</option>`).join('');
 
   document.getElementById('analytics-body').innerHTML = `
     <p style="font-size:12px;color:#57606a;margin-bottom:16px">
@@ -1108,6 +1115,15 @@ function renderAnalytics(d) {
           <div id="sector-chart-bars"></div>
           <div id="sector-detail"></div>
         </div>
+      </div>
+
+      <!-- Sector filter for call charts -->
+      <div class="analytics-full" style="display:flex;align-items:center;gap:10px;padding:6px 0 2px">
+        <label for="calls-sector-filter" style="font-size:13px;font-weight:600;color:#1f2328;white-space:nowrap">Filter by Sector:</label>
+        <select id="calls-sector-filter" style="font-size:13px;padding:4px 8px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328">
+          <option value="">All Sectors</option>
+          ${callSectorOptions}
+        </select>
       </div>
 
       <!-- Calls that made the most money (buy-type, highest return) -->
@@ -1218,6 +1234,18 @@ function renderAnalytics(d) {
   makeSortable('table-worst-avoids', 4, false);
   // Latest calls: default by date descending (col 2)
   makeSortable('table-latest', 2, false);
+
+  // ── Calls sector filter ───────────────────────────────────────────────────
+  document.getElementById('calls-sector-filter').addEventListener('change', e => {
+    const sector = e.target.value;
+    ['table-best-buys', 'table-best-avoids', 'table-worst-buys', 'table-worst-avoids'].forEach(id => {
+      const tbody = document.querySelector(`#${id} tbody`);
+      if (!tbody) return;
+      tbody.querySelectorAll('tr').forEach(row => {
+        row.style.display = (!sector || row.dataset.sector === sector) ? '' : 'none';
+      });
+    });
+  });
 
   // ── Sector interactive chart ──────────────────────────────────────────────
   const sbt = {};
