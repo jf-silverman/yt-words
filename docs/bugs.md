@@ -69,18 +69,19 @@ python3 code/pipeline.py --rebuild-shards
 
 **Category B — Likely wrong ticker from Haiku (needs human verification):**
 
-| Ticker | Date | Segment | Cramer's description | YouTube |
-|--------|------|---------|----------------------|---------|
-| USO | 2026-02-25 | lightning_round | "Brad Jacobs's company. Don't bet against Brad. Roofing/building materials." — USO is the oil ETF; probably QXO or XPO | [link](https://youtu.be/EkHR3syFwHc) |
-| BWX | 2026-01-15 | in_depth_analysis | "Nuclear/defense supplier, 80% government/Navy; commercial nuclear up 122%" — probably BWXT (BWX Technologies) | [link](https://youtu.be/-dnfldqfazA) |
-| BWX | 2026-05-15 | interview | "Legacy 160-year-old power equipment maker thriving on data center power" — probably BWXT | [link](https://youtu.be/JIQheuNzaAI) |
-| ETP | 2026-06-12 | closing_commentary + caller_qa | "MLP yielding ~7%; cleaned up past debt" — ETP is delisted; probably ET (Energy Transfer) | [link](https://youtu.be/ECuFlhGtUsg) |
-| FLAG | 2026-04-29 | lightning_round | "Generic bank without edge, small dividend" — unknown small bank ticker | [link](https://youtu.be/5-rWrj-ZgK8) |
-| FLOW | 2026-01-30 | lightning_round | "Analog chipmaker similar to Roper of old (pipes and valves); great quarter" — unknown | [link](https://youtu.be/LmFPOWVLnwo) |
-| HF | 2026-04-21 | lightning_round | "Data center play in booming sector; Cramer called it 'mini burden' (strong buy signal)" — unknown | [link](https://youtu.be/BOPCHZNJZiU) |
-| PSI | 2026-06-01 | lightning_round | "Missed quarter badly and cut guidance; cut losses immediately" — unknown | [link](https://youtu.be/oHrBBaAh4Jc) |
-| RDCT | 2026-05-28 | opening_commentary | "Manufactures tactical drones for US Army; fan favorite with proven execution" — possibly RCAT (Red Cat Holdings) or AVAV | [link](https://youtu.be/G_nPvcsM8LA) |
-| TSCM | 2026-06-08 | lightning_round | "Numbers are bad. Possibly end of COVID-era urban-to-rural trade." — unknown | [link](https://youtu.be/JIu6vZ3sLlQ) |
+| Ticker | Date | Segment | Timestamp | Cramer's description | YouTube |
+|--------|------|---------|-----------|----------------------|---------|
+| USO | 2026-02-25 | lightning_round | 35:10 | "Brad Jacobs's company. Don't bet against Brad. Roofing/building materials." — USO is the oil ETF; probably QXO or XPO | [link](https://youtu.be/EkHR3syFwHc?t=2110) |
+| BWX | 2026-01-15 | in_depth_analysis | 19:57 | "Nuclear/defense supplier, 80% government/Navy; commercial nuclear up 122%" — probably BWXT (BWX Technologies) | [link](https://youtu.be/-dnfldqfazA?t=1197) |
+| BWX | 2026-05-15 | interview | 13:11 | "Legacy 160-year-old power equipment maker thriving on data center power" — probably BWXT | [link](https://youtu.be/JIQheuNzaAI?t=791) |
+| ETP | 2026-06-12 | closing_commentary | 54:40 | "MLP yielding ~7%; cleaned up past debt" — ETP is delisted; probably ET (Energy Transfer) | [link](https://youtu.be/ECuFlhGtUsg?t=3280) |
+| ETP | 2026-06-12 | caller_qa | 37:31 | "MLP yielding ~7%; cleaned up past debt" — ETP is delisted; probably ET (Energy Transfer) | [link](https://youtu.be/ECuFlhGtUsg?t=2251) |
+| FLAG | 2026-04-29 | lightning_round | 35:00 | "Generic bank without edge, small dividend" — unknown small bank ticker | [link](https://youtu.be/5-rWrj-ZgK8?t=2100) |
+| FLOW | 2026-01-30 | lightning_round | 34:10 | "Analog chipmaker similar to Roper of old (pipes and valves); great quarter" — unknown | [link](https://youtu.be/LmFPOWVLnwo?t=2050) |
+| HF | 2026-04-21 | lightning_round | 1:00:21 | "Data center play in booming sector; Cramer called it 'mini burden' (strong buy signal)" — unknown | [link](https://youtu.be/BOPCHZNJZiU?t=3621) |
+| PSI | 2026-06-01 | lightning_round | 36:24 | "Missed quarter badly and cut guidance; cut losses immediately" — unknown | [link](https://youtu.be/oHrBBaAh4Jc?t=2184) |
+| RDCT | 2026-05-28 | opening_commentary | 0:17 | "Manufactures tactical drones for US Army; fan favorite with proven execution" — possibly RCAT (Red Cat Holdings) or AVAV | [link](https://youtu.be/G_nPvcsM8LA?t=17) |
+| TSCM | 2026-06-08 | lightning_round | 36:26 | "Numbers are bad. Possibly end of COVID-era urban-to-rural trade." — unknown | [link](https://youtu.be/JIu6vZ3sLlQ?t=2186) |
 
 **To fix Category B:** Listen to the linked episodes at the timestamps in the segments, identify the real ticker, then:
 ```bash
@@ -95,13 +96,28 @@ python3 code/pipeline.py --rebuild-shards
 **Discovered:** 2026-06-29  
 **Symptom:** 18 mentions exist in the DB with ticker `????` — Haiku's placeholder when it heard a company name but couldn't identify the ticker symbol. These appear in the Search tab as a single entry labeled with whichever company name was last stored for that ticker.  
 **Root cause:** When Haiku cannot map a spoken company name to a ticker, it outputs `????`. Each episode with an unidentifiable company adds another row under the same `????` ticker, making the entry a mix of unrelated companies.  
-**Affected dates/notes (sampling):**
-- 2026-01-05: "40M US users, 30% YoY merchant growth, expanding to UK" (fintech)
-- 2026-01-05: "Developing targeted cancer therapies" (biotech)  
-- 2026-01-12: "semiconductor play but ticker uncertain from transcript"
-- 2026-02-04: "Crypto derivative speculation; avoid"
-- 2026-03-24: "Private AI/data platform displacing legacy software"
-- (13 more entries across various episodes)
+**All 18 affected entries:**
+
+| Date | Segment | Timestamp | Cramer's description | YouTube |
+|------|---------|-----------|----------------------|---------|
+| 2026-01-05 | opening_commentary | 0:22 | "40M US users, 30% YoY merchant growth, expanding to UK; fintech with proprietary credit underwriting; path to $100" | [link](https://youtu.be/k4bEI8CxAgQ?t=22) |
+| 2026-01-05 | lightning_round | 36:23 | "Developing targeted cancer therapies; speculative biotech, extreme losses possible; if it's Dr. Seagull/Seattle Gen, reference unclear" | [link](https://youtu.be/k4bEI8CxAgQ?t=2183) |
+| 2026-01-12 | lightning_round | 35:53 | "Down ~1.5% YTD; Cramer calls stock undervalued; appears to be semiconductor play but ticker uncertain from transcript" | [link](https://youtu.be/mNt5O1Tnd5c?t=2153) |
+| 2026-02-04 | opening_commentary | 0:23 | "Crypto derivative speculation; people fall over; avoid — poor near-term outlook" | [link](https://youtu.be/4dmImsBvqe8?t=23) |
+| 2026-03-24 | opening_commentary | 0:18 | "Private AI/data platform displacing legacy software; held by Fundrise and Robinhood venture funds; Cramer calls it 'impressive'" | [link](https://youtu.be/WIdKqDtRhRg?t=18) |
+| 2026-04-15 | opening_commentary | 0:17 | "Shoe maker pivoting to 'AI compute infrastructure' on $50M convertible; stock rallied 600% — classic bubble signal; no execution track record" | [link](https://youtu.be/Vi8jBjp-9KA?t=17) |
+| 2026-04-22 | opening_commentary | 0:18 | "Data center infrastructure provider; private/recently IPO'd; CEO was on show but stock doesn't trade publicly yet" | [link](https://youtu.be/7fVc-U9XTvA?t=18) |
+| 2026-04-23 | closing_commentary | 40:00 | "Hong Kong-based IoT solutions provider up 2,000% in April alone ($6→$140); ~$2B market cap on $11M revenue; meme stock bubble" | [link](https://youtu.be/4AOW-E3MQLY?t=2400) |
+| 2026-05-01 | opening_commentary | 0:16 | "Mega IPO coming; valuation $157B (Oct 2024) → $852B (Feb 2026); $375B supply risk if 10% float; history shows pop then correction" | [link](https://youtu.be/yd5ubeTfIDw?t=16) |
+| 2026-05-05 | lightning_round | 32:32 | "Avoid; Cramer recommends MP Materials as only pure-play rare earths stock worth owning" | [link](https://youtu.be/stBiW-NPi9E?t=1952) |
+| 2026-05-08 | lightning_round | 36:34 | "Stock straight up without earnings; avoid momentum plays without fundamentals; pass" | [link](https://youtu.be/M2Kob8bAgqs?t=2194) |
+| 2026-05-18 | opening_commentary | 0:17 | "Stock blasted on failed melanoma trial result; cannot buy drug stocks with that degree of decline on day one; damaged stock" | [link](https://youtu.be/6dOjtUMJmt8?t=17) |
+| 2026-05-18 | lightning_round | 40:37 | "Fairly new public company serving power infrastructure; 66% YoY revenue growth, doubled gross profit, backlog ~$88M; 'great niche company'" | [link](https://youtu.be/6dOjtUMJmt8?t=2437) |
+| 2026-05-27 | lightning_round | 37:51 | "Nice dividend, going higher; terrific situation with good yield" | [link](https://youtu.be/iuDuWGkbX4g?t=2271) |
+| 2026-05-28 | opening_commentary | 0:17 | "Pure-play drone maker; one of three best drone plays; supplier selection not yet complete — upside ahead" | [link](https://youtu.be/G_nPvcsM8LA?t=17) |
+| 2026-05-28 | lightning_round | 35:21 | "Caller bogged down in large losing position (bought 350, now sub-200 for 8-9 months); recommends Bitcoin instead" | [link](https://youtu.be/G_nPvcsM8LA?t=2121) |
+| 2026-06-03 | lightning_round | 35:46 | "Space-related stock; Cramer unfamiliar with company and will research; probably good company but needs further analysis" | [link](https://youtu.be/hNHRqIXUT0o?t=2146) |
+| 2026-06-08 | caller_qa | 26:03 | "IPO priced expectation $170-180, opened at $370, subsequently collapsed; classic botched deal; cut position in half and sell on rallies" | [link](https://youtu.be/JIu6vZ3sLlQ?t=1563) |
 
 **Status:** Open — each `????` mention requires manually listening to the episode to identify the correct company and ticker. Once identified, fix with:
 ```bash
