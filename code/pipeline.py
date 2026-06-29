@@ -1275,9 +1275,9 @@ def build_email_html(summaries: list[dict],
         if analysis.get("episode_type") == "fundamentals":
             parts.append(
                 '<div class="fundamentals-banner">'
-                '<strong>📚 Cramer\'s Investing Fundamentals</strong> &mdash; '
-                'This episode covers timeless investment principles rather than current market calls. '
-                'Fewer stock picks; content can be re-aired at any time.'
+                '<strong>📚 Investing Fundamentals Episode</strong> &mdash; '
+                'This episode does not contain day-of stock commentary. '
+                'Content covers timeless investing principles and may be re-aired at any time.'
                 '</div>'
             )
         if analysis.get("market_headline"):
