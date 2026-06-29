@@ -431,6 +431,7 @@ function livePriceHtml(info) {
 // ── Chart ─────────────────────────────────────────────────────────────────────
 
 const DAILY_DATASET_LABEL = '__daily__';
+const LAST_CALL_LABEL = 'Price at Last Call';
 
 function renderChart(ticker, entry) {
   if (typeof Chart === 'undefined') return '';
@@ -456,36 +457,56 @@ function renderChart(ticker, entry) {
     el._chartInitialized = true;
     if (chartInstances.has(ticker)) chartInstances.get(ticker).destroy();
 
+    const lastPt = pts[pts.length - 1];
+    const todayStr = new Date().toISOString().slice(0, 10);
+
     const chart = new Chart(el, {
       type: 'line',
       data: {
-        datasets: [{
-          data: pts.map(p => ({ x: p.date, y: p.price })),
-          borderColor: '#0969da',
-          borderWidth: 2,
-          tension: 0.1,
-          fill: false,
-          order: 1,
-          pointStyle: pts.map(p =>
-            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 'triangle' : 'circle'
-          ),
-          pointRadius: pts.map(p =>
-            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 7 : 5
-          ),
-          pointHoverRadius: pts.map(p =>
-            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 10 : 7
-          ),
-          pointBackgroundColor: pts.map(p =>
-            BULLISH_SET.has(p.sentiment) ? '#2da44e'
-            : BEARISH_SET.has(p.sentiment) ? '#d03030' : '#8b949e'
-          ),
-          pointRotation: pts.map(p =>
-            BULLISH_SET.has(p.sentiment) ? 0
-            : BEARISH_SET.has(p.sentiment) ? 180 : 0
-          ),
-          pointBorderColor: pts.map(() => '#fff'),
-          pointBorderWidth: pts.map(() => 1.5),
-        }],
+        datasets: [
+          {
+            data: pts.map(p => ({ x: p.date, y: p.price })),
+            borderColor: '#0969da',
+            borderWidth: 2,
+            tension: 0.1,
+            fill: false,
+            order: 1,
+            pointStyle: pts.map(p =>
+              BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 'triangle' : 'circle'
+            ),
+            pointRadius: pts.map(p =>
+              BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 7 : 5
+            ),
+            pointHoverRadius: pts.map(p =>
+              BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 10 : 7
+            ),
+            pointBackgroundColor: pts.map(p =>
+              BULLISH_SET.has(p.sentiment) ? '#2da44e'
+              : BEARISH_SET.has(p.sentiment) ? '#d03030' : '#8b949e'
+            ),
+            pointRotation: pts.map(p =>
+              BULLISH_SET.has(p.sentiment) ? 0
+              : BEARISH_SET.has(p.sentiment) ? 180 : 0
+            ),
+            pointBorderColor: pts.map(() => '#fff'),
+            pointBorderWidth: pts.map(() => 1.5),
+          },
+          {
+            label: LAST_CALL_LABEL,
+            data: [
+              { x: lastPt.date, y: lastPt.price },
+              { x: todayStr,    y: lastPt.price },
+            ],
+            borderColor: '#0969da',
+            borderWidth: 1.5,
+            borderDash: [6, 3],
+            tension: 0,
+            fill: false,
+            order: 2,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -510,6 +531,8 @@ function renderChart(ticker, entry) {
               label: item => {
                 if (item.dataset.label === DAILY_DATASET_LABEL)
                   return `Daily close: $${Number(item.parsed.y).toFixed(2)}`;
+                if (item.dataset.label === LAST_CALL_LABEL)
+                  return `${LAST_CALL_LABEL}: $${Number(item.parsed.y).toFixed(2)}`;
                 const p = pts[item.dataIndex];
                 if (!p) return `$${Number(item.parsed.y).toFixed(2)}`;
                 const lines = [`Close: $${Number(item.parsed.y).toFixed(2)}`];
@@ -549,7 +572,7 @@ function renderChart(ticker, entry) {
       <button class="czoom-btn" data-dur="90d" onclick="setChartZoom('${ticker}',this)">90d</button>
       <button class="czoom-btn czoom-active" data-dur="all" onclick="setChartZoom('${ticker}',this)">To now</button>
     </div>
-    <div><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish &nbsp; <span style="display:inline-block;width:10px;height:10px;background:rgba(130,80,223,0.35);border:1px solid rgba(130,80,223,0.5);border-radius:2px;vertical-align:middle"></span> Daily price</div>
+    <div><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish &nbsp; <span style="display:inline-block;width:10px;height:10px;background:rgba(130,80,223,0.35);border:1px solid rgba(130,80,223,0.5);border-radius:2px;vertical-align:middle"></span> Daily price &nbsp; <span style="display:inline-block;width:20px;border-top:1.5px dashed #0969da;vertical-align:middle"></span> Price at Last Call</div>
   </div><div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
 }
 
