@@ -1524,9 +1524,6 @@ def main() -> None:
                         help="Fetch/refresh daily price history files for all active tickers in docs/data/")
     parser.add_argument("--fetch-sectors", action="store_true",
                         help="Batch-fetch sector/style from Yahoo Finance for all tickers and rebuild shards")
-    parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
-                        help="Analysis backend: 'api' uses Haiku API (default); "
-                             "'claude-code' shells out to the claude CLI (uses Claude Code subscription)")
     args = parser.parse_args()
 
     age = _cookie_age_days()
