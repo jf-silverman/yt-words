@@ -197,12 +197,6 @@
     Every stock Cramer has mentioned on Mad Money, with sentiment and closing price.
     &nbsp;·&nbsp; <a href="index.html">← Home</a>
   </p>
-  <p class="subtitle" style="margin-top:4px;font-size:12px;color:#57606a">
-    <strong>Win %</strong> — Is Cramer right more often than wrong?
-    &nbsp;·&nbsp;
-    <strong>Return %</strong> — How much would you make/lose if you bought on this sentiment call?
-  </p>
-
   <div class="tab-bar">
     <button class="tab-btn tab-active" id="tab-search" onclick="showTab('search')">Search</button>
     <button class="tab-btn" id="tab-recent" onclick="showTab('recent')">Recent Picks</button>
@@ -616,6 +610,9 @@ function renderCard(ticker, entry) {
   const tickerBadge = privNow
     ? `<span class="card-ticker" style="background:#8b949e">${ticker} <span style="font-size:11px;opacity:.8">(private)</span></span>`
     : `<span class="card-ticker">${ticker}</span>`;
+  // Same eligibility check as renderChart: ≥3 date-groups with non-null prices
+  const ptsWithPrice = dateGroups.filter(([, grp]) => grp.some(m => m.closing_price != null));
+  const chartEligible = dayCount >= 3 && ptsWithPrice.length >= 3;
   return `<div class="card">
     <div class="card-header">
       <span class="card-company">${entry.company || ticker}</span>
@@ -623,7 +620,7 @@ function renderCard(ticker, entry) {
       <div class="card-meta">
         <div id="price-${ticker}">${initialPriceHtml(entry, ticker)}</div>
         <div class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</div>
-        ${entry.pct_right_daily != null ? (() => {
+        ${chartEligible && entry.pct_right_daily != null ? (() => {
           const pct = entry.pct_right_daily;
           const col = pct >= 50 ? '#1a7f37' : '#d03030';
           return `<div style="font-size:12px;color:#57606a">% Right: <strong style="color:${col}">${pct}%</strong><span style="color:#8b949e;font-size:10px"> · ${entry.n_right_days}d</span></div>`;
