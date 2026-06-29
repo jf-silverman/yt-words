@@ -24,6 +24,7 @@ Environment variables:
 
 import argparse
 import json
+from collections import Counter
 import os
 import re
 import smtplib
@@ -124,18 +125,37 @@ USER_HOLDINGS = {
 }
 
 SENTIMENT_COLORS = {
-    "strong_buy":    "#1a7f37",
-    "buy":           "#2da44e",
-    "buy_on_pullback": "#4ac26b",
-    "mild_buy":      "#80e09a",
-    "hold":          "#d4a017",
-    "wait":          "#f0c040",
-    "caution":       "#f0a030",
-    "neutral":       "#8b949e",
-    "concern":       "#e06060",
-    "avoid":         "#d03030",
-    "sell":          "#a00000",
+    "strong_buy":        "#1a7f37",
+    "buy":               "#2da44e",
+    "mild_buy":          "#80e09a",
+    "buy_on_pullback":   "#4ac26b",
+    "wait_hold_neutral": "#8b949e",
+    "caution_concern":   "#f0a030",
+    "sell_avoid":        "#a00000",
 }
+
+# Canonical order (most bullish → most bearish)
+SENTIMENT_ORDER = [
+    "strong_buy", "buy", "mild_buy", "buy_on_pullback",
+    "wait_hold_neutral", "caution_concern", "sell_avoid",
+]
+
+# Map legacy values to consolidated canonical values
+_SENTIMENT_MAP = {
+    "hold":    "wait_hold_neutral",
+    "wait":    "wait_hold_neutral",
+    "neutral": "wait_hold_neutral",
+    "caution": "caution_concern",
+    "concern": "caution_concern",
+    "sell":    "sell_avoid",
+    "avoid":   "sell_avoid",
+}
+
+def normalize_sentiment(s: str) -> str:
+    """Map any legacy or raw sentiment string to a canonical value."""
+    if not s:
+        return "wait_hold_neutral"
+    return _SENTIMENT_MAP.get(s, s)
 
 
 # ── 1. Episode discovery ───────────────────────────────────────────────────────
@@ -322,27 +342,29 @@ def analyze_with_haiku(date_str: str, transcript_text: str) -> dict:
 
 
 def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
-    """Run analysis via the claude CLI (uses Claude Code subscription, not API credits)."""
-    import subprocess
-    system_prompt = RULES_FILE.read_text()
-    user_msg = f"Episode date: {date_str}\n\nTranscript:\n{transcript_text}"
-    full_prompt = f"{system_prompt}\n\n---\n\n{user_msg}"
+    """Analyze using the claude CLI (Claude Code subscription — no API credits)."""
+    import subprocess, os
 
-    # Remove ANTHROPIC_API_KEY from subprocess env so claude CLI uses claude.ai login
-    env = os.environ.copy()
-    env.pop("ANTHROPIC_API_KEY", None)
+    user_message = f"Episode date: {date_str}\n\nTranscript:\n{transcript_text}"
+    system_prompt = RULES_FILE.read_text()
+
+    # ANTHROPIC_API_KEY forces the CLI onto the API path rather than the
+    # claude.ai subscription login, causing "connectors disabled" errors.
+    env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
 
     result = subprocess.run(
-        ["claude", "-p", full_prompt],
-        capture_output=True, text=True, timeout=300,
-        env=env,
+        ["claude", "-p", "--system-prompt", system_prompt],
+        input=user_message,
+        capture_output=True, text=True, env=env, timeout=300,
     )
+
     if result.returncode != 0:
-        raise RuntimeError(f"claude CLI error (rc={result.returncode}): {result.stderr[:500]}")
+        raise RuntimeError(f"claude CLI failed (rc={result.returncode}):\n{result.stderr}")
 
     raw = result.stdout.strip()
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+
     return json.loads(raw)
 
 
@@ -488,7 +510,7 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
         })
         mention = {
             "date": episode_date,
-            "sentiment": stock.get("sentiment", "neutral"),
+            "sentiment": normalize_sentiment(stock.get("sentiment", "wait_hold_neutral")),
             "segment": stock.get("segment", ""),
             "note": stock.get("note", ""),
         }
@@ -530,11 +552,92 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
 
 def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     """Write docs/data/{TICKER}.json shards and refresh docs/data/index.json."""
+    import bisect
+    from db import get_connection
     TICKER_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    _BULLISH = {'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback'}
+    _BEARISH = {'sell_avoid', 'caution_concern'}
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # Latest closing price per ticker
+    cur.execute("""
+        SELECT ticker, close, date FROM daily_prices
+        WHERE (ticker, date) IN (
+            SELECT ticker, MAX(date) FROM daily_prices GROUP BY ticker
+        )
+    """)
+    latest_prices = {r["ticker"]: {"price": r["close"], "date": r["date"]}
+                     for r in cur.fetchall()}
+
+    # Load mentions for pct_right_daily computation
+    cur.execute("""
+        SELECT ticker, date, sentiment, closing_price
+        FROM mentions
+        WHERE closing_price IS NOT NULL
+        ORDER BY ticker, date
+    """)
+    m_by_ticker: dict = {}
+    for r in cur.fetchall():
+        t, dt, s, cp = r["ticker"], r["date"], r["sentiment"], r["closing_price"]
+        m_by_ticker.setdefault(t, {}).setdefault(dt, {"price": cp, "sents": set()})
+        m_by_ticker[t][dt]["sents"].add(s)
+
+    # Load daily prices for all tickers
+    cur.execute("SELECT ticker, date, close FROM daily_prices ORDER BY ticker, date")
+    d_by_ticker: dict = {}
+    for r in cur.fetchall():
+        d_by_ticker.setdefault(r["ticker"], {})[r["date"]] = r["close"]
+    d_sorted: dict = {t: sorted(dm.keys()) for t, dm in d_by_ticker.items()}
+
+    conn.close()
+
+    # For each ticker: walk call periods and tally right vs. wrong days
+    pct_right: dict = {}
+    for ticker, date_map in m_by_ticker.items():
+        daily = d_by_ticker.get(ticker, {})
+        dates = d_sorted.get(ticker, [])
+        if not dates:
+            continue
+        last_date = dates[-1]
+        mention_dates = sorted(date_map.keys())
+        total = right = 0
+        for i, dt in enumerate(mention_dates):
+            e = date_map[dt]
+            sents = e["sents"]
+            is_buy  = bool(sents & _BULLISH)
+            is_sell = bool(sents & _BEARISH)
+            if not is_buy and not is_sell:
+                continue
+            call_price = e["price"]
+            end_date = mention_dates[i + 1] if i + 1 < len(mention_dates) else last_date
+            lo = bisect.bisect_right(dates, dt)
+            hi = bisect.bisect_right(dates, end_date)
+            for d in dates[lo:hi]:
+                price = daily[d]
+                total += 1
+                if is_buy and price > call_price:
+                    right += 1
+                elif is_sell and price < call_price:
+                    right += 1
+        if total >= 5:
+            pct_right[ticker] = {"pct": round(right / total * 100, 1), "n": total}
+
     targets = only if only is not None else set(stocks.keys())
     for ticker in targets:
         if ticker in stocks:
-            (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(stocks[ticker]))
+            lp = latest_prices.get(ticker)
+            shard = {**stocks[ticker]}
+            if lp:
+                shard["price_latest"]      = lp["price"]
+                shard["price_latest_date"] = lp["date"]
+            pr = pct_right.get(ticker)
+            if pr:
+                shard["pct_right_daily"] = pr["pct"]
+                shard["n_right_days"]    = pr["n"]
+            (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(shard))
     index = {}
     for t, e in stocks.items():
         mentions = e.get("mentions", [])
@@ -548,16 +651,34 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
 def _write_recent_json(stocks: dict) -> None:
     """Write docs/data/recent.json with all mentions from the last 90 days."""
     cutoff = (date.today() - timedelta(days=90)).isoformat()
-    mentions = []
+    _sent_rank = {s: i for i, s in enumerate(SENTIMENT_ORDER)}
+    # Group all mentions by (ticker, date, segment)
+    groups: dict[tuple, list[dict]] = {}
     for ticker, entry in stocks.items():
         total = len(entry.get("mentions", []))
         sector = entry.get("sector", "")
         style  = entry.get("style", "")
         for m in entry.get("mentions", []):
-            if m.get("date", "") >= cutoff:
-                mentions.append({"ticker": ticker, "company": entry.get("company", ""),
-                                  "sector": sector, "style": style,
-                                  "total_mentions": total, **m})
+            if m.get("date", "") < cutoff:
+                continue
+            key = (ticker, m["date"], m.get("segment", ""))
+            row = {"ticker": ticker, "company": entry.get("company", ""),
+                   "sector": sector, "style": style, "total_mentions": total, **m}
+            groups.setdefault(key, []).append(row)
+    # Deduplicate: use mode sentiment; break ties by highest conviction (SENTIMENT_ORDER)
+    mentions = []
+    for rows in groups.values():
+        if len(rows) == 1:
+            mentions.append(rows[0])
+            continue
+        counts = Counter(r.get("sentiment", "") for r in rows)
+        max_count = max(counts.values())
+        modal_sents = {s for s, c in counts.items() if c == max_count}
+        # Among modal sentiments, pick the one with highest conviction
+        chosen_sent = min(modal_sents, key=lambda s: _sent_rank.get(s, 99))
+        # Use the first row that has the chosen sentiment as the base row
+        chosen_row = next(r for r in rows if r.get("sentiment") == chosen_sent)
+        mentions.append(chosen_row)
     mentions.sort(key=lambda x: x["date"], reverse=True)
     out = {"generated": date.today().isoformat(), "mentions": mentions}
     (TICKER_DATA_DIR / "recent.json").write_text(json.dumps(out, separators=(",", ":")))
@@ -581,11 +702,17 @@ def _market_cap_category(market_cap: float | None) -> str:
 
 
 def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
-    """Fetch sector, industry, style, pe_ratio, market_cap for each ticker via yfinance (parallel)."""
+    """Fetch sector, industry, style, pe_ratio, market_cap for each ticker via yfinance.
+
+    Uses 3 workers with a 0.5 s per-request sleep to stay well under Yahoo
+    Finance's rate limit (~6 req/s vs the 8-worker burst that caused lockouts).
+    """
+    import time
     import yfinance as yf
     from concurrent.futures import ThreadPoolExecutor, as_completed
 
     def _one(ticker):
+        time.sleep(0.5)   # throttle to avoid Yahoo Finance rate limits
         try:
             info = yf.Ticker(ticker).info
             sector   = info.get("sector")   or ""
@@ -617,7 +744,7 @@ def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
             }
 
     result = {}
-    with ThreadPoolExecutor(max_workers=8) as ex:
+    with ThreadPoolExecutor(max_workers=3) as ex:
         futures = {ex.submit(_one, t): t for t in tickers}
         for i, f in enumerate(as_completed(futures), 1):
             ticker, meta = f.result()
@@ -628,18 +755,24 @@ def _fetch_ticker_metadata(tickers: list[str]) -> dict[str, dict]:
 
 
 def fetch_all_sectors() -> None:
-    """Batch-fetch sector/industry/style/pe_ratio/market_cap for all tickers and rebuild shards."""
+    """Batch-fetch sector/industry/style/pe_ratio/market_cap for tickers missing that data."""
     if not SENTIMENTS_FILE.exists():
         print("stock_sentiments.json not found.")
         return
     db = json.loads(SENTIMENTS_FILE.read_text())
     stocks = db.get("stocks", {})
-    tickers = list(stocks.keys())
-    print(f"Fetching metadata for {len(tickers)} tickers…")
+    # Only target tickers that have no sector yet — avoids unnecessary rate-limiting
+    # and prevents overwriting good data with empty strings on a rate-limited response.
+    tickers = [t for t, v in stocks.items() if not v.get("sector")]
+    if not tickers:
+        print("All tickers already have sector data.")
+        return
+    print(f"Fetching metadata for {len(tickers)} tickers missing sector data…")
     metadata = _fetch_ticker_metadata(tickers)
     updated = 0
     for ticker, meta in metadata.items():
-        if ticker not in stocks:
+        if ticker not in stocks or not meta["sector"]:
+            # Don't overwrite existing data with an empty result (e.g. rate limit hit)
             continue
         stocks[ticker]["sector"]              = meta["sector"]
         stocks[ticker]["industry"]            = meta["industry"]
@@ -647,8 +780,7 @@ def fetch_all_sectors() -> None:
         stocks[ticker]["pe_ratio"]            = meta["pe_ratio"]
         stocks[ticker]["market_cap"]          = meta["market_cap"]
         stocks[ticker]["market_cap_category"] = meta["market_cap_category"]
-        if meta["sector"]:
-            updated += 1
+        updated += 1
         # Sync to SQLite
         upsert_stock(
             ticker=ticker,
@@ -666,13 +798,67 @@ def fetch_all_sectors() -> None:
     print(f"Updated metadata for {updated}/{len(tickers)} tickers.")
 
 
+def _sync_mentions_from_db(stocks: dict) -> None:
+    """Overwrite mention lists in stocks dict with data pulled from the DB.
+
+    The DB is the authoritative source for mention data after any manual
+    correction (ticker rename, deletion, price fix).  stock_sentiments.json
+    is authoritative only for ticker metadata (company, sector, style).
+    """
+    from db import get_connection
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT ticker, date, sentiment, segment, note, closing_price
+        FROM mentions ORDER BY ticker, date
+    """)
+    rows = cur.fetchall()
+    conn.close()
+
+    db_mentions: dict[str, list] = {}
+    for row in rows:
+        ticker = row["ticker"]
+        db_mentions.setdefault(ticker, []).append({
+            "date":          row["date"],
+            "sentiment":     row["sentiment"],
+            "segment":       row["segment"],
+            "note":          row["note"],
+            "closing_price": row["closing_price"],
+        })
+
+    # Add stub entries for DB tickers not yet in JSON metadata
+    for ticker in db_mentions:
+        if ticker not in stocks:
+            stocks[ticker] = {"company": ticker, "sector": "", "style": "", "mentions": []}
+
+    # Overwrite mentions from DB; tickers removed from DB get empty lists (pruned below)
+    for ticker in list(stocks):
+        stocks[ticker]["mentions"] = db_mentions.get(ticker, [])
+
+    # Prune tickers that have been fully deleted from the DB
+    for ticker in [t for t, e in stocks.items() if not e.get("mentions")]:
+        del stocks[ticker]
+
+
 def rebuild_ticker_shards() -> None:
-    """Rebuild all per-ticker shards from the current stock_sentiments.json."""
+    """Rebuild all per-ticker shards, syncing mention data from the DB first.
+
+    After any manual DB correction (ticker rename, deletion, closing-price fix)
+    simply run --rebuild-shards and the shards will reflect the current DB state
+    without needing to also hand-edit stock_sentiments.json.
+    """
     if not SENTIMENTS_FILE.exists():
         print("stock_sentiments.json not found.")
         return
-    db = json.loads(SENTIMENTS_FILE.read_text())
-    stocks = db.get("stocks", {})
+    db_json = json.loads(SENTIMENTS_FILE.read_text())
+    stocks = db_json.get("stocks", {})
+
+    # DB is authoritative for mention data — sync before building shards
+    _sync_mentions_from_db(stocks)
+
+    # Persist synced state back to stock_sentiments.json so it stays consistent
+    SENTIMENTS_FILE.write_text(json.dumps(db_json, separators=(",", ":")))
+
     _write_ticker_shards(stocks)
     print(f"Wrote {len(stocks)} ticker shards + index.json to {TICKER_DATA_DIR}")
 
@@ -688,16 +874,41 @@ def update_all_prices() -> None:
     print(f"Done. Price files written to {TICKER_DATA_DIR}")
 
 
-def backfill_prices() -> None:
-    """Fetch closing prices for all mentions in stock_sentiments.json that don't have one."""
+def _update_db_closing_price(ticker: str, date: str, segment: str, price: float) -> None:
+    """Update closing_price in the DB for a specific mention row."""
+    from db import get_connection
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "UPDATE mentions SET closing_price=? WHERE ticker=? AND date=? AND segment=?",
+        (price, ticker, date, segment),
+    )
+    conn.commit()
+    conn.close()
+
+
+def backfill_prices(tickers: list[str] | None = None) -> None:
+    """Fetch closing prices for mentions that are missing them.
+
+    Args:
+        tickers: if supplied, re-fetch prices for these specific tickers even
+                 when a closing_price already exists.  Use this after a manual
+                 ticker correction in the DB so the old (wrong-ticker) price is
+                 replaced with the correct one.
+                 Example: --backfill-prices --tickers LITE,CRWV
+    """
     if not SENTIMENTS_FILE.exists():
         print("stock_sentiments.json not found.")
         return
+    force_set = {t.upper() for t in tickers} if tickers else set()
+    if force_set:
+        print(f"Force-refreshing prices for: {', '.join(sorted(force_set))}")
     db = json.loads(SENTIMENTS_FILE.read_text())
     filled = skipped = failed = 0
     for ticker, entry in db.get("stocks", {}).items():
+        force = ticker in force_set
         for mention in entry.get("mentions", []):
-            if "closing_price" in mention:
+            if "closing_price" in mention and not force:
                 skipped += 1
                 continue
             if _is_private(ticker, mention["date"]):
@@ -708,6 +919,8 @@ def backfill_prices() -> None:
                 mention["closing_price"] = price
                 filled += 1
                 print(f"  {ticker} {mention['date']} → ${price}")
+                # Keep the DB in sync
+                _update_db_closing_price(ticker, mention["date"], mention.get("segment", ""), price)
             else:
                 failed += 1
                 print(f"  {ticker} {mention['date']} → no data")
@@ -1025,6 +1238,8 @@ def build_email_html(summaries: list[dict],
   .holding .ticker::after { content: " ★"; font-size: 10px; color: #9a6700; }
   .note    { color: #57606a; font-size: 12px; }
   .footer { margin-top: 24px; color: #8b949e; font-size: 11px; border-top: 1px solid #d0d7de; padding-top: 8px; }
+  .fundamentals-banner { background: #fff8c5; border: 1px solid #d4a017; border-radius: 6px;
+    padding: 10px 14px; margin: 8px 0 14px; font-size: 13px; color: #633c01; }
 </style></head><body>
 """]
 
@@ -1038,6 +1253,14 @@ def build_email_html(summaries: list[dict],
         date_label = dt.strftime("%A, %B %-d, %Y")
 
         parts.append(f'<h2>Mad Money &mdash; {date_label}</h2>')
+        if analysis.get("episode_type") == "fundamentals":
+            parts.append(
+                '<div class="fundamentals-banner">'
+                '<strong>📚 Cramer\'s Investing Fundamentals</strong> &mdash; '
+                'This episode covers timeless investment principles rather than current market calls. '
+                'Fewer stock picks; content can be re-aired at any time.'
+                '</div>'
+            )
         if analysis.get("market_headline"):
             parts.append(f'<p class="market-headline">{analysis["market_headline"]}</p>')
         market_bullets = analysis.get("market_bullets")
@@ -1292,12 +1515,18 @@ def main() -> None:
                              "with correct Overcast universal links")
     parser.add_argument("--backfill-prices", action="store_true",
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
+    parser.add_argument("--tickers", metavar="TICKER1,TICKER2",
+                        help="With --backfill-prices: comma-separated tickers to force-refresh "
+                             "even when a closing price already exists (use after ticker corrections)")
     parser.add_argument("--rebuild-shards", action="store_true",
                         help="Rebuild all per-ticker JSON shards in docs/data/ from stock_sentiments.json")
     parser.add_argument("--update-prices", action="store_true",
                         help="Fetch/refresh daily price history files for all active tickers in docs/data/")
     parser.add_argument("--fetch-sectors", action="store_true",
                         help="Batch-fetch sector/style from Yahoo Finance for all tickers and rebuild shards")
+    parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
+                        help="Analysis backend: 'api' uses Haiku API (default); "
+                             "'claude-code' shells out to the claude CLI (uses Claude Code subscription)")
     args = parser.parse_args()
 
     age = _cookie_age_days()
@@ -1324,7 +1553,8 @@ def main() -> None:
         return
 
     if args.backfill_prices:
-        backfill_prices()
+        tickers = [t.strip() for t in args.tickers.split(",")] if args.tickers else None
+        backfill_prices(tickers=tickers)
         return
 
     episodes = discover_new_episodes(args.max_episodes)
@@ -1352,8 +1582,12 @@ def main() -> None:
         )
         print(f"  Date: {date_str}  Lines: {len(snippets)}")
 
-        print(f"  Analyzing with {backend_label}...")
-        analysis = analyze_fn(date_str, transcript_text)
+        if args.backend == "claude-code":
+            print("  Analyzing with claude CLI (Claude Code subscription)...")
+            analysis = analyze_with_claude_code(date_str, transcript_text)
+        else:
+            print("  Analyzing with Claude Haiku...")
+            analysis = analyze_with_haiku(date_str, transcript_text)
         n_stocks = len(analysis.get("stocks", []))
         n_sections = len(analysis.get("sections", []))
         print(f"  Sections: {n_sections}  Stocks: {n_stocks}")

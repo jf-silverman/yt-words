@@ -1,0 +1,77 @@
+# Mad Money Site — Bug Tracker
+
+Bugs discovered during development, with root cause and fix status.
+
+---
+
+## Fixed
+
+### BUG-001 — Wrong closing price stored after ticker correction
+**Discovered:** 2026-06-28  
+**Symptom:** LITE (Lumentum) showed a ~9,000% return since mention. Multiple other renamed tickers had similarly bogus return values.  
+**Root cause:** When Haiku outputs a wrong ticker (e.g., `CWEB` instead of `CRWV`), the pipeline fetches and stores the closing price for the *wrong* ticker. After a manual ticker correction in the DB, the old price stays in place. `--backfill-prices` skipped mentions that already had a price, so there was no easy way to fix them after the fact.  
+**Affected mentions:** 19 mentions across 12 tickers (LITE ×8, CRWV ×7, AZN ×1, APP ×2, AEM ×1, CARR ×1, CMG ×1, GLW ×1, DHI ×1, DD ×1, PANW ×2, STRL ×1).  
+**Fix:** Added `--tickers TICKER1,TICKER2` option to `--backfill-prices`. When tickers are specified, prices are re-fetched even if a value already exists, and both `stock_sentiments.json` and the DB are updated. All 19 affected mentions were corrected manually.  
+**Usage going forward:**
+```bash
+python3 code/pipeline.py --backfill-prices --tickers LITE,CRWV
+```
+
+---
+
+### BUG-002 — Manual DB corrections not reflected in ticker shards after `--rebuild-shards`
+**Discovered:** 2026-06-28  
+**Symptom:** After renaming tickers in the DB (e.g., LUMN→LITE, CWEB→CRWV), running `--rebuild-shards` produced shards with 0 mentions for the corrected tickers (e.g., LITE.json showed 1 mention instead of 10). Same issue with newly created ticker entries (AVEX, etc.).  
+**Root cause:** `rebuild_ticker_shards()` read mention data exclusively from `stock_sentiments.json`. Manual DB corrections (ticker renames, deletions, price fixes) are invisible to it unless `stock_sentiments.json` is also hand-edited. The DB and JSON had diverged, and the JSON was treated as authoritative even though the DB was more up to date.  
+**Fix:** `rebuild_ticker_shards()` now calls `_sync_mentions_from_db()` before writing shards. This function pulls all mentions from the DB and overwrites the in-memory mention lists, then persists the result back to `stock_sentiments.json`. The DB is now the authoritative source for mention data; `stock_sentiments.json` is authoritative only for ticker metadata (company name, sector, style). After any manual DB correction, `--rebuild-shards` alone is sufficient.
+
+---
+
+### BUG-003 — `--fetch-sectors` overwrites good sector data with blank on rate limit
+**Discovered:** 2026-06-28  
+**Symptom:** After running `--fetch-sectors`, many legitimate tickers (MPC, CSX, CAKE, etc.) still show no sector in Analytics, even though yfinance knows their sector. Running `--fetch-sectors` a second time returns 0 updates despite 500+ tickers still missing sector.  
+**Root cause:** Two problems: (1) `fetch_all_sectors()` fetched all 1,156 tickers on every run, even ones that already had sector data. This caused Yahoo Finance to rate-limit the batch partway through. (2) When rate-limited, yfinance raises an exception caught silently, returning empty strings for sector/style. The old code then _overwrote_ any existing good sector data with those empty strings.  
+**Fix:** `fetch_all_sectors()` now only targets tickers with no sector yet (skipping those already populated), and only writes new data if `meta["sector"]` is non-empty — rate-limit misses are silently skipped rather than overwriting. Safe to re-run repeatedly.
+
+---
+
+## Open
+
+### BUG-004 — 18 tickers in Cramer's Calls pool have no sector (ETFs, crypto, or wrong symbols)
+**Discovered:** 2026-06-28  
+**Status:** These tickers will never resolve via `--fetch-sectors`. Two categories:
+
+**Category A — ETFs / crypto (no Yahoo Finance sector by design, may want to delete):**
+
+| Ticker | Date | Segment | Note |
+|--------|------|---------|------|
+| BTC | multiple (2026-02-06 through 2026-06-10) | various | Bitcoin — crypto, not a stock |
+| GLD | multiple (2026-01-23 through 2026-06-22) | various | SPDR Gold ETF |
+| SLV | multiple (2026-01-23 through 2026-03-06) | various | iShares Silver Trust ETF |
+| AGQ | 2026-01-20 | in_depth_analysis | ProShares Ultra Silver (2× leveraged ETF) |
+| VTI | 2026-06-23 | closing_commentary | Vanguard Total Stock Market ETF |
+| FREL | 2026-06-10 | opening_commentary | iShares US Real Estate ETF |
+| CORN | 2026-03-09 | opening_commentary | Teucrium Corn Fund ETF |
+| SIJ | 2026-06-02 | interview | ProShares UltraShort Industrials ETF |
+
+**Category B — Likely wrong ticker from Haiku (needs human verification):**
+
+| Ticker | Date | Segment | Cramer's description | YouTube |
+|--------|------|---------|----------------------|---------|
+| USO | 2026-02-25 | lightning_round | "Brad Jacobs's company. Don't bet against Brad. Roofing/building materials." — USO is the oil ETF; probably QXO or XPO | [link](https://youtu.be/EkHR3syFwHc) |
+| BWX | 2026-01-15 | in_depth_analysis | "Nuclear/defense supplier, 80% government/Navy; commercial nuclear up 122%" — probably BWXT (BWX Technologies) | [link](https://youtu.be/-dnfldqfazA) |
+| BWX | 2026-05-15 | interview | "Legacy 160-year-old power equipment maker thriving on data center power" — probably BWXT | [link](https://youtu.be/JIQheuNzaAI) |
+| ETP | 2026-06-12 | closing_commentary + caller_qa | "MLP yielding ~7%; cleaned up past debt" — ETP is delisted; probably ET (Energy Transfer) | [link](https://youtu.be/ECuFlhGtUsg) |
+| FLAG | 2026-04-29 | lightning_round | "Generic bank without edge, small dividend" — unknown small bank ticker | [link](https://youtu.be/5-rWrj-ZgK8) |
+| FLOW | 2026-01-30 | lightning_round | "Analog chipmaker similar to Roper of old (pipes and valves); great quarter" — unknown | [link](https://youtu.be/LmFPOWVLnwo) |
+| HF | 2026-04-21 | lightning_round | "Data center play in booming sector; Cramer called it 'mini burden' (strong buy signal)" — unknown | [link](https://youtu.be/BOPCHZNJZiU) |
+| PSI | 2026-06-01 | lightning_round | "Missed quarter badly and cut guidance; cut losses immediately" — unknown | [link](https://youtu.be/oHrBBaAh4Jc) |
+| RDCT | 2026-05-28 | opening_commentary | "Manufactures tactical drones for US Army; fan favorite with proven execution" — possibly RCAT (Red Cat Holdings) or AVAV | [link](https://youtu.be/G_nPvcsM8LA) |
+| TSCM | 2026-06-08 | lightning_round | "Numbers are bad. Possibly end of COVID-era urban-to-rural trade." — unknown | [link](https://youtu.be/JIu6vZ3sLlQ) |
+
+**To fix Category B:** Listen to the linked episodes, identify the real ticker, then:
+```bash
+# In SQLite: UPDATE mentions SET ticker='CORRECT' WHERE ticker='WRONG' AND date='YYYY-MM-DD';
+python3 code/pipeline.py --backfill-prices --tickers CORRECT
+python3 code/pipeline.py --rebuild-shards
+```

@@ -1,0 +1,124 @@
+# Mad Money Site — Multi-Angle Review
+
+Three agents reviewed `docs/stocks.html` (feature/analytics-tab) from different lenses.
+Findings synthesized below — strengths first, then prioritized suggestions.
+
+---
+
+## What's Working Well (Cross-Cutting)
+
+- **Consistent sentiment color system** — green/amber/red triangles + badge colors applied uniformly across charts, tables, and search. Strong pattern recognition.
+- **Cross-tab navigation** — clicking a ticker in Recent Picks or Analytics jumps to the Search card. Good low-friction flow.
+- **Conviction stratification has real signal** — "Buy on Pullback" (65% win rate, 99 mentions) and Closing Commentary (64.5%) consistently outperform Lightning Round (53.3%). The data shows Cramer's intensity levels actually matter.
+- **Interactive analytics** — buy/sell toggle + metric selector on bar charts, click-to-expand detail, sortable tables. Sophisticated for a fully static site.
+- **Technology sector edge** — 69% win rate on buy calls with 8.27% median 30d return; Consumer Discretionary at 44.3% / -1.4%. A 25pp gap is real signal.
+
+---
+
+## DATA STORYTELLING (Rating: 5/10)
+
+**Core problem**: No narrative. Users land on a wall of tables and must assemble conclusions themselves. The page answers *what happened* but never *so what*.
+
+### Buried insights that should be surfaced upfront:
+1. Technology dominates — 69% win rate on buy calls vs. ~44% for most other sectors
+2. Mega-cap bias succeeds; small-cap picks fail
+3. Closing Commentary outperforms Lightning Round significantly
+4. "Buy on Pullback" is Cramer's highest-accuracy call type
+
+### Suggestions:
+- Add a **hero/summary row** above the tab bar: e.g. "57% buy-call win rate · Tech sector: 69% · Best segment: Closing Commentary (64.5%)" — three headline stats, always visible
+- The "Cramer's Calls" leaderboard shows 795% returns (AVX) as the first row. Without context this looks like he's a genius; a note like "Positive-return calls only · includes all holding periods" is needed
+- The Analytics dropdown order should be: Overview (hero stats) → Sentiment → Segment → Sector → Market Cap → Calls → Latest
+- ✅ **Hero lines added to Sentiment Scorecard** — dynamic one-liner below the benchmark toggle summarizes the key finding for each S&P/Nasdaq × 30d/90d combination
+- ✅ **Hero lines added to By Segment** — overall hero below the chart header, plus per-segment hero in each detail pane
+
+---
+
+## DATA ANALYSIS (Rating: 4/10)
+
+**Critical statistical issues:**
+
+1. **Small-N cells with no warning** — Mag7 Analysis: 7 mentions. Nano cap: 6 mentions. Utilities sell: 8 mentions. These sit alongside Lightning Round (499 mentions) with equal visual weight. Filter out or grey-out cells with n < 20 (matching the existing ≥30 rule on the Segment chart).
+
+2. **Win rate has no confidence intervals** — "Mild Buy" 37.5% win rate at n=40 has ±15.2% margin of error. Could easily be noise. "Buy on Pullback" 65% at n=80 has ±10.7% — possibly meaningful. Users can't tell.
+
+3. **"Return since mention" mixes incomparable timeframes** — A 2026-06-24 mention has 1 day of data; a 2026-01-05 mention has 175 days. A 20% return over 175 days ≠ 20% over 1 day. This metric needs a disclaimer or should be excluded from aggregates.
+   - ✅ **Partially addressed** — Cramer's Calls now has a time period filter (7d / 30d / 90d / Since Mention). Fixed-window periods are apples-to-apples. A disclaimer on the "Since Mention" view is still missing.
+
+4. **Survivorship bias in buy_call_pool** — The Cramer's Calls table is filtered to `return_since_mention > 0`. Every stock that went down is excluded. This should be labelled explicitly ("Positive-return calls only") or the table should show a representative sample that includes losers.
+
+5. **Missing prices create unknown bias** — If a stock is delisted at 30d it's excluded from win rate. That almost always means a loss. The real win rate on "since mention" may be artificially high.
+
+### Suggestions:
+- Grey-out or add ⚠ icon to any bar/cell with n < 20
+- Add sample-size footnotes to win rate cells: "65% (n=80)"
+- Add a "Benchmark comparison" row to Sentiment Scorecard: median return vs. S&P 500 in the *same calendar period*
+
+---
+
+## UI / UX DESIGN (Rating: 7/10)
+
+**Strengths**: Clean tab structure, card layout, responsive grid, live price fetching, sentiment badge consistency.
+
+### Critical issues:
+
+1. **Filter bar overload in Recent Picks** — Six separate filter bars (Period, Sentiment, Min Mentions, Sector, Segment, Style) with no "Clear all" button and no count of active filters. Cognitively heavy.
+
+2. **Triangle rotation is not self-documenting** — ▲ (up) = bullish makes sense; 90°-rotated triangle for neutral does not. No in-page legend.
+
+3. **Mobile tap targets too small** — filter buttons are 12px font / 4px padding. Min recommended: 44×44px touch target.
+
+4. **No "active filter" indicator** — if sector is set to "Technology" and the user switches tabs, they have no reminder that a filter is active.
+
+5. **Accessibility gaps** — No `aria-label` on filter buttons, no `scope="col"` on table headers, no visible `:focus-visible` outlines, no ARIA live regions on async price loads.
+
+### Top 5 concrete improvements:
+1. Add **"Clear filters"** button + **"N filters active"** badge to Recent Picks header ✅ done
+2. Add a **chart legend** to the per-ticker chart: "▲ Bullish · ● Neutral · ▼ Bearish" ✅ done
+3. Increase filter button padding to `6px 14px`, font to 13px for mobile
+4. Add `aria-label` to all icon-only/symbol buttons and `scope="col"` to table headers
+5. Show **active filter pills** below the filter bars ("Sector: Technology ×") so users know what's filtered
+
+---
+
+## FINANCIAL ANALYST (Rating: 6/10)
+
+**Strengths**: Win rate by conviction level is actionable — the 65% hit rate on "Buy on Pullback" vs. 57% on generic "Buy" tells a real story. Sector breakdown (Tech vs. Consumer Discretionary) is genuinely useful for portfolio construction decisions.
+
+### Missing metrics:
+1. **Sector-relative benchmarking** — Cramer's tech picks should be compared to XLK (tech ETF), not S&P 500. Otherwise you can't distinguish "Cramer was right" from "tech rallied." The S&P 500 / Nasdaq toggle in the Sentiment Scorecard is a start but doesn't go per-sector.
+
+2. **Hold period analysis** — 30d and 90d are arbitrary. Plotting return vs. hold period would reveal the optimal exit window (maybe his calls peak at 21 days, not 30).
+
+3. **Signal in reversals** — When Cramer upgrades from Buy → Strong Buy, or downgrades to Caution, how often is that timed well? This flip-signal might be his strongest edge and isn't tracked at all.
+
+4. **No risk adjustment** — A 3.55% median 30d return with ±40% volatility (speculative small caps) is very different from ±8% (mega caps). No Sharpe-like metric exists.
+
+### Most actionable insight in the data right now:
+> "Buy on Pullback" is Cramer's highest-accuracy call (65% win rate, 3.67% median 30d) but his lowest-volume category (99 mentions). It deserves its own highlight — this is the most investable signal on the site.
+
+### Suggestions:
+- **Surface "Buy on Pullback" prominently** — hero callout or dedicated leaderboard
+- Add a **"Sector-relative return"** column: stock 30d return minus sector ETF 30d return in the same window
+- Add **"Consistency score"**: % of quarters where win rate > 50%, to distinguish sustained edge from lucky stretches
+- Reframe the Calls table as **"Live actionable calls"** (most recent 30 buy calls with current return, including losers) rather than all-time best performers
+
+---
+
+## Priority Action List
+
+| Priority | Change | Lens | Status |
+|---|---|---|---|
+| 🔴 High | Add sample size warnings / grey-out n<20 cells | Data analyst | |
+| 🔴 High | Label Cramer's Calls table as "Positive-return only" | Data analyst | |
+| 🔴 High | Add "Clear filters" + active filter count to Recent Picks | UX | ✅ done |
+| 🟡 Med | Hero stats bar above tabs (3 headline numbers) | Storytelling | |
+| 🟡 Med | Hero lines per chart (Sentiment Scorecard + By Segment) | Storytelling | ✅ done |
+| 🟡 Med | Add chart legend for sentiment triangles | UX | ✅ done |
+| 🟡 Med | Surface "Buy on Pullback" as a featured callout | Financial | ✅ done (note in Sentiment details) |
+| 🟡 Med | Add return disclaimer on "return since mention" mixing timeframes | Data analyst | ✅ partial — time period filter (7d/30d/90d) added; disclaimer text still missing |
+| 🟡 Med | Sector data for all real tickers in Analytics | Data | ✅ partial — pipeline fixed; data refresh pending (see bugs.md PENDING) |
+| 🟡 Med | Show details checkbox + % Right rename in By Segment | UX/Data | ✅ done |
+| 🟢 Low | Sector-relative benchmark column | Financial | |
+| 🟢 Low | Mobile filter button sizing / accessibility | UX | |
+| 🟢 Low | Hold-period return curve (plot return vs. days held) | Financial/Data | |

@@ -3,22 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mad Money · Overcast Links</title>
+  <title>Mad Money Stock Lookup and Analytics</title>
   <style>
-    body { font-family: -apple-system, Arial, sans-serif; max-width: 500px;
-           margin: 60px auto; padding: 20px; color: #24292f; text-align: center; }
-    h1 { font-size: 22px; }
-    p  { color: #57606a; }
+    body { font-family: -apple-system, Arial, sans-serif; max-width: 640px;
+           margin: 60px auto; padding: 20px; color: #24292f; }
+    h1 { font-size: 24px; margin-bottom: 6px; }
+    .hero { color: #57606a; font-size: 15px; margin: 0 0 24px; }
+    .btn { display: inline-block; background: #0969da; color: #fff;
+           padding: 12px 24px; border-radius: 8px; text-decoration: none;
+           font-weight: 600; font-size: 16px; }
+    .btn:hover { background: #0550ae; }
+    .about { margin-top: 36px; border-top: 1px solid #d0d7de; padding-top: 24px;
+             color: #57606a; font-size: 14px; line-height: 1.7; }
+    .about p { margin: 0 0 14px; }
+    .about .sig { margin-top: 20px; color: #8b949e; font-size: 13px; }
   </style>
 </head>
 <body>
-  <h1>🎙 Mad Money · Overcast Links</h1>
-  <p>This site hosts deep links for jumping to specific segments of Mad Money episodes in the Overcast podcast app.</p>
-  <p>Links are generated automatically by the daily pipeline and delivered via email.</p>
-  <p style="margin-top:24px">
-    <a href="stocks.html" style="display:inline-block;background:#0969da;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px">
-      📈 Stock Lookup →
-    </a>
-  </p>
+  <h1>Mad Money Stock Lookup and Analytics</h1>
+  <p class="hero">Track every stock Jim Cramer has mentioned on Mad Money — sentiment, closing price, and how each call performed.</p>
+  <a href="stocks.html" class="btn">📈 Open Stock Lookup →</a>
+
+  <div class="about">
+    <h2 style="font-size:16px;font-weight:700;color:#24292f;margin:0 0 14px">About This Website</h2>
+    <p>I'm a big fan of Jim Cramer and his show Mad Money, even though I'm not rich (yet). Listening to his show gave me the confidence to invest in stocks, and I've made some money over the years. Most of what I know about stocks I learned from his show and from his book <em>How to Get Rich Carefully</em>.</p>
+    <p>As someone who has worked with data professionally for years, I've often wondered how I could put a measuring stick to the specific stock-picking advice Jim gives. I also wanted to build a personal project that showed my skills with LLM prompting, building a data source, and querying it for my own unanswered questions: which stocks has Jim got right, and which ones has he got wrong? This site is my attempt at that. Disclaimer: please consider this website as "food for thought," not as investment advice. I think it's generally accurate, but it may have errors and certainly doesn't account for the countless factors that affect stocks. I'm not a financial advisor — use your own judgment in all investing.</p>
+    <p>People may try to misrepresent me as a critic, but I think Jim is an educator who teaches people the fundamentals of how to invest and use critical thinking to pick a few stocks alongside their index fund investing.</p>
+    <p class="sig">Thanks and enjoy the site!<br>— Joel Silverman</p>
+  </div>
 </body>
 </html>

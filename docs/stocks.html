@@ -44,6 +44,13 @@
     }
     .filter-btn:hover { border-color: #0969da; color: #0969da; }
     .filter-btn.active { background: #0969da; color: #fff; border-color: #0969da; font-weight: 600; }
+    .chk-label {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; color: #1f2328; cursor: pointer;
+      padding: 3px 8px; border-radius: 4px; user-select: none; white-space: nowrap;
+    }
+    .chk-label:hover { background: #f6f8fa; }
+    .chk-label input[type=checkbox] { accent-color: #0969da; cursor: pointer; width: 13px; height: 13px; }
 
     /* Search */
     .search-wrap { margin-bottom: 8px; }
@@ -84,6 +91,11 @@
       height: 230px; padding: 14px 18px 10px;
       border-bottom: 1px solid #eaeef2;
     }
+    .czoom-bar { display:flex; align-items:center; gap:6px; padding:4px 18px 6px; font-size:11px; color:#57606a; }
+    .czoom-bar input[type=month] { font-size:11px; padding:2px 4px; border:1px solid #d0d7de; border-radius:4px; color:#24292f; }
+    .czoom-btn { font-size:11px; padding:2px 9px; border:1px solid #d0d7de; border-radius:4px; background:#f6f8fa; color:#24292f; cursor:pointer; }
+    .czoom-btn:hover { background:#eaeef2; }
+    .czoom-btn.czoom-active { background:#0969da; color:#fff; border-color:#0969da; }
 
     /* Table */
     .table-wrap { overflow-x: auto; }
@@ -153,6 +165,7 @@
       font-size: 11px; color: #57606a; font-weight: 700;
       text-transform: uppercase; letter-spacing: .04em;
     }
+    .a-table th:hover { background: #eaeef2; color: #24292f; }
     .a-table td { padding: 7px 10px; border-bottom: 1px solid #eaeef2; }
     .a-table tr:last-child td { border-bottom: none; }
     .a-table tr:hover td { background: #f6f8fa; }
@@ -183,12 +196,12 @@
   <h1>Mad Money · Stock Lookup</h1>
   <p class="subtitle">
     Every stock Cramer has mentioned on Mad Money, with sentiment and closing price.
+    Find your stock of interest and see how it performed.
     &nbsp;·&nbsp; <a href="index.html">← Home</a>
   </p>
-
   <div class="tab-bar">
     <button class="tab-btn tab-active" id="tab-search" onclick="showTab('search')">Search</button>
-    <button class="tab-btn" id="tab-recent" onclick="showTab('recent')">Recent Picks</button>
+    <button class="tab-btn" id="tab-recent" onclick="showTab('recent')">Stock Picker</button>
     <button class="tab-btn" id="tab-analytics" onclick="showTab('analytics')">Analytics</button>
   </div>
 
@@ -202,8 +215,12 @@
           <label for="nameMode">Search by Name</label>
         </span>
         <span>
-          <input type="checkbox" id="dailyHistory" onchange="toggleDailyHistory(this.checked)">
+          <input type="checkbox" id="dailyHistory" onchange="toggleDailyHistory(this.checked)" checked>
           <label for="dailyHistory">Show daily price history</label>
+        </span>
+        <span>
+          <input type="checkbox" id="chartGuide" onchange="document.getElementById('chart-guide-pane').style.display=this.checked?'block':'none'">
+          <label for="chartGuide">Chart guide</label>
         </span>
         <span style="display:flex;align-items:center;gap:6px">
           <span style="font-size:12px;color:#57606a;font-weight:600">Min episodes w/ a mention:</span>
@@ -214,6 +231,14 @@
         </span>
       </div>
       <div class="status" id="status"></div>
+    </div>
+    <div id="chart-guide-pane" style="display:none;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#24292f;line-height:1.6">
+      <strong>Reading the chart</strong>
+      <p style="margin:8px 0 6px">Each point on the blue line is the closing price on an episode date — the day Cramer made that call. Points are shaped and colored by sentiment: <span style="color:#2da44e">▲ bullish</span> (Strong Buy, Buy, Mild Buy, Buy on Pullback), <span style="color:#8b949e">● neutral</span> (Wait / Hold), and <span style="color:#d03030">▼ bearish</span> (Caution/Concern, Sell/Avoid). Hovering a point shows the date, price, sentiment, and Cramer's note.</p>
+      <p style="margin:0 0 6px">The <span style="color:rgba(130,80,223,0.9)">■ light purple bars</span> are the full daily closing price history, giving context between episode dates. Use the <em>From / 30d / 90d / To now</em> controls to zoom into a specific window.</p>
+      <strong>% Days Right vs. % Right (Analytics tab)</strong>
+      <p style="margin:8px 0 6px"><strong>% Days Right</strong> (shown in the card header) measures how consistently the stock moved in the direction Cramer predicted — day by day. For each call, every trading day from that call until the next call (or until the latest available daily price for the most recent call) is checked: was the closing price above the call-day price (for buy calls) or below it (for sell calls)? The percentage is the share of those days where the answer is yes, across all directional calls for this ticker. Neutral calls (Wait / Hold) are excluded — only bullish and bearish calls count.</p>
+      <p style="margin:0"><strong>% Right in the Analytics tab</strong> is a different calculation: it asks whether the stock was higher (for buy calls) or lower (for sell calls) at a fixed point in time — exactly 30 or 90 calendar days after the call. It's a single snapshot per call, not a daily tally. A call can score 100% in Analytics if the stock closes higher on day 30, even if it spent most of the intervening period below the call price.</p>
     </div>
     <div id="results"></div>
   </div>
@@ -230,7 +255,7 @@
       <span class="filter-label">Sentiment:</span>
       <button class="filter-btn active" id="rAll" onclick="setRecentFilter('sentiment','all',this)">All</button>
       <button class="filter-btn" id="rBull" onclick="setRecentFilter('sentiment','bullish',this)">▲ Bullish</button>
-      <button class="filter-btn" id="rNeut" onclick="setRecentFilter('sentiment','neutral',this)">→ Neutral</button>
+      <button class="filter-btn" id="rNeut" onclick="setRecentFilter('sentiment','neutral',this)"><span style="color:#8b949e">●</span> Neutral</button>
       <button class="filter-btn" id="rBear" onclick="setRecentFilter('sentiment','bearish',this)">▼ Bearish</button>
     </div>
     <div class="filter-bar">
@@ -240,6 +265,7 @@
       <button class="filter-btn" id="rm5" onclick="setRecentFilter('minMentions',5,this)">5+</button>
     </div>
     <div class="filter-bar" id="sector-filter-bar" style="display:none"></div>
+    <div class="filter-bar" id="segment-filter-bar" style="display:none"></div>
     <div class="filter-bar">
       <span class="filter-label">Style:</span>
       <button class="filter-btn active" id="rstAll"    onclick="setRecentFilter('style','all',this)">All</button>
@@ -248,6 +274,7 @@
       <button class="filter-btn"        id="rstValue"  onclick="setRecentFilter('style','value',this)">Value</button>
     </div>
     <div class="status" id="recent-status"></div>
+    <div id="recent-filter-status" style="font-size:12px;color:#57606a;min-height:20px;padding:2px 0 6px;display:flex;align-items:center;gap:8px"></div>
     <div id="recent-table"></div>
   </div>
 
@@ -287,25 +314,36 @@ const SEGMENT_PRIORITY = [
 ];
 
 const BULLISH_SET = new Set(['strong_buy','buy','buy_on_pullback','mild_buy']);
-const BEARISH_SET = new Set(['concern','avoid','sell']);
+const BEARISH_SET = new Set(['sell_avoid','caution_concern']);
 
 const SENTIMENT_COLORS = {
-  strong_buy:      '#1a7f37',
-  buy:             '#2da44e',
-  buy_on_pullback: '#4ac26b',
-  mild_buy:        '#80e09a',
-  hold:            '#d4a017',
-  wait:            '#f0c040',
-  caution:         '#f0a030',
-  neutral:         '#8b949e',
-  concern:         '#e06060',
-  avoid:           '#d03030',
-  sell:            '#a00000',
+  strong_buy:        '#1a7f37',
+  buy:               '#2da44e',
+  mild_buy:          '#80e09a',
+  buy_on_pullback:   '#4ac26b',
+  wait_hold_neutral: '#8b949e',
+  caution_concern:   '#f0a030',
+  sell_avoid:        '#a00000',
 };
+
+const SENTIMENT_LABELS = {
+  strong_buy:        'Strong Buy',
+  buy:               'Buy',
+  mild_buy:          'Mild Buy',
+  buy_on_pullback:   'Buy on Pullback',
+  wait_hold_neutral: 'Wait / Hold / Neutral',
+  caution_concern:   'Caution / Concern',
+  sell_avoid:        'Sell / Avoid',
+};
+
+const SENTIMENT_ORDER = [
+  'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback',
+  'wait_hold_neutral', 'caution_concern', 'sell_avoid',
+];
 
 function sentimentBadge(s) {
   const color = SENTIMENT_COLORS[s] || '#8b949e';
-  const label = (s || 'unknown').replace(/_/g, ' ').toUpperCase();
+  const label = SENTIMENT_LABELS[s] || (s || 'unknown').replace(/_/g, ' ');
   return `<span class="badge" style="background:${color}">${label}</span>`;
 }
 
@@ -337,6 +375,10 @@ function mostRecentClose(entry) {
 function initialPriceHtml(entry, ticker) {
   if (isCurrentlyPrivate(ticker)) {
     return `<span style="font-size:12px;color:#8b949e;font-style:italic">not publicly traded</span>`;
+  }
+  if (entry.price_latest != null && entry.price_latest_date) {
+    return `<span style="font-family:monospace;font-size:14px;font-weight:600">$${Number(entry.price_latest).toFixed(2)}</span>`
+      + ` <span style="font-size:11px;color:#57606a">as of ${entry.price_latest_date}</span>`;
   }
   const c = mostRecentClose(entry);
   if (!c) return '';
@@ -424,16 +466,23 @@ function renderChart(ticker, entry) {
           borderWidth: 2,
           tension: 0.1,
           fill: false,
-          pointStyle: pts.map(() => 'triangle'),
-          pointRadius: pts.map(() => 7),
-          pointHoverRadius: pts.map(() => 10),
+          order: 1,
+          pointStyle: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 'triangle' : 'circle'
+          ),
+          pointRadius: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 7 : 5
+          ),
+          pointHoverRadius: pts.map(p =>
+            BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 10 : 7
+          ),
           pointBackgroundColor: pts.map(p =>
             BULLISH_SET.has(p.sentiment) ? '#2da44e'
-            : BEARISH_SET.has(p.sentiment) ? '#d03030' : '#d4a017'
+            : BEARISH_SET.has(p.sentiment) ? '#d03030' : '#8b949e'
           ),
           pointRotation: pts.map(p =>
             BULLISH_SET.has(p.sentiment) ? 0
-            : BEARISH_SET.has(p.sentiment) ? 180 : 90
+            : BEARISH_SET.has(p.sentiment) ? 180 : 0
           ),
           pointBorderColor: pts.map(() => '#fff'),
           pointBorderWidth: pts.map(() => 1.5),
@@ -479,21 +528,58 @@ function renderChart(ticker, entry) {
     if (document.getElementById('dailyHistory')?.checked) {
       fetchDailyHistory(ticker).then(hist => {
         if (!hist) return;
-        chart.data.datasets.push({
+        chart.data.datasets.unshift({
           label: DAILY_DATASET_LABEL,
+          type: 'bar',
           data: hist,
-          borderColor: '#8250df',
-          borderWidth: 1.5,
-          pointRadius: 0,
-          tension: 0.1,
-          fill: false,
+          backgroundColor: 'rgba(130, 80, 223, 0.18)',
+          borderColor: 'rgba(130, 80, 223, 0.35)',
+          borderWidth: 1,
+          order: 2,
         });
         chart.update();
       });
     }
   }, 0);
 
-  return `<div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+  return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#57606a;margin-bottom:2px;padding:0 18px">
+    <div class="czoom-bar" style="padding:0" data-czoom="${ticker}">
+      <span>From:</span>
+      <input type="month" id="czs-${ticker}" oninput="setChartZoom('${ticker}')">
+      <button class="czoom-btn" data-dur="30d" onclick="setChartZoom('${ticker}',this)">30d</button>
+      <button class="czoom-btn" data-dur="90d" onclick="setChartZoom('${ticker}',this)">90d</button>
+      <button class="czoom-btn czoom-active" data-dur="all" onclick="setChartZoom('${ticker}',this)">To now</button>
+    </div>
+    <div><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish &nbsp; <span style="display:inline-block;width:10px;height:10px;background:rgba(130,80,223,0.35);border:1px solid rgba(130,80,223,0.5);border-radius:2px;vertical-align:middle"></span> Daily price</div>
+  </div><div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+}
+
+function setChartZoom(ticker, durEl) {
+  const chart = chartInstances.get(ticker);
+  if (!chart) return;
+  if (durEl) {
+    durEl.closest('[data-czoom]')?.querySelectorAll('.czoom-btn').forEach(b => b.classList.remove('czoom-active'));
+    durEl.classList.add('czoom-active');
+  }
+  const startVal = document.getElementById(`czs-${ticker}`)?.value; // "YYYY-MM" or ""
+  const dur = document.querySelector(`[data-czoom="${ticker}"] .czoom-active`)?.dataset.dur;
+  if (!startVal) {
+    chart.options.scales.x.min = undefined;
+    chart.options.scales.x.max = undefined;
+  } else {
+    const minDate = new Date(startVal + '-01T12:00:00');
+    chart.options.scales.x.min = minDate.toISOString().slice(0, 10);
+    if (dur === '30d') {
+      const max = new Date(minDate); max.setDate(max.getDate() + 30);
+      chart.options.scales.x.max = max.toISOString().slice(0, 10);
+    } else if (dur === '90d') {
+      const max = new Date(minDate); max.setDate(max.getDate() + 90);
+      chart.options.scales.x.max = max.toISOString().slice(0, 10);
+    } else {
+      chart.options.scales.x.max = undefined;
+    }
+  }
+  chart.update();
 }
 
 async function fetchDailyHistory(ticker) {
@@ -514,14 +600,14 @@ async function toggleDailyHistory(checked) {
       if (idx !== -1) continue;
       const hist = await fetchDailyHistory(ticker);
       if (!hist) continue;
-      chart.data.datasets.push({
+      chart.data.datasets.unshift({
         label: DAILY_DATASET_LABEL,
+        type: 'bar',
         data: hist,
-        borderColor: '#8250df',
-        borderWidth: 1.5,
-        pointRadius: 0,
-        tension: 0.1,
-        fill: false,
+        backgroundColor: 'rgba(130, 80, 223, 0.18)',
+        borderColor: 'rgba(130, 80, 223, 0.35)',
+        borderWidth: 1,
+        order: 2,
       });
       chart.update();
     }
@@ -576,6 +662,9 @@ function renderCard(ticker, entry) {
   const tickerBadge = privNow
     ? `<span class="card-ticker" style="background:#8b949e">${ticker} <span style="font-size:11px;opacity:.8">(private)</span></span>`
     : `<span class="card-ticker">${ticker}</span>`;
+  // Same eligibility check as renderChart: ≥3 date-groups with non-null prices
+  const ptsWithPrice = dateGroups.filter(([, grp]) => grp.some(m => m.closing_price != null));
+  const chartEligible = dayCount >= 3 && ptsWithPrice.length >= 3;
   return `<div class="card">
     <div class="card-header">
       <span class="card-company">${entry.company || ticker}</span>
@@ -583,6 +672,11 @@ function renderCard(ticker, entry) {
       <div class="card-meta">
         <div id="price-${ticker}">${initialPriceHtml(entry, ticker)}</div>
         <div class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</div>
+        ${chartEligible && entry.pct_right_daily != null ? (() => {
+          const pct = entry.pct_right_daily;
+          const col = pct >= 50 ? '#1a7f37' : '#d03030';
+          return `<div style="font-size:12px;color:#57606a">% Days Right: <strong style="color:${col}">${pct}%</strong><span style="color:#8b949e;font-size:10px"> · ${entry.n_right_days}d</span></div>`;
+        })() : ''}
       </div>
     </div>
     ${renderChart(ticker, entry)}
@@ -610,7 +704,7 @@ async function loadIndex() {
     const resp = await fetch(INDEX_URL);
     index = await resp.json();
     document.getElementById('status').textContent =
-      `${Object.keys(index).length} tickers indexed. Start typing to search.`;
+      `${Object.keys(index).length} tickers indexed. Start typing to search.  ·  Only stocks with 3+ mentions have charts.`;
   } catch {
     document.getElementById('status').textContent = 'Failed to load index. Try refreshing.';
   }
@@ -652,7 +746,7 @@ async function search() {
   if (!query) {
     resultsEl.innerHTML = '';
     statusEl.textContent =
-      `${Object.keys(index).length} tickers indexed. Start typing to search.`;
+      `${Object.keys(index).length} tickers indexed. Start typing to search.  ·  Only stocks with 3+ mentions have charts.`;
     return;
   }
 
@@ -704,14 +798,61 @@ document.getElementById('nameMode').addEventListener('change', () => {
 
 // ── Recent Picks ──────────────────────────────────────────────────────────────
 
+const SECTOR_DISPLAY_NAMES = {
+  'Consumer Cyclical':  'Consumer Discretionary',
+  'Consumer Defensive': 'Consumer Staples',
+};
+function sectorLabel(s) { return SECTOR_DISPLAY_NAMES[s] || s || '—'; }
+
+const SEG_LABELS = {
+  'opening_commentary': 'Opening Commentary',
+  'closing_commentary': 'Closing Commentary',
+  'lightning_round':    'Lightning Round',
+  'caller_qa':          'Caller Q&A',
+  'interview':          'Interview',
+  'in_depth_analysis':  'In-Depth Analysis',
+  'mag7_analysis':      'Mag 7 Analysis',
+  'am_i_diversified':   'Am I Diversified?',
+};
+
 let recentData = null;
-let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', sector: 'All' };
+let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', sectors: new Set(), segments: new Set() };
 const recentFilterGroups = {
   days:        ['r7','r30','r90'],
   sentiment:   ['rAll','rBull','rNeut','rBear'],
   minMentions: ['rm1','rm2','rm5'],
   style:       ['rstAll','rstGrowth','rstBlend','rstValue'],
 };
+
+const RECENT_FILTER_DEFAULTS = { days: 30, sentiment: 'all', minMentions: 1, style: 'all' };
+
+function updateRecentFilterStatus() {
+  const active = (recentFilter.days !== 30 ? 1 : 0)
+    + (recentFilter.sentiment !== 'all' ? 1 : 0)
+    + (recentFilter.minMentions !== 1 ? 1 : 0)
+    + (recentFilter.style !== 'all' ? 1 : 0)
+    + (recentFilter.sectors.size > 0 ? 1 : 0)
+    + (recentFilter.segments.size > 0 ? 1 : 0);
+  const el = document.getElementById('recent-filter-status');
+  if (!el) return;
+  el.innerHTML = active === 0 ? '' :
+    `<span style="color:#0969da">${active} filter${active > 1 ? 's' : ''} active</span>` +
+    ` · <a href="#" onclick="clearRecentFilters();return false" style="color:#0969da;text-decoration:none">Clear all</a>`;
+}
+
+function clearRecentFilters() {
+  recentFilter = { ...RECENT_FILTER_DEFAULTS, sectors: new Set(), segments: new Set() };
+  [['r7','r30','r90'], ['rAll','rBull','rNeut','rBear'], ['rm1','rm2','rm5'],
+   ['rstAll','rstGrowth','rstBlend','rstValue']
+  ].forEach(ids => ids.forEach(id => document.getElementById(id)?.classList.remove('active')));
+  document.getElementById('r30')?.classList.add('active');
+  document.getElementById('rAll')?.classList.add('active');
+  document.getElementById('rm1')?.classList.add('active');
+  document.getElementById('rstAll')?.classList.add('active');
+  renderSectorFilters();
+  renderSegmentFilter();
+  renderRecent();
+}
 
 function setRecentFilter(key, val, btn) {
   recentFilter[key] = val;
@@ -727,26 +868,45 @@ function renderSectorFilters() {
   if (sectors.length === 0) { bar.style.display = 'none'; return; }
   bar.style.display = 'flex';
   bar.innerHTML = `<span class="filter-label">Sector:</span>`
-    + `<button class="filter-btn ${recentFilter.sector === 'All' ? 'active' : ''}" onclick="setSectorFilter('All',this)">All</button>`
     + sectors.map(s =>
-        `<button class="filter-btn ${recentFilter.sector === s ? 'active' : ''}" onclick="setSectorFilter(${JSON.stringify(s)},this)">${s}</button>`
+        `<label class="chk-label"><input type="checkbox" data-group="sector" data-val=${JSON.stringify(s)} ${recentFilter.sectors.has(s) ? 'checked' : ''}> ${sectorLabel(s)}</label>`
       ).join('');
 }
 
-function setSectorFilter(val, btn) {
-  recentFilter.sector = val;
-  document.querySelectorAll('#sector-filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderRecent();
+function renderSegmentFilter() {
+  const bar = document.getElementById('segment-filter-bar');
+  if (!recentData) { bar.style.display = 'none'; return; }
+  const segs = [...new Set(recentData.mentions.map(m => m.segment).filter(Boolean))].sort();
+  if (segs.length === 0) { bar.style.display = 'none'; return; }
+  bar.style.display = 'flex';
+  bar.innerHTML = `<span class="filter-label">Segment:</span>`
+    + segs.map(s =>
+        `<label class="chk-label"><input type="checkbox" data-group="segment" data-val=${JSON.stringify(s)} ${recentFilter.segments.has(s) ? 'checked' : ''}> ${SEG_LABELS[s] || s}</label>`
+      ).join('');
 }
 
+document.getElementById('sector-filter-bar').addEventListener('change', e => {
+  const cb = e.target.closest('input[type=checkbox]');
+  if (!cb) return;
+  cb.checked ? recentFilter.sectors.add(cb.dataset.val) : recentFilter.sectors.delete(cb.dataset.val);
+  renderRecent();
+});
+
+document.getElementById('segment-filter-bar').addEventListener('change', e => {
+  const cb = e.target.closest('input[type=checkbox]');
+  if (!cb) return;
+  cb.checked ? recentFilter.segments.add(cb.dataset.val) : recentFilter.segments.delete(cb.dataset.val);
+  renderRecent();
+});
+
 async function loadRecent() {
-  if (recentData) { renderSectorFilters(); renderRecent(); return; }
+  if (recentData) { renderSectorFilters(); renderSegmentFilter(); renderRecent(); return; }
   document.getElementById('recent-status').textContent = 'Loading…';
   try {
     const resp = await fetch(RECENT_URL);
     recentData = await resp.json();
     renderSectorFilters();
+    renderSegmentFilter();
     renderRecent();
   } catch {
     document.getElementById('recent-status').textContent = 'Failed to load. Try refreshing.';
@@ -768,12 +928,14 @@ function renderRecent() {
     if (recentFilter.sentiment === 'neutral' && (BULLISH_SET.has(s) || BEARISH_SET.has(s))) return false;
     if ((m.total_mentions || 1) < recentFilter.minMentions) return false;
     if (recentFilter.style !== 'all' && (m.style || '').toLowerCase() !== recentFilter.style) return false;
-    if (recentFilter.sector !== 'All' && m.sector !== recentFilter.sector) return false;
+    if (recentFilter.sectors.size > 0 && !recentFilter.sectors.has(m.sector)) return false;
+    if (recentFilter.segments.size > 0 && !recentFilter.segments.has(m.segment)) return false;
     return true;
   });
 
   document.getElementById('recent-status').textContent =
     `${rows.length} mention${rows.length !== 1 ? 's' : ''} — generated ${recentData.generated}`;
+  updateRecentFilterStatus();
 
   if (rows.length === 0) {
     document.getElementById('recent-table').innerHTML =
@@ -829,6 +991,81 @@ function showTab(tab) {
 
 let analyticsData = null;
 
+// Sort a table by column index. Add sort arrows to headers.
+function makeSortable(tableId, defaultColIndex = null, defaultAsc = true) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const thead = table.querySelector('thead tr');
+  const tbody = table.querySelector('tbody');
+  if (!thead || !tbody) return;
+
+  const headers = thead.querySelectorAll('th');
+  let currentSort = { col: defaultColIndex, asc: defaultAsc };
+
+  headers.forEach((th, idx) => {
+    th.style.cursor = 'pointer';
+    th.style.userSelect = 'none';
+
+    // Add click handler
+    th.addEventListener('click', () => {
+      // Clear previous indicators
+      headers.forEach(h => h.innerHTML = h.innerHTML.replace(/\s*[▲▼]/g, ''));
+
+      if (currentSort.col === idx) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort = { col: idx, asc: true };
+      }
+
+      sortTableBody(tbody, idx, currentSort.asc);
+      th.innerHTML += (currentSort.asc ? ' ▲' : ' ▼');
+    });
+
+    // Add default sort indicator
+    if (defaultColIndex !== null && idx === defaultColIndex) {
+      th.innerHTML += (defaultAsc ? ' ▲' : ' ▼');
+    }
+  });
+
+  // Apply default sort
+  if (defaultColIndex !== null) {
+    sortTableBody(tbody, defaultColIndex, defaultAsc);
+  }
+}
+
+function sortTableBody(tbody, colIndex, ascending) {
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a, b) => {
+    const aCell = a.children[colIndex];
+    const bCell = b.children[colIndex];
+    if (!aCell || !bCell) return 0;
+
+    // Sentiment columns carry data-rank for conviction-order sorting
+    const aRank = aCell.dataset.rank;
+    const bRank = bCell.dataset.rank;
+    if (aRank !== undefined && bRank !== undefined) {
+      return ascending ? aRank - bRank : bRank - aRank;
+    }
+
+    let aVal = aCell.textContent.trim();
+    let bVal = bCell.textContent.trim();
+
+    // Try numeric sort
+    const aNum = parseFloat(aVal);
+    const bNum = parseFloat(bVal);
+    if (!isNaN(aNum) && !isNaN(bNum)) {
+      return ascending ? aNum - bNum : bNum - aNum;
+    }
+
+    // String sort
+    return ascending
+      ? aVal.localeCompare(bVal)
+      : bVal.localeCompare(aVal);
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+}
+
 function retClass(v) {
   if (v == null) return 'ret-null';
   return v > 0 ? 'ret-pos' : v < 0 ? 'ret-neg' : 'ret-neu';
@@ -845,7 +1082,8 @@ function capBadge(cat) {
 function sentBadge(s) {
   if (!s) return '';
   const color = SENTIMENT_COLORS[s] || '#888';
-  return `<span class="badge" style="background:${color}">${s.replace(/_/g,' ')}</span>`;
+  const label = SENTIMENT_LABELS[s] || s.replace(/_/g, ' ');
+  return `<span class="badge" style="background:${color}">${label}</span>`;
 }
 
 function barChart(rows, labelKey, valKey, maxAbs) {
@@ -876,46 +1114,42 @@ function renderAnalytics(d) {
     {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'});
 
   // ── Sentiment scorecard ────────────────────────────────────────────────────
-  const sentRows = d.sentiment_perf.map(r => `
+  // Sort by conviction order: Strong Buy → Buy → Mild Buy → Wait/Hold/Neutral → Caution/Concern → Sell/Avoid
+  // Buy on Pullback is excluded here — it has its own dedicated chart
+  const sortedSent = [...d.sentiment_perf].filter(r => r.sentiment !== 'buy_on_pullback' && r.n_mentions >= 100).sort((a, b) => {
+    const aIdx = SENTIMENT_ORDER.indexOf(a.sentiment);
+    const bIdx = SENTIMENT_ORDER.indexOf(b.sentiment);
+    return aIdx - bIdx;
+  });
+
+  const sentRows = sortedSent.map(r => `
     <tr>
-      <td>${sentBadge(r.sentiment)}</td>
+      <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_7d)}<br>
-        <span class="ret-null" style="font-size:10px">n=${r.n_with_7d}</span></td>
-      <td style="text-align:right">${retFmt(r.avg_return_30d)}<br>
+      <td class="col-30" style="text-align:right">${r.win_rate_30d != null ? (BEARISH_SET.has(r.sentiment) ? (100-r.win_rate_30d).toFixed(1) : r.win_rate_30d)+'%' : '—'}${r.win_rate_30d != null ? ciHtml(r.win_rate_30d, r.n_with_30d) : ''}</td>
+      <td class="col-30" style="text-align:right">${retFmt(r.median_return_30d)}<br>
         <span class="ret-null" style="font-size:10px">n=${r.n_with_30d}</span></td>
-      <td style="text-align:right">${retFmt(r.avg_return_90d)}<br>
+      <td class="bench-30 bspy" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_spy_30d)}</td>
+      <td class="bench-30 bqqq" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_qqq_30d)}</td>
+      <td class="col-90" style="text-align:right">${r.win_rate_90d != null ? (BEARISH_SET.has(r.sentiment) ? (100-r.win_rate_90d).toFixed(1) : r.win_rate_90d)+'%' : '—'}${r.win_rate_90d != null ? ciHtml(r.win_rate_90d, r.n_with_90d) : ''}</td>
+      <td class="col-90" style="text-align:right">${retFmt(r.median_return_90d)}<br>
         <span class="ret-null" style="font-size:10px">n=${r.n_with_90d}</span></td>
-      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
+      <td class="bench-90 bspy" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_spy_90d)}</td>
+      <td class="bench-90 bqqq" style="display:none;text-align:right;background:#e8f4fd;color:#57606a">${retFmt(r.median_qqq_90d)}</td>
     </tr>`).join('');
 
-  // ── Segment bar chart ──────────────────────────────────────────────────────
-  const segMax = Math.max(...d.segment_perf.map(r => Math.abs(r.avg_return_30d || 0)), 1);
-  const segBars = barChart(d.segment_perf, 'segment', 'avg_return_30d', segMax);
-
-  // ── Market cap bar chart ───────────────────────────────────────────────────
-  const capMax = Math.max(...d.mktcap_perf.map(r => Math.abs(r.avg_return_30d || 0)), 1);
-  const capRows = d.mktcap_perf.map(r => `
+  // ── Market cap table ───────────────────────────────────────────────────────
+  const capRows = d.mktcap_perf
+    .filter(r => !['micro','nano'].includes(r.market_cap_category))
+    .map(r => `
     <tr>
       <td>${capBadge(r.market_cap_category)}</td>
       <td style="text-align:right">${r.n_mentions}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_30d)}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_90d)}</td>
-      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
+      <td style="text-align:right">${retFmt(r.median_return_30d)}</td>
+      <td style="text-align:right">${retFmt(r.median_return_90d)}</td>
+      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}${r.win_rate_30d != null ? ciHtml(r.win_rate_30d, r.n_with_30d) : ''}</td>
     </tr>`).join('');
 
-  // ── Sector table ───────────────────────────────────────────────────────────
-  const sectorRows = d.sector_perf.map(r => `
-    <tr>
-      <td>${r.sector}</td>
-      <td style="text-align:right">${r.n_mentions}</td>
-      <td style="text-align:right">${r.n_tickers}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_30d)}</td>
-      <td style="text-align:right">${r.win_rate_30d != null ? r.win_rate_30d+'%' : '—'}</td>
-      <td style="text-align:right">${retFmt(r.avg_return_since_mention)}</td>
-    </tr>`).join('');
 
   // ── Latest calls leaderboard ───────────────────────────────────────────────
   const latestRows = d.latest_calls.map(r => `
@@ -923,7 +1157,7 @@ function renderAnalytics(d) {
       <td><a class="ticker-link">${r.ticker}</a></td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.company}</td>
       <td class="date-cell">${r.mention_date}</td>
-      <td>${sentBadge(r.sentiment)}</td>
+      <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
       <td style="font-size:11px;color:#57606a">${r.segment || ''}</td>
       <td>${capBadge(r.market_cap_category)}</td>
       <td style="text-align:right;font-family:monospace">${r.price_at_mention != null ? '$'+r.price_at_mention.toFixed(2) : '—'}</td>
@@ -932,132 +1166,205 @@ function renderAnalytics(d) {
       <td style="text-align:right;color:#57606a;font-size:12px">${r.days_since_mention}d</td>
     </tr>`).join('');
 
-  // ── Winners / Losers ───────────────────────────────────────────────────────
-  function wlRows(rows) {
+  // ── Calls performance table ───────────────────────────────────────────────
+  const CALL_PERIOD_FIELD = { since: 'return_since_mention', '7d': 'return_7d', '30d': 'return_30d', '90d': 'return_90d' };
+  function callRows(rows, period) {
+    const field = CALL_PERIOD_FIELD[period] || 'return_since_mention';
     return rows.map(r => `
       <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
         <td><a class="ticker-link">${r.ticker}</a></td>
-        <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.company}</td>
+        <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.company}</td>
         <td class="date-cell">${r.mention_date}</td>
-        <td>${sentBadge(r.sentiment)}</td>
-        <td style="text-align:right">${retFmt(r.return_since_mention)}</td>
+        <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
+        <td style="font-size:12px;color:#57606a">${sectorLabel(r.sector)}</td>
+        <td style="text-align:right">${retFmt(r[field])}</td>
       </tr>`).join('');
   }
 
   document.getElementById('analytics-body').innerHTML = `
-    <p style="font-size:12px;color:#57606a;margin-bottom:16px">
-      Pre-computed from SQLite · Updated ${gen}
-      · Returns are NULL until price data reaches that window
-    </p>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <select id="analytics-chart-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:220px">
+        <option value="chart-sentiment">Sentiment Scorecard</option>
+        <option value="chart-segment">By Segment</option>
+        <option value="chart-mktcap">By Market Cap</option>
+        <option value="chart-sector">By Sector</option>
+        <option value="chart-calls">Cramer's Calls</option>
+        <option value="chart-latest">Latest Calls</option>
+      </select>
+      <span style="font-size:12px;color:#57606a">Pre-computed from SQLite · Updated ${gen}</span>
+    </div>
 
-    <!-- Sentiment scorecard (full width) -->
-    <div class="analytics-card analytics-full" style="margin-bottom:20px">
+    <!-- Sentiment scorecard -->
+    <div id="chart-sentiment" class="analytics-card" style="margin-bottom:20px">
       <div class="analytics-card-header">
         Sentiment Scorecard
-        <div class="analytics-card-sub">Avg % return after each mention, by Cramer's conviction level</div>
+        <div class="analytics-card-sub">Median % return by conviction level · &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="sent-details-chk" onchange="document.getElementById('sent-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="sent-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>% Right 30d / 90d</strong> — The percentage of calls where Cramer was correct about price direction. For bullish sentiments (Strong Buy, Buy, Mild Buy) this means the stock was <em>higher</em> at the 30- or 90-day mark. For bearish sentiments (Caution/Concern, Sell/Avoid) it's inverted — Cramer was right when the stock went <em>down</em>. Above 50% means he was right more often than wrong.</p>
+          <p style="margin:0 0 6px"><strong>Cramer 30d / 90d</strong> — The median % return across all mentions of that sentiment, from the episode closing price to the price 30 or 90 calendar days later. Median is used instead of average so that a few big winners or losers don't skew the result.</p>
+          <p style="margin:0 0 6px"><strong>Index comparison (S&amp;P 500 / Nasdaq columns)</strong> — For each Cramer mention, the index return is measured over the exact same calendar window (same start date, same +30 or +90 day end). So if Cramer's Buy calls mostly came during a rising market, the index column reflects that same rising market. A Cramer 30d of +2.6% vs. S&amp;P 500 30d of +0.1% means his picks beat a passive index by ~2.5 percentage points on those specific dates — not over the full year.</p>
+          <p style="margin:0 0 6px"><strong>Minimum sample size</strong> — Only sentiments with 100 or more mentions are shown. Smaller samples (like Mild Buy) are excluded because the percentages aren't reliable enough to draw conclusions.</p>
+          <p style="margin:0"><strong>Buy on Pullback</strong> — Cramer's highest-accuracy call type (65% win rate at 30d, +3.9% median return vs. +0.4% for the S&P 500) is excluded here because it sits just below the 100-mention threshold. It gets its own dedicated chart.</p>
+        </div>
       </div>
+      <div style="margin:10px 0 4px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:12px;color:#57606a;font-weight:600">Compare to:</span>
+          <button class="filter-btn active" id="sent-bench-spy" onclick="setSentBench('spy')">S&amp;P 500</button>
+          <button class="filter-btn" id="sent-bench-qqq" onclick="setSentBench('qqq')">Nasdaq</button>
+        </span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:12px;color:#57606a;font-weight:600">Period:</span>
+          <button class="filter-btn active" id="sent-period-30d" onclick="setSentPeriod('30d')">30d</button>
+          <button class="filter-btn" id="sent-period-90d" onclick="setSentPeriod('90d')">90d</button>
+        </span>
+      </div>
+      <p id="sent-hero" style="margin:0 0 12px;font-size:13px;color:#444;max-width:680px;line-height:1.5"></p>
       <div style="overflow-x:auto">
-        <table class="a-table">
+        <table id="table-sentiment" class="a-table">
           <thead><tr>
             <th>Sentiment</th><th style="text-align:right">Mentions</th>
-            <th style="text-align:right">Avg 7d</th>
-            <th style="text-align:right">Avg 30d</th>
-            <th style="text-align:right">Avg 90d</th>
-            <th style="text-align:right">Win% 30d</th>
-            <th style="text-align:right">Since Mention</th>
+            <th class="col-30" style="text-align:right">% Right 30d</th>
+            <th class="col-30" style="text-align:right">Cramer 30d</th>
+            <th class="bench-30 bspy" style="display:none;text-align:right;background:#e8f4fd">S&amp;P 500 30d</th>
+            <th class="bench-30 bqqq" style="display:none;text-align:right;background:#e8f4fd">Nasdaq 30d</th>
+            <th class="col-90" style="text-align:right">% Right 90d</th>
+            <th class="col-90" style="text-align:right">Cramer 90d</th>
+            <th class="bench-90 bspy" style="display:none;text-align:right;background:#e8f4fd">S&amp;P 500 90d</th>
+            <th class="bench-90 bqqq" style="display:none;text-align:right;background:#e8f4fd">Nasdaq 90d</th>
           </tr></thead>
           <tbody>${sentRows}</tbody>
         </table>
       </div>
     </div>
 
-    <div class="analytics-grid" style="margin-bottom:20px">
-
-      <!-- Segment bar chart -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">
-          By Segment
-          <div class="analytics-card-sub">Avg 30d return — are prepared segments better than Lightning Round?</div>
-        </div>
-        <div class="analytics-card-body">${segBars}</div>
-      </div>
-
-      <!-- Market cap table -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">
-          By Market Cap
-          <div class="analytics-card-sub">Do his mega-cap or small-cap calls perform better?</div>
-        </div>
-        <div style="overflow-x:auto">
-          <table class="a-table">
-            <thead><tr>
-              <th>Cap</th><th style="text-align:right">n</th>
-              <th style="text-align:right">Avg 30d</th>
-              <th style="text-align:right">Avg 90d</th>
-              <th style="text-align:right">Win% 30d</th>
-              <th style="text-align:right">Since Mention</th>
-            </tr></thead>
-            <tbody>${capRows}</tbody>
-          </table>
+    <!-- Segment interactive chart -->
+    <div id="chart-segment" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        By Segment
+        <div class="analytics-card-sub">Click a bar for details &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="seg-details-chk" onchange="document.getElementById('seg-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="seg-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>Segments</strong> are the parts of the Mad Money show where a stock is mentioned. <em>Opening Commentary</em> is Cramer's prepared monologue at the top of the show — his highest-conviction picks. <em>In-Depth Analysis</em> is a deeper segment devoted to one stock or theme. <em>Lightning Round</em> is the rapid-fire call-in section. <em>Closing Commentary</em> wraps the show. <em>Caller Q&amp;A</em> is when callers ask about a stock outside the Lightning Round.</p>
+          <p style="margin:0 0 6px"><strong>% Right 30d / 90d</strong> — The percentage of calls where Cramer was correct about price direction. For buy calls, this means the stock was higher at 30 or 90 days. For sell calls it's inverted — Cramer was right when the stock went <em>down</em>, so % Right = 100 minus the raw win rate. Above 50% means he was right more often than not.</p>
+          <p style="margin:0 0 6px"><strong>Median 30d / 90d</strong> — Median % return from the episode close to 30 or 90 days later. For sell calls, a negative median means the stocks Cramer cautioned against actually fell — his warning was correct on average.</p>
+          <p style="margin:0">Only segments with 30 or more mentions are shown.</p>
         </div>
       </div>
-
-      <!-- Sector table -->
-      <div class="analytics-card analytics-full">
-        <div class="analytics-card-header">
-          By Sector
-          <div class="analytics-card-sub">Which sectors does Cramer call correctly most often?</div>
+      <div class="analytics-card-body">
+        <p id="seg-hero" style="margin:0 0 10px;font-size:13px;color:#444;max-width:680px;line-height:1.5"></p>
+        <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button class="filter-btn active" id="seg-btn-buy">Buy Calls</button>
+          <button class="filter-btn" id="seg-btn-sell">Sell Calls</button>
         </div>
-        <div style="overflow-x:auto">
-          <table class="a-table">
-            <thead><tr>
-              <th>Sector</th><th style="text-align:right">Mentions</th>
-              <th style="text-align:right">Tickers</th>
-              <th style="text-align:right">Avg 30d</th>
-              <th style="text-align:right">Win% 30d</th>
-              <th style="text-align:right">Since Mention</th>
-            </tr></thead>
-            <tbody>${sectorRows}</tbody>
-          </table>
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <button class="filter-btn active" id="seg-metric-m30">Median 30</button>
+          <button class="filter-btn" id="seg-metric-m90">Median 90</button>
+          <button class="filter-btn" id="seg-metric-w30">% Right 30D</button>
+          <button class="filter-btn" id="seg-metric-w90">% Right 90D</button>
         </div>
+        <div id="segment-chart-bars"></div>
+        <div id="segment-detail"></div>
       </div>
-
-      <!-- Winners -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">Top Winners <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
-        <div style="overflow-x:auto">
-          <table class="a-table">
-            <thead><tr>
-              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
-            </tr></thead>
-            <tbody>${wlRows(d.top_winners)}</tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Losers -->
-      <div class="analytics-card">
-        <div class="analytics-card-header">Top Losers <span style="font-weight:400;font-size:12px;color:#57606a">since last mention</span></div>
-        <div style="overflow-x:auto">
-          <table class="a-table">
-            <thead><tr>
-              <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th><th style="text-align:right">Return</th>
-            </tr></thead>
-            <tbody>${wlRows(d.top_losers)}</tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Latest calls (full width) -->
-    <div class="analytics-card analytics-full">
+    <!-- Market cap table -->
+    <div id="chart-mktcap" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        By Market Cap
+        <div class="analytics-card-sub">How picks perform across market cap tiers &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="mktcap-details-chk" onchange="document.getElementById('mktcap-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="mktcap-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>Cap tiers</strong> — Mega: &gt;$100B · Large: $10–100B · Mid: $2–10B · Small: $300M–2B. Categorized from Yahoo Finance market cap at time of data fetch.</p>
+          <p style="margin:0 0 6px"><strong>% Right 30d</strong> — Percentage of buy calls where the stock was higher 30 calendar days after the episode. Above 50% means Cramer was right more often than not for that tier. The ±% shown is the 95% confidence interval — smaller samples have wider margins.</p>
+          <p style="margin:0 0 6px"><strong>Median 30d / 90d</strong> — Median percentage return from the episode closing price to the price at the 30- or 90-day mark. Median is used so a few extreme outliers don't skew the result.</p>
+          <p style="margin:0"><strong>Small-cap</strong> — Only 57 mentions, so treat those numbers with some caution compared to the mega and large tiers.</p>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#444;margin:8px 16px 4px;line-height:1.5">Mega-cap is Cramer's strongest tier — 61% right at 30 days with a +3.8% median return and +11.7% at 90 days across 1,136 mentions. Large-cap (1,298 mentions) is essentially a coin flip at 52%. Mid-cap underperforms at 43% and –2.1% median 30d. Small-cap shows 65% win rate but with only 57 mentions, treat that number with caution.</p>
+      <div style="overflow-x:auto">
+        <table id="table-mktcap" class="a-table">
+          <thead><tr>
+            <th>Cap</th><th style="text-align:right">n</th>
+            <th style="text-align:right">Median 30d</th>
+            <th style="text-align:right">Median 90d</th>
+            <th style="text-align:right">% Right 30d</th>
+          </tr></thead>
+          <tbody>${capRows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Sector interactive chart -->
+    <div id="chart-sector" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        By Sector
+        <div class="analytics-card-sub">Choose a call type and metric — click a bar for details &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="sector-details-chk" onchange="document.getElementById('sector-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show details</label></div>
+        <div id="sector-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:680px">
+          <p style="margin:0 0 6px"><strong>Sectors</strong> — Yahoo Finance classifications (Technology, Healthcare, Industrials, etc.). Only tickers with known sector data are included — roughly 800 of 1,156 tickers in the database. Tickers without sector data are excluded from these charts.</p>
+          <p style="margin:0 0 6px"><strong>% Right 30d / 90d</strong> — For buy calls: % of calls where the stock was higher at the 30- or 90-day mark. For sell calls: % where the stock fell (so Cramer was correct). Above 50% means more right than wrong. The ±% bar label is the 95% confidence interval.</p>
+          <p style="margin:0 0 6px"><strong>Greyed-out bars</strong> — Sectors with fewer than 30 mentions are shown in grey. With that few calls, the percentages are unreliable.</p>
+          <p style="margin:0"><strong>Clicking a bar</strong> shows the full stats for that sector below the chart.</p>
+        </div>
+      </div>
+      <div class="analytics-card-body">
+        <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button class="filter-btn active" id="sect-btn-buy">Buy Calls</button>
+          <button class="filter-btn" id="sect-btn-sell">Sell Calls</button>
+        </div>
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <button class="filter-btn active" id="sect-metric-m30">Median 30</button>
+          <button class="filter-btn" id="sect-metric-m90">Median 90</button>
+          <button class="filter-btn" id="sect-metric-w30">% Right 30D</button>
+          <button class="filter-btn" id="sect-metric-w90">% Right 90D</button>
+        </div>
+        <p id="sector-hero" style="font-size:13px;color:#444;margin:0 0 10px;line-height:1.5"></p>
+        <div id="sector-chart-bars"></div>
+        <div id="sector-detail"></div>
+      </div>
+    </div>
+
+    <!-- Unified calls performance table -->
+    <div id="chart-calls" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        Cramer's Calls — Performance
+        <div class="analytics-card-sub">How stocks performed after each type of call · click a row to open the stock card</div>
+      </div>
+      <div class="analytics-card-body" style="padding-bottom:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <select id="call-type-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;flex:1;min-width:260px;max-width:480px">
+          <option value="best_buy">Best "Buy" Calls — buy-type where stock went up</option>
+          <option value="worst_buy">Worst "Buy" Calls — buy-type where stock went down</option>
+          <option value="best_avoid">Best "Sell" Calls — cautious/sell where stock went down</option>
+          <option value="worst_avoid">Worst "Sell" Calls — cautious/sell where stock went up</option>
+          <option value="top_days_right">Top 12 — % Days Right (daily direction accuracy)</option>
+        </select>
+        <select id="call-sector-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:160px">
+          <option value="">All Sectors</option>
+        </select>
+        <select id="call-period-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:140px">
+          <option value="since">Since Mention</option>
+          <option value="7d">7 Days</option>
+          <option value="30d">30 Days</option>
+          <option value="90d">90 Days</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="table-calls" class="a-table">
+          <thead><tr>
+            <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
+            <th>Sector</th><th id="calls-return-header" style="text-align:right">Return Since</th>
+          </tr></thead>
+          <tbody>${callRows(d.buy_call_pool.filter(r => r.return_since_mention > 0).slice(0, 12), 'since')}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Latest calls -->
+    <div id="chart-latest" class="analytics-card" style="display:none;margin-bottom:20px">
       <div class="analytics-card-header">
         Latest Calls — Live Performance
         <div class="analytics-card-sub">Most recent mention per ticker, with return since that date · Click a row to open the stock card</div>
       </div>
       <div style="overflow-x:auto">
-        <table class="a-table">
+        <table id="table-latest" class="a-table">
           <thead><tr>
             <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
             <th>Segment</th><th>Cap</th>
@@ -1071,11 +1378,436 @@ function renderAnalytics(d) {
       </div>
     </div>
 
-    <p class="analytics-note">
+    <p class="analytics-note" style="display:none" id="analytics-note">
       * 30d/90d returns use nearest trading day in a ±50% window of the target (e.g. 30d looks in days 30–45).
       Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
     </p>
   `;
+
+  // Sentiment: default sort by col 0 (sentiment name) ascending — but rows were
+  // pre-sorted by conviction order, so col=null keeps that order; clicking a header sorts.
+  makeSortable('table-sentiment', null);
+
+  let sentBenchmark = 'spy', sentPeriod = '30d';
+  const SENT_HERO = {
+    'spy+30d': "Cramer's buy calls were right more than half the time and returned more than the S&P 500 over 30 days. His hold and sell calls were about as good as a coin flip and wouldn't have beat the index. His caution calls weren't as good as a coin flip and would have made about 1.1% more than the S&P 500 if bought.",
+    'qqq+30d': "Compared to the Nasdaq, Cramer's buy calls look even stronger — the Nasdaq was slightly negative on average over these 30-day windows, so his picks beat it by about 3–4%. Even his hold and sell calls came out ahead of the index. His caution calls weren't as accurate as a coin flip, but those stocks still gained about 2.3% more than the Nasdaq.",
+    'spy+90d': "Over 90 days, Cramer's Strong Buy calls outperformed the S&P 500 by about 2.4%, but regular Buy calls narrowly lagged — the market rose across most of these windows. His sell calls were his strongest 90-day signal: the stocks he warned against fell 2.6% while the S&P 500 gained 5.9% over the same periods. Hold and caution calls significantly trailed the index.",
+    'qqq+90d': "The Nasdaq surged over most 90-day windows in this dataset, making it a very tough benchmark — even Cramer's buy calls lagged by 5–8%. The clearest signal at 90 days is his sell calls: stocks he said to avoid fell 2.6% while the Nasdaq gained nearly 14% over those same periods — a 17-point gap.",
+  };
+  function updateSentCols() {
+    const show30 = sentPeriod !== '90d';
+    const show90 = sentPeriod !== '30d';
+    const tbl = document.getElementById('table-sentiment');
+    if (!tbl) return;
+    tbl.querySelectorAll('.col-30').forEach(el => { el.style.display = show30 ? '' : 'none'; });
+    tbl.querySelectorAll('.col-90').forEach(el => { el.style.display = show90 ? '' : 'none'; });
+    tbl.querySelectorAll('.bench-30').forEach(el => {
+      el.style.display = (show30 && el.classList.contains('b'+sentBenchmark)) ? '' : 'none';
+    });
+    tbl.querySelectorAll('.bench-90').forEach(el => {
+      el.style.display = (show90 && el.classList.contains('b'+sentBenchmark)) ? '' : 'none';
+    });
+    const hero = document.getElementById('sent-hero');
+    if (hero) hero.textContent = SENT_HERO[sentBenchmark+'+'+sentPeriod] || '';
+  }
+  window.setSentBench = function(val) {
+    sentBenchmark = val;
+    ['spy','qqq'].forEach(v => document.getElementById('sent-bench-'+v)?.classList.toggle('active', v === val));
+    updateSentCols();
+  };
+  window.setSentPeriod = function(val) {
+    sentPeriod = val;
+    ['30d','90d'].forEach(v => document.getElementById('sent-period-'+v)?.classList.toggle('active', v === val));
+    updateSentCols();
+  };
+  updateSentCols();
+  // Market cap: default order as returned (mega→large→mid→small→micro→nano)
+  makeSortable('table-mktcap', null);
+  // Calls table: default sort by Return Since descending (col 5)
+  makeSortable('table-calls', 5, false);
+  // Latest calls: default by date descending (col 2)
+  makeSortable('table-latest', 2, false);
+
+  // ── Top-level chart switcher ──────────────────────────────────────────────
+  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest'];
+  const NOTE_IDS  = new Set(['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-latest']);
+
+  function showAnalyticsChart(id) {
+    CHART_IDS.forEach(cid => {
+      document.getElementById(cid).style.display = cid === id ? '' : 'none';
+    });
+    document.getElementById('analytics-note').style.display = NOTE_IDS.has(id) ? '' : 'none';
+  }
+
+  document.getElementById('analytics-chart-select').addEventListener('change', e => showAnalyticsChart(e.target.value));
+
+  // ── Calls type + sector + period dropdowns ───────────────────────────────
+  const buyPool  = d.buy_call_pool  || [];
+  const sellPool = d.sell_call_pool || [];
+  const callsBody    = document.querySelector('#table-calls tbody');
+  const callTypeEl   = document.getElementById('call-type-select');
+  const callSectorEl = document.getElementById('call-sector-select');
+  const callPeriodEl = document.getElementById('call-period-select');
+  const callsReturnHeader = document.getElementById('calls-return-header');
+
+  const CALL_CFG = {
+    best_buy:    { pool: buyPool,  asc: false, dir: 'pos' },
+    worst_buy:   { pool: buyPool,  asc: true,  dir: 'neg' },
+    best_avoid:  { pool: sellPool, asc: true,  dir: 'neg' },
+    worst_avoid: { pool: sellPool, asc: false, dir: 'pos' },
+  };
+
+  const PERIOD_LABEL = { since: 'Return Since', '7d': 'Return 7d', '30d': 'Return 30d', '90d': 'Return 90d' };
+
+  const CALLS_THEAD_DEFAULT = `<tr>
+    <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
+    <th>Sector</th><th id="calls-return-header" style="text-align:right">Return Since</th>
+  </tr>`;
+  const CALLS_THEAD_DR = `<tr>
+    <th>Ticker</th><th>Company</th>
+    <th style="text-align:right">% Days Right</th>
+    <th style="text-align:right">Days</th>
+    <th style="text-align:right">Calls</th>
+    <th>Sector</th>
+  </tr>`;
+
+  function renderCallsTable() {
+    const thead = document.querySelector('#table-calls thead');
+
+    if (callTypeEl.value === 'top_days_right') {
+      callSectorEl.style.display = 'none';
+      callPeriodEl.style.display = 'none';
+      thead.innerHTML = CALLS_THEAD_DR;
+      callsBody.innerHTML = (d.top_days_right || []).map(r => {
+        const col = r.pct_right_daily >= 50 ? '#1a7f37' : '#d03030';
+        return `<tr onclick="handleTickerClick('${r.ticker}')" style="cursor:pointer">
+          <td><span class="ticker-link">${r.ticker}</span></td>
+          <td>${r.company || '—'}</td>
+          <td style="text-align:right;font-weight:700;color:${col}">${r.pct_right_daily}%</td>
+          <td style="text-align:right;color:#57606a">${r.n_right_days}</td>
+          <td style="text-align:right;color:#57606a">${r.n_calls}</td>
+          <td style="color:#57606a">${sectorLabel(r.sector) || '—'}</td>
+        </tr>`;
+      }).join('');
+      return;
+    }
+
+    callSectorEl.style.display = '';
+    callPeriodEl.style.display = '';
+    thead.innerHTML = CALLS_THEAD_DEFAULT;
+
+    const cfg    = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
+    const sector = callSectorEl.value;
+    const period = callPeriodEl.value || 'since';
+    const field  = CALL_PERIOD_FIELD[period] || 'return_since_mention';
+
+    const dirPass = cfg.dir === 'pos'
+      ? r => r[field] != null && r[field] > 0
+      : r => r[field] != null && r[field] < 0;
+    const filtered = cfg.pool
+      .filter(dirPass)
+      .filter(r => !sector || r.sector === sector);
+    const sorted = [...filtered].sort((a, b) =>
+      cfg.asc
+        ? (a[field] || 0) - (b[field] || 0)
+        : (b[field] || 0) - (a[field] || 0)
+    ).slice(0, 12);
+
+    callsBody.innerHTML = callRows(sorted, period);
+    const retHdr = document.getElementById('calls-return-header');
+    if (retHdr) retHdr.textContent = (PERIOD_LABEL[period] || 'Return Since') + (cfg.asc ? ' ▲' : ' ▼');
+  }
+
+  function populateSectorDropdown() {
+    if (callTypeEl.value === 'top_days_right') return;
+    const cfg = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
+    const sectors = [...new Set(cfg.pool.map(r => r.sector).filter(Boolean))].sort();
+    callSectorEl.innerHTML = '<option value="">All Sectors</option>'
+      + sectors.map(s => `<option value="${s}">${sectorLabel(s)}</option>`).join('');
+  }
+
+  callTypeEl.addEventListener('change', () => {
+    populateSectorDropdown();
+    callSectorEl.value = '';   // reset sector when call type changes
+    renderCallsTable();
+  });
+  callSectorEl.addEventListener('change', renderCallsTable);
+  callPeriodEl.addEventListener('change', renderCallsTable);
+
+  populateSectorDropdown();  // seed sector options for initial call type
+
+  // ── Sector interactive chart ──────────────────────────────────────────────
+  const sbt = {};
+  for (const r of d.sector_by_type || []) {
+    if (!sbt[r.sector]) sbt[r.sector] = {};
+    sbt[r.sector][r.call_type] = r;
+  }
+
+  let sectorCallType = 'buy';
+  let sectorMetric   = 'median_return_30d';
+  let selectedSector = null;
+
+  const SECTOR_METRIC_KEYS = {
+    'm30': 'median_return_30d',
+    'm90': 'median_return_90d',
+    'w30': 'win_rate_30d',
+    'w90': 'win_rate_90d',
+  };
+
+  const SECTOR_HERO = {
+    buy:  "Technology is Cramer's best sector by a wide margin — 68% win rate at 30 days, +8.1% median return, across 658 buy calls. Industrials (61%, +4.0%) and Energy (59%, +2.6%) are the only other sectors with above-50% accuracy and positive returns. Consumer Cyclical, Financial Services, and Communication Services show below-50% accuracy with negative 30-day median returns. Sectors greyed out have fewer than 30 mentions.",
+    sell: "Cramer's sector sell calls have mostly missed — Technology stocks went up 58% of the time after a cautious call, and Consumer Cyclical 59%. His most accurate sell reads are Healthcare (stocks fell 56% of the time) and Consumer Defensive (fell 54%). Sectors greyed out have fewer than 30 mentions.",
+  };
+
+  function metricIsWinPct(key) { return key === 'win_rate_30d' || key === 'win_rate_90d'; }
+
+  // 95% confidence interval margin for a proportion
+  function ciMargin(rate, n) {
+    if (rate == null || !n || n < 2) return null;
+    const p = rate / 100;
+    return 1.96 * Math.sqrt(p * (1 - p) / n) * 100;
+  }
+  function ciHtml(rate, n) {
+    const m = ciMargin(rate, n);
+    return m != null ? `<span style="font-size:10px;color:#8b949e;font-weight:400"> ±${m.toFixed(1)}%</span>` : '';
+  }
+
+  function barColor(v, isWinPct) {
+    if (v == null) return '#8b949e';
+    return isWinPct ? (v >= 50 ? '#2da44e' : '#d03030') : (v >= 0 ? '#2da44e' : '#d03030');
+  }
+  function barFmt(v, isWinPct) {
+    if (v == null) return '—';
+    return isWinPct ? v.toFixed(1) + '%' : (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+  }
+  function barClass(v, isWinPct) {
+    if (v == null) return 'ret-null';
+    return isWinPct ? (v >= 50 ? 'ret-pos' : 'ret-neg') : retClass(v);
+  }
+
+  function renderSectorBars() {
+    const isWinPct = metricIsWinPct(sectorMetric);
+    const rows = Object.keys(sbt)
+      .filter(s => sbt[s][sectorCallType])
+      .map(s => ({ sector: s, ...sbt[s][sectorCallType] }))
+      .sort((a, b) => (b[sectorMetric] ?? -Infinity) - (a[sectorMetric] ?? -Infinity));
+
+    const eligibleRows = rows.filter(r => r.n_mentions >= 30);
+    const maxAbs = Math.max(...eligibleRows.map(r => Math.abs(r[sectorMetric] ?? 0)), 1);
+    const barsEl = document.getElementById('sector-chart-bars');
+    if (!barsEl) return;
+
+    barsEl.innerHTML = rows.map(r => {
+      const dim = r.n_mentions < 30;
+      const v = dim ? null : (r[sectorMetric] ?? null);
+      const pct = v != null ? Math.min(Math.abs(v) / maxAbs * 100, 100) : 0;
+      const color = dim ? '#d0d7de' : barColor(r[sectorMetric] ?? null, isWinPct);
+      const isSelected = selectedSector === r.sector;
+      const dimStyle = dim ? 'opacity:0.45' : '';
+      const valHtml = dim
+        ? `<div class="chart-bar-val" style="color:#8b949e;font-size:11px">n&lt;30</div>`
+        : `<div class="chart-bar-val ${barClass(r[sectorMetric] ?? null, isWinPct)}">${barFmt(r[sectorMetric] ?? null, isWinPct)}${isWinPct ? ciHtml(r[sectorMetric], r.n_mentions) : ''}</div>`;
+      return `<div class="chart-bar-wrap" data-sector="${r.sector}"
+                   style="cursor:pointer;outline:${isSelected ? '2px solid #0969da' : 'none'};border-radius:4px;${dimStyle}">
+        <div class="chart-bar-label">${sectorLabel(r.sector)}</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+        ${valHtml}
+      </div>`;
+    }).join('');
+
+    const heroEl = document.getElementById('sector-hero');
+    if (heroEl) heroEl.textContent = SECTOR_HERO[sectorCallType] || '';
+
+    renderSectorDetail();
+  }
+
+  function renderSectorDetail() {
+    const el = document.getElementById('sector-detail');
+    if (!el) return;
+    if (!selectedSector || !sbt[selectedSector]?.[sectorCallType]) {
+      el.innerHTML = '';
+      return;
+    }
+    const r = sbt[selectedSector][sectorCallType];
+    const typeLabel = sectorCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
+    el.innerHTML = `
+      <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
+        <div style="font-weight:600;margin-bottom:8px">${sectorLabel(selectedSector)} — ${typeLabel}</div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
+          <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
+          <div><span style="color:#57606a">Tickers:</span> <strong>${r.n_tickers}</strong></div>
+          <div><span style="color:#57606a">Median 30d:</span> <strong>${r.median_return_30d != null ? (r.median_return_30d > 0 ? '+' : '') + r.median_return_30d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Median 90d:</span> <strong>${r.median_return_90d != null ? (r.median_return_90d > 0 ? '+' : '') + r.median_return_90d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">% Right 30d:</span> <strong>${r.win_rate_30d != null ? r.win_rate_30d.toFixed(1) + '%' : '—'}</strong>${ciHtml(r.win_rate_30d, r.n_mentions)}</div>
+          <div><span style="color:#57606a">% Right 90d:</span> <strong>${r.win_rate_90d != null ? r.win_rate_90d.toFixed(1) + '%' : '—'}</strong>${ciHtml(r.win_rate_90d, r.n_mentions)}</div>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById('sector-chart-bars').addEventListener('click', e => {
+    const bar = e.target.closest('[data-sector]');
+    if (!bar) return;
+    const s = bar.dataset.sector;
+    selectedSector = selectedSector === s ? null : s;
+    renderSectorBars();
+  });
+
+  ['buy','sell'].forEach(type => {
+    document.getElementById(`sect-btn-${type}`).addEventListener('click', () => {
+      sectorCallType = type;
+      document.getElementById('sect-btn-buy').classList.toggle('active', type === 'buy');
+      document.getElementById('sect-btn-sell').classList.toggle('active', type === 'sell');
+      selectedSector = null;
+      renderSectorBars();
+    });
+  });
+
+  Object.entries(SECTOR_METRIC_KEYS).forEach(([id, key]) => {
+    document.getElementById(`sect-metric-${id}`).addEventListener('click', () => {
+      sectorMetric = key;
+      Object.keys(SECTOR_METRIC_KEYS).forEach(k =>
+        document.getElementById(`sect-metric-${k}`).classList.toggle('active', k === id));
+      renderSectorBars();
+    });
+  });
+
+  renderSectorBars();
+
+  // ── Segment interactive chart ──────────────────────────────────────────────
+  const sbt_seg = {};
+  for (const r of d.segment_by_type || []) {
+    if (!sbt_seg[r.segment]) sbt_seg[r.segment] = {};
+    sbt_seg[r.segment][r.call_type] = r;
+  }
+
+  let segCallType   = 'buy';
+  let segMetric     = 'median_return_30d';
+  let selectedSeg   = null;
+
+  const SEG_HERO = {
+    buy:  "Closing Commentary is Cramer's strongest buy segment — nearly 70% right at 30 days with a +6.4% median return. In-Depth Analysis picks start slow (53% at 30d) but build to 66% accuracy at 90 days. Lightning Round and Opening Commentary are consistent, high-volume performers.",
+    sell: "In-Depth Analysis is his sharpest sell segment — 58% right at 30 days with a median decline of 2.9%. Opening Commentary (44% right) and Closing Commentary (40% right) are below a coin flip, meaning the stocks he warned against often rose anyway.",
+  };
+
+  const SEG_DETAIL_HERO = {
+    'opening_commentary:buy':  "The largest buy segment by volume. Steady and consistent across both timeframes — the most reliable baseline for Cramer's overall buy call accuracy.",
+    'closing_commentary:buy':  "Cramer's top buy segment. When he opens the show by recommending a stock, his conviction runs high — nearly 70% right at 30 days with a median return of +6.4%.",
+    'in_depth_analysis:buy':   "Slow starters that reward patience. Only 53% right at 30 days, but the thesis tends to play out: 66% right and +6.7% median return by 90 days.",
+    'lightning_round:buy':     "Quick-fire calls with consistent performance that improves over time — 57% right at 30 days, rising to 63% at 90 days. High volume makes this segment statistically reliable.",
+    'caller_qa:buy':           "Good short-term accuracy at 61% but fades fast — drops to a coin flip at 90 days. These picks tend to work best as shorter-term trades.",
+    'interview:buy':           "Decent short-term accuracy at 59%, but fades to a coin flip at 90 days. Interview picks appear to capture near-term momentum without lasting conviction.",
+    'opening_commentary:sell': "Below a coin flip at 44% right — more than half the stocks Cramer cautioned against during Opening Commentary still went up at 30 days. His most common sell context but least accurate.",
+    'closing_commentary:sell': "Cramer's least reliable sell segment — only 40% right at 30 days. Three in five stocks he warned against at show's end went up anyway.",
+    'in_depth_analysis:sell':  "Cramer's sharpest sell calls — 58% right at 30 days with a median decline of 2.9%. When he dedicates a deep dive to warning against a stock, the data backs him up.",
+    'lightning_round:sell':    "Just under a coin flip at 30 days (48% right), but improves over time — 58% right at 90 days with a median decline of 2.6% by then.",
+    'caller_qa:sell':          "Small sample (30 mentions). About 48% right at 30 days — essentially a coin flip. Performance edges above 50% at 90 days.",
+  };
+
+  function renderSegmentBars() {
+    const isWinPct = metricIsWinPct(segMetric);
+    // For sell calls on a win-pct metric, % Right = 100 - win_rate
+    const invertSell = isWinPct && segCallType === 'sell';
+    const effV = v => (v != null && invertSell) ? 100 - v : v;
+
+    const rows = Object.keys(sbt_seg)
+      .filter(s => sbt_seg[s][segCallType])
+      .map(s => ({ segment: s, ...sbt_seg[s][segCallType] }))
+      .filter(r => r.n_mentions >= 30)
+      .sort((a, b) => (effV(b[segMetric]) ?? -Infinity) - (effV(a[segMetric]) ?? -Infinity));
+
+    const maxAbs = Math.max(...rows.map(r => Math.abs(effV(r[segMetric]) ?? 0)), 1);
+    const barsEl = document.getElementById('segment-chart-bars');
+    if (!barsEl) return;
+
+    barsEl.innerHTML = rows.map(r => {
+      const v = effV(r[segMetric] ?? null);
+      const pct = v != null ? Math.min(Math.abs(v) / maxAbs * 100, 100) : 0;
+      const color = barColor(v, isWinPct);
+      const isSel = selectedSeg === r.segment;
+      const label = SEG_LABELS[r.segment] || r.segment;
+      return `<div class="chart-bar-wrap" data-seg="${r.segment}"
+                   style="cursor:pointer;outline:${isSel ? '2px solid #0969da' : 'none'};border-radius:4px">
+        <div class="chart-bar-label">${label}</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+        <div class="chart-bar-val ${barClass(v, isWinPct)}">${barFmt(v, isWinPct)}${isWinPct ? ciHtml(r[segMetric], r.n_mentions) : ''}</div>
+      </div>`;
+    }).join('');
+
+    const heroEl = document.getElementById('seg-hero');
+    if (heroEl) heroEl.textContent = SEG_HERO[segCallType] || '';
+
+    renderSegmentDetail();
+  }
+
+  function renderSegmentDetail() {
+    const el = document.getElementById('segment-detail');
+    if (!el) return;
+    if (!selectedSeg || !sbt_seg[selectedSeg]?.[segCallType]) {
+      el.innerHTML = '';
+      return;
+    }
+    const r = sbt_seg[selectedSeg][segCallType];
+    const typeLabel = segCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
+    const segLabel  = SEG_LABELS[selectedSeg] || selectedSeg;
+    const detailHero = SEG_DETAIL_HERO[`${selectedSeg}:${segCallType}`] || '';
+    const isSell = segCallType === 'sell';
+    const pr30 = r.win_rate_30d != null ? (isSell ? 100 - r.win_rate_30d : r.win_rate_30d).toFixed(1) + '%' : '—';
+    const pr90 = r.win_rate_90d != null ? (isSell ? 100 - r.win_rate_90d : r.win_rate_90d).toFixed(1) + '%' : '—';
+    el.innerHTML = `
+      <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
+        <div style="font-weight:600;margin-bottom:4px">${segLabel} — ${typeLabel}</div>
+        ${detailHero ? `<div style="font-size:12px;color:#444;margin-bottom:8px;line-height:1.5">${detailHero}</div>` : ''}
+        <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
+          <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
+          <div><span style="color:#57606a">Stocks:</span> <strong>${r.n_tickers ?? '—'}</strong></div>
+          <div><span style="color:#57606a">Median 30d:</span> <strong>${r.median_return_30d != null ? (r.median_return_30d > 0 ? '+' : '') + r.median_return_30d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">Median 90d:</span> <strong>${r.median_return_90d != null ? (r.median_return_90d > 0 ? '+' : '') + r.median_return_90d.toFixed(2) + '%' : '—'}</strong></div>
+          <div><span style="color:#57606a">% Right 30d:</span> <strong>${pr30}</strong>${ciHtml(r.win_rate_30d, r.n_mentions)}</div>
+          <div><span style="color:#57606a">% Right 90d:</span> <strong>${pr90}</strong>${ciHtml(r.win_rate_90d, r.n_mentions)}</div>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById('segment-chart-bars').addEventListener('click', e => {
+    const bar = e.target.closest('[data-seg]');
+    if (!bar) return;
+    const s = bar.dataset.seg;
+    selectedSeg = selectedSeg === s ? null : s;
+    renderSegmentBars();
+  });
+
+  ['buy','sell'].forEach(type => {
+    document.getElementById(`seg-btn-${type}`).addEventListener('click', () => {
+      segCallType = type;
+      document.getElementById('seg-btn-buy').classList.toggle('active', type === 'buy');
+      document.getElementById('seg-btn-sell').classList.toggle('active', type === 'sell');
+      selectedSeg = null;
+      renderSegmentBars();
+    });
+  });
+
+  const SEG_METRIC_KEYS = {
+    'm30': 'median_return_30d',
+    'm90': 'median_return_90d',
+    'w30': 'win_rate_30d',
+    'w90': 'win_rate_90d',
+  };
+
+  Object.entries(SEG_METRIC_KEYS).forEach(([id, key]) => {
+    document.getElementById(`seg-metric-${id}`).addEventListener('click', () => {
+      segMetric = key;
+      Object.keys(SEG_METRIC_KEYS).forEach(k =>
+        document.getElementById(`seg-metric-${k}`).classList.toggle('active', k === id));
+      renderSegmentBars();
+    });
+  });
+
+  renderSegmentBars();
 }
 
 function showSearchForTicker(ticker) {

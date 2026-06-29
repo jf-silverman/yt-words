@@ -1,1 +1,1 @@
-{"company": "Ciena", "mentions": [], "sector": "", "style": "", "industry": "", "pe_ratio": null, "market_cap": null, "market_cap_category": ""}
+{"company": "Ciena", "mentions": [{"date": "2026-04-30", "sentiment": "buy", "segment": "opening_commentary", "note": "Networking equipment, up 11%; essential for chip-to-chip communication in data centers; industry stalwart alongside Arista and Cisco.", "closing_price": null}], "sector": "", "style": "", "industry": "", "pe_ratio": null, "market_cap": null, "market_cap_category": ""}

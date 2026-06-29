@@ -1,1 +1,1 @@
-{"company": "CubeSmart", "mentions": [], "sector": "", "style": "", "industry": "", "pe_ratio": null, "market_cap": null, "market_cap_category": ""}
+{"company": "CubeSmart", "mentions": [{"date": "2026-01-12", "sentiment": "sell_avoid", "segment": "lightning_round", "note": "Not enough growth; Pro Lodge is a better self-storage alternative.", "closing_price": 10.68}], "sector": "Financial Services", "style": "growth", "industry": "Shell Companies", "pe_ratio": 38.5, "market_cap": 282035328, "market_cap_category": "micro"}

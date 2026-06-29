@@ -5,8 +5,14 @@ Manages schema, migrations, and provides ORM-like functions for data access.
 
 import json
 import sqlite3
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from pathlib import Path
+
+try:
+    import requests as _requests
+except ImportError:
+    _requests = None
 
 DB_PATH = Path(__file__).parent.parent / "data" / "mad_money.db"
 
@@ -225,6 +231,7 @@ def _create_views(c):
     # sentiment_performance ———————————————————————————————————————————————————
     # Aggregates forward_returns by sentiment level.
     # n_with_Xd counts only mentions where that window's price exists.
+    # Note: medians are computed in Python in build_analytics_json (SQLite has no MEDIAN).
     c.execute("DROP VIEW IF EXISTS sentiment_performance")
     c.execute("""
         CREATE VIEW sentiment_performance AS
@@ -240,6 +247,8 @@ def _create_views(c):
             ROUND(AVG(return_90d),  2)                              AS avg_return_90d,
             ROUND(AVG(return_180d), 2)                              AS avg_return_180d,
             ROUND(AVG(return_since_mention), 2)                     AS avg_return_since_mention,
+            ROUND(100.0 * SUM(CASE WHEN return_7d   > 0 THEN 1 ELSE 0 END)
+                        / NULLIF(COUNT(return_7d),   0), 1)         AS win_rate_7d,
             ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
                         / NULLIF(COUNT(return_30d),  0), 1)         AS win_rate_30d,
             ROUND(100.0 * SUM(CASE WHEN return_90d  > 0 THEN 1 ELSE 0 END)
@@ -257,12 +266,15 @@ def _create_views(c):
     c.execute("DROP VIEW IF EXISTS latest_mention_performance")
     c.execute("""
         CREATE VIEW latest_mention_performance AS
-        SELECT fr.*
-        FROM forward_returns fr
-        WHERE fr.mention_date = (
-            SELECT MAX(mention_date) FROM forward_returns fr2
-            WHERE fr2.ticker = fr.ticker
+        WITH ranked AS (
+            SELECT fr.*,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY fr.ticker
+                       ORDER BY fr.mention_date DESC, fr.mention_id DESC
+                   ) AS rn
+            FROM forward_returns fr
         )
+        SELECT * FROM ranked WHERE rn = 1
         ORDER BY return_since_mention DESC
     """)
 
@@ -564,22 +576,153 @@ def get_daily_prices(ticker: str, days: int = None):
     return [dict(row) for row in rows]
 
 
+def _fetch_benchmark_prices(ticker: str) -> dict:
+    """Fetch daily closes for a benchmark ticker from Yahoo Finance. Returns {date_str: close}."""
+    if not _requests:
+        return {}
+    end_ts   = int(time.time())
+    start_ts = end_ts - 6 * 365 * 86400
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+           f"?interval=1d&period1={start_ts}&period2={end_ts}")
+    try:
+        r = _requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=15)
+        result = r.json()['chart']['result'][0]
+        prices = {}
+        for ts, close in zip(result['timestamp'], result['indicators']['quote'][0]['close']):
+            if close is not None:
+                prices[datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d')] = round(close, 2)
+        return prices
+    except Exception as e:
+        print(f"  Warning: could not fetch {ticker} prices: {e}")
+        return {}
+
+
+def _nearest_price(prices: dict, date_str: str) -> float | None:
+    """Return the closest price at or before date_str (looks up to 7 days back)."""
+    try:
+        d = datetime.strptime(date_str, '%Y-%m-%d')
+    except (ValueError, TypeError):
+        return None
+    for offset in range(8):
+        key = (d - timedelta(days=offset)).strftime('%Y-%m-%d')
+        if key in prices:
+            return prices[key]
+    return None
+
+
+def _median(values: list) -> float | None:
+    """Return median of a list, ignoring Nones."""
+    vals = sorted(v for v in values if v is not None)
+    if not vals:
+        return None
+    mid = len(vals) // 2
+    if len(vals) % 2 == 1:
+        return round(vals[mid], 2)
+    return round((vals[mid - 1] + vals[mid]) / 2, 2)
+
+
 def build_analytics_json(out_path: str) -> None:
     """Query the DB and write docs/data/analytics.json for the Analytics tab."""
     conn = get_connection()
     c = conn.cursor()
 
     # ── Sentiment performance ─────────────────────────────────────────────────
+    # Fetch aggregate counts/win-rates from view, then compute medians from raw rows.
     c.execute("""
         SELECT sentiment,
                n_mentions, n_with_7d, n_with_30d, n_with_90d, n_with_180d,
                avg_return_7d, avg_return_30d, avg_return_90d, avg_return_180d,
-               avg_return_since_mention, win_rate_30d, win_rate_90d, win_rate_180d
+               avg_return_since_mention,
+               win_rate_7d, win_rate_30d, win_rate_90d, win_rate_180d
         FROM sentiment_performance
         WHERE n_mentions >= 10
-        ORDER BY avg_return_30d DESC
     """)
     sentiment_perf = [dict(r) for r in c.fetchall()]
+
+    # Compute medians per sentiment from raw forward_returns rows
+    c.execute("""
+        SELECT sentiment, return_7d, return_30d, return_90d, return_since_mention
+        FROM forward_returns
+    """)
+    from collections import defaultdict
+    sent_buckets = defaultdict(lambda: {'r7': [], 'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        b = sent_buckets[row['sentiment']]
+        b['r7'].append(row['return_7d'])
+        b['r30'].append(row['return_30d'])
+        b['r90'].append(row['return_90d'])
+        b['rs'].append(row['return_since_mention'])
+
+    for row in sentiment_perf:
+        b = sent_buckets[row['sentiment']]
+        row['median_return_7d']           = _median(b['r7'])
+        row['median_return_30d']          = _median(b['r30'])
+        row['median_return_90d']          = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
+
+    # ── S&P 500 (VOO) and Nasdaq (QQQ) benchmark per sentiment ───────────────
+    print("  Fetching VOO + QQQ prices for benchmark comparison…")
+    voo_prices = _fetch_benchmark_prices('VOO')
+    qqq_prices = _fetch_benchmark_prices('QQQ')
+
+    c.execute("""
+        SELECT sentiment, mention_date, price_latest_date
+        FROM forward_returns
+        WHERE return_since_mention IS NOT NULL OR return_30d IS NOT NULL OR return_90d IS NOT NULL
+    """)
+    from collections import defaultdict as _dd
+    spy_30d_buckets  = _dd(list); spy_90d_buckets  = _dd(list)
+    qqq_30d_buckets  = _dd(list); qqq_90d_buckets  = _dd(list)
+    mention_rows = c.fetchall()
+
+    for row in mention_rows:
+        d = row['mention_date']
+        try:
+            base = datetime.strptime(d, '%Y-%m-%d')
+        except (ValueError, TypeError):
+            continue
+        d30 = (base + timedelta(days=30)).strftime('%Y-%m-%d')
+        d90 = (base + timedelta(days=90)).strftime('%Y-%m-%d')
+        for prices, b30, b90 in [
+            (voo_prices, spy_30d_buckets, spy_90d_buckets),
+            (qqq_prices, qqq_30d_buckets, qqq_90d_buckets),
+        ]:
+            if not prices:
+                continue
+            at_mention = _nearest_price(prices, d)
+            if not at_mention:
+                continue
+            p30 = _nearest_price(prices, d30)
+            p90 = _nearest_price(prices, d90)
+            if p30:
+                b30[row['sentiment']].append(round((p30 - at_mention) / at_mention * 100, 2))
+            if p90:
+                b90[row['sentiment']].append(round((p90 - at_mention) / at_mention * 100, 2))
+
+    for row in sentiment_perf:
+        row['median_spy_30d'] = _median(spy_30d_buckets.get(row['sentiment'], []))
+        row['median_spy_90d'] = _median(spy_90d_buckets.get(row['sentiment'], []))
+        row['median_qqq_30d'] = _median(qqq_30d_buckets.get(row['sentiment'], []))
+        row['median_qqq_90d'] = _median(qqq_90d_buckets.get(row['sentiment'], []))
+
+    # Fetch all forward_returns rows once for median computation across all tables
+    c.execute("""
+        SELECT segment, market_cap_category, sector,
+               return_30d, return_90d, return_since_mention
+        FROM forward_returns
+    """)
+    from collections import defaultdict
+    seg_buckets  = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    cap_buckets  = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    sect_buckets = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        for key, buckets in [(row['segment'], seg_buckets),
+                             (row['market_cap_category'], cap_buckets),
+                             (row['sector'], sect_buckets)]:
+            if key:
+                buckets[key]['r30'].append(row['return_30d'])
+                buckets[key]['r90'].append(row['return_90d'])
+                buckets[key]['rs'].append(row['return_since_mention'])
 
     # ── Segment performance ───────────────────────────────────────────────────
     c.execute("""
@@ -587,9 +730,6 @@ def build_analytics_json(out_path: str) -> None:
                COUNT(*)                                          AS n_mentions,
                COUNT(return_30d)                                 AS n_with_30d,
                COUNT(return_90d)                                 AS n_with_90d,
-               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
-               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
-               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
                ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
                            / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d,
                ROUND(100.0 * SUM(CASE WHEN return_90d  > 0 THEN 1 ELSE 0 END)
@@ -598,9 +738,14 @@ def build_analytics_json(out_path: str) -> None:
         WHERE segment IS NOT NULL AND segment != ''
         GROUP BY segment
         HAVING n_mentions >= 5
-        ORDER BY avg_return_30d DESC
     """)
     segment_perf = [dict(r) for r in c.fetchall()]
+    for row in segment_perf:
+        b = seg_buckets[row['segment']]
+        row['median_return_30d']          = _median(b['r30'])
+        row['median_return_90d']          = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
+    segment_perf.sort(key=lambda r: r['median_return_30d'] or 0, reverse=True)
 
     # ── Market cap performance ────────────────────────────────────────────────
     cap_order = {'mega': 1, 'large': 2, 'mid': 3, 'small': 4, 'micro': 5, 'nano': 6}
@@ -609,38 +754,114 @@ def build_analytics_json(out_path: str) -> None:
                COUNT(*)                                          AS n_mentions,
                COUNT(return_30d)                                 AS n_with_30d,
                COUNT(return_90d)                                 AS n_with_90d,
-               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
-               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
-               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
                ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
                            / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d
         FROM forward_returns
         WHERE market_cap_category IS NOT NULL AND market_cap_category != ''
         GROUP BY market_cap_category
         HAVING n_mentions >= 5
-        ORDER BY avg_return_30d DESC
     """)
-    mktcap_perf = sorted([dict(r) for r in c.fetchall()],
-                         key=lambda r: cap_order.get(r['market_cap_category'], 99))
+    mktcap_rows = [dict(r) for r in c.fetchall()]
+    for row in mktcap_rows:
+        b = cap_buckets[row['market_cap_category']]
+        row['median_return_30d']          = _median(b['r30'])
+        row['median_return_90d']          = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
+    mktcap_perf = sorted(mktcap_rows, key=lambda r: cap_order.get(r['market_cap_category'], 99))
 
-    # ── Sector performance ────────────────────────────────────────────────────
-    c.execute("""
+    # ── Sector performance by call type (buy vs sell, excluding neutral) ─────
+    BUY_SENTS  = "('strong_buy','buy','mild_buy','buy_on_pullback')"
+    SELL_SENTS = "('caution_concern','sell_avoid')"
+    NON_NEUTRAL = "('strong_buy','buy','mild_buy','buy_on_pullback','caution_concern','sell_avoid')"
+
+    c.execute(f"""
         SELECT sector,
-               COUNT(*)                                          AS n_mentions,
-               COUNT(DISTINCT ticker)                            AS n_tickers,
-               COUNT(return_30d)                                 AS n_with_30d,
-               ROUND(AVG(return_30d),  2)                        AS avg_return_30d,
-               ROUND(AVG(return_90d),  2)                        AS avg_return_90d,
-               ROUND(AVG(return_since_mention), 2)               AS avg_return_since_mention,
-               ROUND(100.0 * SUM(CASE WHEN return_30d  > 0 THEN 1 ELSE 0 END)
-                           / NULLIF(COUNT(return_30d), 0), 1)    AS win_rate_30d
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               return_30d, return_90d, return_since_mention
         FROM forward_returns
         WHERE sector IS NOT NULL AND sector != ''
-        GROUP BY sector
-        HAVING n_mentions >= 5
-        ORDER BY n_mentions DESC
+          AND sentiment IN {NON_NEUTRAL}
     """)
-    sector_perf = [dict(r) for r in c.fetchall()]
+    sbt_buckets = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        key = (row[0], row[1])
+        b = sbt_buckets[key]
+        if row[2] is not None: b['r30'].append(row[2])
+        if row[3] is not None: b['r90'].append(row[3])
+        if row[4] is not None: b['rs'].append(row[4])
+
+    c.execute(f"""
+        SELECT sector,
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               COUNT(*)                                            AS n_mentions,
+               COUNT(DISTINCT ticker)                              AS n_tickers,
+               ROUND(100.0 * SUM(CASE WHEN return_30d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_30d), 0), 1)     AS win_rate_30d,
+               ROUND(100.0 * SUM(CASE WHEN return_90d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_90d), 0), 1)     AS win_rate_90d
+        FROM forward_returns
+        WHERE sector IS NOT NULL AND sector != ''
+          AND sentiment IN {NON_NEUTRAL}
+        GROUP BY sector, call_type
+        HAVING n_mentions >= 3
+        ORDER BY sector, call_type
+    """)
+    sector_by_type = [dict(r) for r in c.fetchall()]
+    for row in sector_by_type:
+        b = sbt_buckets[(row['sector'], row['call_type'])]
+        row['median_return_30d']           = _median(b['r30'])
+        row['median_return_90d']           = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
+
+    # ── Segment by call type ──────────────────────────────────────────────────
+    # Normalize variant segment names produced by Haiku before aggregating
+    _SEG_NORM = """
+        CASE segment
+            WHEN 'investing_club_qa'  THEN 'caller_qa'
+            WHEN 'mag_seven_analysis' THEN 'mag7_analysis'
+            WHEN 'mag7_earnings'      THEN 'mag7_analysis'
+            WHEN 'software_opportunities' THEN 'in_depth_analysis'
+            ELSE segment
+        END
+    """
+    c.execute(f"""
+        SELECT ({_SEG_NORM}) AS segment,
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               return_30d, return_90d, return_since_mention
+        FROM forward_returns
+        WHERE segment IS NOT NULL AND segment != ''
+          AND sentiment IN {NON_NEUTRAL}
+    """)
+    seg_type_buckets = defaultdict(lambda: {'r30': [], 'r90': [], 'rs': []})
+    for row in c.fetchall():
+        key = (row[0], row[1])
+        b = seg_type_buckets[key]
+        if row[2] is not None: b['r30'].append(row[2])
+        if row[3] is not None: b['r90'].append(row[3])
+        if row[4] is not None: b['rs'].append(row[4])
+
+    c.execute(f"""
+        SELECT ({_SEG_NORM}) AS segment,
+               CASE WHEN sentiment IN {BUY_SENTS} THEN 'buy' ELSE 'sell' END AS call_type,
+               COUNT(*)                                            AS n_mentions,
+               COUNT(DISTINCT ticker)                             AS n_tickers,
+               ROUND(100.0 * SUM(CASE WHEN return_30d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_30d), 0), 1)     AS win_rate_30d,
+               ROUND(100.0 * SUM(CASE WHEN return_90d > 0 THEN 1 ELSE 0 END)
+                           / NULLIF(COUNT(return_90d), 0), 1)     AS win_rate_90d
+        FROM forward_returns
+        WHERE segment IS NOT NULL AND segment != ''
+          AND sentiment IN {NON_NEUTRAL}
+        GROUP BY 1, 2
+        HAVING n_mentions >= 3
+        ORDER BY 1, 2
+    """)
+    segment_by_type = [dict(r) for r in c.fetchall()]
+    for row in segment_by_type:
+        b = seg_type_buckets[(row['segment'], row['call_type'])]
+        row['median_return_30d']           = _median(b['r30'])
+        row['median_return_90d']           = _median(b['r90'])
+        row['median_return_since_mention'] = _median(b['rs'])
 
     # ── Latest calls leaderboard ──────────────────────────────────────────────
     c.execute("""
@@ -655,28 +876,98 @@ def build_analytics_json(out_path: str) -> None:
     """)
     latest_calls = [dict(r) for r in c.fetchall()]
 
-    # ── Top winners / losers (all time, by return_since_mention) ─────────────
-    c.execute("""
+    BUY_TYPES  = "('strong_buy','buy','mild_buy','buy_on_pullback')"
+    SELL_TYPES = "('wait_hold_neutral','caution_concern','sell_avoid')"
+
+    # ── Call performance pools (all tickers, for unified calls table) ─────────
+    c.execute(f"""
         SELECT ticker, company, mention_date, sentiment,
-               price_at_mention, price_latest, return_since_mention, days_since_mention,
+               price_at_mention, price_latest, return_7d, return_30d, return_90d,
+               return_since_mention, days_since_mention,
                sector, market_cap_category
         FROM latest_mention_performance
         WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+          AND sentiment IN {BUY_TYPES}
         ORDER BY return_since_mention DESC
-        LIMIT 10
     """)
-    top_winners = [dict(r) for r in c.fetchall()]
+    buy_call_pool = [dict(r) for r in c.fetchall()]
+
+    c.execute(f"""
+        SELECT ticker, company, mention_date, sentiment,
+               price_at_mention, price_latest, return_7d, return_30d, return_90d,
+               return_since_mention, days_since_mention,
+               sector, market_cap_category
+        FROM latest_mention_performance
+        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
+          AND sentiment IN {SELL_TYPES}
+        ORDER BY return_since_mention DESC
+    """)
+    sell_call_pool = [dict(r) for r in c.fetchall()]
+
+    # ── Top tickers by % Days Right ───────────────────────────────────────────
+    import bisect as _bisect
+    _BULL_DR = {'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback'}
+    _BEAR_DR = {'sell_avoid', 'caution_concern'}
 
     c.execute("""
-        SELECT ticker, company, mention_date, sentiment,
-               price_at_mention, price_latest, return_since_mention, days_since_mention,
-               sector, market_cap_category
-        FROM latest_mention_performance
-        WHERE return_since_mention IS NOT NULL AND days_since_mention >= 1
-        ORDER BY return_since_mention ASC
-        LIMIT 10
+        SELECT ticker, date, sentiment, closing_price
+        FROM mentions WHERE closing_price IS NOT NULL
+        ORDER BY ticker, date
     """)
-    top_losers = [dict(r) for r in c.fetchall()]
+    _dr_m: dict = {}
+    for r in c.fetchall():
+        t, dt, s, cp = r['ticker'], r['date'], r['sentiment'], r['closing_price']
+        _dr_m.setdefault(t, {}).setdefault(dt, {'price': cp, 'sents': set()})
+        _dr_m[t][dt]['sents'].add(s)
+
+    c.execute("SELECT ticker, date, close FROM daily_prices ORDER BY ticker, date")
+    _dr_d: dict = {}
+    for r in c.fetchall():
+        _dr_d.setdefault(r['ticker'], {})[r['date']] = r['close']
+    _dr_dates: dict = {t: sorted(dm.keys()) for t, dm in _dr_d.items()}
+
+    c.execute("SELECT ticker, company, sector FROM stocks")
+    _ticker_meta = {r['ticker']: {'company': r['company'] or '', 'sector': r['sector'] or ''}
+                    for r in c.fetchall()}
+
+    _top_dr = []
+    for _t, _dm in _dr_m.items():
+        _dates = _dr_dates.get(_t, [])
+        _daily = _dr_d.get(_t, {})
+        if not _dates:
+            continue
+        _last = _dates[-1]
+        _mdates = sorted(_dm.keys())
+        _total = _right = _ncalls = 0
+        for _i, _dt in enumerate(_mdates):
+            _e = _dm[_dt]
+            _is_buy  = bool(_e['sents'] & _BULL_DR)
+            _is_sell = bool(_e['sents'] & _BEAR_DR)
+            if not _is_buy and not _is_sell:
+                continue
+            _ncalls += 1
+            _cp = _e['price']
+            _end = _mdates[_i + 1] if _i + 1 < len(_mdates) else _last
+            _lo = _bisect.bisect_right(_dates, _dt)
+            _hi = _bisect.bisect_right(_dates, _end)
+            for _d in _dates[_lo:_hi]:
+                _total += 1
+                if _is_buy and _daily[_d] > _cp:
+                    _right += 1
+                elif _is_sell and _daily[_d] < _cp:
+                    _right += 1
+        if _total >= 20 and _ncalls >= 3:
+            _meta = _ticker_meta.get(_t, {})
+            _top_dr.append({
+                'ticker':          _t,
+                'company':         _meta['company'],
+                'sector':          _meta['sector'],
+                'pct_right_daily': round(_right / _total * 100, 1),
+                'n_right_days':    _total,
+                'n_calls':         _ncalls,
+            })
+    _top_dr.sort(key=lambda r: r['pct_right_daily'], reverse=True)
+    top_days_right = _top_dr[:12]
 
     conn.close()
 
@@ -685,10 +976,12 @@ def build_analytics_json(out_path: str) -> None:
         "sentiment_perf":    sentiment_perf,
         "segment_perf":      segment_perf,
         "mktcap_perf":       mktcap_perf,
-        "sector_perf":       sector_perf,
+        "sector_by_type":    sector_by_type,
+        "segment_by_type":   segment_by_type,
         "latest_calls":      latest_calls,
-        "top_winners":       top_winners,
-        "top_losers":        top_losers,
+        "buy_call_pool":     buy_call_pool,
+        "sell_call_pool":    sell_call_pool,
+        "top_days_right":    top_days_right,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))

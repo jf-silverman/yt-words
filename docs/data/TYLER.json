@@ -1,1 +1,1 @@
-{"company": "Tyler Technologies", "mentions": [], "sector": "", "style": "", "industry": "", "pe_ratio": null, "market_cap": null, "market_cap_category": ""}
+{"company": "Tyler Technologies", "mentions": [{"date": "2026-02-02", "sentiment": "caution_concern", "segment": "in_depth_analysis", "note": "Down 19% in January; software for public sector; multiple compressed from 54x to 29x; textbook multiple compression example.", "closing_price": null}], "sector": "", "style": "", "industry": "", "pe_ratio": null, "market_cap": null, "market_cap_category": ""}
