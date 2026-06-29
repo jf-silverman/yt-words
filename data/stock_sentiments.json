@@ -3279,6 +3279,13 @@
           "segment": "opening_commentary",
           "note": "Rallied 3% despite market chaos; quintessential defensive stock under new CEO RK Brun continuing growth strategy. Continue to buy on S&P weakness.",
           "closing_price": 83.59
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "in_depth_analysis",
+          "note": "Used as a PE valuation example \u2014 Coke's ~$55 share price is irrelevant; what matters is it trades at ~19\u00d7 earnings; cited to illustrate that nominal share price carries no valuation meaning without the PE multiple context.",
+          "closing_price": 80.42
         }
       ],
       "sector": "Consumer Defensive",
@@ -5225,6 +5232,13 @@
           "segment": "interview",
           "note": "Key Nvidia customer deploying Vera Rubin architecture and flagship partner in Intel's foundry strategy under Lip-Bu Tan's 'work with winners' framework; Nvidia also funnels customers to Google Cloud.",
           "closing_price": 337.39
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "in_depth_analysis",
+          "note": "Historical PEG ratio teaching example: with a 30% long-term growth rate, Google became a sell approaching 60\u00d7 earnings (PEG of 2, the growth ceiling); used as an educational illustration of GARP principles, not a current pick.",
+          "closing_price": 343.71
         }
       ],
       "sector": "Communication Services",
@@ -7155,6 +7169,13 @@
           "segment": "opening_commentary",
           "note": "While Cramer likes Microsoft, he emphasizes the stock is far less attractive at $350 than at $250\u2014valuation matters; higher prices make even great companies less desirable on risk-reward.",
           "closing_price": 399.76
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "in_depth_analysis",
+          "note": "Cited as an example of near-monopoly gross margin power \u2014 described as having 'obese' margins; used to illustrate how competitive positioning translates into superior profitability metrics, not a current recommendation.",
+          "closing_price": 352.83
         }
       ],
       "sector": "Technology",
@@ -9192,6 +9213,13 @@
           "segment": "closing_commentary",
           "note": "Core defensive holding in the charitable trust providing cushion during today's tech meltdown. Acts as a 'permit' enabling safe ownership of riskier growth plays. Doesn't boom but doesn't crash either.",
           "closing_price": 146.54
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited as the archetypal secular growth consumer staple \u2014 consistent earnings regardless of economic conditions; used as a teaching example, not a current pick.",
+          "closing_price": 148.5
         }
       ],
       "sector": "Consumer Defensive",
@@ -10420,6 +10448,13 @@
           "segment": "interview",
           "note": "Co-innovation lab with Nvidia applies AI to digital biology and drug discovery; Jensen Wang highlighted Lilly as the leading AI-in-science partner, with models trained to understand biology rather than just language.",
           "closing_price": 1208.12
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited as a classic secular pharma name; Cramer notes GLP-1 drugs (central to LLY's portfolio) introduce a new secular risk that could disrupt traditional consumer demand for food and drugs \u2014 used as a teaching example, not a current pick.",
+          "closing_price": 1127.69
         }
       ],
       "sector": "Healthcare",
@@ -12736,6 +12771,13 @@
           "segment": "opening_commentary",
           "note": "Watching cancer portfolio results Monday evening following ASCO conference; J&J challenging leadership, awaiting clarity on competitive position and outlook.",
           "closing_price": 118.72
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited alongside Pfizer and Eli Lilly as a classic secular growth drug stock; used as an educational example, not a current recommendation.",
+          "closing_price": 125.45
         }
       ],
       "sector": "Healthcare",
@@ -17660,6 +17702,13 @@
           "segment": "opening_commentary",
           "note": "Gave up post-earnings gains like classic 1999 market; stuck sideways until sentiment shifts favorably.",
           "closing_price": 149.41
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "in_depth_analysis",
+          "note": "Used as a PE comparison to Coke \u2014 Pepsi at ~$165 trades at 20\u00d7+ earnings, making it 'more expensive' on a relative basis despite the lower nominal price; purely illustrative, not a current pick.",
+          "closing_price": 139.52
         }
       ],
       "sector": "Consumer Defensive",
@@ -17731,6 +17780,13 @@
           "segment": "opening_commentary",
           "note": "Most reliable stock now sporting 7.2% yield; unsustainable dividend yield signals market skepticism of sustainability.",
           "closing_price": 33.8
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited as a secular growth food company with recession-proof demand; used as an illustrative example in a fundamentals episode.",
+          "closing_price": 35.4
         }
       ],
       "sector": "Consumer Defensive",
@@ -17861,6 +17917,13 @@
           "segment": "opening_commentary",
           "note": "No earnings momentum; only value proposition is dividend at 6.66% yield; prefer bonds for yield exposure.",
           "closing_price": 25.81
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited as a classic secular growth pharmaceutical stock; Cramer adds a caveat that GLP-1 drug proliferation may ultimately disrupt the secular stability of drug and food demand patterns.",
+          "closing_price": 23.67
         }
       ],
       "sector": "Healthcare",
@@ -21905,6 +21968,13 @@
           "segment": "interview",
           "note": "Up 65% YTD; Strait of Hormuz closure driving record petrochemical margins (10\u00a2/lb March, 20\u201330\u00a2 April, more May); logistics disruption extends through 2026\u201327. Q2 guidance $12B revenue, $2B EBITDA, trajectory to ~$6B year.",
           "closing_price": 38.53
+        },
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited as a cyclical commodity chemical maker whose earnings are hostage to the economic cycle; used as an illustrative example in a fundamentals episode, not a current recommendation.",
+          "closing_price": 29.31
         }
       ],
       "sector": "Basic Materials",
@@ -37836,6 +37906,18 @@
       "pe_ratio": null,
       "market_cap": 432880480,
       "market_cap_category": "small"
+    },
+    "BHP": {
+      "company": "BHP Group",
+      "mentions": [
+        {
+          "date": "2026-06-25",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited as the archetypal cyclical stock \u2014 copper and iron mining revenues swing with the global economic cycle; used as a teaching example in a fundamentals episode, not a current buy/sell recommendation.",
+          "closing_price": 81.16
+        }
+      ]
     }
   }
 }
