@@ -1186,8 +1186,8 @@ def _sentiment_badge(sentiment: str) -> str:
     color = SENTIMENT_COLORS.get(sentiment, "#8b949e")
     label = sentiment.replace("_", " ").upper()
     return (
-        f'<span style="background:{color};color:#fff;padding:2px 7px;'
-        f'border-radius:3px;font-size:11px;font-weight:bold">{label}</span>'
+        f'<span style="background:{color};color:#fff;padding:3px 8px;'
+        f'border-radius:4px;font-size:12px;font-weight:bold">{label}</span>'
     )
 
 
@@ -1226,26 +1226,28 @@ def build_email_html(summaries: list[dict],
     hl = highlight_tickers if highlight_tickers is not None else USER_HOLDINGS
     parts = ["""
 <html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   body { font-family: -apple-system, Arial, sans-serif; color: #24292f;
-         max-width: 700px; margin: 0 auto; padding: 20px; }
+         max-width: 700px; margin: 0 auto; padding: 20px;
+         font-size: 16px; line-height: 1.5; }
   h2   { color: #0969da; border-bottom: 2px solid #0969da; padding-bottom: 6px; }
-  h3   { margin: 20px 0 4px; }
+  h3   { margin: 24px 0 4px; border-top: 1px solid #d0d7de; padding-top: 12px; }
   h3 a { color: #24292f; text-decoration: none; }
   h3 a:hover { text-decoration: underline; }
   .market-headline { font-size: 15px; font-weight: 600; color: #0969da;
                      margin: 4px 0 6px; }
-  .sec-headline { font-size: 13px; font-weight: 600; color: #24292f;
+  .sec-headline { font-size: 14px; font-weight: 600; color: #24292f;
                   margin: 3px 0 4px; font-style: italic; }
   .sub   { margin-left: 20px; }
-  .summary { color: #57606a; margin: 4px 0 6px; font-size: 14px; }
-  ul.summary { color: #57606a; margin: 4px 0 6px 18px; font-size: 14px; }
+  .summary { color: #57606a; margin: 4px 0 6px; font-size: 15px; }
+  ul.summary { color: #57606a; margin: 4px 0 6px 18px; font-size: 15px; }
   ul.summary li { margin-bottom: 3px; }
   .sec-tickers { margin: 0 0 14px; font-size: 12px; }
-  .tlink { font-family: monospace; font-weight: bold; font-size: 11px;
+  .tlink { font-family: monospace; font-weight: bold; font-size: 13px;
            color: #0969da; text-decoration: none; background: #ddf4ff;
-           padding: 2px 5px; border-radius: 3px; margin-right: 4px;
-           white-space: nowrap; }
+           padding: 5px 9px; border-radius: 4px; margin: 0 5px 5px 0;
+           white-space: nowrap; display: inline-block; }
   .tlink:hover { text-decoration: underline; }
   table  { border-collapse: collapse; width: 100%; margin-top: 16px; font-size: 13px; }
   th     { background: #f6f8fa; text-align: left; padding: 6px 10px;
@@ -1255,10 +1257,21 @@ def build_email_html(summaries: list[dict],
   .ticker  { font-weight: bold; font-family: monospace; }
   .holding { background: #fff8c5; }
   .holding .ticker::after { content: " ★"; font-size: 10px; color: #9a6700; }
-  .note    { color: #57606a; font-size: 12px; }
-  .footer { margin-top: 24px; color: #8b949e; font-size: 11px; border-top: 1px solid #d0d7de; padding-top: 8px; }
+  .note    { color: #57606a; font-size: 13px; }
+  .footer { margin-top: 24px; color: #8b949e; font-size: 12px; border-top: 1px solid #d0d7de; padding-top: 8px; }
   .fundamentals-banner { background: #fff8c5; border: 1px solid #d4a017; border-radius: 6px;
     padding: 10px 14px; margin: 8px 0 14px; font-size: 13px; color: #633c01; }
+  @media (max-width: 600px) {
+    body   { padding: 12px; }
+    h2     { font-size: 20px; }
+    .summary, ul.summary { font-size: 16px; line-height: 1.6; }
+    ul.summary li { margin-bottom: 6px; }
+    .sec-headline { font-size: 15px; }
+    .sub   { margin-left: 0; }
+    table  { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 12px; }
+    th, td { padding: 4px 6px; }
+    .tlink { font-size: 13px; padding: 5px 9px; }
+  }
 </style></head><body>
 """]
 
