@@ -221,6 +221,10 @@
           <input type="checkbox" id="dailyHistory" onchange="toggleDailyHistory(this.checked)" checked>
           <label for="dailyHistory">Show daily price history</label>
         </span>
+        <span>
+          <input type="checkbox" id="chartGuide" onchange="document.getElementById('chart-guide-pane').style.display=this.checked?'block':'none'">
+          <label for="chartGuide">Chart guide</label>
+        </span>
         <span style="display:flex;align-items:center;gap:6px">
           <span style="font-size:12px;color:#57606a;font-weight:600">Min episodes w/ a mention:</span>
           <button class="filter-btn active" id="min1" onclick="setMinMentions(1,this)">Any</button>
@@ -230,6 +234,14 @@
         </span>
       </div>
       <div class="status" id="status"></div>
+    </div>
+    <div id="chart-guide-pane" style="display:none;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#24292f;line-height:1.6">
+      <strong>Reading the chart</strong>
+      <p style="margin:8px 0 6px">Each point on the blue line is the closing price on an episode date — the day Cramer made that call. Points are shaped and colored by sentiment: <span style="color:#2da44e">▲ bullish</span> (Strong Buy, Buy, Mild Buy, Buy on Pullback), <span style="color:#8b949e">● neutral</span> (Wait / Hold), and <span style="color:#d03030">▼ bearish</span> (Caution/Concern, Sell/Avoid). Hovering a point shows the date, price, sentiment, and Cramer's note.</p>
+      <p style="margin:0 0 6px">The <span style="color:rgba(130,80,223,0.9)">■ light purple bars</span> are the full daily closing price history, giving context between episode dates. Use the <em>From / 30d / 90d / To now</em> controls to zoom into a specific window.</p>
+      <strong>% Days Right vs. % Right (Analytics tab)</strong>
+      <p style="margin:8px 0 6px"><strong>% Days Right</strong> (shown in the card header) measures how consistently the stock moved in the direction Cramer predicted — day by day. For each call, every trading day between that call and the next is checked: was the closing price above the call-day price (for buy calls) or below it (for sell calls)? The percentage is the share of those days where the answer is yes, across all directional calls for this ticker.</p>
+      <p style="margin:0"><strong>% Right in the Analytics tab</strong> is a different calculation: it asks whether the stock was higher (for buy calls) or lower (for sell calls) at a fixed point in time — exactly 30 or 90 calendar days after the call. It's a single snapshot per call, not a daily tally. A call can score 100% in Analytics if the stock closes higher on day 30, even if it spent most of the intervening period below the call price.</p>
     </div>
     <div id="results"></div>
   </div>
@@ -666,7 +678,7 @@ function renderCard(ticker, entry) {
         ${chartEligible && entry.pct_right_daily != null ? (() => {
           const pct = entry.pct_right_daily;
           const col = pct >= 50 ? '#1a7f37' : '#d03030';
-          return `<div style="font-size:12px;color:#57606a">% Right: <strong style="color:${col}">${pct}%</strong><span style="color:#8b949e;font-size:10px"> · ${entry.n_right_days}d</span></div>`;
+          return `<div style="font-size:12px;color:#57606a">% Days Right: <strong style="color:${col}">${pct}%</strong><span style="color:#8b949e;font-size:10px"> · ${entry.n_right_days}d</span></div>`;
         })() : ''}
       </div>
     </div>
