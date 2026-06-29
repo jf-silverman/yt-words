@@ -1337,6 +1337,7 @@ function renderAnalytics(d) {
           <option value="worst_buy">Worst "Buy" Calls — buy-type where stock went down</option>
           <option value="best_avoid">Best "Sell" Calls — cautious/sell where stock went down</option>
           <option value="worst_avoid">Worst "Sell" Calls — cautious/sell where stock went up</option>
+          <option value="top_days_right">Top 12 — % Days Right (daily direction accuracy)</option>
         </select>
         <select id="call-sector-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:160px">
           <option value="">All Sectors</option>
@@ -1462,7 +1463,43 @@ function renderAnalytics(d) {
 
   const PERIOD_LABEL = { since: 'Return Since', '7d': 'Return 7d', '30d': 'Return 30d', '90d': 'Return 90d' };
 
+  const CALLS_THEAD_DEFAULT = `<tr>
+    <th>Ticker</th><th>Company</th><th>Date</th><th>Sentiment</th>
+    <th>Sector</th><th id="calls-return-header" style="text-align:right">Return Since</th>
+  </tr>`;
+  const CALLS_THEAD_DR = `<tr>
+    <th>Ticker</th><th>Company</th>
+    <th style="text-align:right">% Days Right</th>
+    <th style="text-align:right">Days</th>
+    <th style="text-align:right">Calls</th>
+    <th>Sector</th>
+  </tr>`;
+
   function renderCallsTable() {
+    const thead = document.querySelector('#table-calls thead');
+
+    if (callTypeEl.value === 'top_days_right') {
+      callSectorEl.style.display = 'none';
+      callPeriodEl.style.display = 'none';
+      thead.innerHTML = CALLS_THEAD_DR;
+      callsBody.innerHTML = (d.top_days_right || []).map(r => {
+        const col = r.pct_right_daily >= 50 ? '#1a7f37' : '#d03030';
+        return `<tr onclick="handleTickerClick('${r.ticker}')" style="cursor:pointer">
+          <td><span class="ticker-link">${r.ticker}</span></td>
+          <td>${r.company || '—'}</td>
+          <td style="text-align:right;font-weight:700;color:${col}">${r.pct_right_daily}%</td>
+          <td style="text-align:right;color:#57606a">${r.n_right_days}</td>
+          <td style="text-align:right;color:#57606a">${r.n_calls}</td>
+          <td style="color:#57606a">${sectorLabel(r.sector) || '—'}</td>
+        </tr>`;
+      }).join('');
+      return;
+    }
+
+    callSectorEl.style.display = '';
+    callPeriodEl.style.display = '';
+    thead.innerHTML = CALLS_THEAD_DEFAULT;
+
     const cfg    = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
     const sector = callSectorEl.value;
     const period = callPeriodEl.value || 'since';
@@ -1481,10 +1518,12 @@ function renderAnalytics(d) {
     ).slice(0, 12);
 
     callsBody.innerHTML = callRows(sorted, period);
-    callsReturnHeader.textContent = (PERIOD_LABEL[period] || 'Return Since') + (cfg.asc ? ' ▲' : ' ▼');
+    const retHdr = document.getElementById('calls-return-header');
+    if (retHdr) retHdr.textContent = (PERIOD_LABEL[period] || 'Return Since') + (cfg.asc ? ' ▲' : ' ▼');
   }
 
   function populateSectorDropdown() {
+    if (callTypeEl.value === 'top_days_right') return;
     const cfg = CALL_CFG[callTypeEl.value] || CALL_CFG.best_buy;
     const sectors = [...new Set(cfg.pool.map(r => r.sector).filter(Boolean))].sort();
     callSectorEl.innerHTML = '<option value="">All Sectors</option>'

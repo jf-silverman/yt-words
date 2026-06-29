@@ -904,6 +904,71 @@ def build_analytics_json(out_path: str) -> None:
     """)
     sell_call_pool = [dict(r) for r in c.fetchall()]
 
+    # ── Top tickers by % Days Right ───────────────────────────────────────────
+    import bisect as _bisect
+    _BULL_DR = {'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback'}
+    _BEAR_DR = {'sell_avoid', 'caution_concern'}
+
+    c.execute("""
+        SELECT ticker, date, sentiment, closing_price
+        FROM mentions WHERE closing_price IS NOT NULL
+        ORDER BY ticker, date
+    """)
+    _dr_m: dict = {}
+    for r in c.fetchall():
+        t, dt, s, cp = r['ticker'], r['date'], r['sentiment'], r['closing_price']
+        _dr_m.setdefault(t, {}).setdefault(dt, {'price': cp, 'sents': set()})
+        _dr_m[t][dt]['sents'].add(s)
+
+    c.execute("SELECT ticker, date, close FROM daily_prices ORDER BY ticker, date")
+    _dr_d: dict = {}
+    for r in c.fetchall():
+        _dr_d.setdefault(r['ticker'], {})[r['date']] = r['close']
+    _dr_dates: dict = {t: sorted(dm.keys()) for t, dm in _dr_d.items()}
+
+    c.execute("SELECT ticker, company, sector FROM stocks")
+    _ticker_meta = {r['ticker']: {'company': r['company'] or '', 'sector': r['sector'] or ''}
+                    for r in c.fetchall()}
+
+    _top_dr = []
+    for _t, _dm in _dr_m.items():
+        _dates = _dr_dates.get(_t, [])
+        _daily = _dr_d.get(_t, {})
+        if not _dates:
+            continue
+        _last = _dates[-1]
+        _mdates = sorted(_dm.keys())
+        _total = _right = _ncalls = 0
+        for _i, _dt in enumerate(_mdates):
+            _e = _dm[_dt]
+            _is_buy  = bool(_e['sents'] & _BULL_DR)
+            _is_sell = bool(_e['sents'] & _BEAR_DR)
+            if not _is_buy and not _is_sell:
+                continue
+            _ncalls += 1
+            _cp = _e['price']
+            _end = _mdates[_i + 1] if _i + 1 < len(_mdates) else _last
+            _lo = _bisect.bisect_right(_dates, _dt)
+            _hi = _bisect.bisect_right(_dates, _end)
+            for _d in _dates[_lo:_hi]:
+                _total += 1
+                if _is_buy and _daily[_d] > _cp:
+                    _right += 1
+                elif _is_sell and _daily[_d] < _cp:
+                    _right += 1
+        if _total >= 20 and _ncalls >= 3:
+            _meta = _ticker_meta.get(_t, {})
+            _top_dr.append({
+                'ticker':          _t,
+                'company':         _meta['company'],
+                'sector':          _meta['sector'],
+                'pct_right_daily': round(_right / _total * 100, 1),
+                'n_right_days':    _total,
+                'n_calls':         _ncalls,
+            })
+    _top_dr.sort(key=lambda r: r['pct_right_daily'], reverse=True)
+    top_days_right = _top_dr[:12]
+
     conn.close()
 
     payload = {
@@ -916,6 +981,7 @@ def build_analytics_json(out_path: str) -> None:
         "latest_calls":      latest_calls,
         "buy_call_pool":     buy_call_pool,
         "sell_call_pool":    sell_call_pool,
+        "top_days_right":    top_days_right,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))
