@@ -35,6 +35,19 @@ python3 code/pipeline.py --backfill-prices --tickers LITE,CRWV
 
 ---
 
+### BUG-005 — Hallucinated ticker variants creating duplicate company entries in Search
+**Discovered:** 2026-06-29  
+**Symptom:** Search tab showed two "Apple" entries (AAPL and APPL), two "Anthropic" entries (ANTH and ANTHROPIC), "Broadcom" appearing as 8 different tickers (AVGO, BRCM, BROADCOM, BRCD, etc.), and similar duplicates across 30+ companies. The wrong-ticker entries had no price history and didn't link to the correct company chart.  
+**Root cause:** Haiku occasionally outputs wrong ticker symbols — typos (APPL→AAPL), spelled-out names (BROADCOM→AVGO, OPENAI→OPAI), or legacy tickers (ARMH→ARM). Each unique ticker gets its own row in `stocks` and its own shard file, so duplicates appear as separate companies on the site. A secondary issue: five tickers (BLK, CDNS, LUMN, BEN, AU) had correct tickers but wrong company names in the `stocks` table (e.g., BLK labeled "Blackstone" — it's BlackRock).  
+**Fix:** Bulk SQL cleanup — `UPDATE mentions SET ticker=CORRECT WHERE ticker=WRONG` for 31 merge operations. Where the correct ticker already had a mention in the same `(episode_id, segment)`, the duplicate was deleted instead. Also updated company names for the 5 misattributed tickers. Removed 46 stale shard files.  
+**Scope:** 27 mentions updated, 44 duplicates deleted, 46 stale shards removed, 5 company names corrected. Net ticker count reduced from ~1,150 to ~1,104.  
+**Going forward:** After any future manual ticker correction, run:
+```bash
+python3 code/pipeline.py --rebuild-shards
+```
+
+---
+
 ## Open
 
 ### BUG-004 — 18 tickers in Cramer's Calls pool have no sector (ETFs, crypto, or wrong symbols)
@@ -69,9 +82,32 @@ python3 code/pipeline.py --backfill-prices --tickers LITE,CRWV
 | RDCT | 2026-05-28 | opening_commentary | "Manufactures tactical drones for US Army; fan favorite with proven execution" — possibly RCAT (Red Cat Holdings) or AVAV | [link](https://youtu.be/G_nPvcsM8LA) |
 | TSCM | 2026-06-08 | lightning_round | "Numbers are bad. Possibly end of COVID-era urban-to-rural trade." — unknown | [link](https://youtu.be/JIu6vZ3sLlQ) |
 
-**To fix Category B:** Listen to the linked episodes, identify the real ticker, then:
+**To fix Category B:** Listen to the linked episodes at the timestamps in the segments, identify the real ticker, then:
 ```bash
 # In SQLite: UPDATE mentions SET ticker='CORRECT' WHERE ticker='WRONG' AND date='YYYY-MM-DD';
 python3 code/pipeline.py --backfill-prices --tickers CORRECT
 python3 code/pipeline.py --rebuild-shards
 ```
+
+---
+
+### BUG-006 — 18 mentions stored under ticker `????` (Haiku could not identify ticker)
+**Discovered:** 2026-06-29  
+**Symptom:** 18 mentions exist in the DB with ticker `????` — Haiku's placeholder when it heard a company name but couldn't identify the ticker symbol. These appear in the Search tab as a single entry labeled with whichever company name was last stored for that ticker.  
+**Root cause:** When Haiku cannot map a spoken company name to a ticker, it outputs `????`. Each episode with an unidentifiable company adds another row under the same `????` ticker, making the entry a mix of unrelated companies.  
+**Affected dates/notes (sampling):**
+- 2026-01-05: "40M US users, 30% YoY merchant growth, expanding to UK" (fintech)
+- 2026-01-05: "Developing targeted cancer therapies" (biotech)  
+- 2026-01-12: "semiconductor play but ticker uncertain from transcript"
+- 2026-02-04: "Crypto derivative speculation; avoid"
+- 2026-03-24: "Private AI/data platform displacing legacy software"
+- (13 more entries across various episodes)
+
+**Status:** Open — each `????` mention requires manually listening to the episode to identify the correct company and ticker. Once identified, fix with:
+```bash
+# In SQLite:
+UPDATE mentions SET ticker='CORRECT' WHERE ticker='????' AND date='YYYY-MM-DD' AND segment='SEGMENT';
+python3 code/pipeline.py --backfill-prices --tickers CORRECT
+python3 code/pipeline.py --rebuild-shards
+```
+Note: this is a different issue from BUG-004 Category B, which has known wrong tickers. Here the ticker is completely unknown.
