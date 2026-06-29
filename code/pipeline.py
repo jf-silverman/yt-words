@@ -1211,6 +1211,8 @@ def build_email_html(summaries: list[dict],
   .holding .ticker::after { content: " ★"; font-size: 10px; color: #9a6700; }
   .note    { color: #57606a; font-size: 12px; }
   .footer { margin-top: 24px; color: #8b949e; font-size: 11px; border-top: 1px solid #d0d7de; padding-top: 8px; }
+  .fundamentals-banner { background: #fff8c5; border: 1px solid #d4a017; border-radius: 6px;
+    padding: 10px 14px; margin: 8px 0 14px; font-size: 13px; color: #633c01; }
 </style></head><body>
 """]
 
@@ -1224,6 +1226,14 @@ def build_email_html(summaries: list[dict],
         date_label = dt.strftime("%A, %B %-d, %Y")
 
         parts.append(f'<h2>Mad Money &mdash; {date_label}</h2>')
+        if analysis.get("episode_type") == "fundamentals":
+            parts.append(
+                '<div class="fundamentals-banner">'
+                '<strong>📚 Cramer\'s Investing Fundamentals</strong> &mdash; '
+                'This episode covers timeless investment principles rather than current market calls. '
+                'Fewer stock picks; content can be re-aired at any time.'
+                '</div>'
+            )
         if analysis.get("market_headline"):
             parts.append(f'<p class="market-headline">{analysis["market_headline"]}</p>')
         market_bullets = analysis.get("market_bullets")

@@ -100,14 +100,34 @@ Include them in the `stocks` array with the correct sentiment and note as usual.
 
 ---
 
+## Fundamentals Episodes
+
+Some Mad Money episodes are "Cramer's Investing Fundamentals" — evergreen content covering
+Cramer's investment philosophy, rules, and principles rather than current market events.
+These can be re-aired at any time and typically have few or no actionable stock picks.
+
+Recognize a fundamentals episode when **all** of the following are true:
+- The content is about timeless investing rules, principles, or methodology (e.g. "10
+  commandments of investing", "how to do stock homework", "when to sell", "position sizing",
+  "why you should never speculate", "how to build a diversified portfolio")
+- It is **not** tied to current market conditions, earnings, or breaking news
+- Cramer references stocks only as historical examples, not as current buy/sell recommendations
+- There is no Lightning Round and typically no CEO interview
+
+When you identify a fundamentals episode, add `"episode_type": "fundamentals"` to the
+top-level JSON. **Omit the field entirely** for standard episodes — do not include it as null.
+
+---
+
 ## Required Output Format
 
 Return exactly this JSON structure. Omit optional fields (`price_target`, `price_level`,
-`ticker_note`) when not applicable — do not include them as null.
+`ticker_note`, `episode_type`) when not applicable — do not include them as null.
 
 ```
 {
   "episode_date": "YYYY-MM-DD",
+  "episode_type": "fundamentals",
   "market_headline": "Summary: <one sharp sentence — Cramer's top actionable takeaway for the day, under 20 words>",
   "market_bullets": [
     "<bullet 1: macro environment or top theme>",
