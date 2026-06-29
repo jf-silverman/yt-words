@@ -1,0 +1,1 @@
+I'm a big fan of Jim Cramer and his show Mad Money, even though I'm not rich. Listening to his show gave me the confidence to invest in stocks and I've made some money over the years.  I'd say most of what I know about stocks is stuff I learn from his show.  
