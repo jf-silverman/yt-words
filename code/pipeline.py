@@ -496,7 +496,9 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
 
     # Ensure episode row exists in DB (video_id may be filled in later by main loop)
     if video_id:
-        episode_id = upsert_episode(date=episode_date, video_id=video_id)
+        is_fund = 1 if analysis.get("episode_type") == "fundamentals" else 0
+        episode_id = upsert_episode(date=episode_date, video_id=video_id,
+                                    is_fundamentals=is_fund)
     else:
         episode_id = None
 
@@ -809,8 +811,11 @@ def _sync_mentions_from_db(stocks: dict) -> None:
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("""
-        SELECT ticker, date, sentiment, segment, note, closing_price
-        FROM mentions ORDER BY ticker, date
+        SELECT m.ticker, m.date, m.sentiment, m.segment, m.note, m.closing_price
+        FROM mentions m
+        JOIN episodes e ON e.id = m.episode_id
+        WHERE e.is_fundamentals = 0
+        ORDER BY m.ticker, m.date
     """)
     rows = cur.fetchall()
     conn.close()
@@ -1524,6 +1529,9 @@ def main() -> None:
                         help="Fetch/refresh daily price history files for all active tickers in docs/data/")
     parser.add_argument("--fetch-sectors", action="store_true",
                         help="Batch-fetch sector/style from Yahoo Finance for all tickers and rebuild shards")
+    parser.add_argument("--mark-fundamentals", metavar="DATE[,DATE,...]",
+                        help="Mark one or more episode dates as fundamentals (comma-separated YYYY-MM-DD). "
+                             "Their mentions will be excluded from shards and analytics after --rebuild-shards.")
     args = parser.parse_args()
 
     age = _cookie_age_days()
@@ -1552,6 +1560,26 @@ def main() -> None:
     if args.backfill_prices:
         tickers = [t.strip() for t in args.tickers.split(",")] if args.tickers else None
         backfill_prices(tickers=tickers)
+        return
+
+    if args.mark_fundamentals:
+        dates = [d.strip() for d in args.mark_fundamentals.split(",")]
+        from db import get_connection as _get_conn
+        conn = _get_conn()
+        updated = 0
+        for date in dates:
+            result = conn.execute(
+                "UPDATE episodes SET is_fundamentals=1 WHERE date=?", (date,)
+            )
+            if result.rowcount:
+                print(f"  Marked {date} as fundamentals.")
+                updated += 1
+            else:
+                print(f"  WARNING: no episode found for {date} — skipping.")
+        conn.commit()
+        conn.close()
+        if updated:
+            print(f"\n{updated} episode(s) marked. Run --rebuild-shards to update the site.")
         return
 
     episodes = discover_new_episodes(args.max_episodes)

@@ -71,6 +71,13 @@ def init_db():
         except sqlite3.OperationalError:
             pass  # column already exists
 
+    # Fundamentals flag — evergreen/philosophy episodes whose stock mentions should
+    # be excluded from analytics and shards (they're examples, not current calls)
+    try:
+        c.execute("ALTER TABLE episodes ADD COLUMN is_fundamentals INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass  # column already exists
+
     c.execute("""
         CREATE TABLE IF NOT EXISTS mentions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -154,7 +161,9 @@ def _create_views(c):
                 s.market_cap_category
             FROM mentions m
             JOIN stocks s ON s.ticker = m.ticker
-            WHERE m.closing_price IS NOT NULL AND m.closing_price > 0
+            JOIN episodes ep ON ep.id = m.episode_id
+            WHERE ep.is_fundamentals = 0
+              AND m.closing_price IS NOT NULL AND m.closing_price > 0
         )
         SELECT
             b.*,
@@ -424,22 +433,24 @@ def migrate_from_json(stock_sentiments_path, processed_episodes_path, daily_pric
 # Write helpers — called by pipeline.py during normal processing
 
 def upsert_episode(date: str, video_id: str, transcript_text: str = None,
-                   summary_html: str = None, overcast_episode_id: str = None) -> int:
+                   summary_html: str = None, overcast_episode_id: str = None,
+                   is_fundamentals: int = 0) -> int:
     """Insert or update an episode row. Returns the episode id."""
     now = datetime.utcnow().isoformat()
     conn = get_connection()
     c = conn.cursor()
     c.execute("""
         INSERT INTO episodes (date, video_id, transcript_text, summary_html,
-                              overcast_episode_id, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+                              overcast_episode_id, is_fundamentals, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(date) DO UPDATE SET
             video_id           = excluded.video_id,
             transcript_text    = COALESCE(excluded.transcript_text, transcript_text),
             summary_html       = COALESCE(excluded.summary_html, summary_html),
             overcast_episode_id= COALESCE(excluded.overcast_episode_id, overcast_episode_id),
+            is_fundamentals    = MAX(excluded.is_fundamentals, is_fundamentals),
             updated_at         = excluded.updated_at
-    """, (date, video_id, transcript_text, summary_html, overcast_episode_id, now, now))
+    """, (date, video_id, transcript_text, summary_html, overcast_episode_id, is_fundamentals, now, now))
     c.execute("SELECT id FROM episodes WHERE date = ?", (date,))
     episode_id = c.fetchone()[0]
     conn.commit()
@@ -910,9 +921,11 @@ def build_analytics_json(out_path: str) -> None:
     _BEAR_DR = {'sell_avoid', 'caution_concern'}
 
     c.execute("""
-        SELECT ticker, date, sentiment, closing_price
-        FROM mentions WHERE closing_price IS NOT NULL
-        ORDER BY ticker, date
+        SELECT m.ticker, m.date, m.sentiment, m.closing_price
+        FROM mentions m
+        JOIN episodes e ON e.id = m.episode_id
+        WHERE m.closing_price IS NOT NULL AND e.is_fundamentals = 0
+        ORDER BY m.ticker, m.date
     """)
     _dr_m: dict = {}
     for r in c.fetchall():
