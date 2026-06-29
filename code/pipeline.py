@@ -341,6 +341,33 @@ def analyze_with_haiku(date_str: str, transcript_text: str) -> dict:
     return json.loads(raw)
 
 
+def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
+    """Analyze using the claude CLI (Claude Code subscription — no API credits)."""
+    import subprocess, os
+
+    user_message = f"Episode date: {date_str}\n\nTranscript:\n{transcript_text}"
+    system_prompt = RULES_FILE.read_text()
+
+    # ANTHROPIC_API_KEY forces the CLI onto the API path rather than the
+    # claude.ai subscription login, causing "connectors disabled" errors.
+    env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
+
+    result = subprocess.run(
+        ["claude", "-p", "--system-prompt", system_prompt],
+        input=user_message,
+        capture_output=True, text=True, env=env, timeout=300,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(f"claude CLI failed (rc={result.returncode}):\n{result.stderr}")
+
+    raw = result.stdout.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+
+    return json.loads(raw)
+
+
 # ── 4. Sentiment JSON update ───────────────────────────────────────────────────
 
 def fetch_closing_price(ticker: str, date_str: str) -> float | None:
@@ -1494,6 +1521,9 @@ def main() -> None:
                         help="Fetch/refresh daily price history files for all active tickers in docs/data/")
     parser.add_argument("--fetch-sectors", action="store_true",
                         help="Batch-fetch sector/style from Yahoo Finance for all tickers and rebuild shards")
+    parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
+                        help="Analysis backend: 'api' uses Haiku API (default); "
+                             "'claude-code' shells out to the claude CLI (uses Claude Code subscription)")
     args = parser.parse_args()
 
     age = _cookie_age_days()
@@ -1546,8 +1576,12 @@ def main() -> None:
         )
         print(f"  Date: {date_str}  Lines: {len(snippets)}")
 
-        print("  Analyzing with Claude Haiku...")
-        analysis = analyze_with_haiku(date_str, transcript_text)
+        if args.backend == "claude-code":
+            print("  Analyzing with claude CLI (Claude Code subscription)...")
+            analysis = analyze_with_claude_code(date_str, transcript_text)
+        else:
+            print("  Analyzing with Claude Haiku...")
+            analysis = analyze_with_haiku(date_str, transcript_text)
         n_stocks = len(analysis.get("stocks", []))
         n_sections = len(analysis.get("sections", []))
         print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
