@@ -91,6 +91,11 @@
       height: 230px; padding: 14px 18px 10px;
       border-bottom: 1px solid #eaeef2;
     }
+    .czoom-bar { display:flex; align-items:center; gap:6px; padding:4px 18px 6px; font-size:11px; color:#57606a; }
+    .czoom-bar input[type=month] { font-size:11px; padding:2px 4px; border:1px solid #d0d7de; border-radius:4px; color:#24292f; }
+    .czoom-btn { font-size:11px; padding:2px 9px; border:1px solid #d0d7de; border-radius:4px; background:#f6f8fa; color:#24292f; cursor:pointer; }
+    .czoom-btn:hover { background:#eaeef2; }
+    .czoom-btn.czoom-active { background:#0969da; color:#fff; border-color:#0969da; }
 
     /* Table */
     .table-wrap { overflow-x: auto; }
@@ -528,7 +533,44 @@ function renderChart(ticker, entry) {
     }
   }, 0);
 
-  return `<div style="text-align:right;font-size:11px;color:#57606a;margin-bottom:2px"><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish &nbsp; <span style="display:inline-block;width:10px;height:10px;background:rgba(130,80,223,0.35);border:1px solid rgba(130,80,223,0.5);border-radius:2px;vertical-align:middle"></span> Daily price</div><div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+  return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#57606a;margin-bottom:2px;padding:0 18px">
+    <div class="czoom-bar" style="padding:0" data-czoom="${ticker}">
+      <span>From:</span>
+      <input type="month" id="czs-${ticker}" oninput="setChartZoom('${ticker}')">
+      <button class="czoom-btn" data-dur="30d" onclick="setChartZoom('${ticker}',this)">30d</button>
+      <button class="czoom-btn" data-dur="90d" onclick="setChartZoom('${ticker}',this)">90d</button>
+      <button class="czoom-btn czoom-active" data-dur="all" onclick="setChartZoom('${ticker}',this)">To now</button>
+    </div>
+    <div><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish &nbsp; <span style="display:inline-block;width:10px;height:10px;background:rgba(130,80,223,0.35);border:1px solid rgba(130,80,223,0.5);border-radius:2px;vertical-align:middle"></span> Daily price</div>
+  </div><div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+}
+
+function setChartZoom(ticker, durEl) {
+  const chart = chartInstances.get(ticker);
+  if (!chart) return;
+  if (durEl) {
+    durEl.closest('[data-czoom]')?.querySelectorAll('.czoom-btn').forEach(b => b.classList.remove('czoom-active'));
+    durEl.classList.add('czoom-active');
+  }
+  const startVal = document.getElementById(`czs-${ticker}`)?.value; // "YYYY-MM" or ""
+  const dur = document.querySelector(`[data-czoom="${ticker}"] .czoom-active`)?.dataset.dur;
+  if (!startVal) {
+    chart.options.scales.x.min = undefined;
+    chart.options.scales.x.max = undefined;
+  } else {
+    const minDate = new Date(startVal + '-01T12:00:00');
+    chart.options.scales.x.min = minDate.toISOString().slice(0, 10);
+    if (dur === '30d') {
+      const max = new Date(minDate); max.setDate(max.getDate() + 30);
+      chart.options.scales.x.max = max.toISOString().slice(0, 10);
+    } else if (dur === '90d') {
+      const max = new Date(minDate); max.setDate(max.getDate() + 90);
+      chart.options.scales.x.max = max.toISOString().slice(0, 10);
+    } else {
+      chart.options.scales.x.max = undefined;
+    }
+  }
+  chart.update();
 }
 
 async function fetchDailyHistory(ticker) {
