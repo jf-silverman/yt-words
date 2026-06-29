@@ -653,7 +653,7 @@ async function loadIndex() {
     const resp = await fetch(INDEX_URL);
     index = await resp.json();
     document.getElementById('status').textContent =
-      `${Object.keys(index).length} tickers indexed. Start typing to search.`;
+      `${Object.keys(index).length} tickers indexed. Start typing to search.  ·  Only stocks with 3+ mentions have charts.`;
   } catch {
     document.getElementById('status').textContent = 'Failed to load index. Try refreshing.';
   }
@@ -695,7 +695,7 @@ async function search() {
   if (!query) {
     resultsEl.innerHTML = '';
     statusEl.textContent =
-      `${Object.keys(index).length} tickers indexed. Start typing to search.`;
+      `${Object.keys(index).length} tickers indexed. Start typing to search.  ·  Only stocks with 3+ mentions have charts.`;
     return;
   }
 
