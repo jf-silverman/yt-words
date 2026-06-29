@@ -213,7 +213,7 @@
           <label for="nameMode">Search by Name</label>
         </span>
         <span>
-          <input type="checkbox" id="dailyHistory" onchange="toggleDailyHistory(this.checked)">
+          <input type="checkbox" id="dailyHistory" onchange="toggleDailyHistory(this.checked)" checked>
           <label for="dailyHistory">Show daily price history</label>
         </span>
         <span style="display:flex;align-items:center;gap:6px">
@@ -528,7 +528,7 @@ function renderChart(ticker, entry) {
     }
   }, 0);
 
-  return `<div style="text-align:right;font-size:11px;color:#57606a;margin-bottom:2px"><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish</div><div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
+  return `<div style="text-align:right;font-size:11px;color:#57606a;margin-bottom:2px"><span style="color:#2da44e">▲</span> Bullish &nbsp; <span style="color:#8b949e">●</span> Neutral &nbsp; <span style="color:#d03030">▼</span> Bearish &nbsp; <span style="display:inline-block;width:10px;height:10px;background:rgba(130,80,223,0.35);border:1px solid rgba(130,80,223,0.5);border-radius:2px;vertical-align:middle"></span> Daily price</div><div class="chart-wrap"><canvas id="${canvasId}"></canvas></div>`;
 }
 
 async function fetchDailyHistory(ticker) {
