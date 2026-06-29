@@ -227,7 +227,6 @@
           <button class="filter-btn active" id="min1" onclick="setMinMentions(1,this)">Any</button>
           <button class="filter-btn" id="min3" onclick="setMinMentions(3,this)">3+</button>
           <button class="filter-btn" id="min5" onclick="setMinMentions(5,this)">5+</button>
-          <button class="filter-btn" id="min10" onclick="setMinMentions(10,this)">10+</button>
         </span>
       </div>
       <div class="status" id="status"></div>
@@ -261,7 +260,7 @@
     <div class="filter-bar">
       <span class="filter-label">Min mentions:</span>
       <button class="filter-btn active" id="rm1" onclick="setRecentFilter('minMentions',1,this)">Any</button>
-      <button class="filter-btn" id="rm2" onclick="setRecentFilter('minMentions',2,this)">2+</button>
+      <button class="filter-btn" id="rm3" onclick="setRecentFilter('minMentions',3,this)">3+</button>
       <button class="filter-btn" id="rm5" onclick="setRecentFilter('minMentions',5,this)">5+</button>
     </div>
     <div class="filter-bar" id="sector-filter-bar" style="display:none"></div>
@@ -820,7 +819,7 @@ let recentFilter = { days: 30, sentiment: 'all', minMentions: 1, style: 'all', s
 const recentFilterGroups = {
   days:        ['r7','r30','r90'],
   sentiment:   ['rAll','rBull','rNeut','rBear'],
-  minMentions: ['rm1','rm2','rm5'],
+  minMentions: ['rm1','rm3','rm5'],
   style:       ['rstAll','rstGrowth','rstBlend','rstValue'],
 };
 
@@ -842,7 +841,7 @@ function updateRecentFilterStatus() {
 
 function clearRecentFilters() {
   recentFilter = { ...RECENT_FILTER_DEFAULTS, sectors: new Set(), segments: new Set() };
-  [['r7','r30','r90'], ['rAll','rBull','rNeut','rBear'], ['rm1','rm2','rm5'],
+  [['r7','r30','r90'], ['rAll','rBull','rNeut','rBear'], ['rm1','rm3','rm5'],
    ['rstAll','rstGrowth','rstBlend','rstValue']
   ].forEach(ids => ids.forEach(id => document.getElementById(id)?.classList.remove('active')));
   document.getElementById('r30')?.classList.add('active');
