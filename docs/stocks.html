@@ -452,6 +452,7 @@ function renderChart(ticker, entry) {
           borderWidth: 2,
           tension: 0.1,
           fill: false,
+          order: 1,
           pointStyle: pts.map(p =>
             BULLISH_SET.has(p.sentiment) || BEARISH_SET.has(p.sentiment) ? 'triangle' : 'circle'
           ),
@@ -513,14 +514,14 @@ function renderChart(ticker, entry) {
     if (document.getElementById('dailyHistory')?.checked) {
       fetchDailyHistory(ticker).then(hist => {
         if (!hist) return;
-        chart.data.datasets.push({
+        chart.data.datasets.unshift({
           label: DAILY_DATASET_LABEL,
+          type: 'bar',
           data: hist,
-          borderColor: '#8250df',
-          borderWidth: 1.5,
-          pointRadius: 0,
-          tension: 0.1,
-          fill: false,
+          backgroundColor: 'rgba(130, 80, 223, 0.18)',
+          borderColor: 'rgba(130, 80, 223, 0.35)',
+          borderWidth: 1,
+          order: 2,
         });
         chart.update();
       });
@@ -548,14 +549,14 @@ async function toggleDailyHistory(checked) {
       if (idx !== -1) continue;
       const hist = await fetchDailyHistory(ticker);
       if (!hist) continue;
-      chart.data.datasets.push({
+      chart.data.datasets.unshift({
         label: DAILY_DATASET_LABEL,
+        type: 'bar',
         data: hist,
-        borderColor: '#8250df',
-        borderWidth: 1.5,
-        pointRadius: 0,
-        tension: 0.1,
-        fill: false,
+        backgroundColor: 'rgba(130, 80, 223, 0.18)',
+        borderColor: 'rgba(130, 80, 223, 0.35)',
+        borderWidth: 1,
+        order: 2,
       });
       chart.update();
     }
