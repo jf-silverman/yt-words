@@ -623,6 +623,11 @@ function renderCard(ticker, entry) {
       <div class="card-meta">
         <div id="price-${ticker}">${initialPriceHtml(entry, ticker)}</div>
         <div class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</div>
+        ${entry.pct_right_daily != null ? (() => {
+          const pct = entry.pct_right_daily;
+          const col = pct >= 50 ? '#1a7f37' : '#d03030';
+          return `<div style="font-size:12px;color:#57606a">% Right: <strong style="color:${col}">${pct}%</strong><span style="color:#8b949e;font-size:10px"> · ${entry.n_right_days}d</span></div>`;
+        })() : ''}
       </div>
     </div>
     ${renderChart(ticker, entry)}

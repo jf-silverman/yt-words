@@ -525,13 +525,17 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
 
 def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     """Write docs/data/{TICKER}.json shards and refresh docs/data/index.json."""
+    import bisect
     from db import get_connection
     TICKER_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Batch-fetch each ticker's most recent closing price from the DB so shards
-    # show the latest pipeline-fetched price rather than the mention-date close.
+    _BULLISH = {'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback'}
+    _BEARISH = {'sell_avoid', 'caution_concern'}
+
     conn = get_connection()
     cur = conn.cursor()
+
+    # Latest closing price per ticker
     cur.execute("""
         SELECT ticker, close, date FROM daily_prices
         WHERE (ticker, date) IN (
@@ -540,7 +544,59 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     """)
     latest_prices = {r["ticker"]: {"price": r["close"], "date": r["date"]}
                      for r in cur.fetchall()}
+
+    # Load mentions for pct_right_daily computation
+    cur.execute("""
+        SELECT ticker, date, sentiment, closing_price
+        FROM mentions
+        WHERE closing_price IS NOT NULL
+        ORDER BY ticker, date
+    """)
+    m_by_ticker: dict = {}
+    for r in cur.fetchall():
+        t, dt, s, cp = r["ticker"], r["date"], r["sentiment"], r["closing_price"]
+        m_by_ticker.setdefault(t, {}).setdefault(dt, {"price": cp, "sents": set()})
+        m_by_ticker[t][dt]["sents"].add(s)
+
+    # Load daily prices for all tickers
+    cur.execute("SELECT ticker, date, close FROM daily_prices ORDER BY ticker, date")
+    d_by_ticker: dict = {}
+    for r in cur.fetchall():
+        d_by_ticker.setdefault(r["ticker"], {})[r["date"]] = r["close"]
+    d_sorted: dict = {t: sorted(dm.keys()) for t, dm in d_by_ticker.items()}
+
     conn.close()
+
+    # For each ticker: walk call periods and tally right vs. wrong days
+    pct_right: dict = {}
+    for ticker, date_map in m_by_ticker.items():
+        daily = d_by_ticker.get(ticker, {})
+        dates = d_sorted.get(ticker, [])
+        if not dates:
+            continue
+        last_date = dates[-1]
+        mention_dates = sorted(date_map.keys())
+        total = right = 0
+        for i, dt in enumerate(mention_dates):
+            e = date_map[dt]
+            sents = e["sents"]
+            is_buy  = bool(sents & _BULLISH)
+            is_sell = bool(sents & _BEARISH)
+            if not is_buy and not is_sell:
+                continue
+            call_price = e["price"]
+            end_date = mention_dates[i + 1] if i + 1 < len(mention_dates) else last_date
+            lo = bisect.bisect_right(dates, dt)
+            hi = bisect.bisect_right(dates, end_date)
+            for d in dates[lo:hi]:
+                price = daily[d]
+                total += 1
+                if is_buy and price > call_price:
+                    right += 1
+                elif is_sell and price < call_price:
+                    right += 1
+        if total >= 5:
+            pct_right[ticker] = {"pct": round(right / total * 100, 1), "n": total}
 
     targets = only if only is not None else set(stocks.keys())
     for ticker in targets:
@@ -550,6 +606,10 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
             if lp:
                 shard["price_latest"]      = lp["price"]
                 shard["price_latest_date"] = lp["date"]
+            pr = pct_right.get(ticker)
+            if pr:
+                shard["pct_right_daily"] = pr["pct"]
+                shard["n_right_days"]    = pr["n"]
             (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(shard))
     index = {}
     for t, e in stocks.items():
