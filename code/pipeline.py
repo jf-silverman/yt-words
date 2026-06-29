@@ -865,6 +865,20 @@ def rebuild_ticker_shards() -> None:
     SENTIMENTS_FILE.write_text(json.dumps(db_json, separators=(",", ":")))
 
     _write_ticker_shards(stocks)
+
+    # Delete shard files for tickers no longer in stocks (removed from DB or filtered out)
+    reserved = {"index.json", "recent.json", "analytics.json"}
+    active = set(stocks.keys())
+    removed = 0
+    for p in TICKER_DATA_DIR.glob("*.json"):
+        if p.name in reserved or p.name.endswith("_prices.json"):
+            continue
+        if p.stem not in active:
+            p.unlink()
+            removed += 1
+    if removed:
+        print(f"Removed {removed} stale shard(s).")
+
     print(f"Wrote {len(stocks)} ticker shards + index.json to {TICKER_DATA_DIR}")
 
 
