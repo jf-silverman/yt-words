@@ -72,9 +72,11 @@ needed — 2:05 AM UTC in summer, 3:05 AM UTC in winter, both well after the epi
 # Schedule Mac to wake Mon–Fri at 7:05 PM local time
 sudo pmset repeat wake MTWRF 19:05:00
 
-# Add a cron job to run the pipeline at 7:10 PM (5 min after wake)
-# Run: crontab -e  then add:
-10 19 * * 1-5 cd /Users/jfs-m3/Documents/DS/yt-words && caffeinate -i python3 code/pipeline.py --email-mode smtp >> /tmp/mad_money_cron.log 2>&1
+# Add the cron job (paste this whole block — no editor needed):
+(crontab -l 2>/dev/null; echo "10 19 * * 1-5 cd /Users/jfs-m3/Documents/DS/yt-words && caffeinate -i python3 code/pipeline.py --email-mode smtp >> /tmp/mad_money_cron.log 2>&1") | crontab -
+
+# Confirm it was added:
+crontab -l
 ```
 
 `caffeinate -i` keeps the Mac awake for the duration of the pipeline run, then releases it.
