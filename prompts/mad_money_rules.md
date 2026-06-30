@@ -18,14 +18,14 @@ Identify each major segment of the show. Common segments (not all appear in ever
 
 | Segment name | How to recognize it |
 |---|---|
-| Episode Summary: Opening Commentary | Cramer's monologue at the top of the show (market recap, macro view, sector takes) |
+| Opening Commentary | Cramer's monologue at the top of the show (market recap, macro view, sector takes) |
 | Interview: [Company] ([TICKER]) | Cramer sits down with a CEO or executive. Use company name and ticker in the name. |
 | In-Depth: [Company] ([TICKER]) | Cramer does a standalone deep-dive on one stock without a guest |
 | Lightning Round | Rapid-fire caller picks — Cramer gives a one- or two-word verdict on each. Starts with "It is time for the Lightning Round" |
 | Closing Commentary | Cramer's closing remarks, IPO market commentary, or other wrap-up segment |
 
 **Important section rules:**
-- The **first section** must always be named starting with `"Episode Summary: "` (e.g., `"Episode Summary: Opening Commentary"` or `"Episode Summary: The Case for Defense Stocks"`).
+- The **first section** is almost always the Opening Commentary. Use `"Opening Commentary"` as the name unless the episode opens with something else (e.g. an interview or special segment — use that segment's actual type name instead).
 - **Do NOT create subsections.** No `subsections` array anywhere.
 - **Do NOT create a separate "Caller Q&A" section.** If callers phone in during the Opening Commentary, incorporate their questions and Cramer's answers as bullet points within the parent section's `bullets` array.
 
@@ -189,7 +189,7 @@ Return exactly this JSON structure. Omit optional fields (`price_target`, `price
   ],
   "sections": [
     {
-      "name": "Episode Summary: Opening Commentary",
+      "name": "Opening Commentary",
       "start_seconds": 17,
       "headline": "Summary: <one sharp sentence capturing the key investment insight of this segment, under 15 words>",
       "bullets": [

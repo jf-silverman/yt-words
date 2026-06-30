@@ -1202,7 +1202,7 @@ def _section_segments(section_name: str) -> set[str]:
     name = section_name.lower()
     if "lightning" in name:
         return {"lightning_round"}
-    if "opening" in name or "episode summary" in name:
+    if "opening" in name:
         return {"opening_commentary"}
     if "closing" in name:
         return {"closing_commentary"}
@@ -1259,6 +1259,7 @@ def build_email_html(summaries: list[dict],
   .holding .ticker::after { content: " ★"; font-size: 10px; color: #9a6700; }
   .note    { color: #57606a; font-size: 13px; }
   .footer { margin-top: 24px; color: #8b949e; font-size: 12px; border-top: 1px solid #d0d7de; padding-top: 8px; }
+  .ep-subtitle { font-size: 13px; color: #8b949e; margin: -4px 0 10px; font-weight: 400; }
   .fundamentals-banner { background: #fff8c5; border: 1px solid #d4a017; border-radius: 6px;
     padding: 10px 14px; margin: 8px 0 14px; font-size: 13px; color: #633c01; }
   @media (max-width: 600px) {
@@ -1285,6 +1286,7 @@ def build_email_html(summaries: list[dict],
         date_label = dt.strftime("%A, %B %-d, %Y")
 
         parts.append(f'<h2>Mad Money &mdash; {date_label}</h2>')
+        parts.append('<p class="ep-subtitle">Episode Summary</p>')
         if analysis.get("episode_type") == "fundamentals":
             parts.append(
                 '<div class="fundamentals-banner">'
@@ -1351,13 +1353,8 @@ def build_email_html(summaries: list[dict],
                 + tag_close
             )
 
-        for i, section in enumerate(analysis.get("sections", [])):
-            name = section.get("name", "")
-            if i == 0 and not name.lower().startswith("episode summary"):
-                display_name = f"Episode Summary: {name}"
-            else:
-                display_name = name
-            _section_parts(section, display_name=display_name)
+        for section in analysis.get("sections", []):
+            _section_parts(section)
 
         # Stock table
         if stocks:
