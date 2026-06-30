@@ -38,7 +38,7 @@ Based on ~108 episodes (Jan–Jun 2026):
 - **Conviction predicts accuracy.** "Buy on Pullback" calls are right 65% of the time vs. 57% for generic buy calls and 53% for Lightning Round picks.
 - **Segment matters.** Closing Commentary (70% win rate, +6.4% median 30d return) significantly outperforms Lightning Round picks despite both being "buy calls."
 - **Sector is the strongest signal.** Technology picks are right 69% of the time with +8.3% median 30-day return vs. Financial Services at 38% / -2.1%.
-- **Sell calls are underrated.** At 90 days, stocks Cramer warned against fell 2.6% while the S&P 500 gained 5.9% in the same windows — a 17-point gap.
+- **Sell calls are underrated.** At 90 days, stocks Cramer warned against fell 2.6% while the Nasdaq gained ~14% in the same windows — a 17-point gap. Against the S&P 500 the spread is still 8.5 points (-2.6% vs +5.9%).
 
 ---
 
