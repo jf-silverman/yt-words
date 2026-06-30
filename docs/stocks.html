@@ -1411,12 +1411,7 @@ function renderAnalytics(d) {
   makeSortable('table-sentiment', null);
 
   let sentBenchmark = 'spy', sentPeriod = '30d';
-  const SENT_HERO = {
-    'spy+30d': "Cramer's buy calls were right more than half the time and returned more than the S&P 500 over 30 days. His hold and sell calls were about as good as a coin flip and wouldn't have beat the index. His caution calls weren't as good as a coin flip and would have made about 1.1% more than the S&P 500 if bought.",
-    'qqq+30d': "Compared to the Nasdaq, Cramer's buy calls look even stronger — the Nasdaq was slightly negative on average over these 30-day windows, so his picks beat it by about 3–4%. Even his hold and sell calls came out ahead of the index. His caution calls weren't as accurate as a coin flip, but those stocks still gained about 2.3% more than the Nasdaq.",
-    'spy+90d': "Over 90 days, Cramer's Strong Buy calls outperformed the S&P 500 by about 2.4%, but regular Buy calls narrowly lagged — the market rose across most of these windows. His sell calls were his strongest 90-day signal: the stocks he warned against fell 2.6% while the S&P 500 gained 5.9% over the same periods. Hold and caution calls significantly trailed the index.",
-    'qqq+90d': "The Nasdaq surged over most 90-day windows in this dataset, making it a very tough benchmark — even Cramer's buy calls lagged by 5–8%. The clearest signal at 90 days is his sell calls: stocks he said to avoid fell 2.6% while the Nasdaq gained nearly 14% over those same periods — a 17-point gap.",
-  };
+  const SENT_HERO = d.heroes?.sentiment || {};
   function updateSentCols() {
     const show30 = sentPeriod !== '90d';
     const show90 = sentPeriod !== '30d';
@@ -1577,10 +1572,7 @@ function renderAnalytics(d) {
     'w90': 'win_rate_90d',
   };
 
-  const SECTOR_HERO = {
-    buy:  "Technology is Cramer's best sector by a wide margin — 68% win rate at 30 days, +8.1% median return, across 658 buy calls. Industrials (61%, +4.0%) and Energy (59%, +2.6%) are the only other sectors with above-50% accuracy and positive returns. Consumer Cyclical, Financial Services, and Communication Services show below-50% accuracy with negative 30-day median returns. Sectors greyed out have fewer than 30 mentions.",
-    sell: "Cramer's sector sell calls have mostly missed — Technology stocks went up 58% of the time after a cautious call, and Consumer Cyclical 59%. His most accurate sell reads are Healthcare (stocks fell 56% of the time) and Consumer Defensive (fell 54%). Sectors greyed out have fewer than 30 mentions.",
-  };
+  const SECTOR_HERO = d.heroes?.sector || {};
 
   function metricIsWinPct(key) { return key === 'win_rate_30d' || key === 'win_rate_90d'; }
 
@@ -1655,9 +1647,11 @@ function renderAnalytics(d) {
     }
     const r = sbt[selectedSector][sectorCallType];
     const typeLabel = sectorCallType === 'buy' ? 'Buy Calls' : 'Sell Calls';
+    const sectorDetailHero = (d.heroes?.sector_detail || {})[`${selectedSector}:${sectorCallType}`] || '';
     el.innerHTML = `
       <div style="margin-top:14px;padding:12px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px">
-        <div style="font-weight:600;margin-bottom:8px">${sectorLabel(selectedSector)} — ${typeLabel}</div>
+        <div style="font-weight:600;margin-bottom:4px">${sectorLabel(selectedSector)} — ${typeLabel}</div>
+        ${sectorDetailHero ? `<div style="font-size:12px;color:#444;margin-bottom:8px;line-height:1.5">${sectorDetailHero}</div>` : ''}
         <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
           <div><span style="color:#57606a">Mentions:</span> <strong>${r.n_mentions}</strong></div>
           <div><span style="color:#57606a">Tickers:</span> <strong>${r.n_tickers}</strong></div>
@@ -1709,24 +1703,8 @@ function renderAnalytics(d) {
   let segMetric     = 'median_return_30d';
   let selectedSeg   = null;
 
-  const SEG_HERO = {
-    buy:  "Closing Commentary is Cramer's strongest buy segment — nearly 70% right at 30 days with a +6.4% median return. In-Depth Analysis picks start slow (53% at 30d) but build to 66% accuracy at 90 days. Lightning Round and Opening Commentary are consistent, high-volume performers.",
-    sell: "In-Depth Analysis is his sharpest sell segment — 58% right at 30 days with a median decline of 2.9%. Opening Commentary (44% right) and Closing Commentary (40% right) are below a coin flip, meaning the stocks he warned against often rose anyway.",
-  };
-
-  const SEG_DETAIL_HERO = {
-    'opening_commentary:buy':  "The largest buy segment by volume. Steady and consistent across both timeframes — the most reliable baseline for Cramer's overall buy call accuracy.",
-    'closing_commentary:buy':  "Cramer's top buy segment. When he opens the show by recommending a stock, his conviction runs high — nearly 70% right at 30 days with a median return of +6.4%.",
-    'in_depth_analysis:buy':   "Slow starters that reward patience. Only 53% right at 30 days, but the thesis tends to play out: 66% right and +6.7% median return by 90 days.",
-    'lightning_round:buy':     "Quick-fire calls with consistent performance that improves over time — 57% right at 30 days, rising to 63% at 90 days. High volume makes this segment statistically reliable.",
-    'caller_qa:buy':           "Good short-term accuracy at 61% but fades fast — drops to a coin flip at 90 days. These picks tend to work best as shorter-term trades.",
-    'interview:buy':           "Decent short-term accuracy at 59%, but fades to a coin flip at 90 days. Interview picks appear to capture near-term momentum without lasting conviction.",
-    'opening_commentary:sell': "Below a coin flip at 44% right — more than half the stocks Cramer cautioned against during Opening Commentary still went up at 30 days. His most common sell context but least accurate.",
-    'closing_commentary:sell': "Cramer's least reliable sell segment — only 40% right at 30 days. Three in five stocks he warned against at show's end went up anyway.",
-    'in_depth_analysis:sell':  "Cramer's sharpest sell calls — 58% right at 30 days with a median decline of 2.9%. When he dedicates a deep dive to warning against a stock, the data backs him up.",
-    'lightning_round:sell':    "Just under a coin flip at 30 days (48% right), but improves over time — 58% right at 90 days with a median decline of 2.6% by then.",
-    'caller_qa:sell':          "Small sample (30 mentions). About 48% right at 30 days — essentially a coin flip. Performance edges above 50% at 90 days.",
-  };
+  const SEG_HERO        = d.heroes?.segment        || {};
+  const SEG_DETAIL_HERO = d.heroes?.segment_detail || {};
 
   function renderSegmentBars() {
     const isWinPct = metricIsWinPct(segMetric);

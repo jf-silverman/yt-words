@@ -632,6 +632,271 @@ def _median(values: list) -> float | None:
     return round((vals[mid - 1] + vals[mid]) / 2, 2)
 
 
+def _generate_heroes(sentiment_perf, sector_by_type, segment_by_type):
+    """Build hero text for every analytics panel from computed stats."""
+
+    BUY_SENTS  = {'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback'}
+    SELL_SENTS = {'caution_concern', 'sell_avoid'}
+    SEG_LABELS = {
+        'opening_commentary': 'Opening Commentary',
+        'lightning_round':    'Lightning Round',
+        'closing_commentary': 'Closing Commentary',
+        'in_depth_analysis':  'In-Depth Analysis',
+        'interview':          'Interview',
+        'caller_qa':          'Caller Q&A',
+        'mag7_analysis':      'Mag 7 Analysis',
+    }
+
+    def _r(v):
+        if v is None: return '—'
+        return ('+' if v > 0 else '') + f'{v:.1f}%'
+
+    def _w(v):
+        return f'{v:.0f}%' if v is not None else '—'
+
+    def _wmean(rows, key, wt='n_mentions'):
+        total = sum(r[wt] for r in rows if r.get(key) is not None)
+        if not total:
+            return None
+        return sum(r[key] * r[wt] for r in rows if r.get(key) is not None) / total
+
+    # ── Sentiment heroes (4 variants: spy/qqq × 30d/90d) ────────────────────
+    buy_rows  = [r for r in sentiment_perf if r['sentiment'] in BUY_SENTS]
+    sell_rows = [r for r in sentiment_perf if r['sentiment'] in SELL_SENTS]
+
+    sentiment_heroes = {}
+    for bench in ('spy', 'qqq'):
+        for period in ('30d', '90d'):
+            rk, wk, bk = f'median_return_{period}', f'win_rate_{period}', f'median_{bench}_{period}'
+            label    = 'S&P 500' if bench == 'spy' else 'Nasdaq'
+            pd_label = '30 days' if period == '30d' else '90 days'
+            buy_win   = _wmean(buy_rows,  wk)
+            buy_ret   = _wmean(buy_rows,  rk)
+            buy_bench = _wmean(buy_rows,  bk)
+            sell_wr   = _wmean(sell_rows, wk)
+            sell_bench= _wmean(sell_rows, bk)
+            if buy_win is None:
+                continue
+            direction = 'more than half' if buy_win >= 50 else 'less than half'
+            h = (f"Cramer's buy calls were right {direction} the time ({_w(buy_win)}) "
+                 f"and returned a median {_r(buy_ret)} over {pd_label}")
+            if buy_bench is not None:
+                beat = (buy_ret or 0) - buy_bench
+                if abs(beat) > 0.3:
+                    h += f", {'beating' if beat > 0 else 'trailing'} the {label} by {abs(beat):.1f}pp"
+            h += '.'
+            if sell_wr is not None:
+                sell_acc = 100 - sell_wr
+                h += f" His caution/sell calls were right {sell_acc:.0f}% of the time"
+                if sell_bench is not None and buy_bench is not None:
+                    h += (f" (those stocks returned a median {_r(sell_bench)} "
+                          f"vs the {label}'s {_r(buy_bench)})")
+                h += '.'
+            sentiment_heroes[f'{bench}+{period}'] = h
+
+    # ── Sector overall heroes (buy / sell) ───────────────────────────────────
+    sbt = {}
+    for row in sector_by_type:
+        sbt.setdefault(row['sector'], {})[row['call_type']] = row
+
+    sector_heroes = {}
+    for ct in ('buy', 'sell'):
+        elig = [(s, d[ct]) for s, d in sbt.items()
+                if ct in d and d[ct]['n_mentions'] >= 30]
+        if not elig:
+            continue
+        elig.sort(key=lambda x: x[1]['win_rate_30d'] or 0, reverse=(ct == 'buy'))
+        best_s, best_r   = elig[0]
+        worst_s, worst_r = elig[-1]
+        if ct == 'buy':
+            above50 = sum(1 for _, r in elig if (r['win_rate_30d'] or 0) >= 50)
+            sector_heroes[ct] = (
+                f"{best_s} is Cramer's best sector — {_w(best_r['win_rate_30d'])} win rate "
+                f"at 30 days, median {_r(best_r['median_return_30d'])}, {best_r['n_mentions']} mentions. "
+                f"{above50} of {len(elig)} sectors with 30+ mentions beat the 50% threshold. "
+                f"{worst_s} is the weakest: {_w(worst_r['win_rate_30d'])}, "
+                f"median {_r(worst_r['median_return_30d'])}. "
+                f"Sectors greyed out have fewer than 30 mentions."
+            )
+        else:
+            best_acc  = 100 - (best_r['win_rate_30d']  or 0)
+            worst_acc = 100 - (worst_r['win_rate_30d'] or 0)
+            sector_heroes[ct] = (
+                f"{best_s} is Cramer's most accurate sell sector — stocks fell after {best_acc:.0f}% "
+                f"of caution calls at 30 days ({best_r['n_mentions']} mentions). "
+                f"{worst_s} is the weakest: stocks fell only {worst_acc:.0f}% of the time after his caution calls. "
+                f"Sectors greyed out have fewer than 30 mentions."
+            )
+
+    # ── Sector detail heroes (per sector × call_type) ────────────────────────
+    buy_elig  = sorted([(s, d['buy'])  for s, d in sbt.items()
+                        if 'buy'  in d and d['buy']['n_mentions']  >= 30],
+                       key=lambda x: x[1]['win_rate_30d'] or 0, reverse=True)
+    sell_elig = sorted([(s, d['sell']) for s, d in sbt.items()
+                        if 'sell' in d and d['sell']['n_mentions'] >= 30],
+                       key=lambda x: x[1]['win_rate_30d'] or 0)
+
+    avg_buy_win  = (sum(r['win_rate_30d'] for _, r in buy_elig  if r['win_rate_30d'])
+                    / len(buy_elig))  if buy_elig  else None
+    avg_sell_acc = (sum(100 - r['win_rate_30d'] for _, r in sell_elig if r['win_rate_30d'])
+                    / len(sell_elig)) if sell_elig else None
+
+    sector_detail = {}
+    for sector, ct_dict in sbt.items():
+        for ct in ('buy', 'sell'):
+            if ct not in ct_dict:
+                continue
+            r   = ct_dict[ct]
+            n   = r['n_mentions']
+            win = r['win_rate_30d']
+            ret = r['median_return_30d']
+            ret90 = r['median_return_90d']
+            if win is None:
+                continue
+
+            if ct == 'buy':
+                if n < 30:
+                    h = (f"{sector}: {n} buy mentions — small sample, treat stats with caution. "
+                         f"Preliminary win rate {_w(win)} at 30 days, median {_r(ret)}.")
+                else:
+                    rank = next((i + 1 for i, (s, _) in enumerate(buy_elig) if s == sector), None)
+                    of   = len(buy_elig)
+                    avg  = avg_buy_win
+                    diff = (win - avg) if avg else 0
+                    if rank == 1:
+                        comp = f"best of {of} sectors with 30+ mentions"
+                    elif rank == of:
+                        comp = f"weakest of {of} sectors with 30+ mentions"
+                    elif diff > 4:
+                        comp = f"above the {avg:.0f}% cross-sector average"
+                    elif diff < -4:
+                        comp = f"below the {avg:.0f}% cross-sector average"
+                    else:
+                        comp = f"near the {avg:.0f}% cross-sector average"
+                    h = (f"{sector}: {_w(win)} of {n} buy calls were right at 30 days — {comp}. "
+                         f"Median return {_r(ret)} at 30 days, {_r(ret90)} at 90 days. "
+                         f"{r['n_tickers']} distinct tickers covered.")
+            else:
+                acc = 100 - win
+                if n < 30:
+                    h = (f"{sector}: {n} caution/sell mentions — small sample. "
+                         f"Stocks fell after {acc:.0f}% of calls at 30 days.")
+                else:
+                    rank = next((i + 1 for i, (s, _) in enumerate(sell_elig) if s == sector), None)
+                    of   = len(sell_elig)
+                    avg  = avg_sell_acc
+                    diff = (acc - avg) if avg else 0
+                    if rank == 1:
+                        comp = f"most accurate sell sector of {of} with 30+ mentions"
+                    elif rank == of:
+                        comp = f"weakest sell sector — stocks rose most often after caution calls"
+                    elif diff > 4:
+                        comp = f"above-average sell accuracy (avg: {avg:.0f}%)"
+                    elif diff < -4:
+                        comp = f"below-average sell accuracy (avg: {avg:.0f}%)"
+                    else:
+                        comp = "near-average sell accuracy"
+                    h = (f"{sector}: stocks fell after {acc:.0f}% of {n} caution/sell calls "
+                         f"at 30 days — {comp}. Median price change {_r(ret)} at 30 days, "
+                         f"{_r(ret90)} at 90 days. {r['n_tickers']} distinct tickers.")
+            sector_detail[f'{sector}:{ct}'] = h
+
+    # ── Segment overall heroes (buy / sell) ──────────────────────────────────
+    sgt = {}
+    for row in segment_by_type:
+        sgt.setdefault(row['segment'], {})[row['call_type']] = row
+
+    segment_heroes = {}
+    for ct in ('buy', 'sell'):
+        elig = [(seg, d[ct]) for seg, d in sgt.items()
+                if ct in d and d[ct]['n_mentions'] >= 30]
+        if not elig:
+            continue
+        elig.sort(key=lambda x: (x[1]['win_rate_30d'] or 0) if ct == 'buy'
+                  else 100 - (x[1]['win_rate_30d'] or 0), reverse=True)
+        best_seg, best_r   = elig[0]
+        worst_seg, worst_r = elig[-1]
+        if ct == 'buy':
+            segment_heroes[ct] = (
+                f"{SEG_LABELS.get(best_seg, best_seg)} is Cramer's strongest buy segment — "
+                f"{_w(best_r['win_rate_30d'])} right at 30 days, "
+                f"median {_r(best_r['median_return_30d'])}, {best_r['n_mentions']} mentions. "
+                f"{SEG_LABELS.get(worst_seg, worst_seg)} is the weakest: "
+                f"{_w(worst_r['win_rate_30d'])} right, median {_r(worst_r['median_return_30d'])}."
+            )
+        else:
+            best_acc  = 100 - (best_r['win_rate_30d']  or 0)
+            worst_acc = 100 - (worst_r['win_rate_30d'] or 0)
+            segment_heroes[ct] = (
+                f"{SEG_LABELS.get(best_seg, best_seg)} has the sharpest sell accuracy — "
+                f"stocks fell after {best_acc:.0f}% of caution calls at 30 days "
+                f"({best_r['n_mentions']} mentions). "
+                f"{SEG_LABELS.get(worst_seg, worst_seg)} is the weakest: "
+                f"stocks fell only {worst_acc:.0f}% of the time."
+            )
+
+    # ── Segment detail heroes (per segment × call_type) ──────────────────────
+    buy_seg_elig = [(seg, d['buy']) for seg, d in sgt.items()
+                    if 'buy' in d and d['buy']['n_mentions'] >= 30]
+    avg_seg_buy  = (sum(r['win_rate_30d'] for _, r in buy_seg_elig if r['win_rate_30d'])
+                    / len(buy_seg_elig)) if buy_seg_elig else None
+
+    segment_detail = {}
+    for seg, ct_dict in sgt.items():
+        for ct in ('buy', 'sell'):
+            if ct not in ct_dict:
+                continue
+            r     = ct_dict[ct]
+            n     = r['n_mentions']
+            win   = r['win_rate_30d']
+            win90 = r['win_rate_90d']
+            ret   = r['median_return_30d']
+            ret90 = r['median_return_90d']
+            label = SEG_LABELS.get(seg, seg)
+            if win is None:
+                continue
+
+            if ct == 'buy':
+                if n < 30:
+                    h = (f"{label}: {_w(win)} right at 30 days across {n} buy mentions "
+                         f"— small sample, treat with caution.")
+                else:
+                    avg  = avg_seg_buy
+                    diff = (win - avg) if avg else 0
+                    comp = (f"above the segment average of {avg:.0f}%" if diff > 3
+                            else f"below the segment average of {avg:.0f}%" if diff < -3
+                            else "near the segment average")
+                    trend = ''
+                    if win90 is not None:
+                        if win90 > win + 3:
+                            trend = f" Performance improves over time — {_w(win90)} right at 90 days."
+                        elif win90 < win - 3:
+                            trend = f" Performance fades — {_w(win90)} right at 90 days."
+                        else:
+                            trend = f" Holds steady at {_w(win90)} right at 90 days."
+                    h = (f"{label}: {_w(win)} of {n} buy calls were right at 30 days ({comp}), "
+                         f"median {_r(ret)}.{trend}")
+            else:
+                acc   = 100 - win
+                acc90 = (100 - win90) if win90 is not None else None
+                h = (f"{label}: stocks fell after {acc:.0f}% of {n} caution/sell calls "
+                     f"at 30 days, median {_r(ret)}.")
+                if acc90 is not None:
+                    trend = ('improves' if acc90 > acc + 3
+                             else 'fades' if acc90 < acc - 3
+                             else 'holds steady')
+                    h += f" Accuracy {trend} to {acc90:.0f}% right at 90 days."
+            segment_detail[f'{seg}:{ct}'] = h
+
+    return {
+        'sentiment':      sentiment_heroes,
+        'sector':         sector_heroes,
+        'sector_detail':  sector_detail,
+        'segment':        segment_heroes,
+        'segment_detail': segment_detail,
+    }
+
+
 def build_analytics_json(out_path: str) -> None:
     """Query the DB and write docs/data/analytics.json for the Analytics tab."""
     conn = get_connection()
@@ -995,6 +1260,7 @@ def build_analytics_json(out_path: str) -> None:
         "buy_call_pool":     buy_call_pool,
         "sell_call_pool":    sell_call_pool,
         "top_days_right":    top_days_right,
+        "heroes":            _generate_heroes(sentiment_perf, sector_by_type, segment_by_type),
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))
