@@ -61,6 +61,56 @@ python3 code/pipeline.py --backfill-prices --tickers CORRECT
 python3 code/pipeline.py --rebuild-shards
 ```
 
+## Mac Wake Schedule (Local Automation)
+
+The pipeline runs locally on Mac rather than via GitHub Actions. Mac must be awake at run time.
+
+Mad Money airs at 6 PM ET = 3 PM PT. Wake at 7:05 PM local works year-round (no DST adjustment
+needed — 2:05 AM UTC in summer, 3:05 AM UTC in winter, both well after the episode is available).
+
+```bash
+# Schedule Mac to wake Mon–Fri at 7:05 PM local time
+sudo pmset repeat wake MTWRF 19:05:00
+
+# Add a cron job to run the pipeline at 7:10 PM (5 min after wake)
+# Run: crontab -e  then add:
+10 19 * * 1-5 cd /Users/jfs-m3/Documents/DS/yt-words && caffeinate -i python3 code/pipeline.py --email-mode smtp >> /tmp/mad_money_cron.log 2>&1
+```
+
+`caffeinate -i` keeps the Mac awake for the duration of the pipeline run, then releases it.
+Cron output (including errors) goes to `/tmp/mad_money_cron.log`.
+
+```bash
+# Verify / remove the wake schedule
+pmset -g sched            # show scheduled wake times
+sudo pmset repeat cancel  # remove the repeating wake schedule
+
+# Manage cron jobs
+crontab -l   # list current cron jobs
+crontab -r   # remove all cron jobs (careful — no undo)
+
+# Check last night's cron output
+cat /tmp/mad_money_cron.log
+```
+
+## Transcript Timing Log
+
+Each time a new transcript is downloaded, the pipeline logs the YouTube upload time and pipeline
+fetch time to `data/transcript_timing.csv`. Use this to understand how long after air time
+CNBC uploads to YouTube and whether the 7:10 PM run has enough buffer.
+
+```bash
+# View the timing log
+column -t -s, data/transcript_timing.csv
+
+# Check the last few entries
+tail -5 data/transcript_timing.csv
+```
+
+Columns: `episode_date`, `video_id`, `yt_upload_utc`, `pipeline_fetch_utc`
+
+---
+
 ## YouTube Cookie Refresh
 
 YouTube session cookies expire periodically. When the pipeline fails with bot-check errors:
