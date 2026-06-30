@@ -23,6 +23,7 @@ Environment variables:
 """
 
 import argparse
+import csv
 import json
 from collections import Counter
 import os
@@ -308,6 +309,26 @@ def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, s
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     out_path.write_text(text)
+
+    # Log upload vs. fetch timing to help track when transcripts become available
+    yt_ts = (info or {}).get("timestamp") or (info or {}).get("release_timestamp")
+    fetch_utc = datetime.now(tz=timezone.utc)
+    timing_file = DATA_DIR / "transcript_timing.csv"
+    write_header = not timing_file.exists()
+    with open(timing_file, "a", newline="") as f:
+        w = csv.writer(f)
+        if write_header:
+            w.writerow(["episode_date", "video_id", "yt_upload_utc", "pipeline_fetch_utc"])
+        yt_upload_str = ""
+        if yt_ts:
+            yt_upload_utc = datetime.fromtimestamp(yt_ts, tz=timezone.utc)
+            yt_upload_str = yt_upload_utc.strftime("%Y-%m-%d %H:%M")
+            lag_hrs = (fetch_utc - yt_upload_utc).total_seconds() / 3600
+            print(f"  YouTube upload: {yt_upload_str} UTC  |  fetch lag: {lag_hrs:.1f}h")
+        else:
+            print(f"  YouTube upload time not available in metadata")
+        w.writerow([date_str, video_id, yt_upload_str, fetch_utc.strftime("%Y-%m-%d %H:%M")])
+
     return date_str, [], text
 
 
