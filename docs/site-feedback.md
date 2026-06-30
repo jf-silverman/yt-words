@@ -116,7 +116,9 @@ Findings synthesized below — strengths first, then prioritized suggestions.
 | 🟡 Med | Hero lines per chart (Sentiment Scorecard + By Segment) | Storytelling | ✅ done |
 | 🟡 Med | Add chart legend for sentiment triangles | UX | ✅ done |
 | 🟡 Med | Surface "Buy on Pullback" as a featured callout | Financial | ✅ done (note in Sentiment details) |
-| 🟡 Med | Add return disclaimer on "return since mention" mixing timeframes | Data analyst | ✅ partial — time period filter (7d/30d/90d) added; disclaimer text still missing |
+| 🟡 Med | Add return disclaimer on "return since mention" mixing timeframes | Data analyst | ✅ partial — time period filter (7d/30d/90d) added; "Price at Last Call" dashed line added to charts; disclaimer text still missing |
+| 🟡 Med | "Price at Last Call" dashed line on Search charts | UX/Data | ✅ done — horizontal dashed blue line extends from most recent call's closing price to today; shown in chart legend and tooltip |
+| 🟡 Med | Align min-mentions filter options across Search and Recent Picks tabs | UX | ✅ done — both tabs now use Any / 3+ / 5+ |
 | 🟡 Med | Sector data for all real tickers in Analytics | Data | ✅ partial — pipeline fixed; data refresh pending (see bugs.md PENDING) |
 | 🟡 Med | Show details checkbox + % Right rename in By Segment | UX/Data | ✅ done |
 | 🟢 Low | Sector-relative benchmark column | Financial | |
