@@ -1708,10 +1708,10 @@ def main() -> None:
     }
     brother_hits = all_tickers & BROTHER_TICKERS
 
-    # Archive one HTML summary per episode date
+    # Archive one HTML summary per episode date (no holdings highlighting)
     SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
     for ep_summary in summaries:
-        ep_html = build_email_html([ep_summary])
+        ep_html = build_email_html([ep_summary], highlight_tickers=set())
         arc = SUMMARIES_DIR / f"{ep_summary['date_str']}_summary.html"
         arc.write_text(ep_html)
         print(f"  Archived summary → {arc.name}")
