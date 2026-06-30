@@ -26,9 +26,9 @@ Findings synthesized below — strengths first, then prioritized suggestions.
 4. "Buy on Pullback" is Cramer's highest-accuracy call type
 
 ### Suggestions:
-- Add a **hero/summary row** above the tab bar: e.g. "57% buy-call win rate · Tech sector: 69% · Best segment: Closing Commentary (64.5%)" — three headline stats, always visible
-- The "Cramer's Calls" leaderboard shows 795% returns (AVX) as the first row. Without context this looks like he's a genius; a note like "Positive-return calls only · includes all holding periods" is needed
-- The Analytics dropdown order should be: Overview (hero stats) → Sentiment → Segment → Sector → Market Cap → Calls → Latest
+- ✅ **Hero/summary row** — hero lines appear within each Analytics chart section (Sentiment Scorecard, By Segment, By Sector), surfacing the key finding dynamically
+- ✅ **Cramer's Calls disclosure** — each view option is labeled descriptively (e.g. "Best 'Buy' Calls — buy-type where stock went up") making the positive-return filter self-evident
+- ✅ **Analytics dropdown order** — Sentiment → Segment → Market Cap → Sector → Cramer's Calls → Latest Calls
 - ✅ **Hero lines added to Sentiment Scorecard** — dynamic one-liner below the benchmark toggle summarizes the key finding for each S&P/Nasdaq × 30d/90d combination
 - ✅ **Hero lines added to By Segment** — overall hero below the chart header, plus per-segment hero in each detail pane
 
@@ -112,7 +112,7 @@ Findings synthesized below — strengths first, then prioritized suggestions.
 | 🔴 High | Add sample size warnings / grey-out n<20 cells | Data analyst | |
 | 🔴 High | Label Cramer's Calls table as "Positive-return only" | Data analyst | |
 | 🔴 High | Add "Clear filters" + active filter count to Recent Picks | UX | ✅ done |
-| 🟡 Med | Hero stats bar above tabs (3 headline numbers) | Storytelling | |
+| 🟡 Med | Hero stats bar above tabs (3 headline numbers) | Storytelling | ✅ done — hero lines in each Analytics chart section |
 | 🟡 Med | Hero lines per chart (Sentiment Scorecard + By Segment) | Storytelling | ✅ done |
 | 🟡 Med | Add chart legend for sentiment triangles | UX | ✅ done |
 | 🟡 Med | Surface "Buy on Pullback" as a featured callout | Financial | ✅ done (note in Sentiment details) |
