@@ -27,10 +27,12 @@
 
   <div class="about">
     <h2 style="font-size:16px;font-weight:700;color:#24292f;margin:0 0 14px">About This Website</h2>
-    <p>I'm a big fan of Jim Cramer and his show Mad Money. Listening to his show gave me the confidence to invest in stocks, and I've made some money over the years, although I haven't gotten rich (yet!). Most of what I know about stocks I learned from his show and from his book <em>How to Get Rich Carefully</em>.</p>
-    <p>As someone who has worked with data professionally for years, I've often wondered how I could put a measuring stick to the specific stock-picking advice Jim gives. I also wanted to build a personal project that showed my skills with LLM prompting, building a data source, and querying it for my own unanswered questions: which stocks has Jim got right, and which ones has he got wrong? This site is my attempt at that. Disclaimer: please consider this website as "food for thought," not as investment advice. I think it's generally accurate, but it may have errors and certainly doesn't account for the countless factors that affect stocks. I'm not a financial advisor — use your own judgment in all investing.</p>
-    <p>People may try to misrepresent me as a critic, but I think Jim is an educator who teaches people the fundamentals of how to invest and use critical thinking to pick a few stocks alongside their index fund investing.</p>
-    <p class="sig">Thanks and enjoy the site!<br>— Joel Silverman</p>
+    <p>I'm a data scientist with a background spanning environmental modeling, healthcare diagnostics, and clean energy analytics. One recurring theme across all of it: building automated pipelines to turn raw, messy data into something you can actually query and learn from.</p>
+    <p>This site is a personal project that applies those skills to a question I've always had as a Mad Money listener: <em>does Jim Cramer's conviction level actually predict his accuracy?</em> Does segment matter — is he sharper in his prepared Opening Commentary than in the Lightning Round? Which sectors does he call best?</p>
+    <p>To answer those questions rigorously, I built the infrastructure from scratch: a nightly pipeline that scrapes YouTube transcripts, extracts structured stock calls using Claude AI (with a carefully engineered prompt to minimize hallucination), tracks forward returns in a SQLite database, and publishes everything to this fully client-side GitHub Pages site. The <a href="stocks.html" style="color:#0969da">Analytics tab</a> is where the data starts to tell a story.</p>
+    <p>I'm a fan of Jim's — his show gave me the confidence to start investing, and I think he's one of the best financial educators working today. This site isn't a hit piece; it's a measuring stick, built for fun and to keep my data engineering skills sharp.</p>
+    <p><em>Disclaimer: This site is for educational purposes only — not investment advice. AI-generated analysis may contain errors. I'm not a financial advisor.</em></p>
+    <p class="sig">— Joel Silverman &nbsp;·&nbsp; <a href="https://github.com/jf-silverman" style="color:#8b949e">GitHub</a> &nbsp;·&nbsp; <a href="https://linkedin.com/in/jf-silverman" style="color:#8b949e">LinkedIn</a></p>
   </div>
 </body>
 </html>
