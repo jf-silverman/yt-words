@@ -60,27 +60,110 @@ def _date_from_title(title: str) -> str:
 
 
 def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
-    """Run analysis via the claude CLI (uses Claude Code subscription, not API credits)."""
+    """Run analysis via the claude CLI (uses Claude Code subscription, not API credits).
+
+    Forces Haiku explicitly — without --model this silently inherits whatever the
+    session's default model is (e.g. Sonnet), which costs ~4x more per episode for
+    no speed benefit. Also strips tools/settings/MCP/hooks since this is a pure
+    text-in JSON-out call that needs none of them.
+    """
     system_prompt = RULES_FILE.read_text()
     user_msg = f"Episode date: {date_str}\n\nTranscript:\n{transcript_text}"
-    full_prompt = f"{system_prompt}\n\n---\n\n{user_msg}"
 
     # Remove ANTHROPIC_API_KEY from subprocess env so claude CLI uses claude.ai login
     env = os.environ.copy()
     env.pop("ANTHROPIC_API_KEY", None)
 
     result = subprocess.run(
-        ["claude", "-p", full_prompt],
-        capture_output=True, text=True, timeout=300,
+        [
+            "claude", "-p", user_msg,
+            "--system-prompt", system_prompt,
+            "--model", "claude-haiku-4-5-20251001",
+            "--tools", "",
+            "--setting-sources", "",
+            "--strict-mcp-config",
+            "--disable-slash-commands",
+            "--no-session-persistence",
+            "--output-format", "json",
+        ],
+        capture_output=True, text=True, timeout=450,
         env=env,
     )
     if result.returncode != 0:
         raise RuntimeError(f"claude CLI error (rc={result.returncode}): {result.stderr[:500]}")
 
-    raw = result.stdout.strip()
+    outer = json.loads(result.stdout.strip())
+    if outer.get("is_error"):
+        raise RuntimeError(f"claude CLI reported error (subtype={outer.get('subtype')}): {outer.get('result', '')[:500]}")
+
+    raw = outer["result"].strip()
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[1].rsplit("```", 1)[0].strip()
     return json.loads(raw)
+
+
+def _merge_analyses(part1: dict, part2: dict) -> dict:
+    """Merge two partial analyses from a split long transcript into a unified result."""
+    merged = {
+        "episode_date": part1.get("episode_date"),
+        "episode_type": part1.get("episode_type"),
+        "market_headline": part1.get("market_headline") or part2.get("market_headline"),
+        "market_bullets": part1.get("market_bullets", []) or part2.get("market_bullets", []),
+        "sections": part1.get("sections", []) + part2.get("sections", []),
+        "stocks": [],
+    }
+
+    # Dedupe stocks by (ticker, segment, note) to avoid duplicates from overlap region
+    seen = set()
+    for stock in part1.get("stocks", []) + part2.get("stocks", []):
+        key = (
+            stock.get("ticker"),
+            stock.get("segment"),
+            stock.get("note", "")[:100],
+        )
+        if key not in seen:
+            seen.add(key)
+            merged["stocks"].append(stock)
+
+    return merged
+
+
+def analyze_long_transcript_split(date_str: str, transcript_text: str,
+                                  backend: str = "claude-code") -> dict:
+    """
+    For transcripts >59k chars, split into two parts with overlap,
+    analyze each separately, then merge results.
+    """
+    analyze_fn = analyze_with_claude_code if backend == "claude-code" else None
+    if not analyze_fn:
+        raise ValueError("Only claude-code backend supported for split analysis")
+
+    total_len = len(transcript_text)
+    if total_len <= 59000:
+        return analyze_fn(date_str, transcript_text)
+
+    # Split at 50% with 10k-char overlap
+    midpoint = total_len // 2
+    overlap = 10000
+
+    part1_end = midpoint + overlap
+    part1_text = transcript_text[:part1_end]
+    part2_text = transcript_text[midpoint:]
+
+    print(f"  Transcript is {total_len:,} chars — splitting into two parts with {overlap:,}-char overlap")
+    print(f"    Part 1: 0–{part1_end:,}")
+    print(f"    Part 2: {midpoint:,}–{total_len:,}")
+
+    print(f"  Analyzing Part 1…")
+    analysis1 = analyze_fn(date_str, part1_text)
+
+    print(f"  Analyzing Part 2…")
+    analysis2 = analyze_fn(date_str, part2_text)
+
+    print(f"  Merging results…")
+    merged = _merge_analyses(analysis1, analysis2)
+
+    return merged
 
 
 def discover_episodes_in_range(start: str, end: str, max_scan: int) -> list[dict]:
@@ -189,16 +272,29 @@ def reanalyze_from_transcripts(
 
             print(f"  Analyzing via {backend_label}… ({len(transcript_text):,} chars)")
             analysis = None
-            for attempt, limit in enumerate([None, 40_000, 25_000]):
+
+            # For very long transcripts (>59k chars), use split-and-merge approach
+            if backend == "claude-code" and len(transcript_text) > 59000:
                 try:
-                    text = transcript_text if limit is None else transcript_text[:limit]
-                    analysis = analyze_fn(date_str, text)
-                    break
+                    analysis = analyze_long_transcript_split(date_str, transcript_text, backend="claude-code")
                 except Exception as err:
-                    if attempt < 2:
-                        print(f"  Attempt {attempt+1} failed ({err}), retrying with {[40_000,25_000][attempt]:,} chars…")
-                    else:
-                        raise RuntimeError(f"All attempts failed: {err}") from err
+                    print(f"  Split-and-merge failed ({err}), falling back to truncation…")
+
+            # Fallback: truncation with retries (or direct attempt if short transcript)
+            if analysis is None:
+                for attempt, limit in enumerate([None, 40_000, 25_000]):
+                    try:
+                        text = transcript_text if limit is None else transcript_text[:limit]
+                        if backend == "claude-code":
+                            analysis = analyze_with_claude_code(date_str, text)
+                        else:
+                            analysis = analyze_with_haiku(date_str, text)
+                        break
+                    except Exception as err:
+                        if attempt < 2:
+                            print(f"  Attempt {attempt+1} failed ({err}), retrying with {[40_000,25_000][attempt]:,} chars…")
+                        else:
+                            raise RuntimeError(f"All attempts failed: {err}") from err
 
             n_sec = len(analysis.get("sections", []))
             n_stk = len(analysis.get("stocks", []))
@@ -221,7 +317,7 @@ def reanalyze_from_transcripts(
                 "redirect_pages":      {},
                 "overcast_episode_id": overcast_episode_id,
             }
-            ep_html = build_email_html([summary_dict])
+            ep_html, _ = build_email_html([summary_dict])
             arc = SUMMARIES_DIR / f"{date_str}_summary.html"
             arc.write_text(ep_html)
             print(f"  Summary regenerated → {arc.name}")

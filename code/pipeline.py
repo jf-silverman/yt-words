@@ -23,7 +23,9 @@ Environment variables:
 """
 
 import argparse
+import base64
 import csv
+import io
 import json
 from collections import Counter
 import os
@@ -32,14 +34,20 @@ import smtplib
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, date, timezone, timedelta
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 from urllib.parse import quote
 
 import anthropic
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import requests
 import yt_dlp
+
+matplotlib.use('Agg')  # Use non-interactive backend for server/batch use
 
 from db import (
     init_db,
@@ -80,6 +88,7 @@ import subprocess
 DATA_DIR = ROOT / "data"
 OUTPUT_DIR = DATA_DIR / "transcripts"
 SUMMARIES_DIR = DATA_DIR / "summaries"
+EMAIL_PREVIEW_DIR = DATA_DIR / "email_previews"
 DOCS_DIR = ROOT / "docs"
 TICKER_DATA_DIR = DOCS_DIR / "data"
 SENTIMENTS_FILE = DATA_DIR / "stock_sentiments.json"
@@ -399,7 +408,7 @@ def fetch_closing_price(ticker: str, date_str: str) -> float | None:
         p2 = p1 + 86400
         url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
                f"?interval=1d&period1={p1}&period2={p2}")
-        resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+        resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=6)
         resp.raise_for_status()
         closes = resp.json()["chart"]["result"][0]["indicators"]["quote"][0]["close"]
         price = next((c for c in closes if c is not None), None)
@@ -545,6 +554,10 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
             price = fetch_closing_price(ticker, episode_date)
             if price is not None:
                 mention["closing_price"] = price
+            # Throttle to avoid tripping Yahoo Finance rate limiting during bulk
+            # backfill runs (~28 tickers/episode with no delay was hitting 429s
+            # and burning the full 6s timeout on each failed call).
+            time.sleep(0.15)
         entry["mentions"].append(mention)
 
         # Write to SQLite
@@ -1218,33 +1231,247 @@ def _fmt_seconds(s: int) -> str:
     return f"{h}:{m:02d}:{sec:02d}" if h else f"{m}:{sec:02d}"
 
 
+# Haiku sometimes emits variant segment values instead of the 6 canonical ones
+# documented in the prompt. Fold them to canonical before matching against a
+# section's display name (mirrors the CASE mapping in db.py's analytics queries).
+_SEGMENT_ALIASES = {
+    "investing_club_qa":     "caller_qa",
+    "mag_seven_analysis":    "in_depth_analysis",
+    "mag7_earnings":         "in_depth_analysis",
+    "mag7_analysis":         "in_depth_analysis",
+    "software_opportunities": "in_depth_analysis",
+}
+
+
+def _norm_segment(seg: str) -> str:
+    return _SEGMENT_ALIASES.get(seg, seg)
+
+
 def _section_segments(section_name: str) -> set[str]:
     """Map a section display name to the stock segment values it corresponds to."""
     name = section_name.lower()
     if "lightning" in name:
         return {"lightning_round"}
     if "opening" in name:
-        return {"opening_commentary"}
+        # Caller Q&A is folded into Opening Commentary's bullets rather than
+        # getting its own section (see prompt rules), so its ticker mentions
+        # need to surface here too or they never render anywhere.
+        return {"opening_commentary", "caller_qa"}
     if "closing" in name:
         return {"closing_commentary"}
     if "caller" in name or "q&a" in name or "q & a" in name:
         return {"caller_qa"}
     if "interview" in name:
         return {"interview"}
-    if "in-depth" in name or "in depth" in name or "deep dive" in name:
+    if ("in-depth" in name or "in depth" in name or "deep dive" in name
+            or "mag 7" in name or "mag7" in name or "magnificent" in name):
         return {"in_depth_analysis"}
     return set()
 
 
+CHART_CACHE_DIR = DATA_DIR / "chart_cache"
+
+# Mirrors SEGMENT_PRIORITY / BULLISH_SET / BEARISH_SET in docs/stocks.html so the
+# email chart's mention markers match the site's chart exactly.
+_CHART_SEGMENT_PRIORITY = [
+    "in_depth_analysis", "interview", "opening_commentary",
+    "closing_commentary", "caller_qa", "lightning_round",
+]
+_CHART_BULLISH = {"strong_buy", "buy", "buy_on_pullback", "mild_buy"}
+_CHART_BEARISH = {"sell_avoid", "caution_concern"}
+
+
+def _generate_price_chart_png(ticker: str) -> bytes | None:
+    """
+    Generate a chart of Cramer's mentions for ticker: one point per episode date
+    (deduped by segment priority when mentioned multiple times same day), colored/
+    shaped by sentiment, connected by a line, with a dashed line extending the last
+    call's price to the most recent date we have a price for — matching the
+    mention-chart on docs/stocks.html (not the raw daily-close chart).
+    Returns raw PNG bytes (also cached to disk at data/chart_cache/{ticker}.png).
+    Returns None if fewer than 3 distinct mention dates have a price.
+    """
+    try:
+        from db import get_connection
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT m.date, m.sentiment, m.segment, m.closing_price
+            FROM mentions m
+            WHERE m.ticker = ? AND m.closing_price IS NOT NULL AND m.closing_price > 0
+            ORDER BY m.date
+        """, (ticker,))
+        rows = [dict(r) for r in cur.fetchall()]
+
+        # Daily closes for the purple backdrop bars (matches the site's
+        # "Show daily price history" overlay)
+        cur.execute(
+            "SELECT date, close FROM daily_prices WHERE ticker = ? ORDER BY date",
+            (ticker,),
+        )
+        daily_rows = [dict(r) for r in cur.fetchall()]
+
+        # Most recent date we have any daily price for (dashed line's right endpoint)
+        cur.execute("SELECT MAX(date) AS d FROM daily_prices WHERE ticker = ?", (ticker,))
+        latest_price_date_row = cur.fetchone()
+        conn.close()
+
+        if not rows:
+            return None
+
+        # Dedupe same-day mentions by segment priority (highest-priority segment wins)
+        by_date: dict[str, dict] = {}
+        for r in rows:
+            d = r["date"]
+            pri = _CHART_SEGMENT_PRIORITY.index(r["segment"]) if r["segment"] in _CHART_SEGMENT_PRIORITY else 99
+            if d not in by_date or pri < by_date[d]["_pri"]:
+                r["_pri"] = pri
+                by_date[d] = r
+
+        date_strs = sorted(by_date.keys())
+        if len(date_strs) < 3:
+            return None
+
+        dates = [datetime.fromisoformat(d) for d in date_strs]
+        prices = [by_date[d]["closing_price"] for d in date_strs]
+        sentiments = [normalize_sentiment(by_date[d].get("sentiment") or "") for d in date_strs]
+
+        fig, ax = plt.subplots(figsize=(7, 3.2), dpi=150)
+
+        if daily_rows:
+            daily_dates = [datetime.fromisoformat(r["date"]) for r in daily_rows]
+            daily_closes = [r["close"] for r in daily_rows]
+            ax.bar(daily_dates, daily_closes, width=1.0, color="#8250df",
+                  alpha=0.35, edgecolor="#8250df", linewidth=0.3, zorder=0)
+
+        ax.plot(dates, prices, "-", color="#0969da", linewidth=1.8, zorder=1)
+
+        for dt, price, sent in zip(dates, prices, sentiments):
+            if sent in _CHART_BULLISH:
+                marker, color, size = "^", "#2da44e", 90
+            elif sent in _CHART_BEARISH:
+                marker, color, size = "v", "#a00000", 90
+            else:
+                marker, color, size = "o", "#8b949e", 55
+            ax.scatter([dt], [price], marker=marker, color=color, s=size,
+                       edgecolor="white", linewidth=1.2, zorder=3)
+
+        # Dashed horizontal line: last call's price extended to most recent price date
+        last_date, last_price = dates[-1], prices[-1]
+        end_date = (
+            datetime.fromisoformat(latest_price_date_row["d"])
+            if latest_price_date_row and latest_price_date_row["d"] else datetime.now()
+        )
+        if end_date > last_date:
+            ax.plot([last_date, end_date], [last_price, last_price],
+                    linestyle="--", color="#0969da", linewidth=1.3, zorder=2)
+
+        # Auto-range the y-axis to the data (like Chart.js does on the site) instead
+        # of letting the bar chart's zero-baseline force the axis down to $0, which
+        # compresses the actual price movement into a sliver at the top.
+        all_vals = prices + ([r["close"] for r in daily_rows] if daily_rows else [])
+        y_min, y_max = min(all_vals), max(all_vals)
+        pad = (y_max - y_min) * 0.08 or y_max * 0.05
+        ax.set_ylim(y_min - pad, y_max + pad)
+
+        # % Days Right — same walk-forward methodology as the site's shard build
+        # (_write_ticker_shards): for each buy/sell call, count the daily closes
+        # from that call until the next call (or end of data) that landed on the
+        # correct side of the call price. Requires >=5 tallied days, matching site.
+        pct_right = None
+        if daily_rows:
+            import bisect
+            daily_by_date = {r["date"]: r["close"] for r in daily_rows}
+            daily_date_list = [r["date"] for r in daily_rows]
+            last_daily_date = daily_date_list[-1]
+            total = right = 0
+            for i, d in enumerate(date_strs):
+                sent = sentiments[i]
+                is_buy = sent in _CHART_BULLISH
+                is_sell = sent in _CHART_BEARISH
+                if not is_buy and not is_sell:
+                    continue
+                call_price = prices[i]
+                end_date = date_strs[i + 1] if i + 1 < len(date_strs) else last_daily_date
+                lo = bisect.bisect_right(daily_date_list, d)
+                hi = bisect.bisect_right(daily_date_list, end_date)
+                for dd in daily_date_list[lo:hi]:
+                    price = daily_by_date[dd]
+                    total += 1
+                    if is_buy and price > call_price:
+                        right += 1
+                    elif is_sell and price < call_price:
+                        right += 1
+            if total >= 5:
+                pct_right = (round(right / total * 100, 1), total)
+
+        ax.set_facecolor("#ffffff")
+        fig.patch.set_facecolor("#ffffff")
+        ax.grid(True, alpha=0.25, linestyle="--", linewidth=0.6)
+        ax.set_ylabel("Close ($)", fontsize=10)
+        ax.set_title(
+            f"{ticker}  ${last_price:,.2f} at last call",
+            fontsize=12, fontweight="bold", loc="left", color="#24292f",
+        )
+        if pct_right:
+            pct, n_days = pct_right
+            pct_color = "#1a7f37" if pct >= 50 else "#a00000"
+            ax.text(
+                1.0, 1.12, f"% Days Right: {pct}% ({n_days}d)",
+                transform=ax.transAxes, ha="right", va="bottom",
+                fontsize=10, fontweight="bold", color=pct_color,
+            )
+        ax.tick_params(axis="both", labelsize=9)
+        for spine in ("top", "right"):
+            ax.spines[spine].set_visible(False)
+        fig.autofmt_xdate(rotation=30, ha="right")
+
+        legend_elements = [
+            plt.Line2D([0], [0], marker="^", color="w", markerfacecolor="#2da44e", markersize=8, label="Bullish"),
+            plt.Line2D([0], [0], marker="o", color="w", markerfacecolor="#8b949e", markersize=7, label="Neutral"),
+            plt.Line2D([0], [0], marker="v", color="w", markerfacecolor="#a00000", markersize=8, label="Bearish"),
+            plt.Line2D([0], [0], color="#0969da", linestyle="--", label="Price at last call"),
+        ]
+        if daily_rows:
+            legend_elements.append(
+                Patch(facecolor="#8250df", alpha=0.35, edgecolor="#8250df", label="Daily price")
+            )
+        ax.legend(handles=legend_elements, loc="upper left", fontsize=7, frameon=False, ncol=len(legend_elements))
+
+        fig.tight_layout()
+
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", bbox_inches="tight", facecolor="#ffffff")
+        buf.seek(0)
+        png_bytes = buf.read()
+        plt.close(fig)
+
+        CHART_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        (CHART_CACHE_DIR / f"{ticker}.png").write_bytes(png_bytes)
+
+        return png_bytes
+    except Exception as e:
+        print(f"    Chart generation failed for {ticker}: {e}")
+        return None
+
+
 def build_email_html(summaries: list[dict],
-                     highlight_tickers: set[str] | None = None) -> str:
+                     highlight_tickers: set[str] | None = None,
+                     embed_charts: str = "base64") -> tuple[str, list[tuple[str, bytes]]]:
     """
     summaries: list of dicts with keys:
         date_str, analysis, audio_url (or None), video_id, redirect_pages
     highlight_tickers: tickers to highlight in yellow (defaults to USER_HOLDINGS)
     redirect_pages: dict mapping start_seconds (int) → GitHub Pages URL
+    embed_charts: "base64" for self-contained <img> (browser-viewable archive/preview
+        files) or "cid" for cid: references (paired with MIMEImage attachments for
+        actual SMTP-sent email — many clients strip/block inline base64 images).
+
+    Returns (html, chart_attachments) where chart_attachments is a list of
+    (content_id, png_bytes) tuples — empty unless embed_charts == "cid".
     """
     hl = highlight_tickers if highlight_tickers is not None else USER_HOLDINGS
+    chart_attachments: list[tuple[str, bytes]] = []
     parts = ["""
 <html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1277,8 +1504,9 @@ def build_email_html(summaries: list[dict],
            vertical-align: top; }
   .ticker  { font-weight: bold; font-family: monospace; }
   .holding { background: #fff8c5; }
-  .holding .ticker::after { content: " ★"; font-size: 10px; color: #9a6700; }
   .note    { color: #57606a; font-size: 13px; }
+  .chart-row td { padding: 8px 10px 14px; border-bottom: 1px solid #d0d7de; text-align: center; }
+  .chart-row img { max-width: 100%; height: auto; }
   .footer { margin-top: 24px; color: #8b949e; font-size: 12px; border-top: 1px solid #d0d7de; padding-top: 8px; }
   .ep-subtitle { font-size: 13px; color: #8b949e; margin: -4px 0 10px; font-weight: 400; }
   .fundamentals-banner { background: #fff8c5; border: 1px solid #d4a017; border-radius: 6px;
@@ -1327,17 +1555,42 @@ def build_email_html(summaries: list[dict],
 
         stocks = analysis.get("stocks", [])
 
+        # "Interview" sections reliably cover exactly one company, named in
+        # the title (e.g. "Interview: Yum Brands (YUM)") — when an episode has
+        # multiple interviews, only name-matching prevents every interview's
+        # pills from showing under every other interview. "In-Depth" sections
+        # don't follow this pattern: they can be single-stock deep dives OR
+        # thematic multi-stock roundups (e.g. "In-Depth: Space Sector
+        # Alternatives" covering 5 different tickers never named in the
+        # title) — so name-matching for in-depth sections silently filters
+        # everything out. Only disambiguate interviews.
         def _ticker_links(section_name: str) -> str:
             segs = _section_segments(section_name)
-            tickers = [s["ticker"] for s in stocks
-                       if s.get("segment") in segs and s.get("ticker")]
-            if not tickers:
+            if not segs:
                 return ""
+            needs_name_match = "interview" in segs
+            name_lower = section_name.lower()
+            matched = []
+            for s in stocks:
+                if _norm_segment(s.get("segment", "")) not in segs:
+                    continue
+                ticker = s.get("ticker", "")
+                if not ticker:
+                    continue
+                if needs_name_match:
+                    company = s.get("company", "")
+                    if ticker.lower() not in name_lower and (not company or company.lower() not in name_lower):
+                        continue
+                matched.append(s)
+            if not matched:
+                return ""
+            matched.sort(key=lambda s: s.get("ticker", ""))
             links = "".join(
-                f'<a class="tlink" href="#ticker-{t}" '
-                f'style="{"background:#fff8c5;border:1px solid #d4a017;" if t in hl else ""}">'
-                f'{t}{"★" if t in hl else ""}</a>'
-                for t in tickers
+                f'<a class="tlink" href="#ticker-{s["ticker"]}" '
+                f'style="border:1.5px solid {SENTIMENT_COLORS.get(normalize_sentiment(s.get("sentiment","")), "#8b949e")};'
+                f'color:{SENTIMENT_COLORS.get(normalize_sentiment(s.get("sentiment","")), "#8b949e")};background:#fff;">'
+                f'{s["ticker"]}{"*" if s["ticker"] in hl else ""}</a>'
+                for s in matched
             )
             return f'<p class="sec-tickers">{links}</p>'
 
@@ -1369,8 +1622,8 @@ def build_email_html(summaries: list[dict],
                 f'{tag_open}'
                 f'<h3><a href="{href}">{icon} {show_name} [{ts_label}]</a></h3>'
                 + (f'<p class="sec-headline">{headline}</p>' if headline else "")
-                + body_html
                 + ticker_html
+                + body_html
                 + tag_close
             )
 
@@ -1381,12 +1634,17 @@ def build_email_html(summaries: list[dict],
         if stocks:
             parts.append('<h3>Stocks Mentioned</h3>')
             parts.append(
-                '<table><tr>'
+                '<table>'
+                '<colgroup>'
+                '<col style="width:8%"><col style="width:14%"><col style="width:13%">'
+                '<col style="width:12%"><col style="width:53%">'
+                '</colgroup>'
+                '<tr>'
                 '<th>Ticker</th><th>Company</th><th>Sentiment</th>'
                 '<th>Segment</th><th>Note</th>'
                 '</tr>'
             )
-            for s in stocks:
+            for s in sorted(stocks, key=lambda s: s.get("ticker", "")):
                 seg = s.get("segment", "").replace("_", " ").title()
                 pt = ""
                 if "price_target" in s:
@@ -1394,7 +1652,8 @@ def build_email_html(summaries: list[dict],
                 elif "price_level" in s:
                     pt = f' (at ${s["price_level"]})'
                 ticker = s.get("ticker", "")
-                row_class = ' class="holding"' if ticker in hl else ""
+                is_holding = ticker in hl
+                row_class = ' class="holding"' if is_holding else ""
                 note = s.get("note", "")
                 ticker_note = s.get("ticker_note", "")
                 note_html = note
@@ -1402,13 +1661,28 @@ def build_email_html(summaries: list[dict],
                     note_html += f'<br><em style="color:#f0a030;font-size:11px">{ticker_note}</em>'
                 parts.append(
                     f'<tr id="ticker-{ticker}"{row_class}>'
-                    f'<td class="ticker">{ticker}</td>'
+                    f'<td class="ticker">{ticker}{"*" if is_holding else ""}</td>'
                     f'<td>{s.get("company","")}</td>'
                     f'<td>{_sentiment_badge(s.get("sentiment","neutral"))}{pt}</td>'
                     f'<td>{seg}</td>'
                     f'<td class="note">{note_html}</td>'
                     f'</tr>'
                 )
+                # Embed chart for holdings if available
+                if is_holding:
+                    png_bytes = _generate_price_chart_png(ticker)
+                    if png_bytes:
+                        if embed_charts == "cid":
+                            cid = f"chart-{ticker}"
+                            chart_attachments.append((cid, png_bytes))
+                            img_src = f"cid:{cid}"
+                        else:
+                            img_src = f"data:image/png;base64,{base64.b64encode(png_bytes).decode('utf-8')}"
+                        parts.append(
+                            f'<tr class="chart-row"><td colspan="5">'
+                            f'<img src="{img_src}" alt="{ticker} price chart" style="max-width:100%;height:auto;">'
+                            f'</td></tr>'
+                        )
             parts.append('</table>')
 
         parts.append('<br>')
@@ -1423,15 +1697,16 @@ def build_email_html(summaries: list[dict],
         link_note = "▶ section links open on YouTube (Overcast episode ID not found)"
     parts.append(
         f'<div class="footer">Generated by Claude Haiku &middot; {link_note} &middot; '
-        f'stock_sentiments.json updated</div>'
+        f'stock_sentiments.json updated &middot; * = your holding</div>'
     )
     parts.append("</body></html>")
-    return "\n".join(parts)
+    return "\n".join(parts), chart_attachments
 
 
 # ── 7. Email delivery ──────────────────────────────────────────────────────────
 
-def send_email_smtp(html: str, subject: str, recipient: str | None = None) -> None:
+def send_email_smtp(html: str, subject: str, recipient: str | None = None,
+                    chart_attachments: list[tuple[str, bytes]] | None = None) -> None:
     password = os.environ.get("GMAIL_APP_PASSWORD")
     if not password:
         raise RuntimeError("GMAIL_APP_PASSWORD environment variable not set")
@@ -1439,11 +1714,24 @@ def send_email_smtp(html: str, subject: str, recipient: str | None = None) -> No
     sender = os.environ.get("GMAIL_FROM", GMAIL_FROM)
     recipient = recipient or os.environ.get("GMAIL_TO", GMAIL_TO)
 
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"] = sender
-    msg["To"] = recipient
-    msg.attach(MIMEText(html, "html"))
+    if chart_attachments:
+        # "related" wraps the html part + its inline cid: images together
+        msg = MIMEMultipart("related")
+        msg["Subject"] = subject
+        msg["From"] = sender
+        msg["To"] = recipient
+        msg.attach(MIMEText(html, "html"))
+        for cid, png_bytes in chart_attachments:
+            img = MIMEImage(png_bytes, "png")
+            img.add_header("Content-ID", f"<{cid}>")
+            img.add_header("Content-Disposition", "inline", filename=f"{cid}.png")
+            msg.attach(img)
+    else:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = sender
+        msg["To"] = recipient
+        msg.attach(MIMEText(html, "html"))
 
     with smtplib.SMTP(*GMAIL_SMTP) as server:
         server.ehlo()
@@ -1466,9 +1754,10 @@ def send_email_mcp(html: str, subject: str) -> None:
 
 
 def send_email(html: str, subject: str, mode: str = "smtp",
-               recipient: str | None = None) -> None:
+               recipient: str | None = None,
+               chart_attachments: list[tuple[str, bytes]] | None = None) -> None:
     if mode == "smtp":
-        send_email_smtp(html, subject, recipient=recipient)
+        send_email_smtp(html, subject, recipient=recipient, chart_attachments=chart_attachments)
     elif mode == "mcp":
         send_email_mcp(html, subject)
     else:
@@ -1719,8 +2008,6 @@ def main() -> None:
         print("\nPushing redirect pages to GitHub...")
         commit_and_push(dates[0])
 
-    html = build_email_html(summaries)
-
     # Check if any episode mentions a ticker from the brother's watch list
     all_tickers = {
         s.get("ticker", "").upper()
@@ -1729,31 +2016,36 @@ def main() -> None:
     }
     brother_hits = all_tickers & BROTHER_TICKERS
 
-    # Archive one HTML summary per episode date (no holdings highlighting)
+    # Archive one HTML summary per episode date (no holdings highlighting, no charts needed)
     SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
     for ep_summary in summaries:
-        ep_html = build_email_html([ep_summary], highlight_tickers=set())
+        ep_html, _ = build_email_html([ep_summary], highlight_tickers=set())
         arc = SUMMARIES_DIR / f"{ep_summary['date_str']}_summary.html"
         arc.write_text(ep_html)
         print(f"  Archived summary → {arc.name}")
 
     if args.dry_run:
-        out = OUTPUT_DIR / f"{dates[0]}_email_preview.html"
+        # base64 so the standalone preview file is viewable in a browser
+        html, _ = build_email_html(summaries, embed_charts="base64")
+        EMAIL_PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
+        out = EMAIL_PREVIEW_DIR / f"{dates[0]}_email_preview.html"
         out.write_text(html)
         print(f"\nDry run — redirect pages written to docs/ (not pushed)")
         print(f"Email preview saved to {out}")
         if brother_hits:
-            bro_html = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS)
-            bro_out = OUTPUT_DIR / f"{dates[0]}_email_preview_brother.html"
+            bro_html, _ = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS, embed_charts="base64")
+            bro_out = EMAIL_PREVIEW_DIR / f"{dates[0]}_email_preview_brother.html"
             bro_out.write_text(bro_html)
             print(f"Brother preview saved to {bro_out} (hits: {', '.join(sorted(brother_hits))})")
     else:
+        # cid: attachments render more reliably than inline base64 in most email clients
+        html, chart_attachments = build_email_html(summaries, embed_charts="cid")
         print(f"\nSending email: {subject}")
-        send_email(html, subject, mode=args.email_mode)
+        send_email(html, subject, mode=args.email_mode, chart_attachments=chart_attachments)
         if brother_hits:
             print(f"  Brother's tickers mentioned: {', '.join(sorted(brother_hits))} — sending copy to {BROTHER_TO}")
-            bro_html = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS)
-            send_email(bro_html, subject, mode=args.email_mode, recipient=BROTHER_TO)
+            bro_html, bro_charts = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS, embed_charts="cid")
+            send_email(bro_html, subject, mode=args.email_mode, recipient=BROTHER_TO, chart_attachments=bro_charts)
 
     save_processed(processed)
     print("\nDone.")

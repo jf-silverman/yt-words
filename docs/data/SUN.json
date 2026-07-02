@@ -1,1 +1,1 @@
-{"company": "Sunoco", "mentions": [{"date": "2026-01-12", "sentiment": "buy", "segment": "lightning_round", "note": "Down modestly for the year but Cramer called it undervalued and a buy.", "closing_price": 57.27}]}
+{"company": "Sunoco", "mentions": [{"date": "2026-01-12", "sentiment": "buy", "segment": "lightning_round", "note": "Down modestly for the year but Cramer called it undervalued and a buy.", "closing_price": 57.27}], "price_latest": 67.45, "price_latest_date": "2026-07-01", "pct_right_daily": 97.4, "n_right_days": 117}
