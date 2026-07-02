@@ -119,7 +119,8 @@ YouTube session cookies expire periodically. When the pipeline fails with bot-ch
 
 ```bash
 # Re-export cookies from Chrome (yt-dlp reads them automatically on Mac)
-yt-dlp --cookies-from-browser chrome -o /dev/null --skip-download https://www.youtube.com/
+# Use --no-playlist to skip fetching recommended feed metadata
+yt-dlp --cookies-from-browser chrome --no-playlist -o /dev/null --skip-download https://www.youtube.com/
 
 # For GitHub Actions: filter to youtube/google domains and update the YOUTUBE_COOKIES secret
 grep -E '(youtube\.com|google\.com)' ~/Library/... > yt_cookies_filtered.txt
