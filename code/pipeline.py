@@ -1582,7 +1582,7 @@ def build_email_html(summaries: list[dict],
         # Alternatives" covering 5 different tickers never named in the
         # title) — so name-matching for in-depth sections silently filters
         # everything out. Only disambiguate interviews.
-        def _ticker_links(section_name: str) -> str:
+        def _ticker_links(section_name: str, section_text: str = "") -> str:
             segs = _section_segments(section_name)
             name_lower = section_name.lower()
             if not segs:
@@ -1618,6 +1618,23 @@ def build_email_html(summaries: list[dict],
                     if ticker.lower() not in name_lower and (not company or company.lower() not in name_lower):
                         continue
                 matched.append(s)
+            # Closing Commentary usually recaps names already discussed earlier
+            # in the episode (under their original segment, e.g. an interview)
+            # rather than introducing new closing_commentary-tagged mentions —
+            # so a pure segment match often finds nothing even when the recap
+            # text clearly names a ticker. Fall back to scanning the section's
+            # own text for "(TICKER)" or the company name for any stock not
+            # already matched.
+            if "closing_commentary" in segs and section_text:
+                matched_tickers = {s["ticker"] for s in matched}
+                for s in stocks:
+                    ticker = s.get("ticker", "")
+                    if not ticker or ticker in matched_tickers:
+                        continue
+                    company = s.get("company", "")
+                    if f"({ticker})" in section_text or (company and company.lower() in section_text.lower()):
+                        matched.append(s)
+                        matched_tickers.add(ticker)
             if not matched:
                 return ""
             matched.sort(key=lambda s: s.get("ticker", ""))
@@ -1648,12 +1665,14 @@ def build_email_html(summaries: list[dict],
             tag_open = '<div class="sub">' if indent else ""
             tag_close = "</div>" if indent else ""
             headline = section.get("headline", "")
-            ticker_html = _ticker_links(name)
             bullets = section.get("bullets")
             if bullets and isinstance(bullets, list):
                 body_html = '<ul class="summary">' + "".join(f"<li>{b}</li>" for b in bullets) + "</ul>"
+                section_text = headline + " " + " ".join(bullets)
             else:
                 body_html = f'<p class="summary">{section.get("summary", "")}</p>'
+                section_text = headline + " " + section.get("summary", "")
+            ticker_html = _ticker_links(name, section_text)
             parts.append(
                 f'{tag_open}'
                 f'<h3><a href="{href}">{icon} {show_name} [{ts_label}]</a></h3>'
