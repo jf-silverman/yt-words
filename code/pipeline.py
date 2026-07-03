@@ -1252,6 +1252,14 @@ _SEGMENT_ALIASES = {
     "software_opportunities": "in_depth_analysis",
 }
 
+# The 6 segment values the prompt documents; anything else is a one-off custom
+# segment Haiku invented for an unusual section (e.g. "ipo_market_analysis" for
+# an "IPO Market Analysis" section) that isn't in _SEGMENT_ALIASES.
+_CANONICAL_SEGMENTS = {
+    "opening_commentary", "caller_qa", "interview",
+    "in_depth_analysis", "lightning_round", "closing_commentary",
+}
+
 
 def _norm_segment(seg: str) -> str:
     return _SEGMENT_ALIASES.get(seg, seg)
@@ -1576,10 +1584,28 @@ def build_email_html(summaries: list[dict],
         # everything out. Only disambiguate interviews.
         def _ticker_links(section_name: str) -> str:
             segs = _section_segments(section_name)
-            if not segs:
-                return ""
-            needs_name_match = "interview" in segs
             name_lower = section_name.lower()
+            if not segs:
+                # No keyword match — this is a one-off custom section (e.g.
+                # "IPO Market Analysis"). Haiku's segment value for these is
+                # usually a near-literal slug of the section name (e.g.
+                # "ipo_market_analysis"), so match by word-overlap against the
+                # section's own title rather than lumping into a shared bucket
+                # like in_depth_analysis (which would wrongly merge multiple
+                # distinct custom sections in the same episode).
+                custom_segs = set()
+                for s in stocks:
+                    raw_seg = s.get("segment", "")
+                    norm_seg = _norm_segment(raw_seg)
+                    if not raw_seg or norm_seg in _CANONICAL_SEGMENTS:
+                        continue
+                    words = [w for w in raw_seg.split("_") if w and w != "analysis"]
+                    if words and all(w in name_lower for w in words):
+                        custom_segs.add(raw_seg)
+                if not custom_segs:
+                    return ""
+                segs = custom_segs
+            needs_name_match = "interview" in segs
             matched = []
             for s in stocks:
                 if _norm_segment(s.get("segment", "")) not in segs:
