@@ -126,6 +126,11 @@ def _is_private(ticker: str, date_str: str) -> bool:
         return True
     return date_str < info["ipo_date"]
 
+
+def _ticker_display(ticker: str, date_str: str) -> str:
+    """Wrap tickers with no public market yet in +...+, e.g. +ANTH+."""
+    return f"+{ticker}+" if _is_private(ticker, date_str) else ticker
+
 USER_HOLDINGS = {
     "ARM", "AEVA", "INTC", "CRWV", "BE", "AUR", "ABSI", "PWR", "RVMD", "LRCX",
     "GNRC", "LIN", "NEE", "ABNB", "MP", "NUE", "GOOGL", "VXUS", "QUBT", "COST",
@@ -1216,9 +1221,14 @@ def generate_redirect_pages(analysis: dict, date_str: str,
 
 # ── 7. HTML email formatter ────────────────────────────────────────────────────
 
+_SENTIMENT_DISPLAY_LABELS = {
+    "wait_hold_neutral": "WAIT HOLD",
+}
+
+
 def _sentiment_badge(sentiment: str) -> str:
     color = SENTIMENT_COLORS.get(sentiment, "#8b949e")
-    label = sentiment.replace("_", " ").upper()
+    label = _SENTIMENT_DISPLAY_LABELS.get(sentiment, sentiment.replace("_", " ").upper())
     return (
         f'<span style="background:{color};color:#fff;padding:3px 8px;'
         f'border-radius:4px;font-size:12px;font-weight:bold">{label}</span>'
@@ -1589,7 +1599,7 @@ def build_email_html(summaries: list[dict],
                 f'<a class="tlink" href="#ticker-{s["ticker"]}" '
                 f'style="border:1.5px solid {SENTIMENT_COLORS.get(normalize_sentiment(s.get("sentiment","")), "#8b949e")};'
                 f'color:{SENTIMENT_COLORS.get(normalize_sentiment(s.get("sentiment","")), "#8b949e")};background:#fff;">'
-                f'{s["ticker"]}{"*" if s["ticker"] in hl else ""}</a>'
+                f'{_ticker_display(s["ticker"], ep_date)}{"*" if s["ticker"] in hl else ""}</a>'
                 for s in matched
             )
             return f'<p class="sec-tickers">{links}</p>'
@@ -1661,7 +1671,7 @@ def build_email_html(summaries: list[dict],
                     note_html += f'<br><em style="color:#f0a030;font-size:11px">{ticker_note}</em>'
                 parts.append(
                     f'<tr id="ticker-{ticker}"{row_class}>'
-                    f'<td class="ticker">{ticker}{"*" if is_holding else ""}</td>'
+                    f'<td class="ticker">{_ticker_display(ticker, ep_date)}{"*" if is_holding else ""}</td>'
                     f'<td>{s.get("company","")}</td>'
                     f'<td>{_sentiment_badge(s.get("sentiment","neutral"))}{pt}</td>'
                     f'<td>{seg}</td>'

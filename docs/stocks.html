@@ -308,6 +308,10 @@ function isCurrentlyPrivate(ticker) {
   return isPrivate(ticker, new Date().toISOString().slice(0, 10));
 }
 
+function tickerDisplay(ticker, dateStr) {
+  return isPrivate(ticker, dateStr) ? `+${ticker}+` : ticker;
+}
+
 const SEGMENT_PRIORITY = [
   'in_depth_analysis','interview','opening_commentary',
   'closing_commentary','caller_qa','lightning_round',
@@ -331,7 +335,7 @@ const SENTIMENT_LABELS = {
   buy:               'Buy',
   mild_buy:          'Mild Buy',
   buy_on_pullback:   'Buy on Pullback',
-  wait_hold_neutral: 'Wait / Hold / Neutral',
+  wait_hold_neutral: 'Wait / Hold',
   caution_concern:   'Caution / Concern',
   sell_avoid:        'Sell / Avoid',
 };
@@ -971,7 +975,7 @@ function renderRecent() {
     const noteShort = note.length > 120 ? note.slice(0, 120) + '…' : note;
     return `<tr onclick="jumpToTicker('${m.ticker}')">
       <td class="date-cell">${m.date}</td>
-      <td><a class="ticker-link" onclick="event.stopPropagation();jumpToTicker('${m.ticker}')">${m.ticker}</a></td>
+      <td><a class="ticker-link" onclick="event.stopPropagation();jumpToTicker('${m.ticker}')">${tickerDisplay(m.ticker, m.date)}</a></td>
       <td style="font-size:13px">${m.company || ''}</td>
       <td class="sent-cell">${sentimentBadge(m.sentiment)}</td>
       <td class="price-cell">${fmtPrice(m.closing_price)}</td>
@@ -1177,7 +1181,7 @@ function renderAnalytics(d) {
   // ── Latest calls leaderboard ───────────────────────────────────────────────
   const latestRows = d.latest_calls.map(r => `
     <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
-      <td><a class="ticker-link">${r.ticker}</a></td>
+      <td><a class="ticker-link">${tickerDisplay(r.ticker, r.mention_date)}</a></td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.company}</td>
       <td class="date-cell">${r.mention_date}</td>
       <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
@@ -1195,7 +1199,7 @@ function renderAnalytics(d) {
     const field = CALL_PERIOD_FIELD[period] || 'return_since_mention';
     return rows.map(r => `
       <tr onclick="showSearchForTicker('${r.ticker}')" style="cursor:pointer">
-        <td><a class="ticker-link">${r.ticker}</a></td>
+        <td><a class="ticker-link">${tickerDisplay(r.ticker, r.mention_date)}</a></td>
         <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.company}</td>
         <td class="date-cell">${r.mention_date}</td>
         <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
