@@ -517,6 +517,13 @@
           "segment": "opening_commentary",
           "note": "One of Cramer's longest-held winners; early recognition of AI potential and supply-chain dominance in PC chips. Referenced as example of Cramer's prescient early calls.",
           "closing_price": 194.83
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "High-quality growth stock recommended for children's portfolios alongside dividend stocks; long-term secular AI tailwind.",
+          "closing_price": 194.97
         }
       ],
       "sector": "Technology",
@@ -3586,6 +3593,13 @@
           "segment": "opening_commentary",
           "note": "Down 7% in June; memory chip costs skyrocketing due to data-center bidding; strong AI deal with Google but needs earnings proof; phone price pressure concerns.",
           "closing_price": 289.36
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "iPods as fashion accessories, then iPhones and Macs as ecosystem staple; Cramer's children's loyalty signaled long-term dominance and ecosystem stickiness.",
+          "closing_price": 281.74
         }
       ],
       "sector": "Technology",
@@ -3950,6 +3964,13 @@
           "segment": "opening_commentary",
           "note": "Down 6% in June; YouTube, Google Cloud, search undervalued; heavy CapEx hitting free cash flow and pausing buybacks despite recent fundraise.",
           "closing_price": 357.37
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Children's phrase 'Google it, Dad' alerted Cramer to search dominance; comparison to Harvard librarians showed Google's transformational information-access advantage.",
+          "closing_price": 353.65
         }
       ],
       "sector": "Communication Services",
@@ -4151,6 +4172,13 @@
           "segment": "opening_commentary",
           "note": "Shedding slow-growth divisions; focusing on high-growth pharmaceuticals with AAA balance sheet.",
           "closing_price": 237.0
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Band-Aids, shampoo, and consumer staples; familiar to children; good dividend stock for teaching kids ownership of brands they use daily.",
+          "closing_price": 258.51
         }
       ],
       "sector": "Healthcare",
@@ -4278,6 +4306,13 @@
           "segment": "opening_commentary",
           "note": "Caught in Mag 7 negativity; business not slowed despite price hikes and Warner Bros. deal baggage; market sentiment turned against FANGs.",
           "closing_price": 71.4
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Children get entertainment from Netflix instead of traditional TV; streaming adoption by teens indicated secular shift in media consumption.",
+          "closing_price": 73.78
         }
       ],
       "sector": "Communication Services",
@@ -4678,6 +4713,13 @@
           "segment": "opening_commentary",
           "note": "Announced cloud infrastructure business as instantly profitable enterprise play; rallied ~$50 today, potential $100+ more as pricing power expands beyond consumer advertising.",
           "closing_price": 612.91
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Daughters moved from Facebook to Instagram; Cramer recognized Meta's cleverness in acquiring Instagram and hiding older-gen adoption; ads work because they don't feel like ads.",
+          "closing_price": 562.6
         }
       ],
       "sector": "Communication Services",
@@ -5130,6 +5172,13 @@
           "segment": "opening_commentary",
           "note": "Off 12% in June; AWS outperforming but unappreciated; $50B semiconductor opportunity hidden; must show AI profitability and free cash flow next year or declines continue.",
           "closing_price": 238.34
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Cramer figured out Amazon as a long-term disruptor; strong consumer adoption across demographics underpins the bull case.",
+          "closing_price": 240.14
         }
       ],
       "sector": "Consumer Cyclical",
@@ -5794,6 +5843,13 @@
           "segment": "in_depth_analysis",
           "note": "Caller Hope asked long-term entry. Trading at 47x earnings, $974. Cramer: buy some now, hope pullback to 45x. Worst case runs to $1,025, then exit. Buy value incrementally rather than all-in at one level.",
           "closing_price": 974.75
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Blue-chip dividend aristocrat; well-run consumer staple suitable for children's long-term portfolios; consistent dividend growth.",
+          "closing_price": 946.68
         }
       ],
       "sector": "Consumer Defensive",
@@ -6557,6 +6613,13 @@
           "segment": "in_depth_analysis",
           "note": "Beef costs elevated but dividend safe at 2.6% yield and 21x earnings. Scale purchases: 25 shares at 280, 279, 270, 265, then 50 at 260; patience rewarded.",
           "closing_price": 279.84
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Fast food familiar to children; obvious choice for teaching kids to own shares in brands they know; dividend stock with long history.",
+          "closing_price": 267.18
         }
       ],
       "sector": "Consumer Cyclical",
@@ -6899,6 +6962,13 @@
           "segment": "closing_commentary",
           "note": "Consumer staples leader performing well in trust during selloff. Diversified portfolio structure allows safe ownership of higher-risk tech via PG/JNJ buffer.",
           "closing_price": 146.54
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Dividend aristocrat with 25+ years of rising payouts; ideal for young investors seeking income and compounding; well-run consumer packaged goods play.",
+          "closing_price": 148.45
         }
       ],
       "sector": "Consumer Defensive",
@@ -8248,6 +8318,13 @@
           "segment": "opening_commentary",
           "note": "Premier staple (Kleenex, paper towels, diapers), 13x earnings, 5.25% safe yield. Merging with Kenvue; CEO Michael Sue executing synergies. Defensive anchor as growth stocks stumble.",
           "closing_price": 97.49
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Kleenex tissues and consumer staples; imprinted in childhood; dividend stock suitable for long-term children's portfolios.",
+          "closing_price": 109.91
         }
       ],
       "sector": "Consumer Defensive",
@@ -11513,6 +11590,13 @@
           "segment": "in_depth_analysis",
           "note": "CEO Ynon Kreiz buying shares; stock sells at 11x earnings; toy business out of favor but bottoming; insider conviction provides strong buy signal.",
           "closing_price": 14.9
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Toy maker familiar to children; buying shares in brands kids know (toys, theme parks, fast food) hooks them into lifelong investing.",
+          "closing_price": 13.69
         }
       ],
       "sector": "Consumer Cyclical",
@@ -11661,6 +11745,13 @@
           "segment": "opening_commentary",
           "note": "Cramer expects SpaceX acquisition sooner rather than later; Mag 7 rotation from profitable free cash flow to profitability-unproven CapEx spending.",
           "closing_price": 420.6
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Growth stock for children's portfolios; long-term innovation play in electric vehicles and energy; suitable for long time horizons.",
+          "closing_price": 411.84
         }
       ],
       "sector": "Consumer Cyclical",
@@ -13641,6 +13732,13 @@
           "segment": "closing_commentary",
           "note": "Missed quarter contributing to fast food sector weakness; entire fast casual class struggling in current war-environment consumer backdrop.",
           "closing_price": 313.22
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "App-based ordering technology solved teenagers' aversion to phone calls; stock rose from $10 to $2,000+ as kids drove adoption and word-of-mouth.",
+          "closing_price": 294.05
         }
       ],
       "sector": "Consumer Cyclical",
@@ -15321,6 +15419,13 @@
           "segment": "opening_commentary",
           "note": "Microcosm of higher-end travel market; strong consumer holding should yield good quarter. Fresh start under new CEO Josh Silverman.",
           "closing_price": 103.08
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Theme parks, streaming library, and iconic IP; children's attraction to Disney World and content drives long-term franchise value.",
+          "closing_price": 98.63
         }
       ],
       "sector": "Communication Services",
@@ -16717,6 +16822,13 @@
           "segment": "opening_commentary",
           "note": "Could have first strong quarter in very long time.",
           "closing_price": 34.21
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Daughters loved fresh, organic fast-casual dining; stock ran from low hundreds to $2,000 largely on teenager preference for Chipotle over traditional fast food.",
+          "closing_price": 32.97
         }
       ],
       "sector": "Consumer Cyclical",
@@ -19122,6 +19234,13 @@
           "segment": "lightning_round",
           "note": "Right here at current levels is excellent entry; buy and hope for pullback; mentioned in book; for all investors, not just retirees.",
           "closing_price": 53.74
+        },
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "High-dividend energy infrastructure play; offers both yield and growth potential versus Treasury bonds; suitable for long-term investors.",
+          "closing_price": 55.4
         }
       ],
       "sector": "Energy",
@@ -28093,6 +28212,29 @@
           "segment": "lightning_round",
           "note": "Loses significant money with minimal revenue; unsustainable business model with fundamental profitability issues make it uninvestable.",
           "closing_price": null
+        }
+      ]
+    },
+    "HAS": {
+      "company": "Hasbro",
+      "mentions": [
+        {
+          "date": "2026-06-29",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Toy maker familiar to children; buying shares in brands kids know hooks them into lifelong investing and teaches ownership concept.",
+          "closing_price": 84.44
+        }
+      ]
+    },
+    "ONEOK": {
+      "company": "ONEOK",
+      "mentions": [
+        {
+          "date": "2026-06-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Midstream energy with attractive dividend and growth potential; better long-term return profile than short-term Treasuries."
         }
       ]
     }
