@@ -666,14 +666,23 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     # already uses for "small sample, treat with caution" hero sentences.
     SMALL_SAMPLE_N = 30
 
-    def _pack(total: int, right: int, min_n: int = 5) -> dict | None:
-        if total < min_n:
+    # No minimum on tallied days — even a call whose window only runs a day
+    # or two before the next mention still gets shown (flagged via
+    # small_sample below 30 tallied days). Excluding thin windows would let
+    # frequent call-changing quietly disappear from the stat rather than
+    # being reflected in it. The only real floor is total >= 1 (a call with
+    # zero subsequent trading days has nothing to divide).
+    def _pack(total: int, right: int, calls: int | None = None) -> dict | None:
+        if total < 1:
             return None
-        return {
+        out = {
             "pct": round(right / total * 100, 1),
             "n": total,
             "small_sample": total < SMALL_SAMPLE_N,
         }
+        if calls is not None:
+            out["calls"] = calls
+        return out
 
     # For each ticker: walk call periods and tally right vs. wrong days,
     # split by call type (buy/sell), plus a separate fell/rose outcome split
@@ -686,8 +695,8 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
             continue
         last_date = dates[-1]
         mention_dates = sorted(date_map.keys())
-        buy_total = buy_right = 0
-        sell_total = sell_right = 0
+        buy_total = buy_right = buy_calls = 0
+        sell_total = sell_right = sell_calls = 0
         hold_fell = hold_rose = 0
         for i, dt in enumerate(mention_dates):
             e = date_map[dt]
@@ -700,11 +709,13 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
             hi = bisect.bisect_right(dates, end_date)
             window = dates[lo:hi]
             if is_buy:
+                buy_calls += 1
                 for d in window:
                     buy_total += 1
                     if daily[d] > call_price:
                         buy_right += 1
             elif is_sell:
+                sell_calls += 1
                 for d in window:
                     sell_total += 1
                     if daily[d] < call_price:
@@ -718,9 +729,9 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
                         hold_rose += 1
 
         entry: dict = {}
-        buy_stat = _pack(buy_total, buy_right)
-        sell_stat = _pack(sell_total, sell_right)
-        combined_stat = _pack(buy_total + sell_total, buy_right + sell_right)
+        buy_stat = _pack(buy_total, buy_right, buy_calls)
+        sell_stat = _pack(sell_total, sell_right, sell_calls)
+        combined_stat = _pack(buy_total + sell_total, buy_right + sell_right, buy_calls + sell_calls)
         if buy_stat:
             entry["buy"] = buy_stat
         if sell_stat:
@@ -728,7 +739,7 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
         if combined_stat:
             entry["combined"] = combined_stat
         hold_total = hold_fell + hold_rose
-        if hold_total >= 5:
+        if hold_total >= 1:
             entry["hold_wait"] = {
                 "fell_pct": round(hold_fell / hold_total * 100, 1),
                 "rose_pct": round(hold_rose / hold_total * 100, 1),
