@@ -613,16 +613,27 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     latest_prices = {r["ticker"]: {"price": r["close"], "date": r["date"]}
                      for r in cur.fetchall()}
 
-    # Load mentions for pct_right_daily computation
+    # Load mentions for pct_right_daily computation. Include closing_price IS
+    # NULL rows too — a pre-IPO call made the day before a known IPO date (e.g.
+    # SPCX calls made 6/11, IPO'd 6/12) has no closing_price of its own, but
+    # enough was already known (target/expected open) to count as a real call.
+    # Resolved below via _ticker_display's PRIVATE_COMPANIES ipo_date data.
     cur.execute("""
         SELECT ticker, date, sentiment, closing_price
         FROM mentions
-        WHERE closing_price IS NOT NULL
         ORDER BY ticker, date
     """)
     m_by_ticker: dict = {}
     for r in cur.fetchall():
         t, dt, s, cp = r["ticker"], r["date"], r["sentiment"], r["closing_price"]
+        if cp is None:
+            info = PRIVATE_COMPANIES.get(t)
+            if not info or not info.get("ipo_date"):
+                continue  # no known IPO date to anchor a pre-listing call to
+            day_before_ipo = (datetime.fromisoformat(info["ipo_date"]) - timedelta(days=1)).date().isoformat()
+            if dt < day_before_ipo:
+                continue  # too far ahead of the IPO to have a real price basis
+            # cp resolved after daily prices are loaded, below
         m_by_ticker.setdefault(t, {}).setdefault(dt, {"price": cp, "sents": set()})
         m_by_ticker[t][dt]["sents"].add(s)
 
@@ -634,6 +645,22 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
     d_sorted: dict = {t: sorted(dm.keys()) for t, dm in d_by_ticker.items()}
 
     conn.close()
+
+    # Anchor any pre-IPO call's price to the first available daily close on
+    # or after the call date (i.e. IPO day), since the call itself predates
+    # the ticker having a real market price.
+    for ticker, date_map in m_by_ticker.items():
+        dates = d_sorted.get(ticker, [])
+        if not dates:
+            continue
+        for dt, entry in list(date_map.items()):
+            if entry["price"] is not None:
+                continue
+            idx = bisect.bisect_left(dates, dt)
+            if idx < len(dates):
+                entry["price"] = d_by_ticker[ticker][dates[idx]]
+            else:
+                del date_map[dt]
 
     # For each ticker: walk call periods and tally right vs. wrong days
     pct_right: dict = {}
