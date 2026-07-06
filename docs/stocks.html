@@ -97,6 +97,49 @@
     .czoom-btn:hover { background:#eaeef2; }
     .czoom-btn.czoom-active { background:#0969da; color:#fff; border-color:#0969da; }
 
+    /* Days-right / hold-wait stats */
+    .dr-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      padding: 14px 18px; border-bottom: 1px solid #eaeef2;
+    }
+    @media (max-width: 560px) { .dr-stats { grid-template-columns: 1fr; } }
+    .dr-panel {
+      background: #f9fafb; border: 1px solid #eaeef2; border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .dr-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .04em; color: #57606a; margin-bottom: 8px;
+    }
+    .dr-row {
+      display: flex; align-items: baseline; justify-content: space-between;
+      font-size: 13px; margin-bottom: 6px;
+    }
+    .dr-row-label { color: #444b53; }
+    .dr-row-label .dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px; }
+    .dr-row-value { font-family: monospace; font-weight: 700; }
+    .dr-row-n { font-family: monospace; font-weight: 400; color: #8b949e; font-size: 11px; }
+    .dr-combined {
+      margin-top: 8px; padding-top: 8px; border-top: 1px dashed #dfe2e7;
+    }
+    .dr-combined-label { font-size: 11px; color: #8b949e; margin-bottom: 2px; }
+    .dr-combined-value { font-family: monospace; font-size: 20px; font-weight: 700; }
+    .dr-empty { color: #b2b8c2; font-size: 13px; }
+    .caution-tag {
+      display: inline-block; font-size: 10px; font-weight: 600; color: #9a6700;
+      background: #fff8e6; border: 1px solid #f0dca0; border-radius: 4px;
+      padding: 1px 5px; margin-left: 6px; white-space: nowrap;
+    }
+    .hw-bar { display: flex; width: 100%; height: 12px; border-radius: 6px; overflow: hidden; background: #e5e7eb; }
+    .hw-seg { height: 100%; }
+    .hw-fell { background: #1a7f37; }
+    .hw-rose { background: #b2542f; }
+    .hw-legend {
+      display: flex; justify-content: space-between; font-size: 12px;
+      font-family: monospace; margin-top: 7px; color: #24292f;
+    }
+    .hw-legend .sub { font-family: -apple-system, Arial, sans-serif; color: #8b949e; font-size: 10.5px; }
+
     /* Table */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -357,6 +400,63 @@ function humanizeSegment(s) {
 
 function fmtPrice(p) {
   return p != null ? `$${Number(p).toFixed(2)}` : '—';
+}
+
+function cautionTag(stat) {
+  return stat && stat.small_sample ? '<span class="caution-tag">small sample — caution</span>' : '';
+}
+
+function drRow(label, stat, dotColor) {
+  if (!stat) {
+    return `<div class="dr-row"><span class="dr-row-label"><i class="dot" style="background:${dotColor}"></i>${label}</span><span class="dr-empty">—</span></div>`;
+  }
+  const col = stat.pct >= 50 ? '#1a7f37' : '#d03030';
+  return `<div class="dr-row">
+    <span class="dr-row-label"><i class="dot" style="background:${dotColor}"></i>${label}</span>
+    <span class="dr-row-value" style="color:${col}">${stat.pct}% <span class="dr-row-n">(${stat.n}d)</span></span>
+  </div>${cautionTag(stat)}`;
+}
+
+// Renders the buy/sell/combined % Days Right panel plus the Hold/Wait
+// outcome panel from a ticker shard's `days_right` field (see
+// _write_ticker_shards in code/pipeline.py). Returns '' if the ticker has
+// no days_right data at all (too few tallied days for either stat).
+function renderDrStats(entry) {
+  const dr = entry.days_right;
+  if (!dr) return '';
+  const combined = dr.combined;
+  const combinedCol = combined && combined.pct >= 50 ? '#1a7f37' : '#d03030';
+  const combinedHtml = combined
+    ? `<div class="dr-combined-value" style="color:${combinedCol}">${combined.pct}%</div>${cautionTag(combined)}`
+    : `<div class="dr-empty">—</div>`;
+
+  const hw = dr.hold_wait;
+  const hwHtml = hw ? `
+    <div class="hw-bar">
+      <div class="hw-seg hw-fell" style="width:${hw.fell_pct}%"></div><div class="hw-seg hw-rose" style="width:${hw.rose_pct}%"></div>
+    </div>
+    <div class="hw-legend">
+      <span>fell ${hw.fell_pct}% <span class="sub">(loss avoided)</span></span>
+      <span>rose ${hw.rose_pct}% <span class="sub">(gain missed)</span></span>
+    </div>
+    <div class="dr-row-n" style="margin-top:6px">${hw.n}d</div>${cautionTag(hw)}
+  ` : `<div class="dr-empty">no hold/wait calls with price data</div>`;
+
+  return `<div class="dr-stats">
+    <div class="dr-panel">
+      <div class="dr-label">% Days Right</div>
+      ${drRow('Buy calls', dr.buy, '#2da44e')}
+      ${drRow('Sell calls', dr.sell, '#a00000')}
+      <div class="dr-combined">
+        <div class="dr-combined-label">Combined</div>
+        ${combinedHtml}
+      </div>
+    </div>
+    <div class="dr-panel">
+      <div class="dr-label">Hold / Wait Outcome</div>
+      ${hwHtml}
+    </div>
+  </div>`;
 }
 
 function groupByDate(mentions) {
@@ -699,14 +799,10 @@ function renderCard(ticker, entry) {
       <div class="card-meta">
         <div id="price-${ticker}">${initialPriceHtml(entry, ticker)}</div>
         <div class="mention-count">${dayCount} episode${dayCount !== 1 ? 's' : ''}</div>
-        ${chartEligible && entry.pct_right_daily != null ? (() => {
-          const pct = entry.pct_right_daily;
-          const col = pct >= 50 ? '#1a7f37' : '#d03030';
-          return `<div style="font-size:12px;color:#57606a">% Days Right: <strong style="color:${col}">${pct}%</strong><span style="color:#8b949e;font-size:10px"> · ${entry.n_right_days}d</span></div>`;
-        })() : ''}
       </div>
     </div>
     ${renderChart(ticker, entry)}
+    ${chartEligible ? renderDrStats(entry) : ''}
     <div class="table-wrap">
       <table>
         <thead><tr>
