@@ -662,7 +662,22 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
             else:
                 del date_map[dt]
 
-    # For each ticker: walk call periods and tally right vs. wrong days
+    # Small-sample threshold — matches the n_mentions >= 30 cutoff code/db.py
+    # already uses for "small sample, treat with caution" hero sentences.
+    SMALL_SAMPLE_N = 30
+
+    def _pack(total: int, right: int, min_n: int = 5) -> dict | None:
+        if total < min_n:
+            return None
+        return {
+            "pct": round(right / total * 100, 1),
+            "n": total,
+            "small_sample": total < SMALL_SAMPLE_N,
+        }
+
+    # For each ticker: walk call periods and tally right vs. wrong days,
+    # split by call type (buy/sell), plus a separate fell/rose outcome split
+    # for hold/wait calls (no right/wrong label — see docs/prediction-market-analysis.md).
     pct_right: dict = {}
     for ticker, date_map in m_by_ticker.items():
         daily = d_by_ticker.get(ticker, {})
@@ -671,27 +686,57 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
             continue
         last_date = dates[-1]
         mention_dates = sorted(date_map.keys())
-        total = right = 0
+        buy_total = buy_right = 0
+        sell_total = sell_right = 0
+        hold_fell = hold_rose = 0
         for i, dt in enumerate(mention_dates):
             e = date_map[dt]
             sents = e["sents"]
             is_buy  = bool(sents & _BULLISH)
             is_sell = bool(sents & _BEARISH)
-            if not is_buy and not is_sell:
-                continue
             call_price = e["price"]
             end_date = mention_dates[i + 1] if i + 1 < len(mention_dates) else last_date
             lo = bisect.bisect_right(dates, dt)
             hi = bisect.bisect_right(dates, end_date)
-            for d in dates[lo:hi]:
-                price = daily[d]
-                total += 1
-                if is_buy and price > call_price:
-                    right += 1
-                elif is_sell and price < call_price:
-                    right += 1
-        if total >= 5:
-            pct_right[ticker] = {"pct": round(right / total * 100, 1), "n": total}
+            window = dates[lo:hi]
+            if is_buy:
+                for d in window:
+                    buy_total += 1
+                    if daily[d] > call_price:
+                        buy_right += 1
+            elif is_sell:
+                for d in window:
+                    sell_total += 1
+                    if daily[d] < call_price:
+                        sell_right += 1
+            elif "wait_hold_neutral" in {normalize_sentiment(s) for s in sents}:
+                for d in window:
+                    price = daily[d]
+                    if price < call_price:
+                        hold_fell += 1
+                    elif price > call_price:
+                        hold_rose += 1
+
+        entry: dict = {}
+        buy_stat = _pack(buy_total, buy_right)
+        sell_stat = _pack(sell_total, sell_right)
+        combined_stat = _pack(buy_total + sell_total, buy_right + sell_right)
+        if buy_stat:
+            entry["buy"] = buy_stat
+        if sell_stat:
+            entry["sell"] = sell_stat
+        if combined_stat:
+            entry["combined"] = combined_stat
+        hold_total = hold_fell + hold_rose
+        if hold_total >= 5:
+            entry["hold_wait"] = {
+                "fell_pct": round(hold_fell / hold_total * 100, 1),
+                "rose_pct": round(hold_rose / hold_total * 100, 1),
+                "n": hold_total,
+                "small_sample": hold_total < SMALL_SAMPLE_N,
+            }
+        if entry:
+            pct_right[ticker] = entry
 
     targets = only if only is not None else set(stocks.keys())
     for ticker in targets:
@@ -703,8 +748,13 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
                 shard["price_latest_date"] = lp["date"]
             pr = pct_right.get(ticker)
             if pr:
-                shard["pct_right_daily"] = pr["pct"]
-                shard["n_right_days"]    = pr["n"]
+                combined = pr.get("combined")
+                if combined:
+                    # Kept for backward compatibility with existing front-end
+                    # readers of the old combined-only fields.
+                    shard["pct_right_daily"] = combined["pct"]
+                    shard["n_right_days"]    = combined["n"]
+                shard["days_right"] = pr
             (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(shard))
     index = {}
     for t, e in stocks.items():
