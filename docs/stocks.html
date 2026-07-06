@@ -281,7 +281,7 @@
       <p style="margin:0 0 6px">The <span style="color:rgba(130,80,223,0.9)">■ light purple bars</span> are the full daily closing price history, giving context between episode dates. Use the <em>From / 30d / 90d / To now</em> controls to zoom into a specific window.</p>
       <strong>% Days Right After Call vs. % Right (Analytics tab)</strong>
       <p style="margin:8px 0 6px"><strong>% Days Right After Call</strong> (shown below each ticker's chart) measures how consistently the stock moved in the direction Cramer predicted — day by day. For each call, every trading day from that call until the next call (or until the latest available daily price for the most recent call) is checked: was the closing price above the call-day price (for buy calls) or below it (for sell calls)? The percentage is the share of those days where the answer is yes. It's broken out by <strong>Buy calls</strong> and <strong>Sell calls</strong> separately, plus a <strong>Combined</strong> figure blending both — splitting them out keeps a ticker with lopsided coverage (mostly buy calls, say) from having its sell-call accuracy averaged away. Neutral calls (Wait / Hold) are excluded from all three — only bullish and bearish calls count. The gray <strong>(Nc)</strong> next to Buy calls / Sell calls is the number of individual calls behind that percentage, separate from <strong>(Nd)</strong>, the number of trading days tallied — every call counts toward the stat no matter how few days passed before Cramer's next call on that stock, so a fast reversal doesn't quietly disappear from the record.</p>
-      <p style="margin:8px 0 6px"><strong>Outcome After Hold / Wait Call</strong> covers what the stat above leaves out: a hold/wait call makes no directional claim, so there's nothing to score as "right" or "wrong" without an arbitrary judgment call about whether avoiding a loss is worth the same as missing a gain. Instead it reports both outcome rates side by side, using the same day-by-day window as above: the share of days the price <strong>Fell</strong> after the call (a loss avoided) versus <strong>Rose</strong> (a gain missed) — you weigh the two by your own risk tolerance rather than trusting a single score.</p>
+      <p style="margin:8px 0 6px"><strong>Outcome After Hold / Wait Call</strong> covers what the stat above leaves out: a hold/wait call makes no directional claim, so there's nothing to score as "right" or "wrong" without an arbitrary judgment call about whether avoiding a loss is worth the same as missing a gain. Instead it reports both outcome rates side by side, using the same day-by-day window as above: the share of days the price <strong>Fell</strong> after the call (a loss avoided) versus <strong>Rose</strong> (a gain missed) — each with its own day count, plus the number of hold/wait calls behind them in gray next to the panel title — you weigh the two by your own risk tolerance rather than trusting a single score. Shows <strong>N/A</strong> rather than 0% when there's nothing to compute: either no hold/wait calls at all, or a call with no trading days after it yet.</p>
       <p style="margin:0 0 6px">Any of the figures above tagged <span class="caution-tag" style="margin-left:0">Caution — small sample</span> are backed by fewer than 30 tallied days — the same threshold used elsewhere on this site for "small sample" warnings. Treat those percentages as directional, not reliable.</p>
       <p style="margin:0"><strong>% Right in the Analytics tab</strong> is a different calculation: it asks whether the stock was higher (for buy calls) or lower (for sell calls) at a fixed point in time — exactly 30 or 90 calendar days after the call. It's a single snapshot per call, not a daily tally. A call can score 100% in Analytics if the stock closes higher on day 30, even if it spent most of the intervening period below the call price.</p>
     </div>
@@ -436,17 +436,26 @@ function renderDrStats(entry) {
     : `<div class="dr-empty">—</div>`;
 
   const hw = dr.hold_wait;
+  const hwCallCount = hw ? ` <span class="dr-row-n">(${hw.calls}c)</span>` : '';
   const hwTag = hw && hw.small_sample ? cautionTag() : '';
-  const hwHtml = hw ? `
-    <div class="hw-bar">
-      <div class="hw-seg hw-fell" style="width:${hw.fell_pct}%"></div><div class="hw-seg hw-rose" style="width:${hw.rose_pct}%"></div>
-    </div>
-    <div class="hw-legend">
-      <span>Fell ${hw.fell_pct}% <span class="sub">(loss avoided)</span></span>
-      <span>Rose ${hw.rose_pct}% <span class="sub">(gain missed)</span></span>
-    </div>
-    <div class="dr-row-n" style="margin-top:6px">${hw.n}d${hwTag}</div>
-  ` : `<div class="dr-empty">no hold/wait calls with price data</div>`;
+  const hwTotal = hw ? hw.n_fell + hw.n_rose : 0;
+  let hwHtml;
+  if (!hw) {
+    hwHtml = `<div class="dr-empty">N/A — no hold/wait calls</div>`;
+  } else if (hw.fell_pct == null) {
+    hwHtml = `<div class="dr-empty">N/A — no trading days after the call</div>`;
+  } else {
+    hwHtml = `
+      <div class="hw-bar">
+        <div class="hw-seg hw-fell" style="width:${hw.fell_pct}%"></div><div class="hw-seg hw-rose" style="width:${hw.rose_pct}%"></div>
+      </div>
+      <div class="hw-legend">
+        <span>Fell ${hw.fell_pct}% <span class="sub">(loss avoided)</span> <span class="dr-row-n">(${hw.n_fell}d)</span></span>
+        <span>Rose ${hw.rose_pct}% <span class="sub">(gain missed)</span> <span class="dr-row-n">(${hw.n_rose}d)</span></span>
+      </div>
+      <div class="dr-row-n" style="margin-top:6px">${hwTotal}d total${hwTag}</div>
+    `;
+  }
 
   return `<div class="dr-stats">
     <div class="dr-panel">
@@ -459,7 +468,7 @@ function renderDrStats(entry) {
       </div>
     </div>
     <div class="dr-panel">
-      <div class="dr-label">Outcome After Hold / Wait Call</div>
+      <div class="dr-label">Outcome After Hold / Wait Call${hwCallCount}</div>
       ${hwHtml}
     </div>
   </div>`;

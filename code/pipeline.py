@@ -697,7 +697,7 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
         mention_dates = sorted(date_map.keys())
         buy_total = buy_right = buy_calls = 0
         sell_total = sell_right = sell_calls = 0
-        hold_fell = hold_rose = 0
+        hold_fell = hold_rose = hold_calls = 0
         for i, dt in enumerate(mention_dates):
             e = date_map[dt]
             sents = e["sents"]
@@ -721,6 +721,7 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
                     if daily[d] < call_price:
                         sell_right += 1
             elif "wait_hold_neutral" in {normalize_sentiment(s) for s in sents}:
+                hold_calls += 1
                 for d in window:
                     price = daily[d]
                     if price < call_price:
@@ -738,12 +739,19 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
             entry["sell"] = sell_stat
         if combined_stat:
             entry["combined"] = combined_stat
+        # Entry exists whenever there was at least one hold/wait call, even if
+        # that call's window happened to have zero subsequent trading days
+        # (e.g. it's the very last mention with no daily price after it) —
+        # in that edge case fell_pct/rose_pct are None (rendered as N/A)
+        # rather than a misleading 0%.
         hold_total = hold_fell + hold_rose
-        if hold_total >= 1:
+        if hold_calls >= 1:
             entry["hold_wait"] = {
-                "fell_pct": round(hold_fell / hold_total * 100, 1),
-                "rose_pct": round(hold_rose / hold_total * 100, 1),
-                "n": hold_total,
+                "fell_pct": round(hold_fell / hold_total * 100, 1) if hold_total else None,
+                "rose_pct": round(hold_rose / hold_total * 100, 1) if hold_total else None,
+                "n_fell": hold_fell,
+                "n_rose": hold_rose,
+                "calls": hold_calls,
                 "small_sample": hold_total < SMALL_SAMPLE_N,
             }
         if entry:
