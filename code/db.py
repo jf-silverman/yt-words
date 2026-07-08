@@ -1247,6 +1247,26 @@ def build_analytics_json(out_path: str) -> None:
     _top_dr.sort(key=lambda r: r['pct_right_daily'], reverse=True)
     top_days_right = _top_dr[:12]
 
+    # ── Buy on Pullback analytics ────────────────────────────────────────────
+    # Reuses the beta cache built by code/analyze_buy_on_pullback.py (data/prototypes/
+    # beta_cache.json) and the frozen model trained by code/never_trigger_model.py.
+    # Neither is refreshed here (no live yfinance calls during --rebuild-shards) —
+    # run those scripts manually to pick up new tickers / retrain.
+    import analyze_buy_on_pullback
+    import never_trigger_model
+    _bop_beta_cache = analyze_buy_on_pullback.load_beta_cache()
+    _bop_model = never_trigger_model.load_model()
+    _bop_calls, _bop_summary = analyze_buy_on_pullback.compute_analysis(conn, _bop_beta_cache, _bop_model)
+    buy_on_pullback = {
+        "summary": _bop_summary,
+        "calls": _bop_calls,
+        "model": {
+            "cv_auc": _bop_model["cv_auc"],
+            "cv_accuracy": _bop_model["cv_accuracy"],
+            "n_training": _bop_model["n_training"],
+        } if _bop_model else None,
+    }
+
     conn.close()
 
     payload = {
@@ -1261,6 +1281,7 @@ def build_analytics_json(out_path: str) -> None:
         "sell_call_pool":    sell_call_pool,
         "top_days_right":    top_days_right,
         "heroes":            _generate_heroes(sentiment_perf, sector_by_type, segment_by_type),
+        "buy_on_pullback":   buy_on_pullback,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))

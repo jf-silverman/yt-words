@@ -232,6 +232,36 @@
     .chart-bar-track { flex: 1; height: 16px; background: #eaeef2; border-radius: 3px; overflow: hidden; position: relative; }
     .chart-bar-fill  { height: 100%; border-radius: 3px; transition: width .3s; }
     .chart-bar-val   { font-size: 11px; color: #57606a; width: 50px; flex-shrink: 0; }
+
+    /* Buy on Pullback analytics */
+    .bop-story { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px;
+                padding: 14px 18px; margin-bottom: 16px; }
+    .bop-story h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #57606a;
+                   margin: 0 0 8px; font-weight: 700; }
+    .bop-story ul { margin: 0; padding-left: 20px; }
+    .bop-story li { font-size: 13px; line-height: 1.6; margin-bottom: 4px; }
+    .bop-cards { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+    .bop-card { background: #f9fafb; border: 1px solid #eaeef2; border-left: 3px solid #d0d7de;
+               border-radius: 8px; padding: 12px 16px; min-width: 190px; flex: 1; }
+    .bop-card.hero { background: #f0f9f2; }
+    .bop-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #57606a;
+                  margin: 0 0 8px; font-weight: 700; display: flex; align-items: center; }
+    .bop-card h4 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; flex-shrink: 0; }
+    .bop-card .big { font-size: 22px; font-weight: 700; font-family: monospace; }
+    .bop-card .big .unit { font-size: 12px; font-weight: 400; color: #57606a; margin-left: 4px; }
+    .bop-card .sub { font-size: 12px; color: #57606a; margin-top: 4px; }
+    .bop-card .triple { display: flex; gap: 22px; margin-top: 2px; }
+    .bop-card .triple .stat-label { font-size: 10.5px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.3px; }
+    .bop-bar { display: flex; width: 100%; height: 10px; border-radius: 5px; overflow: hidden; background: #e5e7eb; margin-top: 8px; }
+    .bop-bar-seg { height: 100%; }
+    .bop-rarity-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #57606a; margin-top: 4px; }
+    .bop-rarity-row .rarity-label { width: 34px; font-family: monospace; }
+    .bop-rarity-row .bop-bar { margin-top: 0; flex: 1; }
+    .bop-rarity-row .rarity-pct { width: 40px; text-align: right; font-family: monospace; font-weight: 700; color: #24292f; }
+    .bop-star { color: #bf8700; cursor: help; font-weight: 700; }
+    .bop-training { color: #8b949e; font-style: italic; }
+    .bop-predicted { color: #0969da; font-weight: 700; }
+    .bop-details { margin-top: 10px; font-size: 12px; color: #444; line-height: 1.6; font-weight: 400; }
   </style>
 </head>
 <body>
@@ -1319,6 +1349,70 @@ function renderAnalytics(d) {
       </tr>`).join('');
   }
 
+  // ── Buy on Pullback ─────────────────────────────────────────────────────
+  const bop = d.buy_on_pullback || { summary: {}, calls: [], model: null };
+  const bs = bop.summary || {};
+  const bopA = bs.strategy_a_buy_immediately || {};
+  const bopB = bs.strategy_b_buy_the_dip || {};
+  const bopBeats = bs.b_beats_a || {};
+  const bopNever = bs.never_triggered || {};
+  const bopNT = bopNever.strategy_a_if_bought_anyway || {};
+  const bopRarity = bs.rarity || {};
+  const bopModel = bop.model;
+  const bopBeatsPct = bopBeats.pct || 0;
+  const bopNeverOf = (bopNever.n || 0) + (bopBeats.n || 0) +
+    (bs.triggered_but_insufficient_b_data || 0) + (bs.excluded_downgraded_before_dip || 0);
+  const r2 = bopRarity['>= 2% drawdown within 60d'] || {};
+  const r3 = bopRarity['>= 3% drawdown within 60d'] || {};
+  const r5 = bopRarity['>= 5% drawdown within 60d'] || {};
+  const smallTag = small => small ? ' <span class="cap-badge" style="background:#fff8e6;color:#9a6700">small sample</span>' : '';
+
+  const bopCardsHtml = `
+    <div class="bop-cards">
+      <div class="bop-card" style="border-left-color:#8b949e">
+        <h4><span class="dot" style="background:#8b949e"></span>Total Calls</h4>
+        <div class="big">${bs.total_buy_on_pullback_calls ?? '—'}</div>
+        <div class="sub">${bs.calls_with_price_data ?? 0} with price data</div>
+      </div>
+      <div class="bop-card" style="border-left-color:#0969da">
+        <h4><span class="dot" style="background:#0969da"></span>Ever Pulls Back Within 60d</h4>
+        <div class="bop-rarity-row"><span class="rarity-label">&ge;2%</span><div class="bop-bar"><div class="bop-bar-seg" style="width:${r2.pct_of_evaluable||0}%;background:#0969da"></div></div><span class="rarity-pct">${r2.pct_of_evaluable ?? '—'}%</span></div>
+        <div class="bop-rarity-row"><span class="rarity-label">&ge;3%</span><div class="bop-bar"><div class="bop-bar-seg" style="width:${r3.pct_of_evaluable||0}%;background:#0969da"></div></div><span class="rarity-pct">${r3.pct_of_evaluable ?? '—'}%</span></div>
+        <div class="bop-rarity-row"><span class="rarity-label">&ge;5%</span><div class="bop-bar"><div class="bop-bar-seg" style="width:${r5.pct_of_evaluable||0}%;background:#0969da"></div></div><span class="rarity-pct">${r5.pct_of_evaluable ?? '—'}%</span></div>
+      </div>
+      <div class="bop-card hero" style="border-left-color:${retClass(bopNT.mean_pct)==='ret-neg'?'#d03030':'#1a7f37'}">
+        <h4><span class="dot" style="background:${retClass(bopNT.mean_pct)==='ret-neg'?'#d03030':'#1a7f37'}"></span>Never-Triggered Calls, Bought Anyway</h4>
+        <div class="big"><span class="${retClass(bopNT.mean_pct)}">${bopNT.mean_pct ?? '—'}%</span> <span class="unit">mean</span></div>
+        <div class="triple">
+          <div><div class="stat-label">Median</div><div class="${retClass(bopNT.median_pct)}" style="font-family:monospace;font-weight:700">${bopNT.median_pct ?? '—'}%</div></div>
+          <div><div class="stat-label">Win Rate</div><div style="font-family:monospace;font-weight:700">${bopNT.win_rate_pct ?? '—'}%</div></div>
+          <div><div class="stat-label">N</div><div style="font-family:monospace;font-weight:700">${bopNT.n ?? '—'}</div></div>
+        </div>
+        <div class="sub" style="margin-top:8px">${bopNever.n ?? 0} of ${bopNeverOf} calls (${bopNever.pct_of_full_a_window_calls ?? '—'}%) never saw a big
+          enough pullback within 60 days — this is what buying them immediately anyway would have returned.</div>
+      </div>
+    </div>
+    <div class="bop-cards">
+      <div class="bop-card" style="border-left-color:${retClass(bopA.mean_pct)==='ret-neg'?'#d03030':'#1a7f37'}">
+        <h4><span class="dot" style="background:${retClass(bopA.mean_pct)==='ret-neg'?'#d03030':'#1a7f37'}"></span>Strategy A — Buy Immediately</h4>
+        <div class="big"><span class="${retClass(bopA.mean_pct)}">${bopA.mean_pct ?? '—'}%</span> <span class="unit">mean</span></div>
+        <div class="sub">median ${bopA.median_pct ?? '—'}% · win rate ${bopA.win_rate_pct ?? '—'}% · n=${bopA.n ?? 0}${smallTag(bopA.small_sample)}</div>
+      </div>
+      <div class="bop-card" style="border-left-color:${retClass(bopB.mean_pct)==='ret-neg'?'#d03030':'#1a7f37'}">
+        <h4><span class="dot" style="background:${retClass(bopB.mean_pct)==='ret-neg'?'#d03030':'#1a7f37'}"></span>Strategy B — Buy the Dip</h4>
+        <div class="big"><span class="${retClass(bopB.mean_pct)}">${bopB.mean_pct ?? '—'}%</span> <span class="unit">mean</span></div>
+        <div class="sub">median ${bopB.median_pct ?? '—'}% · win rate ${bopB.win_rate_pct ?? '—'}% · n=${bopB.n ?? 0}${smallTag(bopB.small_sample)}</div>
+      </div>
+      <div class="bop-card" style="border-left-color:${bopBeatsPct>=50?'#1a7f37':'#d03030'}">
+        <h4><span class="dot" style="background:${bopBeatsPct>=50?'#1a7f37':'#d03030'}"></span>Strategy B Beats A Head-to-Head</h4>
+        <div class="big"><span class="${bopBeatsPct>=50?'ret-pos':'ret-neg'}">${bopBeatsPct}%</span></div>
+        <div class="bop-bar"><div class="bop-bar-seg" style="width:${bopBeatsPct}%;background:${bopBeatsPct>=50?'#1a7f37':'#d03030'}"></div></div>
+        <div class="sub">${bopBeats.count ?? 0} of ${bopBeats.n ?? 0} comparable calls</div>
+      </div>
+    </div>`;
+
+  const bopBaseRate = bopModel ? Math.round((1 - (bopNever.n || 0) / (bs.calls_with_price_data || 1)) * 100) : null;
+
   document.getElementById('analytics-body').innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
       <select id="analytics-chart-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:220px">
@@ -1328,6 +1422,7 @@ function renderAnalytics(d) {
         <option value="chart-sector">By Sector</option>
         <option value="chart-calls">Cramer's Calls</option>
         <option value="chart-latest">Latest Calls</option>
+        <option value="chart-pullback">Buy on Pullback</option>
       </select>
       <span style="font-size:12px;color:#57606a">Pre-computed from SQLite · Updated ${gen}</span>
     </div>
@@ -1516,6 +1611,70 @@ function renderAnalytics(d) {
       </div>
     </div>
 
+    <!-- Buy on Pullback -->
+    <div id="chart-pullback" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        Buy on Pullback
+        <div class="analytics-card-sub">Does waiting for the dip actually pay off? · &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="bop-details-chk" onchange="document.getElementById('bop-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show methodology &amp; definitions</label></div>
+      </div>
+      <div class="analytics-card-body">
+        <div class="bop-story">
+          <h3>Top Findings</h3>
+          <ul>
+            <li>When a "buy on pullback" call actually pulls back, buying the dip beats buying
+              immediately <strong>${bopBeatsPct}% of the time</strong> (${bopB.mean_pct ?? '—'}% mean return vs.
+              ${bopA.mean_pct ?? '—'}%) — the wait is worth it when there's something to wait for.</li>
+            <li>But <strong>${bopNever.pct_of_full_a_window_calls ?? '—'}% of these calls never pull back at all</strong> —
+              and if you'd bought those anyway on the call date, you'd have averaged
+              <strong>${bopNT.mean_pct ?? '—'}%</strong> with a <strong>${bopNT.win_rate_pct ?? '—'}% win rate</strong>.
+              Waiting for a discount that never comes is the real cost of this strategy.</li>
+            ${bopModel ? `<li>Those "never pulls back" stocks aren't random — they already had strong
+              momentum and higher beta going in. A simple model using just beta and 30-day pre-call
+              momentum predicts which calls will never trigger with <strong>${bopModel.cv_auc.toFixed(2)} AUC</strong>
+              (${Math.round(bopModel.cv_accuracy*100)}% accuracy vs. a ${bopBaseRate}% base rate) — enough of an
+              edge to flag "just buy this one now" candidates going forward.</li>` : ''}
+          </ul>
+        </div>
+        ${bopCardsHtml}
+        <div id="bop-details" class="bop-details">
+          <p style="margin:0 0 8px">Compares buying immediately on the call vs. waiting for a real
+            pullback (volatility-scaled threshold via beta / market cap) and buying then, each held
+            for its own 60 days.</p>
+          <div><span class="bop-star">*</span> = Cramer made another call on this ticker within 60 days of the
+            buy-on-pullback call (hover the asterisk for details).</div>
+          <div><span class="bop-training" style="font-style:normal;color:#8b949e">excluded</span> = a real pullback occurred, but Cramer downgraded to
+            hold/sell <em>before</em> the dip was reached, so buying it would contradict his own updated
+            view — dropped from the Strategy B averages above.</div>
+          <div><span class="bop-training">used for training</span> = this call was part of the data used
+            to fit the never-trigger prediction model; <span class="bop-predicted">predicted</span> = a call
+            added after the model was trained, scored live using its beta and pre-call momentum.</div>
+        </div>
+        <div style="margin:14px 0 10px;font-size:12.5px">
+          <label>Filter by note:
+            <select id="bop-note-filter" style="font-size:12.5px;padding:3px 6px;border:1px solid #d0d7de;border-radius:5px">
+              <option value="">All</option>
+            </select>
+          </label>
+        </div>
+        <div style="overflow-x:auto;max-height:640px;overflow-y:auto;border:1px solid #d0d7de;border-radius:6px">
+          <table id="bop-table" class="a-table">
+            <thead><tr>
+              <th>Ticker</th><th>Call Date</th>
+              <th style="text-align:right">Call Px</th>
+              <th style="text-align:right">Threshold</th>
+              <th style="text-align:right">Max Drawdown</th>
+              <th style="text-align:right">Dip Date</th>
+              <th style="text-align:right">A Return</th>
+              <th style="text-align:right">B Return</th>
+              <th style="text-align:right">Predict Never-Trigger</th>
+              <th>Note</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <p class="analytics-note" style="display:none" id="analytics-note">
       * 30d/90d returns use nearest trading day in a ±50% window of the target (e.g. 30d looks in days 30–45).
       Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
@@ -1562,8 +1721,64 @@ function renderAnalytics(d) {
   // Latest calls: default by date descending (col 2)
   makeSortable('table-latest', 2, false);
 
+  // ── Buy on Pullback per-call table ────────────────────────────────────────
+  (function initBopTable() {
+    const calls = bop.calls || [];
+    function noteLabelFor(r) {
+      if (r.dip_excluded_reason) return r.dip_excluded_reason;
+      if (!r.dip_triggered) return 'never triggered';
+      if (r.strategy_b_note) return r.strategy_b_note;
+      return '(comparable)';
+    }
+    calls.forEach(r => { r.noteLabel = noteLabelFor(r); });
+
+    const noteSelect = document.getElementById('bop-note-filter');
+    [...new Set(calls.map(r => r.noteLabel))].sort().forEach(label => {
+      const opt = document.createElement('option');
+      opt.value = label;
+      opt.textContent = label;
+      noteSelect.appendChild(opt);
+    });
+
+    function fmtPrediction(r) {
+      const p = r.never_trigger_prediction;
+      if (!p) return '—';
+      if (p.status === 'training') return '<span class="bop-training">used for training</span>';
+      if (p.status === 'predicted') return `<span class="bop-predicted">${p.prob_never_trigger_pct}% never-trigger</span>`;
+      if (p.status === 'insufficient_data') return '<span class="ret-null">insufficient data</span>';
+      return '<span class="ret-null">model not trained</span>';
+    }
+
+    function renderBopRows() {
+      const noteFilter = noteSelect.value;
+      const rows = noteFilter ? calls.filter(r => r.noteLabel === noteFilter) : calls;
+      const tbody = document.querySelector('#bop-table tbody');
+      tbody.innerHTML = rows.map(r => {
+        const star = r.superseded_within_60d
+          ? `<span class="bop-star" title="${r.other_calls_within_60d.map(o => o.date + ': ' + o.sentiment).join('\n')}">*</span>`
+          : '';
+        return `<tr>
+          <td style="font-weight:700;font-family:monospace">${r.ticker}${star}</td>
+          <td class="date-cell">${r.call_date}</td>
+          <td style="text-align:right;font-family:monospace">$${r.call_price.toFixed(2)}</td>
+          <td style="text-align:right;font-family:monospace">${r.threshold_pct}% (${r.threshold_source})</td>
+          <td style="text-align:right;font-family:monospace">${r.max_drawdown_pct.toFixed(2)}%</td>
+          <td style="text-align:right;font-family:monospace">${r.dip_date || '—'}</td>
+          <td style="text-align:right">${retFmt(r.strategy_a_return_pct)}</td>
+          <td style="text-align:right">${retFmt(r.strategy_b_return_pct)}</td>
+          <td style="text-align:right">${fmtPrediction(r)}</td>
+          <td style="font-size:11.5px;${r.noteLabel==='(comparable)'?'':'color:#8b949e;font-style:italic'}">${r.noteLabel}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    noteSelect.addEventListener('change', renderBopRows);
+    renderBopRows();
+    makeSortable('bop-table', 1, false);
+  })();
+
   // ── Top-level chart switcher ──────────────────────────────────────────────
-  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest'];
+  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest','chart-pullback'];
   const NOTE_IDS  = new Set(['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-latest']);
 
   function showAnalyticsChart(id) {
