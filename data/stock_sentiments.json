@@ -510,6 +510,13 @@
           "segment": "opening_commentary",
           "note": "Down 5% in June but trading cheap at 22x earnings; powerful detractors (Google, Amazon, Tesla) claim superior chips; needs massive buyback like Apple's to change trajectory.",
           "closing_price": 200.09
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Rallied despite neverending drumbeat of customers vowing to minimize Nvidia bills via custom chips. At one point down huge, recovered on broader data center re-pricing. Market reassessing whether chip commodity compression is overstated.",
+          "closing_price": 196.93
         }
       ],
       "sector": "Technology",
@@ -749,6 +756,13 @@
           "segment": "opening_commentary",
           "note": "Power infrastructure provider; turbine-to-natural-gas integration enabling data center electricity generation; growing deal flow.",
           "closing_price": 865.36
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Heavy equipment supplier went through similar selloff as data center hardware plays; physical infrastructure demand concerns bleeding across industrial sector.",
+          "closing_price": 940.12
         }
       ],
       "sector": "Industrials",
@@ -1139,6 +1153,13 @@
           "segment": "opening_commentary",
           "note": "Data center sell-off partly profit-taking and mistaken on Meta news; likes Micron most\u20148\u00d7 earnings multiple too low, secular growth story with multi-year locked pricing advantage.",
           "closing_price": 1032.28
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Reported incredible quarter but stock immediately sold off on Samsung's miss and broader hardware sector contagion. Investors fleeing entire semiconductor equipment chain despite company fundamentals.",
+          "closing_price": 938.38
         }
       ],
       "sector": "Technology",
@@ -1360,6 +1381,13 @@
           "segment": "opening_commentary",
           "note": "Down 38% YTD, bounced today on rotation, but AI-driven seat losses not yet offset by new AI business revenue; gains ephemeral pending earnings proof.",
           "closing_price": 163.23
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Enterprise software with no component/chip shortage exposure. Benefited from remarkable rotation into defensive software before AI era; no shortages like hardware companies.",
+          "closing_price": 169.52
         }
       ],
       "sector": "Technology",
@@ -1737,6 +1765,13 @@
           "segment": "opening_commentary",
           "note": "Storage shortage beneficiary, up 287% YTD; continuous price increases on constrained supply; data center demand insatiable.",
           "closing_price": 1066.07
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Storage manufacturer hit alongside Western Digital as investors flee commodity hardware plays; extrapolating Samsung weakness to U.S. demand pessimism.",
+          "closing_price": 827.64
         }
       ],
       "sector": "Technology",
@@ -1924,6 +1959,13 @@
           "segment": "interview",
           "note": "Post-aerospace spin becomes pure-play automation leader with mission-critical focus; dominates global LNG (2/3 share) with $1B+ annual revenue and 3+ year backlog; physical AI optionality; secular growth at reasonable valuation; Cramer's trust wants to increase position.",
           "closing_price": 219.12
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "CEO Jim Courier (hired by Dave Cody, legendary CEO) created pure-play aerospace company from diversified conglomerate. Aerospace and Defense segment is blue-chip beneficiary of defense spending cycle. Cramer keeping for trust, open to buying more; prefer over Boeing.",
+          "closing_price": 225.05
         }
       ],
       "sector": "Industrials",
@@ -2192,6 +2234,13 @@
           "segment": "opening_commentary",
           "note": "Semiconductor capital equipment in long-term bull market due to widespread chip shortage; years of machinery build-out needed to alleviate shortage.",
           "closing_price": 650.91
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Semi equipment maker; reported strong results but stock fell on narrative that hardware orders peaked and data center buildout slowing. Samsung miss triggered systematic repricing.",
+          "closing_price": 554.5
         }
       ],
       "sector": "Technology",
@@ -2507,6 +2556,13 @@
           "segment": "opening_commentary",
           "note": "Semiconductor equipment shortage\u2014up 96% YTD; benefiting from bottleneck in capital equipment needed to make commodity semis.",
           "closing_price": 238.73
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Semi equipment maker reported great results but stock collapsed on Samsung spillover. Investors suddenly worried about peaking semiconductor orders and slowing data center buildout.",
+          "closing_price": 216.47
         }
       ],
       "sector": "Technology",
@@ -3594,6 +3650,13 @@
           "segment": "opening_commentary",
           "note": "Down 7% in June; memory chip costs skyrocketing due to data-center bidding; strong AI deal with Google but needs earnings proof; phone price pressure concerns.",
           "closing_price": 289.36
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Hung in there despite scuttlebutt on app store slowdown (typically analyst pretext). Not majorly hurt or helped by Samsung rotation; benefited from Mag 7 bounce but held up on its own merits.",
+          "closing_price": 310.66
         }
       ],
       "sector": "Technology",
@@ -3958,6 +4021,13 @@
           "segment": "opening_commentary",
           "note": "Down 6% in June; YouTube, Google Cloud, search undervalued; heavy CapEx hitting free cash flow and pausing buybacks despite recent fundraise.",
           "closing_price": 357.37
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Hyperscaler getting renewed bid as investors rotate back into Mag 7 hyperscalers from commodity hardware. Money flowing in despite weeks of weakness.",
+          "closing_price": 367.03
         }
       ],
       "sector": "Communication Services",
@@ -4167,6 +4237,13 @@
           "note": "Talc litigation now manageable; pure pharma play with strong oncology franchise. July 15 earnings catalyst; rotation dislocation creates entry below 256.",
           "price_level": 259.33,
           "closing_price": 259.33
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Healthcare defensive rotation: stock jumped nearly $8 ahead of earnings as money fled hardware/components into full-immunity healthcare plays amid uncertainty.",
+          "closing_price": 267.24
         }
       ],
       "sector": "Healthcare",
@@ -4694,6 +4771,13 @@
           "segment": "opening_commentary",
           "note": "Announced cloud infrastructure business as instantly profitable enterprise play; rallied ~$50 today, potential $100+ more as pricing power expands beyond consumer advertising.",
           "closing_price": 612.91
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Hyperscaler bouncing on rotation back to Mag 7 after hardware selloff. Defying potential lawsuit/tobacco-like liability concerns as sentiment shifts. Part of 'walking dead' that got fresh money.",
+          "closing_price": 615.58
         }
       ],
       "sector": "Communication Services",
@@ -5153,6 +5237,13 @@
           "segment": "opening_commentary",
           "note": "Off 12% in June; AWS outperforming but unappreciated; $50B semiconductor opportunity hidden; must show AI profitability and free cash flow next year or declines continue.",
           "closing_price": 238.34
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Hyperscaler receiving gigantic money inflows after weeks of zombie-like performance. $25B bond offering (no more deals in 2026) didn't hurt stock. Walking dead are walking again as data center demand reassessed.",
+          "closing_price": 245.98
         }
       ],
       "sector": "Consumer Cyclical",
@@ -5430,6 +5521,13 @@
           "segment": "opening_commentary",
           "note": "Down 17% in June; software business losing favor on CapEx spending; needs bold action: acquire AI company, break up divisions, or replace Copilot with ChatGPT.",
           "closing_price": 373.02
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Hallowed stock usually trades with Mag 7 but lately trading with defensive enterprise software. Cramer bullish on low prices as gift; trying to hold for trust despite prior self-flagellation. Stock benefiting from hardware-to-software rotation.",
+          "closing_price": 388.84
         }
       ],
       "sector": "Technology",
@@ -5637,6 +5735,13 @@
           "segment": "opening_commentary",
           "note": "Down 31% YTD, AI platform headwinds from Anthropic Claude and OpenAI eating seats; couple-day bounce likely but enterprise software group needs earnings catalyst for durability.",
           "closing_price": 105.8
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Defensive enterprise software stock has 'gotten jiggy' (traded with Mag 7 before) \u2014 now seeing renewed bid as money rotates from commodity hardware into software with pricing power.",
+          "closing_price": 110.73
         }
       ],
       "sector": "Technology",
@@ -6094,6 +6199,13 @@
           "segment": "",
           "note": "Cramer's absolute favorite company; analyst day Wednesday; small-city convenience store model underappreciated by market; people don't know Casey story yet.",
           "closing_price": 842.25
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Reported blowout earnings month ago. Cramer recommends disciplined 10-share accumulation strategy (buy 10 every 3 weeks vs. lump sum).",
+          "closing_price": 801.99
         }
       ],
       "sector": "Consumer Cyclical",
@@ -6228,6 +6340,13 @@
           "segment": "in_depth_analysis",
           "note": "Strong Q1: 13% revenue growth, 18% earnings growth; beat guidance; FY raised 12% sales, 16-17% earnings. Firefly ARR tripled, creative premium users 50M\u219290M. But CFO Durn leaving for Marvell and CEO stepping down create paralyzing leadership void. Stock down 70% from 2021, trades 8.5x earnings despite double-digit growth. Enterprise software hated. Wait for next CEO and CFO before betting on comeback.",
           "closing_price": 207.32
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Up $3.50 despite analyst downgrade from hold to sell \u2014 bullish signal. Enterprise software benefiting from rotation away from hardware; recent analyst downside miss ignored as market reprices defensives.",
+          "closing_price": 221.54
         }
       ],
       "sector": "Technology",
@@ -7961,6 +8080,13 @@
           "segment": "in_depth_analysis",
           "note": "IPO'd today at $20, closed $19.01; outsourced mfg for space/defense (like Flex/Jabil/Celestica but military-focused). $1.06B backlog = 1.75x revenue; EBITDA margins low 20s. 31x 2026E multiple slightly elevated but story likely cheaper than it looks. Prefer mid-teens entry but okay to buy here\u2014not chasing, valuation not crazy. Greenbrier retains 81%.",
           "closing_price": 19.01
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "IPO outsource manufacturer for aerospace/defense; uniquely positioned at day-one-to-full-scale production. Supports both legacy primes and SpaceX/Blue Origin. Decision velocity (3\u20135yr vs. 10\u201320yr programs) and IP-enabled manufacturing enable fast response to urgent drone/missile/satellite demand post-Iran restocking. CEO Trip Ferguson projects urgency on generational geopolitical demand. Cramer: rare IPO that gets discovered over time with strong fundamentals; will outperform hype-cycle plays.",
+          "closing_price": 23.29
         }
       ],
       "sector": "Industrials",
@@ -10996,6 +11122,13 @@
           "segment": "opening_commentary",
           "note": "Memory and storage shortage play, up 313% YTD; price target raises ongoing; Apple citing memory constraints to justify price hikes.",
           "closing_price": 712.13
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Storage equipment supplier caught in data center hardware rotation away from components. Club-like selling pressure across storage sector.",
+          "closing_price": 532.1
         }
       ],
       "sector": "Technology",
@@ -11392,6 +11525,14 @@
           "segment": "opening_commentary",
           "note": "Down 3.9% today, in red YTD on oil/gasoline thesis that's nonsense; 37\u00d7 earnings expensive but down 26 points from highs feels excessive; use dip to accumulate.",
           "closing_price": 108.82
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Down 18% from May $135 peak despite improving fundamentals (oil fell from $110 to low $70s, gas from $4.56 to $3.79). Q2 report fine; miss triggered by guidance reiteration vs. raise expectations and softer Q3. Trump price-cut announcement and tariff refund upside (0.5% of sales) not yet baked in. Buying opportunity as consumer headwinds ease.",
+          "price_level": 111.25,
+          "closing_price": 111.54
         }
       ],
       "sector": "Consumer Defensive",
@@ -12259,6 +12400,14 @@
           "segment": "closing_commentary",
           "note": "Traders speculate on Iran peace rumors causing oil-driven volatility; Cramer warns this is pure guessing without edge, not investing; avoid endless on/off trading based on geopolitical noise.",
           "closing_price": 74.12
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "strong_buy",
+          "segment": "in_depth_analysis",
+          "note": "Transitioning from cyclical boom-bust to secular growth winner via capacity discipline (no more aggressive expansion), premium focus, credit card partnerships (13% revenue). CEO/CFO signaling less oil-price hostage-taking. Up 28% YTD, fresh all-time highs. Multiple expansion thesis intact: currently 15x earnings vs. S&P 500 avg 22x; EPS growth $6 (2026) \u2192 $8.50 (2027) \u2192 $10 (2028). Buy on dips.",
+          "price_level": 78.5,
+          "closing_price": 88.63
         }
       ],
       "sector": "Industrials",
@@ -12298,6 +12447,14 @@
           "segment": "closing_commentary",
           "note": "Traders speculate on Iran peace rumors causing oil-driven volatility; Cramer warns this is pure guessing without edge, not investing; avoid endless on/off trading based on geopolitical noise.",
           "closing_price": 98.02
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "strong_buy",
+          "segment": "in_depth_analysis",
+          "note": "Structural industry shifts toward brand loyalty over price-cutting; removing lower-margin capacity vs. slashing prices. CEO Kirby cites permanent, irreversible competitive changes. Up 15% YTD, fresh highs. Currently 13x earnings with EPS growing $10 (2026) \u2192 $15 (2027) \u2192 $17 (2028). Multiple expansion play if secular growth thesis holds. Buy into weakness.",
+          "price_level": 68.75,
+          "closing_price": 128.31
         }
       ],
       "sector": "Industrials",
@@ -13454,6 +13611,13 @@
           "note": "Fantastic last quarter reversed by rotation; now sports 4%+ dividend yield. CEO Ramol Nagua will not accept flat-year stock ahead of Thursday earnings.",
           "price_level": 5,
           "closing_price": 143.29
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Defensive consumer staple gained $1.50 during hardware selloff as investors rotate into less cyclical, full-immunity sectors ahead of mixed economic backdrop.",
+          "closing_price": 144.98
         }
       ],
       "sector": "Consumer Defensive",
@@ -13663,6 +13827,13 @@
           "segment": "opening_commentary",
           "note": "No earnings momentum; buying only for 6.66% dividend yield which is too risky; if seeking yield, bonds are safer than dividend-dependent pharma.",
           "closing_price": 25.81
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "7% dividend safe but growth problems persist. CGEN acquisition hasn't delivered; can't identify near-term earnings inflection despite historically strong profile. Down near 52-week lows. Cramer wishes he could be more positive but lacks conviction on growth trajectory.",
+          "closing_price": 24.07
         }
       ],
       "sector": "Healthcare",
@@ -14158,6 +14329,13 @@
           "segment": "opening_commentary",
           "note": "Semiconductor fab equipment play; shortage in capital equipment creating demand; up 190% YTD.",
           "closing_price": 374.18
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Semiconductor equipment supplier caught in rotation away from components; recent positive guidance forgotten as investors extrapolate Samsung weakness to industry-wide demand decline.",
+          "closing_price": 326.13
         }
       ],
       "sector": "Technology",
@@ -15925,6 +16103,13 @@
           "segment": "opening_commentary",
           "note": "Drug distributor with great recent quarter obscured by rotation; trust holding position; not done running; deserves higher trading multiples.",
           "closing_price": 237.72
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Healthcare distributor up another $2 as part of defensive sector rotation into healthcare before earnings Thursday; investor flight from cyclical tech hardware.",
+          "closing_price": 239.71
         }
       ],
       "sector": "Healthcare",
@@ -21317,6 +21502,13 @@
           "segment": "closing_commentary",
           "note": "Parabolic 215% gain in 12mo but -15% in 5 days, -12% overnight; memory super-cycle volatility proxy; watch for stabilization before adding.",
           "closing_price": 65.21
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "9% post-earnings drop triggered panic sector rotation away from hardware; up 370% in 12 months, 140% YTD \u2014 valuation unsustainable. Investors extrapolating Korean memory weakness to U.S. data center demand collapse.",
+          "closing_price": 65.21
         }
       ],
       "sector": "Technology",
@@ -21406,6 +21598,13 @@
           "segment": "opening_commentary",
           "note": "Attempting to merge with Norfolk Southern creating transcontinental railroad; Trump admin lazy-fair approach supportive.",
           "closing_price": 229.65
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Liked alongside CSX as transport theme. Railroad benefiting from discipline in infrastructure sector. Long rails and airlines as transport plays holding structural advantage.",
+          "closing_price": 283.12
         }
       ],
       "sector": "Industrials",
@@ -23221,6 +23420,15 @@
           "segment": "opening_commentary",
           "note": "Transports hottest group; new CEO Steve Angel rebuilding company with cost savings; low single-digit revenue growth, 200-300 bps margin expansion guidance.",
           "closing_price": 36.64
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "CEO Steve Angel (proven operator from Lindy) executing rail revival strategy. Stock at $48 has path to $60. Real-economy infrastructure play; strong long-term compounder if discipline persists in transportation sector.",
+          "price_target": 60,
+          "price_level": 48,
+          "closing_price": 48.51
         }
       ],
       "sector": "Industrials",
@@ -24851,6 +25059,13 @@
           "segment": "in_depth_analysis",
           "note": "CEO COO donating 2M shares to Trump accounts for eligible children; neocloud operator commanding premium pricing (3\u20134x standard gigawatt) on Anthropic/Google compute deals.",
           "closing_price": 160.42
+        },
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "19 analyst initiation reports on IPO (biggest ever); 18 of 19 bullish, mostly clustered at $225 price target. Raymond James strong buy $800; Moffett Nathanson neutral at $131. Bull thesis: dominant rocket platform + Starlink + terrestrial AI + orbital compute = transformational. Moffett's clearest risk map: TAM skepticism, orbital economics, AI pricing durability, $2T valuation unjustifiable. Cramer bullish on long-term fundamentals but acknowledges execution risks on difficult milestones.",
+          "closing_price": 149.47
         }
       ],
       "sector": "Industrials",
@@ -28235,6 +28450,51 @@
           "sentiment": "buy",
           "segment": "lightning_round",
           "note": "$1.8B cap, $700M sales; mini-Quant Services exposure to energy grid upgrades for AI and new energy. Continue higher barring data-center demand collapse."
+        }
+      ]
+    },
+    "CORS": {
+      "company": "Corsair Gaming",
+      "mentions": [
+        {
+          "date": "2026-07-07",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Clubbed on data center weakness spillover from Samsung miss. Part of hardware supply chain losing favor as investors rotate to software and hyperscalers."
+        }
+      ]
+    },
+    "VRDA": {
+      "company": "Verda Technology",
+      "mentions": [
+        {
+          "date": "2026-07-07",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Power and cooling equipment for data center; may be weaker despite historically strong performance. Caught up in sector-wide hardware selloff sparked by Samsung."
+        }
+      ]
+    },
+    "SWKS": {
+      "company": "Skyworks Solutions",
+      "mentions": [
+        {
+          "date": "2026-07-07",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "CEO trying turnaround; unclear if M&A catalyst will materialize. 4.75% yield supports hold. Wait for acquisition catalyst or strategic clarity.",
+          "closing_price": 59.76
+        }
+      ]
+    },
+    "FMIV": {
+      "company": "Forum Acquisition",
+      "mentions": [
+        {
+          "date": "2026-07-07",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Secondary offering Friday larger than expected but oversubscribed. Fundamentals gorgeous despite share dilution. Cramer wouldn't mind owning for trust; dismiss short-term supply concerns and focus on business quality."
         }
       ]
     }
