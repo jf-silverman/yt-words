@@ -261,7 +261,7 @@
     .bop-star { color: #bf8700; cursor: help; font-weight: 700; }
     .bop-training { color: #8b949e; font-style: italic; }
     .bop-predicted { color: #0969da; font-weight: 700; }
-    .bop-details { margin-top: 10px; font-size: 12px; color: #444; line-height: 1.6; font-weight: 400; }
+    .bop-details { display: none; margin-top: 10px; font-size: 12px; color: #444; line-height: 1.6; font-weight: 400; }
   </style>
 </head>
 <body>
@@ -1636,7 +1636,7 @@ function renderAnalytics(d) {
           </ul>
         </div>
         ${bopCardsHtml}
-        <div id="bop-details" class="bop-details">
+        <div id="bop-details" class="bop-details" style="display:none">
           <p style="margin:0 0 8px">Compares buying immediately on the call vs. waiting for a real
             pullback (volatility-scaled threshold via beta / market cap) and buying then, each held
             for its own 60 days.</p>
