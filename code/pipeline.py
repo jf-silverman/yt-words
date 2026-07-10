@@ -1917,12 +1917,13 @@ def send_email(html: str, subject: str, mode: str = "smtp",
 
 # ── 9. Git commit + push ──────────────────────────────────────────────────────
 
-def commit_and_push(date_str: str) -> None:
+def commit_and_push(dates: list[str]) -> None:
     """Stage docs/ and data/, commit, and push to origin/main."""
+    label = dates[0] if len(dates) == 1 else f"{dates[0]} to {dates[-1]}"
     try:
         subprocess.run(["git", "add", "docs/", "data/"], cwd=ROOT, check=True)
         subprocess.run(
-            ["git", "commit", "-m", f"Mad Money {date_str}: redirect pages + sentiment update"],
+            ["git", "commit", "-m", f"Mad Money {label}: redirect pages + sentiment update"],
             cwd=ROOT, check=True,
         )
         subprocess.run(["git", "push"], cwd=ROOT, check=True)
@@ -1991,8 +1992,8 @@ def _cookie_age_days() -> int | None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--max-episodes", type=int, default=1,
-                        help="Max new episodes to process (default: 1)")
+    parser.add_argument("--max-episodes", type=int, default=5,
+                        help="Max new episodes to process (default: 5) — each gets its own separate email")
     parser.add_argument("--email-mode", choices=["smtp", "mcp"], default="smtp",
                         help="Email delivery mode (default: smtp)")
     parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
@@ -2086,86 +2087,83 @@ def main() -> None:
         video_id = ep["id"]
         print(f"\n── Processing {video_id} ──")
 
-        print("  Fetching transcript...")
-        date_str, snippets, transcript_text = fetch_transcript(
-            video_id, ep.get("upload_date", "")
-        )
-        print(f"  Date: {date_str}  Lines: {len(snippets)}")
+        try:
+            print("  Fetching transcript...")
+            date_str, snippets, transcript_text = fetch_transcript(
+                video_id, ep.get("upload_date", "")
+            )
+            print(f"  Date: {date_str}  Lines: {len(snippets)}")
 
-        if args.backend == "claude-code":
-            print("  Analyzing with claude CLI (Claude Code subscription)...")
-            analysis = analyze_with_claude_code(date_str, transcript_text)
-        else:
-            print("  Analyzing with Claude Haiku...")
-            analysis = analyze_with_haiku(date_str, transcript_text)
-        n_stocks = len(analysis.get("stocks", []))
-        n_sections = len(analysis.get("sections", []))
-        print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
+            if args.backend == "claude-code":
+                print("  Analyzing with claude CLI (Claude Code subscription)...")
+                analysis = analyze_with_claude_code(date_str, transcript_text)
+            else:
+                print("  Analyzing with Claude Haiku...")
+                analysis = analyze_with_haiku(date_str, transcript_text)
+            n_stocks = len(analysis.get("stocks", []))
+            n_sections = len(analysis.get("sections", []))
+            print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
 
-        print("  Updating stock_sentiments.json...")
-        update_stock_sentiments(analysis, video_id=video_id)
+            print("  Updating stock_sentiments.json...")
+            update_stock_sentiments(analysis, video_id=video_id)
 
-        print("  Looking up podcast episode in RSS feed...")
-        audio_url = find_podcast_episode(date_str)
+            print("  Looking up podcast episode in RSS feed...")
+            audio_url = find_podcast_episode(date_str)
 
-        print("  Looking up Overcast episode ID...")
-        overcast_episode_id = fetch_overcast_episode_id(date_str)
+            print("  Looking up Overcast episode ID...")
+            overcast_episode_id = fetch_overcast_episode_id(date_str)
 
-        # Update episode row with transcript and overcast ID now that we have them
-        upsert_episode(
-            date=date_str,
-            video_id=video_id,
-            transcript_text=transcript_text,
-            overcast_episode_id=overcast_episode_id,
-        )
+            # Update episode row with transcript and overcast ID now that we have them
+            upsert_episode(
+                date=date_str,
+                video_id=video_id,
+                transcript_text=transcript_text,
+                overcast_episode_id=overcast_episode_id,
+            )
 
-        if overcast_episode_id:
-            link_mode = "Overcast universal links (https://overcast.fm/+ID/MM:SS)"
-        elif audio_url:
-            link_mode = "GitHub Pages redirect (audio URL)"
-        else:
-            link_mode = "YouTube fallback"
-        print(f"  Links: {link_mode}")
+            if overcast_episode_id:
+                link_mode = "Overcast universal links (https://overcast.fm/+ID/MM:SS)"
+            elif audio_url:
+                link_mode = "GitHub Pages redirect (audio URL)"
+            else:
+                link_mode = "YouTube fallback"
+            print(f"  Links: {link_mode}")
 
-        print("  Generating redirect pages...")
-        redirect_pages = generate_redirect_pages(
-            analysis, date_str,
-            overcast_episode_id=overcast_episode_id,
-            audio_url=audio_url,
-        )
-        print(f"  Redirect pages: {len(redirect_pages)}")
+            print("  Generating redirect pages...")
+            redirect_pages = generate_redirect_pages(
+                analysis, date_str,
+                overcast_episode_id=overcast_episode_id,
+                audio_url=audio_url,
+            )
+            print(f"  Redirect pages: {len(redirect_pages)}")
 
-        summaries.append({
-            "date_str": date_str,
-            "analysis": analysis,
-            "audio_url": audio_url,
-            "video_id": video_id,
-            "redirect_pages": redirect_pages,
-            "overcast_episode_id": overcast_episode_id,
-        })
-        processed.append({"video_id": video_id, "date": date_str})
+            summaries.append({
+                "date_str": date_str,
+                "analysis": analysis,
+                "audio_url": audio_url,
+                "video_id": video_id,
+                "redirect_pages": redirect_pages,
+                "overcast_episode_id": overcast_episode_id,
+            })
+            processed.append({"video_id": video_id, "date": date_str})
+        except Exception as e:
+            # Don't let one bad episode (e.g. captions not ready yet) block the
+            # rest of the queue — skip it and leave it unprocessed for next run.
+            print(f"  Skipping {video_id}: {e}")
+            continue
 
-    # Build email
+    if not summaries:
+        print("\nNo episodes processed successfully — nothing to email.")
+        if not args.dry_run:
+            save_processed(processed)
+        return
+
     dates = [s["date_str"] for s in summaries]
-    total_stocks = sum(len(s["analysis"].get("stocks", [])) for s in summaries)
-    if len(dates) == 1:
-        dt = datetime.fromisoformat(dates[0])
-        subject = f"Mad Money — {dt.strftime('%a %b %-d')} · {total_stocks} stocks"
-    else:
-        subject = f"Mad Money — {dates[-1]} to {dates[0]} · {total_stocks} stocks"
 
     # Push redirect pages to GitHub Pages (needed before email so links are live)
     if not args.dry_run:
         print("\nPushing redirect pages to GitHub...")
-        commit_and_push(dates[0])
-
-    # Check if any episode mentions a ticker from the brother's watch list
-    all_tickers = {
-        s.get("ticker", "").upper()
-        for ep in summaries
-        for s in ep["analysis"].get("stocks", [])
-    }
-    brother_hits = all_tickers & BROTHER_TICKERS
+        commit_and_push(dates)
 
     # Archive one HTML summary per episode date (no holdings highlighting, no charts needed)
     SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
@@ -2175,30 +2173,43 @@ def main() -> None:
         arc.write_text(ep_html)
         print(f"  Archived summary → {arc.name}")
 
-    if args.dry_run:
-        # base64 so the standalone preview file is viewable in a browser
-        html, _ = build_email_html(summaries, embed_charts="base64")
-        EMAIL_PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
-        out = EMAIL_PREVIEW_DIR / f"{dates[0]}_email_preview.html"
-        out.write_text(html)
-        print(f"\nDry run — redirect pages written to docs/ (not pushed)")
-        print(f"Email preview saved to {out}")
-        if brother_hits:
-            bro_html, _ = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS, embed_charts="base64")
-            bro_out = EMAIL_PREVIEW_DIR / f"{dates[0]}_email_preview_brother.html"
-            bro_out.write_text(bro_html)
-            print(f"Brother preview saved to {bro_out} (hits: {', '.join(sorted(brother_hits))})")
-    else:
-        # cid: attachments render more reliably than inline base64 in most email clients
-        html, chart_attachments = build_email_html(summaries, embed_charts="cid")
-        print(f"\nSending email: {subject}")
-        send_email(html, subject, mode=args.email_mode, chart_attachments=chart_attachments)
-        if brother_hits:
-            print(f"  Brother's tickers mentioned: {', '.join(sorted(brother_hits))} — sending copy to {BROTHER_TO}")
-            bro_html, bro_charts = build_email_html(summaries, highlight_tickers=BROTHER_TICKERS, embed_charts="cid")
-            send_email(bro_html, subject, mode=args.email_mode, recipient=BROTHER_TO, chart_attachments=bro_charts)
+    # One email per episode — if we fell behind a day or two, this sends several
+    # separate emails in one run rather than bundling multiple episodes together.
+    for ep_summary in summaries:
+        date_str = ep_summary["date_str"]
+        n_stocks = len(ep_summary["analysis"].get("stocks", []))
+        dt = datetime.fromisoformat(date_str)
+        subject = f"Mad Money — {dt.strftime('%a %b %-d')} · {n_stocks} stocks"
 
-    save_processed(processed)
+        ep_tickers = {s.get("ticker", "").upper() for s in ep_summary["analysis"].get("stocks", [])}
+        brother_hits = ep_tickers & BROTHER_TICKERS
+
+        if args.dry_run:
+            # base64 so the standalone preview file is viewable in a browser
+            html, _ = build_email_html([ep_summary], embed_charts="base64")
+            EMAIL_PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
+            out = EMAIL_PREVIEW_DIR / f"{date_str}_email_preview.html"
+            out.write_text(html)
+            print(f"\nDry run — email preview saved to {out}")
+            if brother_hits:
+                bro_html, _ = build_email_html([ep_summary], highlight_tickers=BROTHER_TICKERS, embed_charts="base64")
+                bro_out = EMAIL_PREVIEW_DIR / f"{date_str}_email_preview_brother.html"
+                bro_out.write_text(bro_html)
+                print(f"Brother preview saved to {bro_out} (hits: {', '.join(sorted(brother_hits))})")
+        else:
+            # cid: attachments render more reliably than inline base64 in most email clients
+            html, chart_attachments = build_email_html([ep_summary], embed_charts="cid")
+            print(f"\nSending email: {subject}")
+            send_email(html, subject, mode=args.email_mode, chart_attachments=chart_attachments)
+            if brother_hits:
+                print(f"  Brother's tickers mentioned: {', '.join(sorted(brother_hits))} — sending copy to {BROTHER_TO}")
+                bro_html, bro_charts = build_email_html([ep_summary], highlight_tickers=BROTHER_TICKERS, embed_charts="cid")
+                send_email(bro_html, subject, mode=args.email_mode, recipient=BROTHER_TO, chart_attachments=bro_charts)
+
+    # Dry runs must not mark episodes as processed — no email was actually sent,
+    # so a real run later should still discover and send for these dates.
+    if not args.dry_run:
+        save_processed(processed)
     print("\nDone.")
 
 
