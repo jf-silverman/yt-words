@@ -18,6 +18,7 @@ data/email_previews/
 data/prototypes/*
 !data/prototypes/never_trigger_model.json
 !data/prototypes/beta_cache.json
+!data/prototypes/ret20_cache.json
 data/chart_cache/
 data/mad_money.db
 data/stocks.db

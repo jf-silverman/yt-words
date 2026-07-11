@@ -1411,7 +1411,9 @@ function renderAnalytics(d) {
       </div>
     </div>`;
 
-  const bopBaseRate = bopModel ? Math.round((1 - (bopNever.n || 0) / (bs.calls_with_price_data || 1)) * 100) : null;
+  // Base rate to beat = majority-class accuracy ("always predict it pulls back").
+  const bopBaseRate = bopModel && bopModel.base_rate_never_pct != null
+    ? Math.round(100 - bopModel.base_rate_never_pct) : null;
 
   document.getElementById('analytics-body').innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
@@ -1628,11 +1630,12 @@ function renderAnalytics(d) {
               and if you'd bought those anyway on the call date, you'd have averaged
               <strong>${bopNT.mean_pct ?? '—'}%</strong> with a <strong>${bopNT.win_rate_pct ?? '—'}% win rate</strong>.
               Waiting for a discount that never comes is the real cost of this strategy.</li>
-            ${bopModel ? `<li>Those "never pulls back" stocks aren't random — they already had strong
-              momentum and higher beta going in. A simple model using just beta and 30-day pre-call
-              momentum predicts which calls will never trigger with <strong>${bopModel.cv_auc.toFixed(2)} AUC</strong>
-              (${Math.round(bopModel.cv_accuracy*100)}% accuracy vs. a ${bopBaseRate}% base rate) — enough of an
-              edge to flag "just buy this one now" candidates going forward.</li>` : ''}
+            ${bopModel ? `<li>The stocks that never pull back aren't random — they walked in with strong
+              recent momentum. A model using just the trailing 20-day pre-call return predicts which
+              calls <strong>avoid a ${bopModel.pullback_pct}% pullback over the next 60 days</strong> with
+              <strong>${bopModel.cv_auc.toFixed(2)} AUC</strong> (${Math.round(bopModel.cv_accuracy*100)}%
+              accuracy vs. a ${bopBaseRate}% base rate, cross-validated by ticker) — enough of an edge to
+              flag "just buy this one now" candidates going forward.</li>` : ''}
           </ul>
         </div>
         ${bopCardsHtml}
@@ -1640,14 +1643,21 @@ function renderAnalytics(d) {
           <p style="margin:0 0 8px">Compares buying immediately on the call vs. waiting for a real
             pullback (volatility-scaled threshold via beta / market cap) and buying then, each held
             for its own 60 days.</p>
+          <p style="margin:0 0 8px">The <strong>Threshold</strong> column is that volatility-scaled dip size —
+            it governs where Strategy B "buys the dip." The <strong>prediction model is separate</strong>: it
+            targets a single fixed 5% pullback and estimates the probability the stock never drops that far
+            within 60 days, from one input — the trailing 20-day pre-call return. (An earlier version keyed the
+            prediction off beta, but beta also sets the strategy threshold, which made that model partly
+            circular; the fixed 5% definition removes that.)</p>
           <div><span class="bop-star">*</span> = Cramer made another call on this ticker within 60 days of the
             buy-on-pullback call (hover the asterisk for details).</div>
           <div><span class="bop-training" style="font-style:normal;color:#8b949e">excluded</span> = a real pullback occurred, but Cramer downgraded to
             hold/sell <em>before</em> the dip was reached, so buying it would contradict his own updated
             view — dropped from the Strategy B averages above.</div>
           <div><span class="bop-training">used for training</span> = this call was part of the data used
-            to fit the never-trigger prediction model; <span class="bop-predicted">predicted</span> = a call
-            added after the model was trained, scored live using its beta and pre-call momentum.</div>
+            to fit the pullback-prediction model; <span class="bop-predicted">predicted</span> = a call added
+            after the model was trained, scored live from its trailing 20-day pre-call return. The percentage
+            is the model's estimated probability the stock avoids a 5% pullback within 60 days.</div>
         </div>
         <div style="margin:14px 0 10px;font-size:12.5px">
           <label>Filter by note:
@@ -1666,7 +1676,7 @@ function renderAnalytics(d) {
               <th style="text-align:right">Dip Date</th>
               <th style="text-align:right">A Return</th>
               <th style="text-align:right">B Return</th>
-              <th style="text-align:right">Predict Never-Trigger</th>
+              <th style="text-align:right">P(No 5% Pullback)</th>
               <th>Note</th>
             </tr></thead>
             <tbody></tbody>
@@ -1744,7 +1754,7 @@ function renderAnalytics(d) {
       const p = r.never_trigger_prediction;
       if (!p) return '—';
       if (p.status === 'training') return '<span class="bop-training">used for training</span>';
-      if (p.status === 'predicted') return `<span class="bop-predicted">${p.prob_never_trigger_pct}% never-trigger</span>`;
+      if (p.status === 'predicted') return `<span class="bop-predicted">${p.prob_never_trigger_pct}% no-dip</span>`;
       if (p.status === 'insufficient_data') return '<span class="ret-null">insufficient data</span>';
       return '<span class="ret-null">model not trained</span>';
     }

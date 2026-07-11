@@ -996,8 +996,10 @@ def rebuild_ticker_shards() -> None:
     # DB is authoritative for mention data — sync before building shards
     _sync_mentions_from_db(stocks)
 
-    # Persist synced state back to stock_sentiments.json so it stays consistent
-    SENTIMENTS_FILE.write_text(json.dumps(db_json, separators=(",", ":")))
+    # Persist synced state back to stock_sentiments.json so it stays consistent.
+    # indent=2 matches the other writers of this file (normal pipeline path) — keeps
+    # the file stably pretty-printed instead of flip-flopping to minified on rebuild.
+    SENTIMENTS_FILE.write_text(json.dumps(db_json, indent=2))
 
     _write_ticker_shards(stocks)
 

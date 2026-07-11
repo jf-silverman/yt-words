@@ -17,11 +17,21 @@ import never_trigger_model
 
 ROOT = Path(__file__).parent.parent
 BETA_CACHE_PATH = ROOT / "data" / "prototypes" / "beta_cache.json"
+RET20_CACHE_PATH = ROOT / "data" / "prototypes" / "ret20_cache.json"
 RESULTS_PATH = ROOT / "data" / "prototypes" / "buy_on_pullback_results.json"
 
 WINDOW_DAYS = 60
 RARITY_THRESHOLDS = [2, 3, 5]
 SMALL_SAMPLE_N = 30
+
+# Prediction model (never_trigger_model): predicts whether a buy_on_pullback call
+# will AVOID a >= FIXED_PULLBACK_PCT drawdown within WINDOW_DAYS. This label is
+# deliberately independent of the beta/market-cap strategy threshold below (which
+# only governs the Strategy B "buy the dip" entry) — the old beta-derived label was
+# partly circular because beta also sets that threshold. The single predictor is
+# ret_20d: the stock's trailing ~20-calendar-day return as of the call date.
+FIXED_PULLBACK_PCT = 5.0
+RET20_DAYS = 20
 
 BETA_BUCKETS = [
     (0.8, 2.0),
@@ -75,6 +85,61 @@ def fetch_betas(tickers: list, cache: dict) -> dict:
     return cache
 
 
+def load_ret20_cache() -> dict:
+    if RET20_CACHE_PATH.exists():
+        return json.loads(RET20_CACHE_PATH.read_text())
+    return {}
+
+
+def save_ret20_cache(cache: dict) -> None:
+    RET20_CACHE_PATH.write_text(json.dumps(cache, indent=2, sort_keys=True))
+
+
+def _ret20_from_series(sdates: list, series: dict, call_date: str, days: int = RET20_DAYS):
+    """Trailing `days`-calendar-day return from a {date: close} series, as-of call_date."""
+    on = [d for d in sdates if d <= call_date]
+    if not on:
+        return None
+    px = series[on[-1]]
+    cutoff = add_days(call_date, -days)
+    prior = [d for d in sdates if d <= cutoff]
+    if not prior or not px:
+        return None
+    p0 = series[prior[-1]]
+    if not p0:
+        return None
+    return round((px - p0) / p0 * 100, 2)
+
+
+def fetch_ret20(calls_by_ticker: dict, cache: dict) -> dict:
+    """Populate ret20_cache (key 'TICKER|call_date') from yfinance 2y history.
+
+    Needed because daily_prices only goes back to late 2025, so the 20-day trailing
+    return can't be computed from the DB for early-2026 calls. Mirrors fetch_betas:
+    only fetches keys not already cached, so it is cheap to re-run."""
+    missing = [t for t, ds in calls_by_ticker.items()
+               if any(f"{t}|{d}" not in cache for d in ds)]
+    if missing:
+        import yfinance as yf
+        print(f"Fetching 2y history for ret_20d on {len(missing)} tickers...")
+        for i, t in enumerate(missing):
+            try:
+                h = yf.Ticker(t).history(period="2y", auto_adjust=True)
+                series = {d.strftime("%Y-%m-%d"): float(c) for d, c in zip(h.index, h["Close"])}
+                sdates = sorted(series)
+                for cd in calls_by_ticker[t]:
+                    cache.setdefault(f"{t}|{cd}", _ret20_from_series(sdates, series, cd))
+            except Exception as e:
+                print(f"  {t}: failed ({e})")
+                for cd in calls_by_ticker[t]:
+                    cache.setdefault(f"{t}|{cd}", None)
+            if (i + 1) % 20 == 0:
+                print(f"  {i + 1}/{len(missing)}")
+                save_ret20_cache(cache)
+        save_ret20_cache(cache)
+    return cache
+
+
 def threshold_for(ticker: str, beta_cache: dict, mktcap_cat: str) -> tuple:
     beta = beta_cache.get(ticker)
     if beta is not None:
@@ -108,10 +173,12 @@ def trailing_return_pct(dates: list, daily: dict, call_date: str, call_price: fl
     return round((call_price - price_then) / price_then * 100, 2)
 
 
-def compute_analysis(conn, beta_cache: dict, trigger_model: dict | None) -> tuple:
+def compute_analysis(conn, beta_cache: dict, trigger_model: dict | None,
+                     ret20_cache: dict | None = None) -> tuple:
     """Pure computation over an open DB connection — no file I/O, no printing.
     Returns (results, summary). Reused by both the standalone CLI (analyze()) and
     db.py's build_analytics_json() for the live site."""
+    ret20_cache = ret20_cache or {}
     c = conn.cursor()
 
     c.execute("""
@@ -207,9 +274,23 @@ def compute_analysis(conn, beta_cache: dict, trigger_model: dict | None) -> tupl
             "market_cap_category": mktcap.get(ticker),
         }
 
+        # ret_20d: trailing 20-calendar-day return as of the call date — the single
+        # predictor for the never-pullback model. Prefer the yfinance-backed cache
+        # (covers early-2026 calls the DB can't reach); fall back to the DB for calls
+        # made after daily_prices has enough trailing history.
+        ret20 = ret20_cache.get(f"{ticker}|{call_date}")
+        if ret20 is None:
+            ret20 = trailing_return_pct(dates, daily, call_date, call_price, days=RET20_DAYS)
+        entry["ret_20d"] = ret20
+
+        # Fixed-threshold pullback label for the prediction model. Only defined when a
+        # full 60-day window has elapsed (otherwise "never pulled back" could just mean
+        # "not enough time has passed"). True = a >= FIXED_PULLBACK_PCT drop occurred.
+        entry["pullback_5pct"] = (max_drawdown_pct >= FIXED_PULLBACK_PCT) if has_full_a_window else None
+
         if trigger_model is not None:
             entry["never_trigger_prediction"] = never_trigger_model.score(
-                trigger_model, ticker, call_date, entry["beta"], entry["pretrend_30d_pct"], entry["market_cap_category"]
+                trigger_model, ticker, call_date, entry["ret_20d"]
             )
         else:
             entry["never_trigger_prediction"] = {"status": "no_model", "prob_never_trigger_pct": None}
@@ -338,6 +419,18 @@ def compute_analysis(conn, beta_cache: dict, trigger_model: dict | None) -> tupl
         "never_triggered": group_stats(never_group),
     }
 
+    # Fixed-threshold pullback label (what the prediction model actually targets).
+    labeled = [r for r in results if r["pullback_5pct"] is not None]
+    never_5pct = [r for r in labeled if not r["pullback_5pct"]]
+    fixed_pullback = {
+        "threshold_pct": FIXED_PULLBACK_PCT,
+        "window_days": WINDOW_DAYS,
+        "n_labeled": len(labeled),
+        "n_never_pullback": len(never_5pct),
+        "never_pullback_rate_pct": round(len(never_5pct) / len(labeled) * 100, 1) if labeled else None,
+        "pullback_rate_pct": round((len(labeled) - len(never_5pct)) / len(labeled) * 100, 1) if labeled else None,
+    }
+
     summary = {
         "total_buy_on_pullback_calls": len(calls),
         "calls_with_price_data": rarity_evaluable,
@@ -386,6 +479,7 @@ def compute_analysis(conn, beta_cache: dict, trigger_model: dict | None) -> tupl
         },
         "c_early_exits": len(early_exits),
         "predictive_analysis": predictive_analysis,
+        "fixed_pullback": fixed_pullback,
     }
 
     return results, summary
@@ -399,9 +493,22 @@ def analyze():
 
     beta_cache = load_beta_cache()
     beta_cache = fetch_betas(tickers, beta_cache)
+
+    # ret_20d needs each call's date, not just the ticker
+    c.execute("""
+        SELECT DISTINCT m.ticker, m.date
+        FROM mentions m
+        WHERE m.sentiment = 'buy_on_pullback' AND m.closing_price IS NOT NULL
+    """)
+    calls_by_ticker: dict = {}
+    for r in c.fetchall():
+        calls_by_ticker.setdefault(r["ticker"], []).append(r["date"])
+    ret20_cache = load_ret20_cache()
+    ret20_cache = fetch_ret20(calls_by_ticker, ret20_cache)
+
     trigger_model = never_trigger_model.load_model()
 
-    results, summary = compute_analysis(conn, beta_cache, trigger_model)
+    results, summary = compute_analysis(conn, beta_cache, trigger_model, ret20_cache)
     conn.close()
 
     payload = {"generated_at": datetime.utcnow().isoformat(), "summary": summary, "calls": results}
@@ -452,6 +559,12 @@ def analyze():
               f"({summary['c_beats_a']['pct']}%)")
         print(f"  C beats B head-to-head (where both computable): "
               f"{summary['c_beats_b']['count']}/{summary['c_beats_b']['n']} ({summary['c_beats_b']['pct']}%)")
+
+    fp = summary["fixed_pullback"]
+    print(f"\nFixed {fp['threshold_pct']:.0f}% pullback label (prediction-model target), "
+          f"full-window calls only (n={fp['n_labeled']}):")
+    print(f"  Never dropped {fp['threshold_pct']:.0f}% within {fp['window_days']}d: "
+          f"{fp['n_never_pullback']}/{fp['n_labeled']} ({fp['never_pullback_rate_pct']}%)")
 
     pa = summary["predictive_analysis"]
     print("\nPredictive signal — triggered vs. never-triggered calls:")

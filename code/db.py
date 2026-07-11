@@ -1248,15 +1248,18 @@ def build_analytics_json(out_path: str) -> None:
     top_days_right = _top_dr[:12]
 
     # ── Buy on Pullback analytics ────────────────────────────────────────────
-    # Reuses the beta cache built by code/analyze_buy_on_pullback.py (data/prototypes/
-    # beta_cache.json) and the frozen model trained by code/never_trigger_model.py.
-    # Neither is refreshed here (no live yfinance calls during --rebuild-shards) —
-    # run those scripts manually to pick up new tickers / retrain.
+    # Reuses the beta and ret_20d caches built by code/analyze_buy_on_pullback.py
+    # (data/prototypes/) and the frozen model trained by code/never_trigger_model.py.
+    # Caches are not refreshed here (no live yfinance calls during --rebuild-shards);
+    # ret_20d for calls missing from the cache is computed from daily_prices in the DB.
+    # Run those scripts manually to pick up new tickers / retrain.
     import analyze_buy_on_pullback
     import never_trigger_model
     _bop_beta_cache = analyze_buy_on_pullback.load_beta_cache()
+    _bop_ret20_cache = analyze_buy_on_pullback.load_ret20_cache()
     _bop_model = never_trigger_model.load_model()
-    _bop_calls, _bop_summary = analyze_buy_on_pullback.compute_analysis(conn, _bop_beta_cache, _bop_model)
+    _bop_calls, _bop_summary = analyze_buy_on_pullback.compute_analysis(
+        conn, _bop_beta_cache, _bop_model, _bop_ret20_cache)
     buy_on_pullback = {
         "summary": _bop_summary,
         "calls": _bop_calls,
@@ -1264,6 +1267,9 @@ def build_analytics_json(out_path: str) -> None:
             "cv_auc": _bop_model["cv_auc"],
             "cv_accuracy": _bop_model["cv_accuracy"],
             "n_training": _bop_model["n_training"],
+            "pullback_pct": _bop_model.get("pullback_pct", 5.0),
+            "base_rate_never_pct": _bop_model.get("base_rate_never_pct"),
+            "feature_names": _bop_model.get("feature_names", []),
         } if _bop_model else None,
     }
 
