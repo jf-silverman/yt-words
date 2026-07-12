@@ -732,12 +732,9 @@ def build_buy_backtest_by_ticker(rows: list, min_calls: int = 3) -> dict:
     for r in rows:
         by.setdefault(r['ticker'], []).append(r)
 
-    out = {}
-    for t, rs in by.items():
-        if len(rs) < min_calls:
-            continue
-        s = _backtest_stats(rs, 'hold')
-        out[t] = {
+    def _slim(rs, key):
+        s = _backtest_stats(rs, key)
+        return {
             'n': s['n'],
             'median': s['median'],
             'mean': s['mean'],
@@ -748,8 +745,22 @@ def build_buy_backtest_by_ticker(rows: list, min_calls: int = 3) -> dict:
             'excess_qqq_median': s['excess_qqq_median'],
             'beat_spy_pct': s['beat_spy_pct'],
             'beat_qqq_pct': s['beat_qqq_pct'],
-            'best': max(rs, key=lambda x: x['hold'])['hold'].__round__(1),
-            'worst': min(rs, key=lambda x: x['hold'])['hold'].__round__(1),
+            'best': round(max(x[key] for x in rs), 1),
+            'worst': round(min(x[key] for x in rs), 1),
+        }
+
+    out = {}
+    for t, rs in by.items():
+        if len(rs) < min_calls:
+            continue
+        # Both variants, because for names Cramer later soured on they diverge hugely
+        # (e.g. CRWD: +54.5% median holding through, -3.2% if you sold on his downgrade)
+        # and showing only 'hold' would imply his calls worked when following him didn't.
+        out[t] = {
+            'n': len(rs),
+            'n_downgraded': sum(1 for r in rs if r['downgraded']),
+            'hold': _slim(rs, 'hold'),
+            'exit': _slim(rs, 'exit'),
         }
     return out
 

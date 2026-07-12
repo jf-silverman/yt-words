@@ -495,22 +495,44 @@ function drRow(label, stat, dotColor) {
 // Uses the PAIRED excess (median of per-call stock-minus-index), not a naive
 // comparison of two medians — different calls happen in different market windows, so
 // median-vs-median can flip the sign of the real edge.
+const btsVariant = new Map();   // TICKER -> 'hold' | 'exit'
+
 function renderBacktestStats(ticker) {
-  const s = backtestByTicker && backtestByTicker.tickers[ticker];
-  if (!s) return '';
+  const t = backtestByTicker && backtestByTicker.tickers[ticker];
+  if (!t) return '';
+  const variant = btsVariant.get(ticker) || 'hold';
+  const s = t[variant];
   const pct  = v => (v == null ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(1)}%`);
   const col  = v => (v > 0 ? '#1a7f37' : v < 0 ? '#d03030' : '#57606a');
   const win  = s.excess_spy_median > 0;
   const small = s.n < 10 ? cautionTag() : '';
+  const dg = t.n_downgraded;
 
-  return `<div class="dr-stats" style="border-top:1px solid #eaeef2">
+  // How much the two variants disagree — worth surfacing when it's large, since
+  // "his calls worked" and "following him worked" can be opposite conclusions.
+  const spread = t.hold.median - t.exit.median;
+
+  const btn = (v, label) => `<button class="filter-btn ${variant === v ? 'active' : ''}"
+      style="font-size:11px;padding:2px 8px" onclick="setBtsVariant('${ticker}','${v}')">${label}</button>`;
+
+  return `<div class="dr-stats" id="bts-${ticker}" style="border-top:1px solid #eaeef2">
     <div class="dr-panel">
-      <div class="dr-label">Buy Calls Held 60 Days</div>
+      <div class="dr-label" style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+        <span>Buy Calls Held 60 Days</span>
+        <span style="display:flex;gap:4px">${btn('hold', 'Hold')}${btn('exit', 'Exit on sell call')}</span>
+      </div>
       <div class="bts-big" style="color:${col(s.median)}">${pct(s.median)}</div>
       <div class="bts-sub">median return · ${s.n} buy call${s.n !== 1 ? 's' : ''}${small}</div>
       <div class="bts-line"><span class="k">Win rate</span><span class="v">${s.win_rate}%</span></div>
       <div class="bts-line"><span class="k">Best / worst</span>
         <span class="v"><span style="color:#1a7f37">${pct(s.best)}</span> / <span style="color:#d03030">${pct(s.worst)}</span></span></div>
+      <div class="bts-foot">${dg === 0
+        ? `Cramer never turned Caution/Sell on ${ticker} inside a 60-day window, so both modes are identical.`
+        : `<strong>Hold</strong> = ignore what he says next. <strong>Exit on sell call</strong> = sell at the close
+           when he turns Caution/Sell — he did on <strong>${dg}</strong> of these ${t.n} call${t.n !== 1 ? 's' : ''}${
+             Math.abs(spread) >= 5
+               ? `, and it swings the median by <strong>${pct(-spread)}</strong>`
+               : ''}.`}</div>
     </div>
     <div class="dr-panel">
       <div class="dr-label">Vs. Buying the Index</div>
@@ -522,10 +544,17 @@ function renderBacktestStats(ticker) {
         <span class="v" style="color:${col(s.beat_qqq_pct - 50)}">${s.beat_qqq_pct}%<span
           style="color:${col(s.excess_qqq_median)};font-weight:400"> (${pct(s.excess_qqq_median)})</span></span></div>
       <div class="bts-foot">Each call is bought at that episode's close and compared to the index over
-        its own identical 60-day window. Only calls with a full 60 days of prices count.</div>
+        its own identical 60-day window. Only calls with a full 60 days of prices count. The edge is measured
+        per call, so it isn't the two figures subtracted.</div>
     </div>
   </div>`;
 }
+
+window.setBtsVariant = function(ticker, v) {
+  btsVariant.set(ticker, v);
+  const el = document.getElementById('bts-' + ticker);
+  if (el) el.outerHTML = renderBacktestStats(ticker);
+};
 
 function renderDrStats(entry) {
   const dr = entry.days_right;
