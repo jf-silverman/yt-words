@@ -1723,48 +1723,38 @@ function renderAnalytics(d) {
       <div class="analytics-card-body">
         <div class="bop-story">
           <h3>Top Findings</h3>
+          <p style="margin:0 0 8px;font-size:13px;line-height:1.6"><strong>He picked the right bull
+            sector, but advised waiting for pullbacks that never happened.</strong></p>
           <ul>
-            <li><strong>He picked the right trade, then spent six months trying to time it.</strong>
-              Nearly all of his edge traces to one sector — and nearly all of his damage came from
-              trying to buy it cheaper and sell it early.</li>
-
             <li><strong>The AI complex <em>was</em> his edge.</strong> His bullish calls on AI names
               (n=${eb.ai.n}) returned a median <strong>${fmtPct(eb.ai.median)}</strong> over
-              ${es.window_days} days — <strong>${fmtPct(eb.ai.excess_spy_median)} per call</strong>
-              against the S&amp;P over that call's own window, with ${eb.ai.win_rate}% of them rising.
-              Everywhere else (n=${eb.other.n}) he returned a median ${fmtPct(eb.other.median)}, an edge
-              of <strong>${fmtPct(eb.other.excess_spy_median)}</strong>. Take AI out and his buy calls
+              ${es.window_days} days — <strong>${fmtPct(eb.ai.excess_spy_median)} per call</strong> against
+              the S&amp;P over that call's own window, with ${eb.ai.win_rate}% rising. Everywhere else
+              (n=${eb.other.n}): a median ${fmtPct(eb.other.median)}, an edge of
+              <strong>${fmtPct(eb.other.excess_spy_median)}</strong>. Take AI out and his buy calls
               <em>trailed</em> a plain index fund.</li>
 
-            <li><strong>He is a good skeptic — except on AI.</strong> Across all
-              ${er.all.n} Caution/Sell calls the stock fell ${fc.pct_fell}% of the time, a median
-              ${fmtPct(er.all.median)} (${fmtPct(er.all.excess_spy_median)} vs. the index), and his best
-              warnings were emphatic: EOSE ${fmtPct(fc.best[0].return_pct)}, CRWD
-              ${fmtPct(fc.best[1].return_pct)} after he said avoid. But turn to AI (n=${er.ai.n}) and the
-              same calls <em>rose</em> a median ${fmtPct(er.ai.median)}
-              (${fmtPct(er.ai.excess_spy_median)} edge), ${er.ai.win_rate}% of them going up. Rank every
-              bearish call by what happened next and AI names take
-              <strong>${fc.ai_in_worst} of the 10 worst</strong> — but only ${fc.ai_in_best} of the 10 best.</li>
+            <li><strong>His sell calls are generally right — but his record wasn't as good on AI.</strong>
+              Across all ${er.all.n} Caution/Sell calls the stock fell ${fc.pct_fell}% of the time, a
+              median ${fmtPct(er.all.median)} (${fmtPct(er.all.excess_spy_median)} vs. the index). On AI
+              names (n=${er.ai.n}) the same calls <em>rose</em> a median ${fmtPct(er.ai.median)}
+              (${fmtPct(er.ai.excess_spy_median)} edge), ${er.ai.win_rate}% of them climbing. AI takes
+              <strong>${fc.ai_in_worst} of the 10 worst</strong> bearish calls to follow — but only
+              ${fc.ai_in_best} of the 10 best.</li>
 
-            <li><strong>The problem was never conviction — it was patience.</strong> He was
-              <em>more</em> bullish on AI, not less: Strong Buy on ${es.conviction_mix.strong_buy.ai_pct}%
-              of AI calls vs. ${es.conviction_mix.strong_buy.other_pct}% elsewhere, and Sell on
-              ${es.conviction_mix.sell_avoid.ai_pct}% vs. ${es.conviction_mix.sell_avoid.other_pct}%.
-              The tell is the hedge: he reached for "buy on pullback" —
-              <em>yes, but wait for a dip</em> —
+            <li><strong>The problem wasn't his bullish conviction — it was the "buy on pullback" calls,
+              when the stock never pulled back.</strong> He was <em>more</em> bullish on AI, not less
+              (Strong Buy on ${es.conviction_mix.strong_buy.ai_pct}% of AI calls vs.
+              ${es.conviction_mix.strong_buy.other_pct}% elsewhere), but hedged with "buy on pullback"
               ${(es.conviction_mix.buy_on_pullback.ai_pct / es.conviction_mix.buy_on_pullback.other_pct).toFixed(1)}&times;
-              as often on AI names (${es.conviction_mix.buy_on_pullback.ai_pct}% vs.
-              ${es.conviction_mix.buy_on_pullback.other_pct}%). ${bopFixed.never_pullback_rate_pct != null ? `
-              That dip never arrived <strong>${bopFixed.never_pullback_rate_pct}%</strong> of the time, and
-              buying those anyway would have returned a median
-              <strong>${fmtPct(bopNT.median_pct)}</strong>.` : ''}</li>
-
-            ${bt && bt.hold && bt.exit ? `<li><strong>Following his caution cost real money.</strong>
-              Buy every buy call and hold 60 days and the mean return is
-              <strong>${fmtPct(bt.hold.mean)}</strong>; sell whenever he downgrades to Caution/Sell and it
-              drops to <strong>${fmtPct(bt.exit.mean)}</strong>. He tends to take profits <em>after</em> a
-              run-up, so holding through captured the rest of the move while listening to him cashed out
-              early. He wasn't wrong about what to own. He was wrong about how far it would go.</li>` : ''}
+              as often (${es.conviction_mix.buy_on_pullback.ai_pct}% vs.
+              ${es.conviction_mix.buy_on_pullback.other_pct}%).${bopFixed.never_pullback_rate_pct != null ? `
+              That dip never came <strong>${bopFixed.never_pullback_rate_pct}%</strong> of the time, and
+              buying anyway returned a median <strong>${fmtPct(bopNT.median_pct)}</strong>.` : ''}
+              ${bt && bt.hold && bt.exit ? `And <strong>following his caution cost real money</strong>:
+              hold every buy call 60 days and the mean is <strong>${fmtPct(bt.hold.mean)}</strong> — sell
+              when he downgrades and it drops to <strong>${fmtPct(bt.exit.mean)}</strong>. He wasn't wrong
+              about what to own; he was wrong about how far it would go.` : ''}</li>
           </ul>
           <div class="bop-caveat" style="margin-top:10px"><strong>Big caveat:</strong> this is a single
             six-month stretch (Jan–Jul 2026) of an unusually strong, AI-driven bull market. In that regime
