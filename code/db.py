@@ -5,6 +5,7 @@ Manages schema, migrations, and provides ORM-like functions for data access.
 
 import json
 import sqlite3
+import statistics
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -585,6 +586,147 @@ def get_daily_prices(ticker: str, days: int = None):
     rows = c.fetchall()
     conn.close()
     return [dict(row) for row in rows]
+
+
+def build_buy_backtest(conn, voo_prices: dict, qqq_prices: dict, window_days: int = 60) -> dict:
+    """"If you bought every Cramer buy call and held N days, how would you have done
+    vs. just buying the index over the exact same window?"
+
+    Two variants, both free of lookahead bias:
+      hold  — buy at the call-day close, hold the full window no matter what.
+      exit  — same, but sell at the close on the day Cramer downgrades the ticker to
+              caution/sell, if that happens inside the window. Executable in real time.
+
+    (Deliberately NOT offered: dropping calls he later downgraded. That uses knowledge
+    you wouldn't have had on the call day.)
+
+    Only calls with a full window of forward prices are counted, and each call is
+    benchmarked against VOO/QQQ over its own identical date range, so a call made in a
+    hot month is compared to that same hot month.
+    """
+    import bisect
+    from datetime import date as _date, timedelta as _td
+
+    BUY_SENTS = ('strong_buy', 'buy', 'mild_buy', 'buy_on_pullback')
+    EXIT_SENTS = {'caution_concern', 'sell_avoid'}
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT m.ticker, m.date, m.sentiment, m.closing_price
+        FROM mentions m JOIN episodes e ON e.id = m.episode_id
+        WHERE m.closing_price IS NOT NULL AND m.closing_price > 0
+        ORDER BY m.date
+    """)
+    mentions = [dict(r) for r in c.fetchall()]
+
+    c.execute("SELECT ticker, date, close FROM daily_prices ORDER BY ticker, date")
+    daily: dict = {}
+    for r in c.fetchall():
+        daily.setdefault(r['ticker'], {})[r['date']] = r['close']
+    dates_by = {t: sorted(d) for t, d in daily.items()}
+
+    by_ticker: dict = {}
+    for m in mentions:
+        by_ticker.setdefault(m['ticker'], []).append(m)
+
+    benches = {'spy': voo_prices, 'qqq': qqq_prices}
+    bench_dates = {k: sorted(v) for k, v in benches.items()}
+
+    def _at_or_after(dts, series, target, max_gap=5):
+        i = bisect.bisect_left(dts, target)
+        if i >= len(dts):
+            return None
+        if (_date.fromisoformat(dts[i]) - _date.fromisoformat(target)).days > max_gap:
+            return None
+        return series[dts[i]]
+
+    def _at_or_before(dts, series, target):
+        i = bisect.bisect_right(dts, target) - 1
+        return series[dts[i]] if i >= 0 else None
+
+    rows = []
+    for m in mentions:
+        if m['sentiment'] not in BUY_SENTS:
+            continue
+        t, cd, p0 = m['ticker'], m['date'], m['closing_price']
+        dts, ser = dates_by.get(t, []), daily.get(t, {})
+        if not dts:
+            continue
+        end = (_date.fromisoformat(cd) + _td(days=window_days)).isoformat()
+        p_end = _at_or_after(dts, ser, end)
+        if p_end is None:
+            continue  # require a full forward window — no partial-window calls
+
+        b = {}
+        for k, series in benches.items():
+            bd = bench_dates[k]
+            b0 = _at_or_before(bd, series, cd)
+            b1 = _at_or_after(bd, series, end)
+            if b0 is None or b1 is None or not b0:
+                b = None
+                break
+            b[k] = (b1 - b0) / b0 * 100
+        if b is None:
+            continue
+
+        downgrade = next((x['date'] for x in by_ticker[t]
+                          if cd < x['date'] <= end and x['sentiment'] in EXIT_SENTS), None)
+        ret_hold = (p_end - p0) / p0 * 100
+        if downgrade:
+            p_exit = _at_or_before(dts, ser, downgrade)
+            ret_exit = (p_exit - p0) / p0 * 100 if p_exit else ret_hold
+        else:
+            ret_exit = ret_hold
+
+        rows.append({'ticker': t, 'date': cd, 'sentiment': m['sentiment'],
+                     'hold': ret_hold, 'exit': ret_exit, 'downgraded': bool(downgrade),
+                     'spy': b['spy'], 'qqq': b['qqq']})
+
+    def _stats(rs, key):
+        if not rs:
+            return None
+        r = sorted(x[key] for x in rs)
+        spy = [x['spy'] for x in rs]
+        qqq = [x['qqq'] for x in rs]
+        ex_spy = [x[key] - x['spy'] for x in rs]
+        ex_qqq = [x[key] - x['qqq'] for x in rs]
+        n = len(rs)
+        top_n = max(1, n // 20)
+        top5 = r[-top_n:]
+        rest = r[:-top_n]
+        return {
+            'n': n,
+            'mean': round(statistics.mean(r), 2),
+            'median': round(statistics.median(r), 2),
+            'win_rate': round(sum(1 for x in r if x > 0) / n * 100, 1),
+            'spy_mean': round(statistics.mean(spy), 2),
+            'spy_median': round(statistics.median(spy), 2),
+            'qqq_mean': round(statistics.mean(qqq), 2),
+            'qqq_median': round(statistics.median(qqq), 2),
+            'excess_spy_mean': round(statistics.mean(ex_spy), 2),
+            'excess_spy_median': round(statistics.median(ex_spy), 2),
+            'beat_spy_pct': round(sum(1 for x in ex_spy if x > 0) / n * 100, 1),
+            'excess_qqq_mean': round(statistics.mean(ex_qqq), 2),
+            'excess_qqq_median': round(statistics.median(ex_qqq), 2),
+            'beat_qqq_pct': round(sum(1 for x in ex_qqq if x > 0) / n * 100, 1),
+            # skew: the mean is carried by a thin right tail — quantify it
+            'top5pct_n': top_n,
+            'top5pct_mean': round(statistics.mean(top5), 2),
+            'rest_mean': round(statistics.mean(rest), 2) if rest else None,
+            'rest_median': round(statistics.median(rest), 2) if rest else None,
+        }
+
+    top_winners = sorted(rows, key=lambda x: -x['hold'])[:10]
+    return {
+        'window_days': window_days,
+        'n_calls': len(rows),
+        'n_downgraded': sum(1 for r in rows if r['downgraded']),
+        'n_tickers': len({r['ticker'] for r in rows}),
+        'hold': _stats(rows, 'hold'),
+        'exit': _stats(rows, 'exit'),
+        'top_winners': [{'ticker': r['ticker'], 'date': r['date'], 'return_pct': round(r['hold'], 1)}
+                        for r in top_winners],
+    }
 
 
 def _fetch_benchmark_prices(ticker: str) -> dict:
@@ -1273,6 +1415,9 @@ def build_analytics_json(out_path: str) -> None:
         } if _bop_model else None,
     }
 
+    # ── Buy-call backtest: follow his buy calls for 60d vs. buying the index ──
+    buy_backtest = build_buy_backtest(conn, voo_prices, qqq_prices, window_days=60)
+
     conn.close()
 
     payload = {
@@ -1288,6 +1433,7 @@ def build_analytics_json(out_path: str) -> None:
         "top_days_right":    top_days_right,
         "heroes":            _generate_heroes(sentiment_perf, sector_by_type, segment_by_type),
         "buy_on_pullback":   buy_on_pullback,
+        "buy_backtest":      buy_backtest,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))

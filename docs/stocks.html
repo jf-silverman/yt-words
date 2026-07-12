@@ -264,6 +264,25 @@
     .bop-details { display: none; margin-top: 10px; font-size: 12px; color: #444; line-height: 1.6; font-weight: 400; }
     .bop-caveat { display: block; margin-top: 6px; padding: 7px 10px; background: #fff8e6;
                   border-left: 3px solid #d4a72c; border-radius: 4px; font-size: 12px; color: #573f00; }
+
+    /* Buy-call backtest — mean vs median side by side */
+    .bt-split { display: flex; gap: 14px; flex-wrap: wrap; margin: 4px 0 12px; }
+    .bt-col { flex: 1 1 300px; border: 1px solid #d0d7de; border-radius: 8px; padding: 14px 16px; background: #fff; }
+    .bt-col.win { border-top: 3px solid #1a7f37; }
+    .bt-col.lose { border-top: 3px solid #d03030; }
+    .bt-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: #57606a; margin: 0 0 2px; }
+    .bt-col .verdict { font-size: 12.5px; font-weight: 700; margin-bottom: 10px; }
+    .bt-col .verdict.win { color: #1a7f37; }
+    .bt-col .verdict.lose { color: #d03030; }
+    .bt-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+    .bt-row .lbl { width: 72px; font-size: 12px; color: #57606a; flex-shrink: 0; }
+    .bt-row .track { display: block; flex: 1; height: 16px; background: #eef1f4; border-radius: 3px; overflow: hidden; }
+    .bt-row .fill { display: block; height: 100%; border-radius: 3px; }
+    .bt-row .val { width: 58px; text-align: right; font-family: monospace; font-weight: 700; font-size: 12.5px; }
+    .bt-note { font-size: 11.5px; color: #57606a; margin-top: 8px; line-height: 1.5; }
+    .bt-skew { background: #fff8e6; border-left: 3px solid #d4a72c; border-radius: 4px;
+               padding: 9px 12px; font-size: 12.5px; color: #573f00; line-height: 1.6; margin-bottom: 12px; }
+    .bt-beat { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
   </style>
 </head>
 <body>
@@ -1417,6 +1436,82 @@ function renderAnalytics(d) {
   const bopBaseRate = bopModel && bopModel.base_rate_never_pct != null
     ? Math.round(100 - bopModel.base_rate_never_pct) : null;
 
+  // ── Buy-call backtest ────────────────────────────────────────────────────
+  const bt = d.buy_backtest || null;
+  const fmtPct = v => (v == null ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(1)}%`);
+
+  // Renders one "BY THE MEAN" / "BY THE MEDIAN" column. stat = 'mean'|'median'.
+  function btColumn(s, stat, bench) {
+    const cramer = s[stat];
+    const idx    = s[`${bench}_${stat}`];
+    const beats  = cramer > idx;
+    const idxName = bench === 'spy' ? 'S&P 500' : 'Nasdaq';
+    // shared scale across the three bars so lengths are comparable
+    const span = Math.max(Math.abs(cramer), Math.abs(idx), 1) * 1.15;
+    const bar = (label, v, color) => {
+      const pct = Math.min(Math.abs(v) / span * 100, 100);
+      return `<div class="bt-row">
+        <span class="lbl">${label}</span>
+        <span class="track"><span class="fill" style="width:${pct}%;background:${color}"></span></span>
+        <span class="val" style="color:${v < 0 ? '#d03030' : '#1a7f37'}">${fmtPct(v)}</span>
+      </div>`;
+    };
+    return `<div class="bt-col ${beats ? 'win' : 'lose'}">
+      <h4>By the ${stat}</h4>
+      <div class="verdict ${beats ? 'win' : 'lose'}">
+        ${beats ? '✓ Cramer beats the ' + idxName : '✗ Cramer loses to the ' + idxName}
+      </div>
+      ${bar('Cramer', cramer, beats ? '#1a7f37' : '#d03030')}
+      ${bar(idxName, idx, '#8b949e')}
+      <div class="bt-note">${stat === 'mean'
+        ? 'The <em>average</em> call — a handful of huge winners pull this up.'
+        : 'The <em>typical</em> call — half did better, half did worse.'}</div>
+    </div>`;
+  }
+
+  let btVariant = 'hold', btBench = 'spy';
+  function renderBacktest() {
+    if (!bt) return;
+    const s = bt[btVariant];
+    const idxName = btBench === 'spy' ? 'S&P 500' : 'Nasdaq';
+    const beatPct = s[`beat_${btBench}_pct`];
+    const el = document.getElementById('bt-body');
+    if (!el) return;
+    el.innerHTML = `
+      <div class="bt-split">
+        ${btColumn(s, 'mean', btBench)}
+        ${btColumn(s, 'median', btBench)}
+      </div>
+      <div class="bt-skew">
+        <strong>Same ${s.n.toLocaleString()} calls — so which is it?</strong> Both. The average is carried by a
+        thin tail of AI-hardware moonshots: the top 5% of calls (n=${s.top5pct_n}) returned
+        <strong>${fmtPct(s.top5pct_mean)}</strong> on average, while the other 95%
+        averaged just ${fmtPct(s.rest_mean)} (median ${fmtPct(s.rest_median)}).
+        You beat the index only if you caught those few — and only
+        <strong>${beatPct}% of individual calls</strong> actually beat the ${idxName}.
+      </div>
+      <div class="bt-beat">
+        <div class="bop-card" style="border-left-color:${beatPct >= 50 ? '#1a7f37' : '#d03030'};flex:1 1 240px">
+          <h4><span class="dot" style="background:${beatPct >= 50 ? '#1a7f37' : '#d03030'}"></span>Calls That Beat the ${idxName}</h4>
+          <div class="big"><span class="${beatPct >= 50 ? 'ret-pos' : 'ret-neg'}">${beatPct}%</span></div>
+          <div class="bop-bar"><div class="bop-bar-seg" style="width:${beatPct}%;background:${beatPct >= 50 ? '#1a7f37' : '#d03030'}"></div></div>
+          <div class="sub">a coin flip is 50% — this is the honest "would I have done better than the index?"</div>
+        </div>
+        <div class="bop-card" style="border-left-color:#8b949e;flex:1 1 200px">
+          <h4><span class="dot" style="background:#8b949e"></span>Win Rate (Positive Return)</h4>
+          <div class="big">${s.win_rate}%</div>
+          <div class="sub">${s.n.toLocaleString()} calls · ${bt.n_tickers} tickers · ${bt.window_days}-day hold</div>
+        </div>
+        <div class="bop-card" style="border-left-color:#8b949e;flex:1 1 220px">
+          <h4><span class="dot" style="background:#8b949e"></span>Biggest Winners</h4>
+          <div style="font-family:monospace;font-size:12px;line-height:1.7;margin-top:2px">
+            ${bt.top_winners.slice(0, 4).map(w =>
+              `<div><strong>${w.ticker}</strong> <span class="ret-pos">${fmtPct(w.return_pct)}</span> <span style="color:#8b949e">${w.date}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  }
+
   document.getElementById('analytics-body').innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
       <select id="analytics-chart-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:220px">
@@ -1427,6 +1522,7 @@ function renderAnalytics(d) {
         <option value="chart-calls">Cramer's Calls</option>
         <option value="chart-latest">Latest Calls</option>
         <option value="chart-pullback">Buy on Pullback</option>
+        <option value="chart-backtest">Following His Buy Calls</option>
       </select>
       <span style="font-size:12px;color:#57606a">Pre-computed from SQLite · Updated ${gen}</span>
     </div>
@@ -1694,11 +1790,62 @@ function renderAnalytics(d) {
       </div>
     </div>
 
+    <!-- Buy-call backtest -->
+    <div id="chart-backtest" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        Following His Buy Calls
+        <div class="analytics-card-sub">If you bought every buy call and held ${bt ? bt.window_days : 60} days — vs. just buying the index · &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="bt-details-chk" onchange="document.getElementById('bt-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show methodology &amp; definitions</label></div>
+        <div id="bt-details" class="bop-details" style="display:none">
+          <p style="margin:0 0 8px">Every <strong>buy call</strong> (Strong Buy, Buy, Mild Buy, Buy on Pullback) is
+            bought at that episode's closing price and held for ${bt ? bt.window_days : 60} calendar days. Only calls
+            with a <strong>full ${bt ? bt.window_days : 60} days of forward prices</strong> are counted — recent calls that
+            haven't finished their window yet are excluded entirely, so nothing is scored early.</p>
+          <p style="margin:0 0 8px"><strong>Benchmarks are date-matched.</strong> Each call is compared to the S&amp;P 500
+            (VOO) and Nasdaq (QQQ) over its <em>own</em> identical ${bt ? bt.window_days : 60}-day window. A call made
+            during a hot month is measured against that same hot month — not against the index's full-year return.</p>
+          <p style="margin:0 0 8px"><strong>Hold anyway</strong> = hold the full window no matter what Cramer says later.
+            <strong>Exit on downgrade</strong> = sell at the close on the day he turns Caution/Sell on that ticker, if
+            that happens inside the window. Both are executable in real time.</p>
+          <p style="margin:0"><strong>Why we don't just drop the downgraded calls.</strong> Discarding calls he later
+            soured on would use information you didn't have on the day you bought — it lets the strategy dodge losers
+            with hindsight. Exiting <em>at</em> the downgrade is the honest version of the same instinct.</p>
+        </div>
+      </div>
+      <div class="analytics-card-body">
+        <div style="margin:2px 0 12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:12px;color:#57606a;font-weight:600">Strategy:</span>
+            <button class="filter-btn active" id="bt-var-hold" onclick="setBtVariant('hold')">Hold anyway</button>
+            <button class="filter-btn" id="bt-var-exit" onclick="setBtVariant('exit')">Exit on downgrade</button>
+          </span>
+          <span style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:12px;color:#57606a;font-weight:600">Compare to:</span>
+            <button class="filter-btn active" id="bt-bench-spy" onclick="setBtBench('spy')">S&amp;P 500</button>
+            <button class="filter-btn" id="bt-bench-qqq" onclick="setBtBench('qqq')">Nasdaq</button>
+          </span>
+        </div>
+        <div id="bt-body"></div>
+      </div>
+    </div>
+
     <p class="analytics-note" style="display:none" id="analytics-note">
       * 30d/90d returns use nearest trading day in a ±50% window of the target (e.g. 30d looks in days 30–45).
       Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
     </p>
   `;
+
+  // Buy-call backtest: wire up toggles + first render
+  window.setBtVariant = function(v) {
+    btVariant = v;
+    ['hold','exit'].forEach(x => document.getElementById('bt-var-'+x)?.classList.toggle('active', x === v));
+    renderBacktest();
+  };
+  window.setBtBench = function(v) {
+    btBench = v;
+    ['spy','qqq'].forEach(x => document.getElementById('bt-bench-'+x)?.classList.toggle('active', x === v));
+    renderBacktest();
+  };
+  renderBacktest();
 
   // Sentiment: default sort by col 0 (sentiment name) ascending — but rows were
   // pre-sorted by conviction order, so col=null keeps that order; clicking a header sorts.
@@ -1797,7 +1944,7 @@ function renderAnalytics(d) {
   })();
 
   // ── Top-level chart switcher ──────────────────────────────────────────────
-  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest','chart-pullback'];
+  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest','chart-pullback','chart-backtest'];
   const NOTE_IDS  = new Set(['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-latest']);
 
   function showAnalyticsChart(id) {
