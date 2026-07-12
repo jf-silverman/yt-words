@@ -262,6 +262,8 @@
     .bop-training { color: #8b949e; font-style: italic; }
     .bop-predicted { color: #0969da; font-weight: 700; }
     .bop-details { display: none; margin-top: 10px; font-size: 12px; color: #444; line-height: 1.6; font-weight: 400; }
+    .bop-caveat { display: block; margin-top: 6px; padding: 7px 10px; background: #fff8e6;
+                  border-left: 3px solid #d4a72c; border-radius: 4px; font-size: 12px; color: #573f00; }
   </style>
 </head>
 <body>
@@ -1635,7 +1637,14 @@ function renderAnalytics(d) {
               calls <strong>avoid a ${bopModel.pullback_pct}% pullback over the next 60 days</strong> with
               <strong>${bopModel.cv_auc.toFixed(2)} AUC</strong> (${Math.round(bopModel.cv_accuracy*100)}%
               accuracy vs. a ${bopBaseRate}% base rate, cross-validated by ticker) — enough of an edge to
-              flag "just buy this one now" candidates going forward.</li>` : ''}
+              flag "just buy this one now" candidates going forward.
+              <span class="bop-caveat"><strong>Big caveat:</strong> all of this is measured inside a single
+              six-month stretch (Jan–Jul 2026) of an unusually strong, AI-driven bull market — the S&amp;P 500
+              rose 9.9% while the average pullback call returned +21% over 60 days, and roughly a third of
+              these calls sit in the AI hardware complex (semiconductors, semi equipment, and computer
+              hardware). "Momentum keeps running and never gives you a dip" is exactly what a melt-up looks
+              like. In a flat or falling tape the signal could weaken or invert, and this run may not
+              repeat — treat the model as a read on <em>this</em> regime, not a law.</span></li>` : ''}
           </ul>
         </div>
         ${bopCardsHtml}
