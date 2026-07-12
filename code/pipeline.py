@@ -686,7 +686,7 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
 
     # For each ticker: walk call periods and tally right vs. wrong days,
     # split by call type (buy/sell), plus a separate fell/rose outcome split
-    # for hold/wait calls (no right/wrong label — see docs/prediction-market-analysis.md).
+    # for hold/wait calls (no right/wrong label — see notes/prediction-market-analysis.md).
     pct_right: dict = {}
     for ticker, date_map in m_by_ticker.items():
         daily = d_by_ticker.get(ticker, {})
