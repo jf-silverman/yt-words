@@ -288,6 +288,10 @@
     .bt-row .track { display: block; flex: 1; height: 16px; background: #eef1f4; border-radius: 3px; overflow: hidden; }
     .bt-row .fill { display: block; height: 100%; border-radius: 3px; }
     .bt-row .val { width: 58px; text-align: right; font-family: monospace; font-weight: 700; font-size: 12.5px; }
+    .bt-edge { display: flex; justify-content: space-between; align-items: baseline;
+               margin-top: 9px; padding-top: 8px; border-top: 1px dashed #e3e7eb; }
+    .bt-edge .k { font-size: 12px; color: #444b53; font-weight: 600; }
+    .bt-edge .v { font-family: monospace; font-weight: 700; font-size: 15px; }
     .bt-note { font-size: 11.5px; color: #57606a; margin-top: 8px; line-height: 1.5; }
     .bt-skew { background: #fff8e6; border-left: 3px solid #d4a72c; border-radius: 4px;
                padding: 9px 12px; font-size: 12.5px; color: #573f00; line-height: 1.6; margin-bottom: 12px; }
@@ -1499,9 +1503,14 @@ function renderAnalytics(d) {
   function btColumn(s, stat, bench) {
     const cramer = s[stat];
     const idx    = s[`${bench}_${stat}`];
-    const beats  = cramer > idx;
+    // The edge is the PAIRED figure: each call minus the index over that call's own
+    // window, then averaged/medianed. For the mean this equals cramer - idx exactly
+    // (means are linear). For the median it does NOT — different calls land in
+    // different market windows — so never subtract the two bars below; use this.
+    const edge   = s[`excess_${bench}_${stat}`];
+    const beats  = edge > 0;
     const idxName = bench === 'spy' ? 'S&P 500' : 'Nasdaq';
-    // shared scale across the three bars so lengths are comparable
+    // shared scale across both bars so lengths are comparable
     const span = Math.max(Math.abs(cramer), Math.abs(idx), 1) * 1.15;
     const bar = (label, v, color) => {
       const pct = Math.min(Math.abs(v) / span * 100, 100);
@@ -1518,9 +1527,15 @@ function renderAnalytics(d) {
       </div>
       ${bar('Cramer', cramer, beats ? '#1a7f37' : '#d03030')}
       ${bar(idxName, idx, '#8b949e')}
+      <div class="bt-edge">
+        <span class="k">Edge per call</span>
+        <span class="v" style="color:${edge < 0 ? '#d03030' : '#1a7f37'}">${fmtPct(edge)}</span>
+      </div>
       <div class="bt-note">${stat === 'mean'
         ? 'The <em>average</em> call — a handful of huge winners pull this up.'
-        : 'The <em>typical</em> call — half did better, half did worse.'}</div>
+        : `The <em>typical</em> call — half did better, half did worse. The edge is measured
+           per call (each call vs. the index over its <em>own</em> window), so it isn't the
+           two bars above subtracted — different calls land in different markets.`}</div>
     </div>`;
   }
 
@@ -1858,6 +1873,12 @@ function renderAnalytics(d) {
           <p style="margin:0 0 8px"><strong>Benchmarks are date-matched.</strong> Each call is compared to the S&amp;P 500
             (VOO) and Nasdaq (QQQ) over its <em>own</em> identical ${bt ? bt.window_days : 60}-day window. A call made
             during a hot month is measured against that same hot month — not against the index's full-year return.</p>
+          <p style="margin:0 0 8px"><strong>"Edge per call" is paired — don't subtract the two bars.</strong> The edge is
+            computed per call (that call's return minus the index over that call's own window), then averaged or
+            medianed. For the <em>mean</em> that happens to equal the two bars subtracted, because means are linear.
+            For the <em>median</em> it does not: different calls land in different market windows, so the gap between
+            the two median bars is not the typical per-call edge. Subtracting them overstates the shortfall roughly
+            fourfold here. The "Calls That Beat the Index" figure is likewise a per-call comparison.</p>
           <p style="margin:0 0 8px"><strong>Hold anyway</strong> = hold the full window no matter what Cramer says later.
             <strong>Exit on downgrade</strong> = sell at the close on the day he turns Caution/Sell on that ticker, if
             that happens inside the window. Both are executable in real time.</p>
