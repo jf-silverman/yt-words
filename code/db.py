@@ -588,11 +588,11 @@ def get_daily_prices(ticker: str, days: int = None):
     return [dict(row) for row in rows]
 
 
-def build_buy_backtest(conn, voo_prices: dict, qqq_prices: dict, window_days: int = 60) -> dict:
-    """"If you bought every Cramer buy call and held N days, how would you have done
-    vs. just buying the index over the exact same window?"
+def _buy_backtest_rows(conn, voo_prices: dict, qqq_prices: dict, window_days: int = 60) -> list:
+    """One row per qualifying buy call — the shared basis for both the site-wide
+    backtest panel and the per-ticker stats on each search card.
 
-    Two variants, both free of lookahead bias:
+    Two return variants per row, both free of lookahead bias:
       hold  — buy at the call-day close, hold the full window no matter what.
       exit  — same, but sell at the close on the day Cramer downgrades the ticker to
               caution/sell, if that happens inside the window. Executable in real time.
@@ -682,39 +682,81 @@ def build_buy_backtest(conn, voo_prices: dict, qqq_prices: dict, window_days: in
                      'hold': ret_hold, 'exit': ret_exit, 'downgraded': bool(downgrade),
                      'spy': b['spy'], 'qqq': b['qqq']})
 
-    def _stats(rs, key):
-        if not rs:
-            return None
-        r = sorted(x[key] for x in rs)
-        spy = [x['spy'] for x in rs]
-        qqq = [x['qqq'] for x in rs]
-        ex_spy = [x[key] - x['spy'] for x in rs]
-        ex_qqq = [x[key] - x['qqq'] for x in rs]
-        n = len(rs)
-        top_n = max(1, n // 20)
-        top5 = r[-top_n:]
-        rest = r[:-top_n]
-        return {
-            'n': n,
-            'mean': round(statistics.mean(r), 2),
-            'median': round(statistics.median(r), 2),
-            'win_rate': round(sum(1 for x in r if x > 0) / n * 100, 1),
-            'spy_mean': round(statistics.mean(spy), 2),
-            'spy_median': round(statistics.median(spy), 2),
-            'qqq_mean': round(statistics.mean(qqq), 2),
-            'qqq_median': round(statistics.median(qqq), 2),
-            'excess_spy_mean': round(statistics.mean(ex_spy), 2),
-            'excess_spy_median': round(statistics.median(ex_spy), 2),
-            'beat_spy_pct': round(sum(1 for x in ex_spy if x > 0) / n * 100, 1),
-            'excess_qqq_mean': round(statistics.mean(ex_qqq), 2),
-            'excess_qqq_median': round(statistics.median(ex_qqq), 2),
-            'beat_qqq_pct': round(sum(1 for x in ex_qqq if x > 0) / n * 100, 1),
-            # skew: the mean is carried by a thin right tail — quantify it
-            'top5pct_n': top_n,
-            'top5pct_mean': round(statistics.mean(top5), 2),
-            'rest_mean': round(statistics.mean(rest), 2) if rest else None,
-            'rest_median': round(statistics.median(rest), 2) if rest else None,
+    return rows
+
+
+def _backtest_stats(rs, key):
+    """Aggregate a list of backtest rows on one return variant ('hold' or 'exit')."""
+    if not rs:
+        return None
+    r = sorted(x[key] for x in rs)
+    spy = [x['spy'] for x in rs]
+    qqq = [x['qqq'] for x in rs]
+    ex_spy = [x[key] - x['spy'] for x in rs]
+    ex_qqq = [x[key] - x['qqq'] for x in rs]
+    n = len(rs)
+    top_n = max(1, n // 20)
+    top5 = r[-top_n:]
+    rest = r[:-top_n]
+    return {
+        'n': n,
+        'mean': round(statistics.mean(r), 2),
+        'median': round(statistics.median(r), 2),
+        'win_rate': round(sum(1 for x in r if x > 0) / n * 100, 1),
+        'spy_mean': round(statistics.mean(spy), 2),
+        'spy_median': round(statistics.median(spy), 2),
+        'qqq_mean': round(statistics.mean(qqq), 2),
+        'qqq_median': round(statistics.median(qqq), 2),
+        'excess_spy_mean': round(statistics.mean(ex_spy), 2),
+        'excess_spy_median': round(statistics.median(ex_spy), 2),
+        'beat_spy_pct': round(sum(1 for x in ex_spy if x > 0) / n * 100, 1),
+        'excess_qqq_mean': round(statistics.mean(ex_qqq), 2),
+        'excess_qqq_median': round(statistics.median(ex_qqq), 2),
+        'beat_qqq_pct': round(sum(1 for x in ex_qqq if x > 0) / n * 100, 1),
+        # skew: the mean is carried by a thin right tail — quantify it
+        'top5pct_n': top_n,
+        'top5pct_mean': round(statistics.mean(top5), 2),
+        'rest_mean': round(statistics.mean(rest), 2) if rest else None,
+        'rest_median': round(statistics.median(rest), 2) if rest else None,
+    }
+
+
+def build_buy_backtest_by_ticker(rows: list, min_calls: int = 3) -> dict:
+    """Per-ticker version of the buy-call backtest, for the search-card stat strip.
+
+    Only tickers with at least `min_calls` qualifying buy calls are included — below
+    that a median is meaningless. Samples here are small by nature (most qualifying
+    tickers have 3-10 calls), so the UI flags them accordingly.
+    """
+    by: dict = {}
+    for r in rows:
+        by.setdefault(r['ticker'], []).append(r)
+
+    out = {}
+    for t, rs in by.items():
+        if len(rs) < min_calls:
+            continue
+        s = _backtest_stats(rs, 'hold')
+        out[t] = {
+            'n': s['n'],
+            'median': s['median'],
+            'mean': s['mean'],
+            'win_rate': s['win_rate'],
+            'spy_median': s['spy_median'],
+            'qqq_median': s['qqq_median'],
+            'excess_spy_median': s['excess_spy_median'],
+            'excess_qqq_median': s['excess_qqq_median'],
+            'beat_spy_pct': s['beat_spy_pct'],
+            'beat_qqq_pct': s['beat_qqq_pct'],
+            'best': max(rs, key=lambda x: x['hold'])['hold'].__round__(1),
+            'worst': min(rs, key=lambda x: x['hold'])['hold'].__round__(1),
         }
+    return out
+
+
+def build_buy_backtest(conn, voo_prices: dict, qqq_prices: dict, window_days: int = 60) -> dict:
+    """Site-wide buy-call backtest aggregate (see _buy_backtest_rows for method)."""
+    rows = _buy_backtest_rows(conn, voo_prices, qqq_prices, window_days)
 
     top_winners = sorted(rows, key=lambda x: -x['hold'])[:10]
     return {
@@ -722,8 +764,8 @@ def build_buy_backtest(conn, voo_prices: dict, qqq_prices: dict, window_days: in
         'n_calls': len(rows),
         'n_downgraded': sum(1 for r in rows if r['downgraded']),
         'n_tickers': len({r['ticker'] for r in rows}),
-        'hold': _stats(rows, 'hold'),
-        'exit': _stats(rows, 'exit'),
+        'hold': _backtest_stats(rows, 'hold'),
+        'exit': _backtest_stats(rows, 'exit'),
         'top_winners': [{'ticker': r['ticker'], 'date': r['date'], 'return_pct': round(r['hold'], 1)}
                         for r in top_winners],
     }
@@ -1416,7 +1458,25 @@ def build_analytics_json(out_path: str) -> None:
     }
 
     # ── Buy-call backtest: follow his buy calls for 60d vs. buying the index ──
-    buy_backtest = build_buy_backtest(conn, voo_prices, qqq_prices, window_days=60)
+    # Rows are shared: the aggregate feeds the Analytics panel, the per-ticker
+    # rollup feeds the stat strip on each search card (≥3 calls only).
+    _bt_rows = _buy_backtest_rows(conn, voo_prices, qqq_prices, window_days=60)
+    buy_backtest = {
+        'window_days': 60,
+        'n_calls': len(_bt_rows),
+        'n_downgraded': sum(1 for r in _bt_rows if r['downgraded']),
+        'n_tickers': len({r['ticker'] for r in _bt_rows}),
+        'hold': _backtest_stats(_bt_rows, 'hold'),
+        'exit': _backtest_stats(_bt_rows, 'exit'),
+        'top_winners': [{'ticker': r['ticker'], 'date': r['date'], 'return_pct': round(r['hold'], 1)}
+                        for r in sorted(_bt_rows, key=lambda x: -x['hold'])[:10]],
+    }
+
+    bt_by_ticker = build_buy_backtest_by_ticker(_bt_rows, min_calls=3)
+    bt_path = Path(out_path).parent / "backtest_by_ticker.json"
+    bt_path.write_text(json.dumps({'window_days': 60, 'min_calls': 3, 'tickers': bt_by_ticker},
+                                  separators=(",", ":")))
+    print(f"  backtest_by_ticker.json written ({len(bt_by_ticker)} tickers) → {bt_path}")
 
     conn.close()
 

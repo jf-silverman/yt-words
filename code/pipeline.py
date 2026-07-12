@@ -1003,8 +1003,9 @@ def rebuild_ticker_shards() -> None:
 
     _write_ticker_shards(stocks)
 
-    # Delete shard files for tickers no longer in stocks (removed from DB or filtered out)
-    reserved = {"index.json", "recent.json", "analytics.json"}
+    # Delete shard files for tickers no longer in stocks (removed from DB or filtered out).
+    # `reserved` must list every non-shard file in docs/data/ or it gets pruned here.
+    reserved = {"index.json", "recent.json", "analytics.json", "backtest_by_ticker.json"}
     active = set(stocks.keys())
     removed = 0
     for p in TICKER_DATA_DIR.glob("*.json"):

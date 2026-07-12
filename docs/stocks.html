@@ -124,6 +124,15 @@
     }
     .dr-combined-label { font-size: 11px; color: #8b949e; margin-bottom: 2px; }
     .dr-combined-value { font-family: monospace; font-size: 20px; font-weight: 700; }
+    /* Per-ticker 60-day buy-call backtest strip (search card) */
+    .bts-big { font-family: monospace; font-size: 20px; font-weight: 700; }
+    .bts-sub { font-size: 11px; color: #8b949e; margin-top: 2px; }
+    .bts-line { display: flex; justify-content: space-between; align-items: baseline;
+                font-size: 12px; margin-top: 7px; }
+    .bts-line .k { color: #444b53; }
+    .bts-line .v { font-family: monospace; font-weight: 700; }
+    .bts-foot { font-size: 10.5px; color: #8b949e; margin-top: 9px; line-height: 1.45;
+                border-top: 1px dashed #e3e7eb; padding-top: 7px; }
     .dr-empty { color: #b2b8c2; font-size: 13px; }
     .caution-tag {
       display: inline-block; font-size: 10px; font-weight: 600; color: #9a6700;
@@ -476,6 +485,44 @@ function drRow(label, stat, dotColor) {
 // Outcome After Hold/Wait Call panel from a ticker shard's `days_right`
 // field (see _write_ticker_shards in code/pipeline.py). Returns '' if the
 // ticker has no days_right data at all (too few tallied days for either stat).
+// Per-ticker buy-call backtest strip: "if you'd bought his buy calls on THIS stock
+// and held 60 days, how did you do vs. the index?" Mirrors the Analytics-tab panel.
+// Only rendered for tickers with >= 3 qualifying buy calls (see build_buy_backtest_by_ticker).
+// Uses the PAIRED excess (median of per-call stock-minus-index), not a naive
+// comparison of two medians — different calls happen in different market windows, so
+// median-vs-median can flip the sign of the real edge.
+function renderBacktestStats(ticker) {
+  const s = backtestByTicker && backtestByTicker.tickers[ticker];
+  if (!s) return '';
+  const pct  = v => (v == null ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(1)}%`);
+  const col  = v => (v > 0 ? '#1a7f37' : v < 0 ? '#d03030' : '#57606a');
+  const win  = s.excess_spy_median > 0;
+  const small = s.n < 10 ? cautionTag() : '';
+
+  return `<div class="dr-stats" style="border-top:1px solid #eaeef2">
+    <div class="dr-panel">
+      <div class="dr-label">Buy Calls Held 60 Days</div>
+      <div class="bts-big" style="color:${col(s.median)}">${pct(s.median)}</div>
+      <div class="bts-sub">median return · ${s.n} buy call${s.n !== 1 ? 's' : ''}${small}</div>
+      <div class="bts-line"><span class="k">Win rate</span><span class="v">${s.win_rate}%</span></div>
+      <div class="bts-line"><span class="k">Best / worst</span>
+        <span class="v"><span style="color:#1a7f37">${pct(s.best)}</span> / <span style="color:#d03030">${pct(s.worst)}</span></span></div>
+    </div>
+    <div class="dr-panel">
+      <div class="dr-label">Vs. Buying the Index</div>
+      <div class="bts-big" style="color:${col(s.excess_spy_median)}">${pct(s.excess_spy_median)}</div>
+      <div class="bts-sub">median edge per call vs. S&amp;P 500 ${win ? '— beat it' : '— trailed it'}</div>
+      <div class="bts-line"><span class="k">Beat S&amp;P 500</span>
+        <span class="v" style="color:${col(s.beat_spy_pct - 50)}">${s.beat_spy_pct}%</span></div>
+      <div class="bts-line"><span class="k">Beat Nasdaq</span>
+        <span class="v" style="color:${col(s.beat_qqq_pct - 50)}">${s.beat_qqq_pct}%<span
+          style="color:${col(s.excess_qqq_median)};font-weight:400"> (${pct(s.excess_qqq_median)})</span></span></div>
+      <div class="bts-foot">Each call is bought at that episode's close and compared to the index over
+        its own identical 60-day window. Only calls with a full 60 days of prices count.</div>
+    </div>
+  </div>`;
+}
+
 function renderDrStats(entry) {
   const dr = entry.days_right;
   if (!dr) return '';
@@ -869,6 +916,7 @@ function renderCard(ticker, entry) {
     </div>
     ${renderChart(ticker, entry)}
     ${chartEligible ? renderDrStats(entry) : ''}
+    ${renderBacktestStats(ticker)}
     <div class="table-wrap">
       <table>
         <thead><tr>
@@ -884,6 +932,7 @@ function renderCard(ticker, entry) {
 // ── Data loading ──────────────────────────────────────────────────────────────
 
 let index = null;           // { TICKER: {name, count} }
+let backtestByTicker = null; // { window_days, min_calls, tickers: {TICKER: {...}} }
 const cache = new Map();    // TICKER -> full entry
 const chartInstances = new Map(); // TICKER -> Chart instance
 
@@ -897,6 +946,12 @@ async function loadIndex() {
   } catch {
     document.getElementById('status').textContent = 'Failed to load index. Try refreshing.';
   }
+  // Small (~25KB) side file powering the per-ticker 60-day backtest strip. Loaded
+  // alongside the index; a failure here just omits the strip rather than breaking search.
+  try {
+    const r = await fetch(`${TICKER_BASE}backtest_by_ticker.json`);
+    if (r.ok) backtestByTicker = await r.json();
+  } catch { /* strip is optional */ }
 }
 
 async function fetchTicker(ticker) {
