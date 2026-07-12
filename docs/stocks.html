@@ -1633,7 +1633,34 @@ function renderAnalytics(d) {
       </div>`;
     };
 
-    const eb = es.bullish, er = es.bearish, wo = es.worst_obeyed;
+    const eb = es.bullish, er = es.bearish, fc = es.follow_calls;
+
+    // Both tails of the same pool of Caution/Sell calls. Showing only the misses would
+    // be cherry-picking — every distribution has an ugly tail.
+    const followTable = (title, calls, note) => `
+      <div style="flex:1 1 380px;min-width:320px">
+        <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+          ${title}</div>
+        <div style="overflow-x:auto;border:1px solid #d0d7de;border-radius:6px">
+          <table class="a-table">
+            <thead><tr>
+              <th>Ticker</th><th>Date</th><th>Call</th>
+              <th style="text-align:right">Next ${es.window_days}d</th>
+              <th style="text-align:right">vs. S&amp;P</th>
+            </tr></thead>
+            <tbody>${calls.map(c => `
+              <tr onclick="showSearchForTicker('${c.ticker}')" style="cursor:pointer">
+                <td><a class="ticker-link">${c.ticker}</a>${c.ai
+                  ? ' <span class="cap-badge" style="background:#ddf4ff;color:#0969da" title="AI complex">AI</span>' : ''}</td>
+                <td class="date-cell">${c.date}</td>
+                <td>${sentBadge(c.sentiment)}</td>
+                <td style="text-align:right;font-family:monospace" class="${retClass(c.return_pct)}">${fmtPct(c.return_pct)}</td>
+                <td style="text-align:right;font-family:monospace" class="${retClass(c.excess_pct)}">${fmtPct(c.excess_pct)}</td>
+              </tr>`).join('')}</tbody>
+          </table>
+        </div>
+        <div style="font-size:12px;color:#57606a;margin-top:6px">${note}</div>
+      </div>`;
     const mixRow = s => {
       const m = es.conviction_mix[s] || {};
       const ratio = (m.other_pct && m.ai_pct) ? (m.ai_pct / m.other_pct) : null;
@@ -1661,11 +1688,12 @@ function renderAnalytics(d) {
               just owning the index.</li>
             <li>His <strong>bearish</strong> calls were well calibrated <em>everywhere except AI</em>.
               Across all Caution/Sell calls (n=${er.all.n}) the stock fell a median ${fmtPct(er.all.median)}
-              (${fmtPct(er.all.excess_spy_median)} vs. the index) — good calls. But on AI names
-              (n=${er.ai.n}) they <em>rose</em> a median ${fmtPct(er.ai.median)}
-              (${fmtPct(er.ai.excess_spy_median)} edge), with ${er.ai.win_rate}% going up.
-              <strong>${wo.n_rose} of ${wo.n} (${wo.pct_rose}%)</strong> of his AI Caution/Sell calls were
-              followed by a gain; ${wo.n_rose_20} of ${wo.n} (${wo.pct_rose_20}%) gained more than 20%.</li>
+              (${fmtPct(er.all.excess_spy_median)} vs. the index) and dropped ${fc.pct_fell}% of the time —
+              these were <em>good</em> calls, and he had big saves (EOSE, CRWD, TEAM all fell 45%+ after he
+              said avoid). But on AI names (n=${er.ai.n}) the same calls <em>rose</em> a median
+              ${fmtPct(er.ai.median)} (${fmtPct(er.ai.excess_spy_median)} edge), with ${er.ai.win_rate}%
+              going up. AI names are ${fc.ai_in_worst} of the 10 worst calls to have followed, but only
+              ${fc.ai_in_best} of the 10 best.</li>
             <li>And he was <strong>more</strong> bullish on AI, not less — Strong Buy was
               ${es.conviction_mix.strong_buy.ai_pct}% of his AI calls vs.
               ${es.conviction_mix.strong_buy.other_pct}% elsewhere. The tell is the hedging: he used
@@ -1718,31 +1746,28 @@ function renderAnalytics(d) {
               likely to say Strong Buy on an AI name — and ${(es.conviction_mix.sell_avoid.other_pct / es.conviction_mix.sell_avoid.ai_pct).toFixed(1)}&times;
               <em>less</em> likely to say Sell. The bullishness was there; the timing wasn't.</div>
           </div>
+        </div>
 
-          <div style="flex:1 1 380px;min-width:320px">
-            <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
-              Worst Calls to Have Obeyed — AI names he turned Caution/Sell on</div>
-            <div style="overflow-x:auto;border:1px solid #d0d7de;border-radius:6px">
-              <table class="a-table">
-                <thead><tr>
-                  <th>Ticker</th><th>Date</th><th>Call</th>
-                  <th style="text-align:right">Next ${es.window_days}d</th>
-                  <th style="text-align:right">vs. S&amp;P</th>
-                </tr></thead>
-                <tbody>${wo.calls.map(c => `
-                  <tr onclick="showSearchForTicker('${c.ticker}')" style="cursor:pointer">
-                    <td><a class="ticker-link">${c.ticker}</a></td>
-                    <td class="date-cell">${c.date}</td>
-                    <td>${sentBadge(c.sentiment)}</td>
-                    <td style="text-align:right;font-family:monospace" class="${retClass(c.return_pct)}">${fmtPct(c.return_pct)}</td>
-                    <td style="text-align:right;font-family:monospace" class="${retClass(c.excess_pct)}">${fmtPct(c.excess_pct)}</td>
-                  </tr>`).join('')}</tbody>
-              </table>
-            </div>
-            <div style="font-size:12px;color:#57606a;margin-top:6px">Top 10 by subsequent
-              ${es.window_days}-day return. Selling (or not buying) on these calls is what his caution
-              actually cost.</div>
-          </div>
+        <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin:22px 0 4px">
+          Both Sides of His Caution/Sell Calls</div>
+        <div style="font-size:12.5px;color:#444;margin-bottom:10px;max-width:760px;line-height:1.55">
+          Across all <strong>${fc.n}</strong> Caution/Sell calls, the stock fell <strong>${fc.pct_fell}%</strong>
+          of the time — so on balance his warnings were <em>right</em>. Both tails of that same pool are shown
+          below; neither table is filtered to AI.
+        </div>
+        <div style="display:flex;gap:20px;flex-wrap:wrap">
+          ${followTable(
+            'Best Calls to Follow — his warning saved you the most',
+            fc.best,
+            `Caution/Sell calls where the stock <strong>fell</strong> hardest afterward. Following these
+             is what his caution was <em>worth</em>. ${fc.ai_in_best} of 10 are AI names.`)}
+
+          ${followTable(
+            'Worst Calls to Follow — his warning cost you the most',
+            fc.worst,
+            `Caution/Sell calls where the stock <strong>ripped</strong> instead. Following these is what
+             his caution <em>cost</em>. <strong>${fc.ai_in_worst} of 10 are AI names</strong> — the AI trade
+             dominates this tail even though the table isn't filtered to it.`)}
         </div>
       </div>`;
   }

@@ -850,17 +850,29 @@ def build_edge_source(conn, voo_prices: dict, window_days: int = 60) -> dict:
             'other_pct': round(c_ot / n_other * 100, 1) if n_other else None,
         }
 
-    # "Worst calls to have obeyed": AI names he turned Caution/Sell on that then ripped.
-    # (The aggregate stats keep every mention; the display table dedupes on
-    # ticker+date+sentiment so an episode that mentioned a name twice doesn't show twice.)
-    bear_ai = [r for r in bear if r['ai']]
-    _seen, _uniq = set(), []
-    for r in sorted(bear_ai, key=lambda x: -x['hold']):
+    # Best/worst calls to FOLLOW — both drawn from the same pool of Caution/Sell calls,
+    # deliberately NOT pre-filtered to AI. Showing only the worst outcomes would be
+    # cherry-picking: any distribution has an ugly tail, so a one-sided table always
+    # indicts. Presenting both tails is fairer AND makes the AI point more convincingly,
+    # since AI names dominate the "cost you" tail without being hand-picked into it.
+    # (Aggregates keep every mention; these display tables dedupe on ticker+date+sentiment
+    # so an episode that mentioned a name in two segments doesn't render twice.)
+    _seen, uniq = set(), []
+    for r in sorted(bear, key=lambda x: -x['hold']):
         k = (r['ticker'], r['date'], r['sentiment'])
         if k not in _seen:
             _seen.add(k)
-            _uniq.append(r)
-    worst = _uniq[:10]
+            uniq.append(r)
+
+    def _call(r):
+        return {'ticker': r['ticker'], 'date': r['date'], 'sentiment': r['sentiment'],
+                'return_pct': round(r['hold'], 1), 'spy_pct': round(r['spy'], 1),
+                'excess_pct': round(r['hold'] - r['spy'], 1), 'ai': r['ai']}
+
+    worst = [_call(r) for r in uniq[:10]]                    # rose the most -> warning cost you
+    best  = [_call(r) for r in sorted(uniq, key=lambda x: x['hold'])[:10]]  # fell most -> saved you
+    n_u = len(uniq)
+    n_fell = sum(1 for r in uniq if r['hold'] < 0)
 
     return {
         'window_days': window_days,
@@ -871,17 +883,16 @@ def build_edge_source(conn, voo_prices: dict, window_days: int = 60) -> dict:
         'bullish': _split(bull),
         'bearish': _split(bear),
         'conviction_mix': mix,
-        'worst_obeyed': {
-            'n': len(bear_ai),
-            'n_rose': sum(1 for r in bear_ai if r['hold'] > 0),
-            'pct_rose': round(sum(1 for r in bear_ai if r['hold'] > 0) / len(bear_ai) * 100, 1)
-                        if bear_ai else None,
-            'n_rose_20': sum(1 for r in bear_ai if r['hold'] > 20),
-            'pct_rose_20': round(sum(1 for r in bear_ai if r['hold'] > 20) / len(bear_ai) * 100, 1)
-                           if bear_ai else None,
-            'calls': [{'ticker': r['ticker'], 'date': r['date'], 'sentiment': r['sentiment'],
-                       'return_pct': round(r['hold'], 1), 'spy_pct': round(r['spy'], 1),
-                       'excess_pct': round(r['hold'] - r['spy'], 1)} for r in worst],
+        'follow_calls': {
+            'n': n_u,
+            'n_fell': n_fell,
+            'pct_fell': round(n_fell / n_u * 100, 1) if n_u else None,
+            'n_rose': n_u - n_fell,
+            'pct_rose': round((n_u - n_fell) / n_u * 100, 1) if n_u else None,
+            'best': best,
+            'worst': worst,
+            'ai_in_best': sum(1 for r in best if r['ai']),
+            'ai_in_worst': sum(1 for r in worst if r['ai']),
         },
     }
 
