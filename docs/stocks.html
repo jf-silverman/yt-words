@@ -1578,6 +1578,7 @@ function renderAnalytics(d) {
   function renderBacktest() {
     if (!bt) return;
     const s = bt[btVariant];
+    const ex = (bt.extremes || {})[btVariant] || { best: [], worst: [] };
     const idxName = btBench === 'spy' ? 'S&P 500' : 'Nasdaq';
     const beatPct = s[`beat_${btBench}_pct`];
     const el = document.getElementById('bt-body');
@@ -1607,13 +1608,49 @@ function renderAnalytics(d) {
           <div class="big">${s.win_rate}%</div>
           <div class="sub">${s.n.toLocaleString()} calls · ${bt.n_tickers} tickers · ${bt.window_days}-day hold</div>
         </div>
-        <div class="bop-card" style="border-left-color:#8b949e;flex:1 1 220px">
-          <h4><span class="dot" style="background:#8b949e"></span>Biggest Winners</h4>
-          <div style="font-family:monospace;font-size:12px;line-height:1.7;margin-top:2px">
-            ${bt.top_winners.slice(0, 4).map(w =>
-              `<div><strong>${w.ticker}</strong> <span class="ret-pos">${fmtPct(w.return_pct)}</span> <span style="color:#8b949e">${w.date}</span></div>`).join('')}
-          </div>
+      </div>
+
+      <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin:20px 0 4px">
+        Both Tails — the individual buy calls behind those averages</div>
+      <div style="font-size:12.5px;color:#444;margin-bottom:10px;max-width:780px;line-height:1.55">
+        The mean above is not a typical outcome; it is an average of wildly different ones. These are the
+        ${btVariant === 'exit' ? 'best and worst calls if you sold on his downgrades' : 'best and worst calls if you held the full window'} —
+        the same pool, both ends.
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        ${btExtremeTable('Best Buy Calls to Follow', ex.best,
+          'Bought at his call, held ' + bt.window_days + ' days. This thin tail is what carries the mean.')}
+        ${btExtremeTable('Worst Buy Calls to Follow', ex.worst,
+          'The same strategy, same period. Following these is what the average quietly absorbs.')}
+      </div>`;
+  }
+
+  // Best/worst individual calls — always both, never just the winners.
+  function btExtremeTable(title, calls, note) {
+    return `
+      <div style="flex:1 1 380px;min-width:320px">
+        <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+          ${title}</div>
+        <div style="overflow-x:auto;border:1px solid #d0d7de;border-radius:6px">
+          <table class="a-table">
+            <thead><tr>
+              <th>Ticker</th><th>Date</th><th>Call</th>
+              <th style="text-align:right">${bt.window_days}d</th>
+              <th style="text-align:right">vs. S&amp;P</th>
+            </tr></thead>
+            <tbody>${calls.map(c => `
+              <tr onclick="showSearchForTicker('${c.ticker}')" style="cursor:pointer">
+                <td><a class="ticker-link">${c.ticker}</a>${c.downgraded
+                  ? ' <span class="cap-badge" style="background:#fff8e6;color:#9a6700" title="Cramer downgraded this ticker to Caution/Sell inside the window">↓</span>' : ''}</td>
+                <td class="date-cell">${c.date}</td>
+                <td>${sentBadge(c.sentiment)}</td>
+                <td style="text-align:right;font-family:monospace" class="${retClass(c.return_pct)}">${fmtPct(c.return_pct)}</td>
+                <td style="text-align:right;font-family:monospace" class="${retClass(c.excess_pct)}">${fmtPct(c.excess_pct)}</td>
+              </tr>`).join('')}</tbody>
+          </table>
         </div>
+        <div style="font-size:12px;color:#57606a;margin-top:6px">${note}
+          <span style="color:#9a6700">↓</span> = he later downgraded it to Caution/Sell inside the window.</div>
       </div>`;
   }
 

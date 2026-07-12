@@ -789,20 +789,32 @@ def build_buy_backtest_by_ticker(rows: list, min_calls: int = 3) -> dict:
     return out
 
 
-def build_buy_backtest(conn, voo_prices: dict, qqq_prices: dict, window_days: int = 60) -> dict:
-    """Site-wide buy-call backtest aggregate (see _buy_backtest_rows for method)."""
-    rows = _buy_backtest_rows(conn, voo_prices, qqq_prices, window_days)
+def _extreme_buy_calls(rows: list, key: str, n: int = 8) -> dict:
+    """Best and worst individual buy calls to have followed, for one return variant.
 
-    top_winners = sorted(rows, key=lambda x: -x['hold'])[:10]
+    Both tails, always — a winners-only list is cherry-picking, and here it would also
+    hide the point: the mean is dragged up by a thin tail of AI moonshots, so showing
+    that tail without the losing one flatters the record.
+
+    Deduped on ticker+date+sentiment so a stock Cramer mentioned in two segments of the
+    same episode doesn't occupy two rows (the aggregates still count every mention).
+    """
+    seen, uniq = set(), []
+    for r in sorted(rows, key=lambda x: -x[key]):
+        k = (r['ticker'], r['date'], r['sentiment'])
+        if k not in seen:
+            seen.add(k)
+            uniq.append(r)
+
+    def _call(r):
+        return {'ticker': r['ticker'], 'date': r['date'], 'sentiment': r['sentiment'],
+                'return_pct': round(r[key], 1), 'spy_pct': round(r['spy'], 1),
+                'excess_pct': round(r[key] - r['spy'], 1),
+                'downgraded': r['downgraded']}
+
     return {
-        'window_days': window_days,
-        'n_calls': len(rows),
-        'n_downgraded': sum(1 for r in rows if r['downgraded']),
-        'n_tickers': len({r['ticker'] for r in rows}),
-        'hold': _backtest_stats(rows, 'hold'),
-        'exit': _backtest_stats(rows, 'exit'),
-        'top_winners': [{'ticker': r['ticker'], 'date': r['date'], 'return_pct': round(r['hold'], 1)}
-                        for r in top_winners],
+        'best':  [_call(r) for r in uniq[:n]],
+        'worst': [_call(r) for r in uniq[-n:][::-1]],
     }
 
 
@@ -1594,8 +1606,12 @@ def build_analytics_json(out_path: str) -> None:
         'n_tickers': len({r['ticker'] for r in _bt_rows}),
         'hold': _backtest_stats(_bt_rows, 'hold'),
         'exit': _backtest_stats(_bt_rows, 'exit'),
-        'top_winners': [{'ticker': r['ticker'], 'date': r['date'], 'return_pct': round(r['hold'], 1)}
-                        for r in sorted(_bt_rows, key=lambda x: -x['hold'])[:10]],
+        # Best/worst individual calls per variant — which calls were worst depends on
+        # whether you obeyed his downgrades, so both variants get their own tails.
+        'extremes': {
+            'hold': _extreme_buy_calls(_bt_rows, 'hold'),
+            'exit': _extreme_buy_calls(_bt_rows, 'exit'),
+        },
     }
 
     # ── Where his edge came from: AI complex vs. everything else ──
