@@ -588,9 +588,27 @@ def get_daily_prices(ticker: str, days: int = None):
     return [dict(row) for row in rows]
 
 
-def _buy_backtest_rows(conn, voo_prices: dict, qqq_prices: dict, window_days: int = 60) -> list:
-    """One row per qualifying buy call — the shared basis for both the site-wide
-    backtest panel and the per-ticker stats on each search card.
+BUY_SENTIMENTS  = ('strong_buy', 'buy', 'mild_buy', 'buy_on_pullback')
+BEAR_SENTIMENTS = ('caution_concern', 'sell_avoid')
+
+# The "AI complex" — an industry string containing any of these substrings. Deliberately
+# industry-level (not sector), because "Technology" sweeps in software/consumer names that
+# had nothing to do with the 2026 AI-hardware run.
+AI_INDUSTRY_KEYWORDS = ("Semiconductor", "Computer Hardware", "Information Technology Services",
+                        "Electrical Equipment & Parts", "Software - Infrastructure")
+
+
+def _is_ai_industry(industry: str | None) -> bool:
+    return any(k in (industry or '') for k in AI_INDUSTRY_KEYWORDS)
+
+
+def _buy_backtest_rows(conn, voo_prices: dict, qqq_prices: dict | None = None,
+                       window_days: int = 60, sentiments: tuple | None = BUY_SENTIMENTS) -> list:
+    """One row per qualifying call — the shared basis for the site-wide backtest panel,
+    the per-ticker stats on each search card, and the "Where His Edge Came From" panel.
+
+    `sentiments` filters which calls qualify (None = every sentiment). `qqq_prices` may be
+    None, in which case rows carry no 'qqq' key and QQQ stats are omitted downstream.
 
     Two return variants per row, both free of lookahead bias:
       hold  — buy at the call-day close, hold the full window no matter what.
@@ -607,13 +625,13 @@ def _buy_backtest_rows(conn, voo_prices: dict, qqq_prices: dict, window_days: in
     import bisect
     from datetime import date as _date, timedelta as _td
 
-    BUY_SENTS = ('strong_buy', 'buy', 'mild_buy', 'buy_on_pullback')
-    EXIT_SENTS = {'caution_concern', 'sell_avoid'}
+    EXIT_SENTS = set(BEAR_SENTIMENTS)
     c = conn.cursor()
 
     c.execute("""
-        SELECT m.ticker, m.date, m.sentiment, m.closing_price
+        SELECT m.ticker, m.date, m.sentiment, m.closing_price, s.industry
         FROM mentions m JOIN episodes e ON e.id = m.episode_id
+        LEFT JOIN stocks s ON s.ticker = m.ticker
         WHERE m.closing_price IS NOT NULL AND m.closing_price > 0
         ORDER BY m.date
     """)
@@ -629,7 +647,7 @@ def _buy_backtest_rows(conn, voo_prices: dict, qqq_prices: dict, window_days: in
     for m in mentions:
         by_ticker.setdefault(m['ticker'], []).append(m)
 
-    benches = {'spy': voo_prices, 'qqq': qqq_prices}
+    benches = {k: v for k, v in (('spy', voo_prices), ('qqq', qqq_prices)) if v}
     bench_dates = {k: sorted(v) for k, v in benches.items()}
 
     def _at_or_after(dts, series, target, max_gap=5):
@@ -646,7 +664,7 @@ def _buy_backtest_rows(conn, voo_prices: dict, qqq_prices: dict, window_days: in
 
     rows = []
     for m in mentions:
-        if m['sentiment'] not in BUY_SENTS:
+        if sentiments is not None and m['sentiment'] not in sentiments:
             continue
         t, cd, p0 = m['ticker'], m['date'], m['closing_price']
         dts, ser = dates_by.get(t, []), daily.get(t, {})
@@ -680,7 +698,8 @@ def _buy_backtest_rows(conn, voo_prices: dict, qqq_prices: dict, window_days: in
 
         rows.append({'ticker': t, 'date': cd, 'sentiment': m['sentiment'],
                      'hold': ret_hold, 'exit': ret_exit, 'downgraded': bool(downgrade),
-                     'spy': b['spy'], 'qqq': b['qqq']})
+                     'industry': m['industry'], 'ai': _is_ai_industry(m['industry']),
+                     **b})
 
     return rows
 
@@ -691,28 +710,33 @@ def _backtest_stats(rs, key):
         return None
     r = sorted(x[key] for x in rs)
     spy = [x['spy'] for x in rs]
-    qqq = [x['qqq'] for x in rs]
     ex_spy = [x[key] - x['spy'] for x in rs]
-    ex_qqq = [x[key] - x['qqq'] for x in rs]
     n = len(rs)
     top_n = max(1, n // 20)
     top5 = r[-top_n:]
     rest = r[:-top_n]
+    qqq_stats = {}
+    if all('qqq' in x for x in rs):
+        qqq = [x['qqq'] for x in rs]
+        ex_qqq = [x[key] - x['qqq'] for x in rs]
+        qqq_stats = {
+            'qqq_mean': round(statistics.mean(qqq), 2),
+            'qqq_median': round(statistics.median(qqq), 2),
+            'excess_qqq_mean': round(statistics.mean(ex_qqq), 2),
+            'excess_qqq_median': round(statistics.median(ex_qqq), 2),
+            'beat_qqq_pct': round(sum(1 for x in ex_qqq if x > 0) / n * 100, 1),
+        }
     return {
         'n': n,
+        **qqq_stats,
         'mean': round(statistics.mean(r), 2),
         'median': round(statistics.median(r), 2),
         'win_rate': round(sum(1 for x in r if x > 0) / n * 100, 1),
         'spy_mean': round(statistics.mean(spy), 2),
         'spy_median': round(statistics.median(spy), 2),
-        'qqq_mean': round(statistics.mean(qqq), 2),
-        'qqq_median': round(statistics.median(qqq), 2),
         'excess_spy_mean': round(statistics.mean(ex_spy), 2),
         'excess_spy_median': round(statistics.median(ex_spy), 2),
         'beat_spy_pct': round(sum(1 for x in ex_spy if x > 0) / n * 100, 1),
-        'excess_qqq_mean': round(statistics.mean(ex_qqq), 2),
-        'excess_qqq_median': round(statistics.median(ex_qqq), 2),
-        'beat_qqq_pct': round(sum(1 for x in ex_qqq if x > 0) / n * 100, 1),
         # skew: the mean is carried by a thin right tail — quantify it
         'top5pct_n': top_n,
         'top5pct_mean': round(statistics.mean(top5), 2),
@@ -779,6 +803,86 @@ def build_buy_backtest(conn, voo_prices: dict, qqq_prices: dict, window_days: in
         'exit': _backtest_stats(rows, 'exit'),
         'top_winners': [{'ticker': r['ticker'], 'date': r['date'], 'return_pct': round(r['hold'], 1)}
                         for r in top_winners],
+    }
+
+
+def build_edge_source(conn, voo_prices: dict, window_days: int = 60) -> dict:
+    """Where His Edge Came From — performance split by AI complex vs. everything else.
+
+    Same machinery as the buy-call backtest (`_buy_backtest_rows`): each call is bought at
+    the episode close, held `window_days` calendar days, and benchmarked against VOO over
+    its *own* identical window. Only calls with a full forward window count.
+
+    Every excess figure here is the PAIRED excess — the median of (call return − that call's
+    own index return), never "median return" minus "median index return". Different calls
+    land in different market windows, so subtracting the two medians is not the typical edge.
+    `_backtest_stats` already does this correctly via `excess_spy_median`.
+
+    Three cuts:
+      bullish  — his buy calls. Nearly all the alpha is in the AI complex.
+      bearish  — his caution/sell calls. He's right only if the stock FELL. Well calibrated
+                 everywhere EXCEPT AI, where the names he turned cautious on kept ripping.
+      mix      — conviction mix (share of each group's calls), showing he was MORE bullish
+                 on AI, not less, and hedged with "buy on pullback" far more often there.
+    """
+    rows = _buy_backtest_rows(conn, voo_prices, None, window_days, sentiments=None)
+
+    def _split(rs):
+        return {
+            'all':   _backtest_stats(rs, 'hold'),
+            'ai':    _backtest_stats([r for r in rs if r['ai']], 'hold'),
+            'other': _backtest_stats([r for r in rs if not r['ai']], 'hold'),
+        }
+
+    bull = [r for r in rows if r['sentiment'] in BUY_SENTIMENTS]
+    bear = [r for r in rows if r['sentiment'] in BEAR_SENTIMENTS]
+
+    n_ai    = sum(1 for r in rows if r['ai'])
+    n_other = len(rows) - n_ai
+    mix = {}
+    for s in ('strong_buy', 'buy', 'mild_buy', 'buy_on_pullback',
+              'wait_hold_neutral', 'caution_concern', 'sell_avoid'):
+        c_ai = sum(1 for r in rows if r['ai'] and r['sentiment'] == s)
+        c_ot = sum(1 for r in rows if not r['ai'] and r['sentiment'] == s)
+        mix[s] = {
+            'ai_n': c_ai, 'other_n': c_ot,
+            'ai_pct':    round(c_ai / n_ai * 100, 1) if n_ai else None,
+            'other_pct': round(c_ot / n_other * 100, 1) if n_other else None,
+        }
+
+    # "Worst calls to have obeyed": AI names he turned Caution/Sell on that then ripped.
+    # (The aggregate stats keep every mention; the display table dedupes on
+    # ticker+date+sentiment so an episode that mentioned a name twice doesn't show twice.)
+    bear_ai = [r for r in bear if r['ai']]
+    _seen, _uniq = set(), []
+    for r in sorted(bear_ai, key=lambda x: -x['hold']):
+        k = (r['ticker'], r['date'], r['sentiment'])
+        if k not in _seen:
+            _seen.add(k)
+            _uniq.append(r)
+    worst = _uniq[:10]
+
+    return {
+        'window_days': window_days,
+        'n_calls': len(rows),
+        'n_ai': n_ai,
+        'n_other': n_other,
+        'ai_industries': list(AI_INDUSTRY_KEYWORDS),
+        'bullish': _split(bull),
+        'bearish': _split(bear),
+        'conviction_mix': mix,
+        'worst_obeyed': {
+            'n': len(bear_ai),
+            'n_rose': sum(1 for r in bear_ai if r['hold'] > 0),
+            'pct_rose': round(sum(1 for r in bear_ai if r['hold'] > 0) / len(bear_ai) * 100, 1)
+                        if bear_ai else None,
+            'n_rose_20': sum(1 for r in bear_ai if r['hold'] > 20),
+            'pct_rose_20': round(sum(1 for r in bear_ai if r['hold'] > 20) / len(bear_ai) * 100, 1)
+                           if bear_ai else None,
+            'calls': [{'ticker': r['ticker'], 'date': r['date'], 'sentiment': r['sentiment'],
+                       'return_pct': round(r['hold'], 1), 'spy_pct': round(r['spy'], 1),
+                       'excess_pct': round(r['hold'] - r['spy'], 1)} for r in worst],
+        },
     }
 
 
@@ -1483,6 +1587,9 @@ def build_analytics_json(out_path: str) -> None:
                         for r in sorted(_bt_rows, key=lambda x: -x['hold'])[:10]],
     }
 
+    # ── Where his edge came from: AI complex vs. everything else ──
+    edge_source = build_edge_source(conn, voo_prices, window_days=60)
+
     bt_by_ticker = build_buy_backtest_by_ticker(_bt_rows, min_calls=3)
     bt_path = Path(out_path).parent / "backtest_by_ticker.json"
     bt_path.write_text(json.dumps({'window_days': 60, 'min_calls': 3, 'tickers': bt_by_ticker},
@@ -1505,6 +1612,7 @@ def build_analytics_json(out_path: str) -> None:
         "heroes":            _generate_heroes(sentiment_perf, sector_by_type, segment_by_type),
         "buy_on_pullback":   buy_on_pullback,
         "buy_backtest":      buy_backtest,
+        "edge_source":       edge_source,
     }
 
     Path(out_path).write_text(json.dumps(payload, separators=(",", ":")))

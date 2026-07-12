@@ -1611,6 +1611,142 @@ function renderAnalytics(d) {
       </div>`;
   }
 
+  // ── Where His Edge Came From (AI complex vs. everything else) ─────────────
+  const es = d.edge_source || null;
+  let edgeHtml = '<div class="analytics-card-body">No edge data available.</div>';
+  if (es) {
+    // One "AI vs. everything else" comparison card. `s` = _backtest_stats block.
+    // The edge shown is the PAIRED per-call excess (excess_spy_median) — NOT the two
+    // medians subtracted, which would be wrong across differing market windows.
+    const edgeCard = (title, s, tone, note) => {
+      const col = tone === 'good' ? '#1a7f37' : tone === 'bad' ? '#d03030' : '#8b949e';
+      return `
+      <div class="bop-card ${tone === 'good' ? 'hero' : ''}" style="border-left-color:${col};flex:1 1 260px">
+        <h4><span class="dot" style="background:${col}"></span>${title}</h4>
+        <div class="big"><span class="${retClass(s.excess_spy_median)}">${fmtPct(s.excess_spy_median)}</span> <span class="unit">median edge vs. S&amp;P</span></div>
+        <div class="triple">
+          <div><div class="stat-label">Median Return</div><div class="${retClass(s.median)}" style="font-family:monospace;font-weight:700">${fmtPct(s.median)}</div></div>
+          <div><div class="stat-label">Rose</div><div style="font-family:monospace;font-weight:700">${s.win_rate}%</div></div>
+          <div><div class="stat-label">N</div><div style="font-family:monospace;font-weight:700">${s.n}</div></div>
+        </div>
+        <div class="sub" style="margin-top:8px">${note}</div>
+      </div>`;
+    };
+
+    const eb = es.bullish, er = es.bearish, wo = es.worst_obeyed;
+    const mixRow = s => {
+      const m = es.conviction_mix[s] || {};
+      const ratio = (m.other_pct && m.ai_pct) ? (m.ai_pct / m.other_pct) : null;
+      return `<tr>
+        <td>${sentBadge(s)}</td>
+        <td style="text-align:right;font-family:monospace">${m.ai_pct ?? '—'}%</td>
+        <td style="text-align:right;font-family:monospace">${m.other_pct ?? '—'}%</td>
+        <td style="text-align:right;font-family:monospace;color:${ratio && ratio >= 1.5 ? '#1a7f37' : ratio && ratio <= 0.67 ? '#d03030' : '#57606a'}">${ratio ? ratio.toFixed(1) + '×' : '—'}</td>
+      </tr>`;
+    };
+
+    edgeHtml = `
+      <div class="analytics-card-body">
+        <div class="bop-story">
+          <h3>Top Findings</h3>
+          <ul>
+            <li><strong>He identified the right trade — and then repeatedly tried to time it.</strong>
+              Essentially all of his alpha came from one place: the AI complex.</li>
+            <li>His <strong>bullish</strong> calls on AI names (n=${eb.ai.n}) returned a median
+              <strong>${fmtPct(eb.ai.median)}</strong> over ${es.window_days} days —
+              <strong>${fmtPct(eb.ai.excess_spy_median)}</strong> per call vs. the S&amp;P over that
+              call's own window, and ${eb.ai.win_rate}% of them rose. His bullish calls on
+              <em>everything else</em> (n=${eb.other.n}) returned a median ${fmtPct(eb.other.median)},
+              an edge of <strong>${fmtPct(eb.other.excess_spy_median)}</strong> — i.e. worse than
+              just owning the index.</li>
+            <li>His <strong>bearish</strong> calls were well calibrated <em>everywhere except AI</em>.
+              Across all Caution/Sell calls (n=${er.all.n}) the stock fell a median ${fmtPct(er.all.median)}
+              (${fmtPct(er.all.excess_spy_median)} vs. the index) — good calls. But on AI names
+              (n=${er.ai.n}) they <em>rose</em> a median ${fmtPct(er.ai.median)}
+              (${fmtPct(er.ai.excess_spy_median)} edge), with ${er.ai.win_rate}% going up.
+              <strong>${wo.n_rose} of ${wo.n} (${wo.pct_rose}%)</strong> of his AI Caution/Sell calls were
+              followed by a gain; ${wo.n_rose_20} of ${wo.n} (${wo.pct_rose_20}%) gained more than 20%.</li>
+            <li>And he was <strong>more</strong> bullish on AI, not less — Strong Buy was
+              ${es.conviction_mix.strong_buy.ai_pct}% of his AI calls vs.
+              ${es.conviction_mix.strong_buy.other_pct}% elsewhere. The tell is the hedging: he used
+              "buy on pullback" (${es.conviction_mix.buy_on_pullback.ai_pct}% vs.
+              ${es.conviction_mix.buy_on_pullback.other_pct}%) about
+              ${(es.conviction_mix.buy_on_pullback.ai_pct / es.conviction_mix.buy_on_pullback.other_pct).toFixed(1)}&times;
+              as often on AI names. He liked the trade, wanted a better entry, and the dip never came.
+              <span class="bop-caveat"><strong>Big caveat:</strong> this is measured inside a single
+              six-month stretch (Jan–Jul 2026) of an unusually strong, AI-driven bull market. In that
+              regime "the stock you were cautious on kept going up" is close to a tautology for the
+              leading sector — the AI complex was <em>the</em> melt-up. A cautious call that looks wrong
+              here would look prescient in a drawdown, and one hot sector in one bull market is a sample
+              of one. Treat this as a read on <em>this</em> regime, not a verdict on his process.</span></li>
+          </ul>
+        </div>
+
+        <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px">
+          His Bullish Calls (Strong Buy / Buy / Mild Buy / Buy on Pullback)</div>
+        <div class="bop-cards">
+          ${edgeCard('AI Complex', eb.ai, 'good', 'Where the alpha was. Bought his buy calls here and you crushed the index.')}
+          ${edgeCard('Everything Else', eb.other, 'bad', 'Below the index. His non-AI buy calls added nothing.')}
+          ${edgeCard('All Bullish Calls', eb.all, 'neutral', 'The blend — the AI names are what keep this near flat rather than negative.')}
+        </div>
+
+        <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin:18px 0 8px">
+          His Bearish Calls (Caution/Concern, Sell/Avoid) — he was right only if the stock FELL</div>
+        <div class="bop-cards">
+          ${edgeCard('AI Complex', er.ai, 'bad', 'Wrong. He turned cautious and the names kept ripping — a positive edge here means his warning cost you money.')}
+          ${edgeCard('Everything Else', er.other, 'good', 'Right. These names underperformed the index, exactly as he warned.')}
+          ${edgeCard('All Bearish Calls', er.all, 'neutral', 'Good bearish calls overall — the AI misses are diluted by everything he got right.')}
+        </div>
+
+        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:18px">
+          <div style="flex:1 1 320px;min-width:300px">
+            <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+              Conviction Mix — was he holding back on AI?</div>
+            <div style="border:1px solid #d0d7de;border-radius:6px;overflow:hidden">
+              <table class="a-table">
+                <thead><tr>
+                  <th>Sentiment</th>
+                  <th style="text-align:right">AI (n=${es.n_ai})</th>
+                  <th style="text-align:right">Other (n=${es.n_other})</th>
+                  <th style="text-align:right">Ratio</th>
+                </tr></thead>
+                <tbody>${['strong_buy','buy','mild_buy','buy_on_pullback','wait_hold_neutral','caution_concern','sell_avoid'].map(mixRow).join('')}</tbody>
+              </table>
+            </div>
+            <div style="font-size:12px;color:#57606a;margin-top:6px">Share of that group's calls. He was
+              ${(es.conviction_mix.strong_buy.ai_pct / es.conviction_mix.strong_buy.other_pct).toFixed(1)}&times; more
+              likely to say Strong Buy on an AI name — and ${(es.conviction_mix.sell_avoid.other_pct / es.conviction_mix.sell_avoid.ai_pct).toFixed(1)}&times;
+              <em>less</em> likely to say Sell. The bullishness was there; the timing wasn't.</div>
+          </div>
+
+          <div style="flex:1 1 380px;min-width:320px">
+            <div style="font-size:12px;font-weight:600;color:#57606a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">
+              Worst Calls to Have Obeyed — AI names he turned Caution/Sell on</div>
+            <div style="overflow-x:auto;border:1px solid #d0d7de;border-radius:6px">
+              <table class="a-table">
+                <thead><tr>
+                  <th>Ticker</th><th>Date</th><th>Call</th>
+                  <th style="text-align:right">Next ${es.window_days}d</th>
+                  <th style="text-align:right">vs. S&amp;P</th>
+                </tr></thead>
+                <tbody>${wo.calls.map(c => `
+                  <tr onclick="showSearchForTicker('${c.ticker}')" style="cursor:pointer">
+                    <td><a class="ticker-link">${c.ticker}</a></td>
+                    <td class="date-cell">${c.date}</td>
+                    <td>${sentBadge(c.sentiment)}</td>
+                    <td style="text-align:right;font-family:monospace" class="${retClass(c.return_pct)}">${fmtPct(c.return_pct)}</td>
+                    <td style="text-align:right;font-family:monospace" class="${retClass(c.excess_pct)}">${fmtPct(c.excess_pct)}</td>
+                  </tr>`).join('')}</tbody>
+              </table>
+            </div>
+            <div style="font-size:12px;color:#57606a;margin-top:6px">Top 10 by subsequent
+              ${es.window_days}-day return. Selling (or not buying) on these calls is what his caution
+              actually cost.</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
   document.getElementById('analytics-body').innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
       <select id="analytics-chart-select" style="font-size:13px;padding:5px 10px;border:1px solid #d0d7de;border-radius:6px;background:#fff;color:#1f2328;min-width:220px">
@@ -1622,6 +1758,7 @@ function renderAnalytics(d) {
         <option value="chart-latest">Latest Calls</option>
         <option value="chart-pullback">Buy on Pullback</option>
         <option value="chart-backtest">Following His Buy Calls</option>
+        <option value="chart-edge">Where His Edge Came From</option>
       </select>
       <span style="font-size:12px;color:#57606a">Pre-computed from SQLite · Updated ${gen}</span>
     </div>
@@ -1933,6 +2070,40 @@ function renderAnalytics(d) {
       </div>
     </div>
 
+    <!-- Where his edge came from: AI complex vs. everything else -->
+    <div id="chart-edge" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        Where His Edge Came From
+        <div class="analytics-card-sub">Nearly all of it was the AI complex — and he kept trying to time it · &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="edge-details-chk" onchange="document.getElementById('edge-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show methodology &amp; definitions</label></div>
+        <div id="edge-details" class="bop-details" style="display:none">
+          <p style="margin:0 0 8px"><strong>The AI complex</strong> = any ticker whose Yahoo Finance
+            <em>industry</em> contains Semiconductor, Computer Hardware, Information Technology Services,
+            Electrical Equipment &amp; Parts, or Software – Infrastructure. Industry, not sector, on purpose:
+            "Technology" would sweep in software and consumer names that had nothing to do with the
+            2026 AI-hardware run.</p>
+          <p style="margin:0 0 8px">Every call is bought (or, for bearish calls, tracked) from that episode's
+            closing price for ${es ? es.window_days : 60} calendar days. Only calls with a
+            <strong>full ${es ? es.window_days : 60} days of forward prices</strong> are counted — recent calls
+            still inside their window are excluded entirely, so nothing is scored early.
+            ${es ? es.n_calls.toLocaleString() : ''} calls qualify.</p>
+          <p style="margin:0 0 8px"><strong>The edge is paired — don't subtract the two medians.</strong> Each
+            call is compared to the S&amp;P 500 (VOO) over its <em>own</em> identical window, and the "median
+            edge" is the median of those per-call differences. It is <em>not</em> the median return minus the
+            median index return: different calls land in different market windows, so that subtraction is
+            simply the wrong number.</p>
+          <p style="margin:0 0 8px"><strong>Bearish calls are scored inverted.</strong> A Caution/Sell call is
+            <em>correct</em> when the stock <em>falls</em>. So a <em>negative</em> return and a
+            <em>negative</em> edge on the bearish cards is him being <strong>right</strong>; the positive
+            figures on the AI bearish card mean the stocks he warned about went <em>up</em>.</p>
+          <p style="margin:0"><strong>Conviction mix</strong> is the share of each group's calls carrying that
+            sentiment — e.g. Strong Buy was ${es ? es.conviction_mix.strong_buy.ai_pct : '—'}% of his AI calls
+            vs. ${es ? es.conviction_mix.strong_buy.other_pct : '—'}% of everything else. It measures how
+            bullish he <em>said</em> he was, independent of how it worked out.</p>
+        </div>
+      </div>
+      ${edgeHtml}
+    </div>
+
     <p class="analytics-note" style="display:none" id="analytics-note">
       * 30d/90d returns use nearest trading day in a ±50% window of the target (e.g. 30d looks in days 30–45).
       Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
@@ -2049,7 +2220,7 @@ function renderAnalytics(d) {
   })();
 
   // ── Top-level chart switcher ──────────────────────────────────────────────
-  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest','chart-pullback','chart-backtest'];
+  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest','chart-pullback','chart-backtest','chart-edge'];
   const NOTE_IDS  = new Set(['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-latest']);
 
   function showAnalyticsChart(id) {
