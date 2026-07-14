@@ -1920,19 +1920,69 @@ def send_email(html: str, subject: str, mode: str = "smtp",
 
 # ── 9. Git commit + push ──────────────────────────────────────────────────────
 
+PAGES_BRANCH = "main"   # GitHub Pages publishes from main
+
+
 def commit_and_push(dates: list[str]) -> None:
-    """Stage docs/ and data/, commit, and push to origin/main."""
+    """Commit generated docs/ + data/ and push them to origin/main.
+
+    GitHub Pages serves from main, so nightly artifacts must land there regardless of
+    which branch happens to be checked out. This used to run a bare `git push`, which
+    silently committed episode data to whatever feature branch was active — the redirect
+    pages then weren't live until someone merged. If we're on another branch, the
+    generated files are stashed, replayed onto main, committed, pushed, and the original
+    branch is restored. On failure the stash is put back so nothing is lost.
+    """
     label = dates[0] if len(dates) == 1 else f"{dates[0]} to {dates[-1]}"
+    msg = f"Mad Money {label}: redirect pages + sentiment update"
+    paths = ["docs/", "data/"]
+
+    def git(*args, check=True):
+        return subprocess.run(["git", *args], cwd=ROOT, check=check,
+                              capture_output=True, text=True)
+
+    def has_staged() -> bool:
+        return git("diff", "--cached", "--quiet", check=False).returncode != 0
+
     try:
-        subprocess.run(["git", "add", "docs/", "data/"], cwd=ROOT, check=True)
-        subprocess.run(
-            ["git", "commit", "-m", f"Mad Money {label}: redirect pages + sentiment update"],
-            cwd=ROOT, check=True,
-        )
-        subprocess.run(["git", "push"], cwd=ROOT, check=True)
-        print("  Pushed redirect pages to GitHub Pages")
+        branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+        git("add", *paths)
+        if not has_staged():
+            print("  No docs/ or data/ changes to commit.")
+            return
+
+        if branch == PAGES_BRANCH:
+            git("commit", "-m", msg)
+            git("push", "origin", PAGES_BRANCH)
+            print(f"  Pushed to origin/{PAGES_BRANCH} — redirect pages are live")
+            return
+
+        # On a feature branch: move the generated artifacts over to main rather than
+        # burying them here, where GitHub Pages would never see them.
+        print(f"  On '{branch}', not '{PAGES_BRANCH}' — moving generated files to {PAGES_BRANCH}")
+        git("stash", "push", "-m", "mad-money-pipeline-artifacts", "--", *paths)
+        try:
+            git("checkout", PAGES_BRANCH)
+            git("pull", "--ff-only", "origin", PAGES_BRANCH, check=False)
+            git("stash", "pop")
+            git("add", *paths)
+            if has_staged():
+                git("commit", "-m", msg)
+                git("push", "origin", PAGES_BRANCH)
+                print(f"  Pushed to origin/{PAGES_BRANCH} — redirect pages are live")
+            else:
+                print(f"  {PAGES_BRANCH} already up to date.")
+            git("checkout", branch)
+        except subprocess.CalledProcessError:
+            # Restore the artifacts onto the branch we started from so nothing is lost.
+            git("checkout", "--", ".", check=False)
+            git("checkout", branch, check=False)
+            git("stash", "pop", check=False)
+            raise
     except subprocess.CalledProcessError as e:
-        print(f"  Git push failed: {e} — links will use YouTube fallback until next push")
+        err = (e.stderr or "").strip().splitlines()[-1:] or [str(e)]
+        print(f"  Git push failed: {err[0]}")
+        print("  Generated files are still on disk — links will use YouTube fallback until next push")
 
 
 # ── Redirect page repair utility ──────────────────────────────────────────────
