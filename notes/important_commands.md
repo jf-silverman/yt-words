@@ -72,8 +72,9 @@ needed — 2:05 AM UTC in summer, 3:05 AM UTC in winter, both well after the epi
 # Schedule Mac to wake Mon–Fri at 7:05 PM local time
 sudo pmset repeat wake MTWRF 19:05:00
 
-# Add the cron job (paste this whole block — no editor needed):
-(crontab -l 2>/dev/null; echo "10 19 * * 1-5 cd /Users/jfs-m3/Documents/DS/yt-words && caffeinate -i python3 code/pipeline.py --email-mode smtp >> /tmp/mad_money_cron.log 2>&1") | crontab -
+# Add the cron job (paste this whole block — no editor needed).
+# NOTE: runs from the dedicated main-pinned worktree, not the primary folder (see below):
+(crontab -l 2>/dev/null; echo "58 21 * * 1-5 cd /Users/jfs-m3/Documents/DS/yt-words-cron && caffeinate -i /Users/jfs-m3/Documents/DS/yt-words/.venv/bin/python3 /Users/jfs-m3/Documents/DS/yt-words-cron/code/pipeline.py --email-mode smtp >> /tmp/mad_money_cron.log 2>&1") | crontab -
 
 # Confirm it was added:
 crontab -l
@@ -81,6 +82,34 @@ crontab -l
 
 `caffeinate -i` keeps the Mac awake for the duration of the pipeline run, then releases it.
 Cron output (including errors) goes to `/tmp/mad_money_cron.log`.
+
+> ⚠️ `crontab <file>` / `crontab -` can hang when run from an automation context (macOS
+> permission dialog that only appears for a real Terminal). Run it in your own Terminal, or
+> it may complete in the background after a timeout.
+
+### The cron runs from a git worktree pinned to `main`
+
+GitHub Pages publishes from `main`, and `commit_and_push()` sweeps everything dirty under
+`docs/` + `data/` onto main — so if the cron ran on a feature branch with uncommitted
+`stocks.html` edits, it would publish that half-finished work to the live site. To avoid
+that, the cron runs from a **dedicated worktree that's always on `main`**:
+
+- `~/Documents/DS/yt-words`      → primary folder (develop on feature branches here)
+- `~/Documents/DS/yt-words-cron` → main-pinned worktree the cron uses
+
+Shared gitignored state (`.env`, `data/mad_money.db`, `data/transcripts`, `data/summaries`)
+is symlinked from the worktree back to the primary folder, and those symlink names are added
+to `.git/info/exclude` (local, uncommitted) so `git add data/` never commits them.
+
+**Consequence:** git won't check out the same branch in two worktrees, so you can no longer
+`git checkout main` in the primary folder — do main work and merges *into* main from the
+`yt-words-cron` folder. To undo: `git worktree remove ../yt-words-cron` and repoint the cron.
+
+```bash
+git worktree list                         # show both working trees
+cd ~/Documents/DS/yt-words-cron           # go here to work on main / merge into main
+git -C ~/Documents/DS/yt-words-cron pull  # refresh the worktree's main
+```
 
 ```bash
 # Verify / remove the wake schedule
