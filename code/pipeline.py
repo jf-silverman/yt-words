@@ -1926,13 +1926,20 @@ PAGES_BRANCH = "main"   # GitHub Pages publishes from main
 def commit_and_push(dates: list[str]) -> None:
     """Commit generated docs/ + data/ and push them to origin/main.
 
-    GitHub Pages serves from main, so nightly artifacts must land there regardless of
-    which branch happens to be checked out. This used to run a bare `git push`, which
-    silently committed episode data to whatever feature branch was active — the redirect
-    pages then weren't live until someone merged. If we're on another branch, the
-    generated files are stashed, replayed onto main, committed, pushed, and the original
-    branch is restored. On failure the stash is put back so nothing is lost.
+    GitHub Pages serves from main, so nightly artifacts must land there no matter which
+    branch is checked out. A bare `git push` used to bury them on whatever feature branch
+    was active. The obvious fix — stash the artifacts and `git stash pop` onto main — is
+    wrong: a pop is a 3-way merge, and these files differ between feature and main on every
+    run, so it conflicts and strands the repo mid-merge (this stranded the 2026-07-14 run).
+
+    The pipeline, not main, is the source of truth for these files, so they must be laid
+    down *wholesale*, never merged. We snapshot the changed files to a temp dir, revert the
+    feature branch to clean, switch to main, copy the snapshot over whatever main has,
+    commit, push, and switch back. No merge means no conflict is possible. On failure the
+    snapshot is kept (its path is printed) so nothing is lost.
     """
+    import shutil
+    import tempfile
     label = dates[0] if len(dates) == 1 else f"{dates[0]} to {dates[-1]}"
     msg = f"Mad Money {label}: redirect pages + sentiment update"
     paths = ["docs/", "data/"]
@@ -1944,27 +1951,83 @@ def commit_and_push(dates: list[str]) -> None:
     def has_staged() -> bool:
         return git("diff", "--cached", "--quiet", check=False).returncode != 0
 
+    def classify_changes():
+        """Split generated changes under `paths` into (present, deleted, untracked).
+
+        present  = files that exist now and must be copied to main (tracked mods + new).
+        deleted  = tracked files the pipeline removed (e.g. pruned stale shards).
+        untracked = the subset of `present` git isn't tracking yet — cleaned by unlink,
+                    not `git checkout`, and never via `git clean` (which would eat the
+                    untracked mad_money.db / transcripts / summaries living under data/).
+        """
+        # -uall expands brand-new directories (e.g. redirect/<date>/) into individual
+        # files; plain porcelain collapses them to one dir entry that can't be copied.
+        out = git("status", "--porcelain", "-uall", "--", *paths).stdout.splitlines()
+        present, deleted, untracked = [], [], []
+        for line in out:
+            if not line.strip():
+                continue
+            code, name = line[:2], line[3:]
+            if " -> " in name:            # rename: keep the new path
+                name = name.split(" -> ", 1)[1]
+            if code == "??":
+                present.append(name); untracked.append(name)
+            elif code.strip() == "D":
+                deleted.append(name)
+            else:
+                present.append(name)
+        return present, deleted, untracked
+
     try:
         branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
-        git("add", *paths)
-        if not has_staged():
-            print("  No docs/ or data/ changes to commit.")
-            return
 
         if branch == PAGES_BRANCH:
+            git("add", *paths)
+            if not has_staged():
+                print("  No docs/ or data/ changes to commit.")
+                return
             git("commit", "-m", msg)
             git("push", "origin", PAGES_BRANCH)
             print(f"  Pushed to origin/{PAGES_BRANCH} — redirect pages are live")
             return
 
-        # On a feature branch: move the generated artifacts over to main rather than
-        # burying them here, where GitHub Pages would never see them.
+        present, deleted, untracked = classify_changes()
+        if not present and not deleted:
+            print("  No docs/ or data/ changes to commit.")
+            return
+
         print(f"  On '{branch}', not '{PAGES_BRANCH}' — moving generated files to {PAGES_BRANCH}")
-        git("stash", "push", "-m", "mad-money-pipeline-artifacts", "--", *paths)
+        snap = Path(tempfile.mkdtemp(prefix="mm-artifacts-"))
+        for f in present:
+            src = ROOT / f
+            if src.exists():
+                dst = snap / f
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+
+        # Leave the feature branch clean: revert tracked changes, unlink new files by path.
+        untracked_set = set(untracked)
+        tracked = [f for f in present if f not in untracked_set] + deleted
+        if tracked:
+            git("checkout", "--", *tracked, check=False)
+        for f in untracked:
+            p = ROOT / f
+            if p.exists():
+                p.unlink()
+
+        success = False
         try:
             git("checkout", PAGES_BRANCH)
             git("pull", "--ff-only", "origin", PAGES_BRANCH, check=False)
-            git("stash", "pop")
+            # Lay the snapshot down wholesale over main — no merge, so nothing can conflict.
+            for f in present:
+                src = snap / f
+                if src.exists():
+                    dst = ROOT / f
+                    dst.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(src, dst)
+            for f in deleted:
+                git("rm", "-q", "--ignore-unmatch", "--", f, check=False)
             git("add", *paths)
             if has_staged():
                 git("commit", "-m", msg)
@@ -1973,12 +2036,13 @@ def commit_and_push(dates: list[str]) -> None:
             else:
                 print(f"  {PAGES_BRANCH} already up to date.")
             git("checkout", branch)
-        except subprocess.CalledProcessError:
-            # Restore the artifacts onto the branch we started from so nothing is lost.
-            git("checkout", "--", ".", check=False)
-            git("checkout", branch, check=False)
-            git("stash", "pop", check=False)
-            raise
+            success = True
+        finally:
+            if success:
+                shutil.rmtree(snap, ignore_errors=True)
+            else:
+                git("checkout", "-f", branch, check=False)
+                print(f"  Could not publish to {PAGES_BRANCH}; generated files kept in {snap}")
     except subprocess.CalledProcessError as e:
         err = (e.stderr or "").strip().splitlines()[-1:] or [str(e)]
         print(f"  Git push failed: {err[0]}")
