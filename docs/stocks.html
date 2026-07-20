@@ -2237,7 +2237,8 @@ function renderAnalytics(d) {
           <p style="margin:0 0 6px">A high win rate can still lose money if the losers are bigger than the winners. This panel connects the two. Each call is treated as a trade in the direction Cramer called it — a <strong>win</strong> is the stock moving his way (up for buy calls, down for caution/sell calls) over the next 30 or 90 days.</p>
           <p style="margin:0 0 6px"><strong>Avg Win / Avg Loss</strong> — the mean size of the winning and losing trades (means, not medians, because breakeven is an expectancy calculation). <strong>Breakeven WR</strong> is the win rate you'd need just to break even given that payoff ratio: |avg&nbsp;loss| ÷ (avg&nbsp;win + |avg&nbsp;loss|). <strong>Actual WR</strong> is his real direction-adjusted win rate.</p>
           <p style="margin:0 0 6px"><strong>Edge</strong> = Actual WR − Breakeven WR, in percentage points. Positive (green) means mechanically following that call type made money over the window; negative (red) means it didn't, even when the raw win rate looked fine.</p>
-          <p style="margin:0"><em>Everything here sits inside one ~6-month AI-driven bull market (Jan–Jul 2026)</em>, which flatters buy calls and penalizes caution. Buckets under 30 trades are tagged.</p>
+          <p style="margin:0 0 6px"><em>Everything here sits inside one ~6-month AI-driven bull market (Jan–Jul 2026)</em>, which flatters buy calls and penalizes caution. Buckets under 30 trades are tagged.</p>
+          <p style="margin:0"><strong>Buy on Pullback is excluded</strong>, as in the Calibration Curve: "mechanically following" it means waiting for a dip to buy, so a breakeven built from the call-day close would describe a buy-now strategy it never was. Its dedicated <em>Buy on Pullback</em> panel measures the dip entry properly.</p>
         </div>
       </div>
       <div class="analytics-card-body">
@@ -2308,8 +2309,11 @@ function renderAnalytics(d) {
 
   // ── Hit rate vs. breakeven ────────────────────────────────────────────────
   let bePeriod = '30d', calibPeriod = '30d';
+  // Buy on Pullback is excluded for the same reason as the calibration curve: its
+  // "wait for a dip" thesis isn't a buy-at-the-call-close trade, so a breakeven built
+  // from call-close returns describes a different strategy. Its own panel handles it.
   const beBuckets = [...d.sentiment_perf]
-    .filter(r => r.be_n_30d != null || r.be_n_90d != null)
+    .filter(r => r.sentiment !== 'buy_on_pullback' && (r.be_n_30d != null || r.be_n_90d != null))
     .sort((a, b) => SENTIMENT_ORDER.indexOf(a.sentiment) - SENTIMENT_ORDER.indexOf(b.sentiment));
 
   function renderBreakeven(h) {
