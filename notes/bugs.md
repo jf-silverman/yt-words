@@ -50,6 +50,22 @@ python3 code/pipeline.py --rebuild-shards
 
 ## Open
 
+### BUG-007 — Nightly `git push` can fail silently, leaving episodes committed locally but not on origin
+**Discovered:** 2026-07-20  
+**Symptom:** The 2026-07-15 and 2026-07-16 episodes had been committed to local `main` by the cron but were never pushed — `main` sat 2 commits ahead of `origin/main` for days, so the redirect pages and site data for those nights were **not live** even though the run "succeeded" and the email went out. Found by chance while merging a feature branch up.  
+**Root cause:** `commit_and_push()` does `git commit` then `git push` as separate steps. If the commit succeeds but the push fails (transient network/auth/DNS blip, or GitHub being briefly unreachable at ~10 PM PT), the exception is caught and logged as `Git push failed: …` to `/tmp/mad_money_cron.log`, but the run otherwise completes normally and the email still sends. There is **no retry and no alert** — the commit just sits locally until the next successful push happens to carry it along (or someone notices). The single stuck commit is invisible unless you check `git log origin/main..main`.  
+**Not yet fixed — deliberately left as-is** (a push retry was offered and declined). The failure is self-healing in practice: the next night's successful `git push` pushes all accumulated local commits, so a stuck episode goes live within ~24h as long as pushes don't fail on consecutive nights.  
+**How to detect / recover manually:**
+```bash
+# From the cron worktree — are there local main commits not on origin?
+git -C ~/Documents/DS/yt-words-cron log --oneline origin/main..main
+# If so, just push them (fast-forward, safe):
+git -C ~/Documents/DS/yt-words-cron push origin main
+```
+**Watch for:** a `Git push failed:` line in `/tmp/mad_money_cron.log`. If it starts recurring on consecutive nights (i.e. it stops self-healing), revisit adding a bounded push retry (e.g. 3 attempts with backoff) in `commit_and_push()`, and/or surfacing the failure in the email rather than only the log.
+
+---
+
 ### BUG-004 — 18 tickers in Cramer's Calls pool have no sector (ETFs, crypto, or wrong symbols)
 **Discovered:** 2026-06-28  
 **Status:** These tickers will never resolve via `--fetch-sectors`. Two categories:
