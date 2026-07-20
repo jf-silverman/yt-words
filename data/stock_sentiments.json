@@ -11782,6 +11782,13 @@
           "closing_price": 288.69
         },
         {
+          "date": "2026-04-17",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "May disappoint; revenue hit from war-time aircraft maintenance downtime; watch for guidance on recovery post-war.",
+          "closing_price": null
+        },
+        {
           "date": "2026-04-21",
           "sentiment": "buy_on_pullback",
           "segment": "in_depth_analysis",
@@ -11828,7 +11835,7 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Fantastic business hitting all-time high today; Larry Culp executing well. Caller who started accumulating in late $200s showed courage sticking through downturn; well-positioned for continued appreciation.",
-          "closing_price": null
+          "closing_price": 351.73
         },
         {
           "date": "2026-07-01",
@@ -11836,6 +11843,13 @@
           "segment": "lightning_round",
           "note": "Preferred over speculative New Scale Power as safer way to play power-to-AI data center theme; Cramer endorses as more established alternative.",
           "closing_price": 374.94
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "strong_buy",
+          "segment": "in_depth_analysis",
+          "note": "Beat and raised on exceptional execution; $210B backlog (4 years of revenue); Farnborough catalyst next week; down 10% from peak despite 22% earnings growth \u2014 rare buying window.",
+          "closing_price": null
         }
       ],
       "sector": "Industrials",
@@ -28551,24 +28565,6 @@
         }
       ]
     },
-    "GEA": {
-      "company": "GE Aerospace",
-      "mentions": [
-        {
-          "date": "2026-04-17",
-          "sentiment": "caution_concern",
-          "segment": "opening_commentary",
-          "note": "May disappoint; revenue hit from war-time aircraft maintenance downtime; watch for guidance on recovery post-war.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-07-16",
-          "sentiment": "strong_buy",
-          "segment": "opening_commentary",
-          "note": "Beat and raised on exceptional execution; $210B backlog (4 years of revenue); Farnborough catalyst next week; down 10% from peak despite 22% earnings growth \u2014 rare buying window."
-        }
-      ]
-    },
     "SNP": {
       "company": "SanDisk (Kioxia)",
       "mentions": [
@@ -29684,6 +29680,48 @@
         }
       ]
     },
+    "ACN": {
+      "company": "ACN",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Down 50% YTD with 4.7% dividend yield and $7.5B buyback, but AI/cloud work duplicates Accenture services at much lower cost; fundamental threat despite valuation appeal \u2014 stay away.",
+          "closing_price": 144.61
+        }
+      ]
+    },
+    "ADPT": {
+      "company": "ADPT",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-15",
+          "sentiment": "mild_buy",
+          "segment": "lightning_round",
+          "note": "Bill Mus caller question. Stock down hard with hyperscalers; Cramer likes it but recommends small start due to losses and volatility.",
+          "closing_price": 22.9
+        }
+      ]
+    },
+    "BNY": {
+      "company": "BNY",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-15",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Up 290% since Vince took over Aug 2022; outperforming all big banks and trust bank peers. Multi-day move expected; Cramer pounded table.",
+          "closing_price": 162.35
+        }
+      ]
+    },
     "BSCI": {
       "company": "BSCI",
       "sector": "",
@@ -29695,6 +29733,20 @@
           "segment": "opening_commentary",
           "note": "Caller Nick at 102; one of worst misses; healthcare equipment sector under pressure; wait two quarters before buying.",
           "closing_price": null
+        }
+      ]
+    },
+    "CORN": {
+      "company": "CORN",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Parabolic rally ($77 to $207) example of leverage-driven excess; when fundamentals divorce from stock price, professionals take profits; have to cut positions in half at peaks; current unwind likely to destroy even good fundamentals.",
+          "closing_price": 17.62
         }
       ]
     },
@@ -29712,6 +29764,34 @@
         }
       ]
     },
+    "DGE": {
+      "company": "DGE",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Liquor sector (gins, vodkas, browns) all performing terribly; despite being best-in-class, sector headwinds too strong; don't try to call bottom \u2014 avoid entire group.",
+          "closing_price": null
+        }
+      ]
+    },
+    "EXLS": {
+      "company": "EXLS",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Outsourced services business but Cramer needs to research further; no immediate recommendation \u2014 comeback later with more analysis.",
+          "closing_price": 28.69
+        }
+      ]
+    },
     "HYNX": {
       "company": "HYNX",
       "sector": "",
@@ -29726,20 +29806,10 @@
         }
       ]
     },
-    "BNY": {
-      "company": "Bank of New York Mellon",
-      "mentions": [
-        {
-          "date": "2026-07-15",
-          "sentiment": "strong_buy",
-          "segment": "opening_commentary",
-          "note": "Up 290% since Vince took over Aug 2022; outperforming all big banks and trust bank peers. Multi-day move expected; Cramer pounded table.",
-          "closing_price": 162.35
-        }
-      ]
-    },
     "ICE": {
-      "company": "Intercontinental Exchange",
+      "company": "ICE",
+      "sector": "",
+      "style": "",
       "mentions": [
         {
           "date": "2026-07-15",
@@ -29750,20 +29820,24 @@
         }
       ]
     },
-    "ADPT": {
-      "company": "Applied Digital Corporation",
+    "QNTA": {
+      "company": "QNTA",
+      "sector": "",
+      "style": "",
       "mentions": [
         {
-          "date": "2026-07-15",
-          "sentiment": "mild_buy",
+          "date": "2026-07-16",
+          "sentiment": "buy",
           "segment": "lightning_round",
-          "note": "Bill Mus caller question. Stock down hard with hyperscalers; Cramer likes it but recommends small start due to losses and volatility.",
-          "closing_price": 22.9
+          "note": "Electrical components for data center buildouts; fallen from 788 to 630; better entry than Wesco (WCC) \u2014 buy for data center infrastructure play.",
+          "closing_price": null
         }
       ]
     },
     "XLE": {
-      "company": "X Energy",
+      "company": "XLE",
+      "sector": "",
+      "style": "",
       "mentions": [
         {
           "date": "2026-07-15",
@@ -29771,64 +29845,6 @@
           "segment": "lightning_round",
           "note": "Dennis (North Carolina caller) notes CEO was on show, story loved, stock cut in half. Cramer says pure spec\u2014nuclear too darn expensive, not happening.",
           "closing_price": 56.5
-        }
-      ]
-    },
-    "ACN": {
-      "company": "Accenture",
-      "mentions": [
-        {
-          "date": "2026-07-16",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "Down 50% YTD with 4.7% dividend yield and $7.5B buyback, but AI/cloud work duplicates Accenture services at much lower cost; fundamental threat despite valuation appeal \u2014 stay away.",
-          "closing_price": 144.61
-        }
-      ]
-    },
-    "QNTA": {
-      "company": "Quanta Services",
-      "mentions": [
-        {
-          "date": "2026-07-16",
-          "sentiment": "buy",
-          "segment": "lightning_round",
-          "note": "Electrical components for data center buildouts; fallen from 788 to 630; better entry than Wesco (WCC) \u2014 buy for data center infrastructure play."
-        }
-      ]
-    },
-    "DGE": {
-      "company": "Diageo",
-      "mentions": [
-        {
-          "date": "2026-07-16",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "Liquor sector (gins, vodkas, browns) all performing terribly; despite being best-in-class, sector headwinds too strong; don't try to call bottom \u2014 avoid entire group."
-        }
-      ]
-    },
-    "EXLS": {
-      "company": "Excel Service Holdings",
-      "mentions": [
-        {
-          "date": "2026-07-16",
-          "sentiment": "wait_hold_neutral",
-          "segment": "lightning_round",
-          "note": "Outsourced services business but Cramer needs to research further; no immediate recommendation \u2014 comeback later with more analysis.",
-          "closing_price": 28.69
-        }
-      ]
-    },
-    "CORN": {
-      "company": "Corning",
-      "mentions": [
-        {
-          "date": "2026-07-16",
-          "sentiment": "caution_concern",
-          "segment": "closing_commentary",
-          "note": "Parabolic rally ($77 to $207) example of leverage-driven excess; when fundamentals divorce from stock price, professionals take profits; have to cut positions in half at peaks; current unwind likely to destroy even good fundamentals.",
-          "closing_price": 17.62
         }
       ]
     }

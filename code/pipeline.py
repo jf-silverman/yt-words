@@ -1458,10 +1458,15 @@ def _generate_price_chart_png(ticker: str) -> bytes | None:
         if daily_rows:
             daily_dates = [datetime.fromisoformat(r["date"]) for r in daily_rows]
             daily_closes = [r["close"] for r in daily_rows]
-            ax.bar(daily_dates, daily_closes, width=1.0, color="#8250df",
-                  alpha=0.35, edgecolor="#8250df", linewidth=0.3, zorder=0)
+            # Soft filled price band (+ a faint outline) instead of heavy vertical bars —
+            # reads as a modern area chart rather than a barcode. ylim (set below) clips the
+            # fill's bottom to the price range so it doesn't stretch down toward $0.
+            ax.fill_between(daily_dates, daily_closes, 0, color="#8250df",
+                            alpha=0.10, linewidth=0, zorder=0)
+            ax.plot(daily_dates, daily_closes, color="#8250df", alpha=0.45,
+                    linewidth=0.8, zorder=0)
 
-        ax.plot(dates, prices, "-", color="#0969da", linewidth=1.8, zorder=1)
+        ax.plot(dates, prices, "-", color="#0969da", linewidth=2.0, zorder=1)
 
         for dt, price, sent in zip(dates, prices, sentiments):
             if sent in _CHART_BULLISH:
@@ -1524,8 +1529,9 @@ def _generate_price_chart_png(ticker: str) -> bytes | None:
 
         ax.set_facecolor("#ffffff")
         fig.patch.set_facecolor("#ffffff")
-        ax.grid(True, alpha=0.25, linestyle="--", linewidth=0.6)
-        ax.set_ylabel("Close ($)", fontsize=10)
+        ax.grid(True, axis="y", alpha=0.14, linestyle="-", linewidth=0.7)
+        ax.set_axisbelow(True)
+        ax.set_ylabel("Close ($)", fontsize=10, color="#57606a")
         ax.set_title(
             f"{ticker}  ${last_price:,.2f} at last call",
             fontsize=12, fontweight="bold", loc="left", color="#24292f",
@@ -1538,9 +1544,11 @@ def _generate_price_chart_png(ticker: str) -> bytes | None:
                 transform=ax.transAxes, ha="right", va="bottom",
                 fontsize=10, fontweight="bold", color=pct_color,
             )
-        ax.tick_params(axis="both", labelsize=9)
+        ax.tick_params(axis="both", labelsize=9, colors="#57606a", length=0)
         for spine in ("top", "right"):
             ax.spines[spine].set_visible(False)
+        for spine in ("left", "bottom"):
+            ax.spines[spine].set_color("#d0d7de")
         fig.autofmt_xdate(rotation=30, ha="right")
 
         legend_elements = [

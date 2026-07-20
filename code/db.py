@@ -1251,12 +1251,48 @@ def build_analytics_json(out_path: str) -> None:
         b['r90'].append(row['return_90d'])
         b['rs'].append(row['return_since_mention'])
 
+    # Hit-rate-vs-breakeven ("is this profitable to follow") ─────────────────────
+    # A directional call is a "win" when the stock moved the way it was called
+    # (up for bullish, down for bearish). Breakeven win rate = the share of wins you
+    # would need, given the average win vs. average loss magnitude, just to break even:
+    #   breakeven = |avg_loss| / (avg_win + |avg_loss|).
+    # If the actual win rate clears that bar, mechanically following the call made money.
+    # Uses MEANS on purpose — breakeven is an expectancy identity (win_rate*avg_win +
+    # loss_rate*avg_loss = 0), which only holds for means, not medians.
+    _BULLISH = {'strong_buy', 'buy', 'mild_buy', 'buy_on_pullback'}
+    _BEARISH = {'caution_concern', 'sell_avoid'}
+
+    def _breakeven(vals, direction):
+        signed = [direction * v for v in vals if v is not None]
+        wins   = [x for x in signed if x > 0]
+        losses = [x for x in signed if x <= 0]
+        if not wins or not losses:      # need both sides to define a payoff ratio
+            return {}
+        avg_win  = sum(wins) / len(wins)
+        avg_loss = sum(losses) / len(losses)          # <= 0
+        return {
+            'avg_win':      round(avg_win, 2),
+            'avg_loss':     round(avg_loss, 2),
+            'breakeven_wr': round(abs(avg_loss) / (avg_win + abs(avg_loss)) * 100, 1),
+            'actual_wr':    round(len(wins) / len(signed) * 100, 1),
+            'n':            len(signed),
+        }
+
     for row in sentiment_perf:
         b = sent_buckets[row['sentiment']]
         row['median_return_7d']           = _median(b['r7'])
         row['median_return_30d']          = _median(b['r30'])
         row['median_return_90d']          = _median(b['r90'])
         row['median_return_since_mention'] = _median(b['rs'])
+
+        direction = 1 if row['sentiment'] in _BULLISH else -1 if row['sentiment'] in _BEARISH else 0
+        for hkey, suffix in (('r30', '30d'), ('r90', '90d')):
+            be = _breakeven(b[hkey], direction) if direction else {}
+            row[f'be_avg_win_{suffix}']   = be.get('avg_win')
+            row[f'be_avg_loss_{suffix}']  = be.get('avg_loss')
+            row[f'be_breakeven_{suffix}'] = be.get('breakeven_wr')
+            row[f'be_actual_wr_{suffix}'] = be.get('actual_wr')
+            row[f'be_n_{suffix}']         = be.get('n')
 
     # ── S&P 500 (VOO) and Nasdaq (QQQ) benchmark per sentiment ───────────────
     print("  Fetching VOO + QQQ prices for benchmark comparison…")

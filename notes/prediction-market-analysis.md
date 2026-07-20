@@ -3,15 +3,38 @@
 A review of `docs/stocks.html` (Analytics tab) and `code/db.py` (`build_analytics_json`)
 through the vocabulary betting/forecasting analysts use to grade tipsters: calibration,
 edge vs. breakeven, closing-line-value-style framing, variance/drawdown, hot-hand effects,
-and format-specific accuracy. Written for the site owner to triage — nothing here has been
-implemented.
+and format-specific accuracy. Written for the site owner to triage.
 
-**What's already there, so this doesn't re-suggest it:**
-- Win rates with confidence intervals (`ciHtml`/`ciMargin` — Wilson-ish margin already computed) per sentiment bucket, 7/30/90/180d
+> **Status refresh — 2026-07-20.** Originally written when nothing here was implemented.
+> Since then the Analytics tab and the per-ticker search cards have grown a full
+> benchmark-relative buy-call backtest suite, so several suggestions below are now **done**.
+> The status of each item is tracked in the header list and the Summary Table's Status
+> column. Remaining open items are re-triaged at the bottom.
+
+**What's on the site today (so this doesn't re-suggest it):**
+
+*Analytics tab panels (dropdown):* Sentiment Scorecard · By Segment · By Market Cap ·
+By Sector · Cramer's Calls · Latest Calls · Buy on Pullback · **Following His Buy Calls** ·
+**Where His Edge Came From**.
+
+- Win rates with Wilson-ish confidence intervals (`ciHtml`/`ciMargin`) **now applied across
+  the sentiment, market-cap, sector, AND segment tables** (originally only sentiment) — 7/30/90/180d
 - Median *and* mean returns per sentiment, segment, sector, market cap
-- A benchmark comparison against VOO/QQQ (`median_spy_30d`, `median_spy_90d`, `median_qqq_30d`, `median_qqq_90d` in `sentiment_perf`) — this is already a "beat the market" framing, just not labeled that way in the UI
-- `top_days_right` — a walk-forward, day-by-day directional accuracy per ticker (closest thing on the site to a Brier-style granular score)
-- Segment-level (`segment_by_type`) and sector-level (`sector_by_type`) win rates split by buy/sell call type
+- Benchmark comparison against VOO/QQQ (`median_spy_30d/90d`, `median_qqq_30d/90d`) — now
+  **surfaced as toggleable "vs S&P / vs Nasdaq" columns in the sentiment scorecard**, not just prose
+- **Paired per-call excess return ("edge") is now the core framing**: `_backtest_stats()` in
+  `db.py` computes `excess_spy_median` / `excess_qqq_median` (each call minus the index over
+  *its own* window, then medianed). Surfaced in "Following His Buy Calls" (mean + median, beat-%
+  vs both indices, **both best AND worst tails**) and on every per-ticker card (dual-index edge
+  headline + a chart-top edge strip + Hold vs. Exit-on-sell-call toggle, fed by `backtest_by_ticker.json`)
+- **"Where His Edge Came From"** — edge decomposition (AI complex vs. everything else), the
+  sector-cut version of the alpha idea
+- **Buy on Pullback** panel — Strategy A (buy now) vs. B (buy the dip), pullback-rarity bars,
+  never-triggered-bought-anyway outcome, plus the frozen never-pullback model score
+- `top_days_right` — walk-forward, day-by-day directional accuracy per ticker; mirrored on each
+  card as "% Days Right After Call" + "Outcome After Hold/Wait Call"
+- Segment (`segment_by_type`) and sector (`sector_by_type`) win rates split by buy/sell call type,
+  each with its own leaderboard-style bar panel + detail view
 
 ---
 
@@ -23,19 +46,33 @@ implemented.
 **How to compute:** From `forward_returns`, per sentiment bucket, split into winners/losers at each horizon, take `AVG(return)` for winners and losers separately (or median, consistent with the rest of the site), then breakeven_win_rate = `abs(avg_loss) / (avg_win + abs(avg_loss))`. Compare against `win_rate_30d`/`win_rate_90d` already in `sentiment_perf`. Add two columns to `sentiment_performance` view or compute in Python inside `build_analytics_json`.
 **Effort:** Trivial — one more SQL aggregate + one derived field per row, render as a new column or a "edge" hero sentence (`heroes.sentiment`) alongside the existing beat-SPY sentence.
 
-### 2. "Beat the market" labeling — surface what's already computed
+### 2. "Beat the market" labeling — surface what's already computed  ✅ DONE
+*Implemented — the sentiment scorecard now has toggleable "vs S&P 500 / vs Nasdaq" benchmark
+columns (`bench-30 bspy`/`bqqq`, `bench-90 …`), and benchmark-relative edge is the headline
+of "Following His Buy Calls" and every per-ticker card.*
+
 **What it is:** `median_spy_30d`/`median_qqq_30d`/`median_spy_90d`/`median_qqq_90d` already sit in `sentiment_perf` and get used in the hero sentence generator (`_generate_heroes`), but they're not shown as a standalone column in the sentiment performance *table* itself (only in prose above it).
 **Why it matters:** This is the single most important prediction-market reframe: "was he right" is less useful than "would you have done better just buying the index." The data exists; it's underexposed in the table UI.
 **How to compute:** No new computation — add "vs SPY" / "vs QQQ" delta columns to the sentiment table render in `stocks.html` (`renderAnalytics`), e.g. `median_return_30d - median_spy_30d`.
 **Effort:** Trivial — pure front-end, data already in `analytics.json`.
 
-### 3. Alpha (excess return over benchmark), not just beat/lose
+### 3. Alpha (excess return over benchmark), not just beat/lose  ✅ MOSTLY DONE
+*Implemented for buy calls — `excess_spy_median`/`excess_qqq_median` (the true paired per-call
+edge, computed correctly per the paired-excess rule) drives "Following His Buy Calls" and the
+per-ticker cards, and "Where His Edge Came From" is the sector-cut decomposition. **Still open:**
+an explicit alpha delta column inside the per-sentiment / per-sector / per-segment tables
+themselves (those still show benchmark values side by side, not a single subtracted edge figure).*
+
 **What it is:** The literal `median_return_Xd - median_spy_Xd` delta as its own tracked number, both per-sentiment and aggregated buy-vs-sell — a single "alpha" figure rather than requiring the reader to subtract two columns mentally.
 **Why it matters:** Bettors talk in terms of edge (%) over the market price; this is the direct analogue. It also naturally extends to sector/segment tables which currently have no benchmark comparison at all (`sector_by_type`, `segment_by_type` have no spy/qqq fields).
 **How to compute:** Same benchmark-price-fetch logic already in `build_analytics_json` (`_fetch_benchmark_prices`, `_nearest_price`) generalizes trivially — bucket by sector/segment instead of just sentiment when building `spy_30d_buckets`/`qqq_30d_buckets`. Currently that fetch loop only buckets by `row['sentiment']`; add sector/segment keys to the same loop.
 **Effort:** Trivial-to-moderate — reuses existing benchmark fetch, just needs additional bucketing dimensions in the existing loop (~10-15 lines in `db.py`).
 
-### 4. Sample-size-aware "confidence-weighted accuracy"
+### 4. Sample-size-aware "confidence-weighted accuracy"  ✅ DONE
+*Implemented — `ciHtml`/`ciMargin` are now called on the sentiment, market-cap, sector, and
+segment win-rate cells (bars and detail views alike), so every win-rate percentage carries its
+uncertainty band, not just the sentiment table.*
+
 **What it is:** Instead of a flat win-rate number, weight it by the CI width (or just always show n alongside it — already partially done via `ciHtml`). Extend the same CI logic used in the sentiment table (currently only wired to `win_rate_30d`/`win_rate_90d`, `ciMargin`) to the sector/segment/mktcap tables, which currently show raw percentages with no uncertainty band.
 **Why it matters:** `sector_by_type` and `segment_by_type` already gate on `n_mentions >= 30` for hero sentences and `>= 3` for table inclusion — but a sector with 3 mentions and a sector with 300 both render as a plain percentage in the table with no visual distinction of reliability beyond the hero prose.
 **How to compute:** `ciMargin`/`ciHtml` already exist in `stocks.html` — just call them on the sector/segment/mktcap win-rate cells too.
@@ -63,7 +100,12 @@ implemented.
 **How to compute:** `STDEV` isn't native to SQLite, but can be computed in Python from the same `return_30d`/`return_90d` arrays already pulled into `sent_buckets`/`seg_buckets`/etc. in `build_analytics_json` (just add `statistics.pstdev(vals)` alongside the existing `_median()` calls). For a drawdown/equity-curve, would need an ordered walk over `buy_call_pool` by `mention_date` treating each call as an equal-weighted position opened and (simplistically) held to `return_since_mention` — this is the part that requires more design (overlapping positions, when to "close" a position) so scope it as: assume one unit invested per call, compute cumulative sum of daily portfolio value using `daily_prices` already in the DB. That's the moderate-to-significant part.
 **Effort:** Standard deviation addition: trivial. Full equity-curve/drawdown simulation: significant (see Tier 3) — split this into two: (a) stdev per bucket [quick], (b) full drawdown curve [defer to Tier 3].
 
-### 8. Segment-specific calibration (Lightning Round vs. In-Depth vs. Interview)
+### 8. Segment-specific calibration (Lightning Round vs. In-Depth vs. Interview)  ✅ MOSTLY DONE
+*Implemented — the "By Segment" panel is now a dedicated bar leaderboard (+ detail view) of
+win rate / median return by segment, with CI bands and a metric selector, parallel to the sector
+and market-cap panels. **Still open (minor):** a single headline "most-vs-least accurate format"
+sentence pulling the ranking to the top, rather than leaving the reader to read the bars.*
+
 **What it is:** The brief specifically asks whether Cramer is more accurate in some formats than others. `segment_by_type` already splits win rate and median return by segment × buy/sell, and `SEGMENT_PRIORITY` in `stocks.html` already ranks segment display order — but there's no *summary ranking* of segments by accuracy shown prominently (it's currently buried inside per-ticker call rows and the segment hero prose).
 **Why it matters:** This is a natural story for the site: "Lightning Round calls are right X% of the time vs Y% for In-Depth Analysis" is a genuinely interesting finding people would want front-and-center, not just in hero paragraph text.
 **How to compute:** No new data — `segment_by_type` already has everything (`win_rate_30d`, `win_rate_90d`, `median_return_30d`, `n_mentions`). Just needs a dedicated leaderboard-style table/chart in the Analytics tab (parallel to how sector and market-cap already get tables), sorted by win_rate_30d descending, with the existing `n_mentions >= 30` (or lower) reliability gate visualized via CI.
@@ -99,24 +141,32 @@ Full cross of segment × sentiment bucket (not just segment × buy/sell as `segm
 
 ## Summary Table
 
-| # | Metric | Tier | Effort | New data needed? |
-|---|--------|------|--------|-------------------|
-| 1 | Hit rate vs. breakeven | Quick win | Trivial | No |
-| 2 | Surface existing SPY/QQQ deltas in table | Quick win | Trivial | No |
-| 3 | Alpha vs. benchmark for sector/segment | Quick win | Trivial-moderate | No (reuse fetch loop) |
-| 4 | CI bands on sector/segment/mktcap tables | Quick win | Trivial | No |
-| 5 | Calibration curve (conviction vs. outcome) | Worth building | Moderate | No |
-| 6 | Brier-score-style accuracy | Worth building | Moderate | No (needs prob mapping) |
-| 7a | Return stdev per bucket | Worth building | Trivial | No |
-| 7b | Full drawdown/equity curve | Lower priority | Significant | No, but methodology-heavy |
-| 8 | Segment accuracy leaderboard | Worth building | Moderate | No |
-| 9 | Rolling win rate / hot-hand check | Worth building | Moderate | No |
-| 10 | Full portfolio backtest | Lower priority | Significant | No |
-| 11 | Kelly-optimal sizing | Lower priority | Trivial (low payoff) | No |
-| 12 | ELO rating system | Lower priority | Significant | No |
-| 13 | Segment × sentiment matrix | Lower priority | Moderate (sparse) | No |
+| # | Metric | Tier | Effort | Status (2026-07-20) |
+|---|--------|------|--------|---------------------|
+| 1 | Hit rate vs. breakeven | Quick win | Trivial | **Open** |
+| 2 | Surface existing SPY/QQQ deltas in table | Quick win | Trivial | ✅ Done |
+| 3 | Alpha vs. benchmark for sector/segment | Quick win | Trivial-moderate | ✅ Mostly (edge is core; no per-table delta column) |
+| 4 | CI bands on sector/segment/mktcap tables | Quick win | Trivial | ✅ Done |
+| 5 | Calibration curve (conviction vs. outcome) | Worth building | Moderate | **Open** |
+| 6 | Brier-score-style accuracy | Worth building | Moderate | **Open** |
+| 7a | Return stdev per bucket | Worth building | Trivial | **Open** |
+| 7b | Full drawdown/equity curve | Lower priority | Significant | **Open** |
+| 8 | Segment accuracy leaderboard | Worth building | Moderate | ✅ Mostly (panel exists; no headline sentence) |
+| 9 | Rolling win rate / hot-hand check | Worth building | Moderate | **Open** |
+| 10 | Full portfolio backtest | Lower priority | Significant | **Open** (per-call SPY comparison sidesteps it) |
+| 11 | Kelly-optimal sizing | Lower priority | Trivial (low payoff) | **Open** |
+| 12 | ELO rating system | Lower priority | Significant | **Open** (recommend skip) |
+| 13 | Segment × sentiment matrix | Lower priority | Moderate (sparse) | **Open** (revisit at higher n) |
 
-**Suggested order if picking a few:** #2 and #4 first (pure UI, ~an hour combined), then #1
-(breakeven framing — probably the single most "so what" number missing today), then #5
-(calibration curve — directly answers the brief's headline question about whether
-conviction language means anything), then #9 (hot hand) if there's appetite for a new chart.
+**Suggested order for what remains (2026-07-20):**
+1. **#5 Calibration curve** — the top open pick. The Sentiment Scorecard already *sorts* by
+   conviction (strong_buy → sell_avoid) but nothing tests whether win rate / return actually
+   rise with conviction. Data is entirely in `sentiment_perf`; can be computed client-side. It's
+   the most robust metric to the single-bull-market caveat (it's a *relative* ordering within one
+   window) and directly answers the brief's headline question.
+2. **#1 Hit rate vs. breakeven** — still the cheapest "so-what" number missing; connects win rate
+   and win/loss magnitude into "is this profitable to follow."
+3. **#7a Return stdev per bucket** — the site is all central tendency (median/mean/win rate) and
+   never shows *dispersion*; a per-bucket stdev is a trivial `statistics.pstdev` add.
+4. **#9 Rolling win rate / hot-hand** — engaging new time-series chart, but needs a new global
+   chronological query, so it's the heaviest of these four.
