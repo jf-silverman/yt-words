@@ -522,23 +522,8 @@
           "date": "2026-07-08",
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
-          "note": "Trading at cheapest valuation relative to growth in entire S&P; rallied despite $1T market cap loss; own it, don't trade it regardless of China noise.",
+          "note": "One of the cheapest S&P names versus its growth rate after shedding $1T in market cap; own it, don't trade it \u2014 and not because of China headlines.",
           "closing_price": 204.12
-        },
-        {
-          "date": "2026-07-09",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Most proprietary chip company in history trading at lower multiples than commodity peers; customers (hyperscalers) building capex\u2014Nvidia is not being displaced despite AI chip announcements from rivals.",
-          "closing_price": 202.78
-        },
-        {
-          "date": "2026-07-13",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Won't move higher unless it dramatically expands and more aggressively runs its buyback; stock manipulated down into the close near 203-204 daily.",
-          "price_level": 205,
-          "closing_price": 203.53
         },
         {
           "date": "2026-07-09",
@@ -548,18 +533,25 @@
           "closing_price": 202.78
         },
         {
-          "date": "2026-07-08",
-          "sentiment": "strong_buy",
+          "date": "2026-07-13",
+          "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
-          "note": "One of the cheapest S&P names versus its growth rate after shedding $1T in market cap; own it, don't trade it \u2014 and not because of China headlines.",
-          "closing_price": 204.12
+          "note": "Won't move higher unless it dramatically expands and more aggressively runs its buyback; stock manipulated down into the close near 203-204 daily.",
+          "closing_price": 203.53
         },
         {
-          "date": "2026-06-24",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "Cited as the answer to a caller's Buffett question: perennially looks expensive on forward estimates but so consistently trumps them that in hindsight the stock was cheap \u2014 a pattern intact since 2012.",
-          "closing_price": 199.0
+          "date": "2026-07-14",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "World's largest stock trading at ~23x next year's earnings (slightly above market); estimates may be too low; reasonable valuation.",
+          "closing_price": 211.8
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Even large-cap semis like Nvidia caught in margin unwind; professionals selling huge chunks; no bottom yet visible; margin clerks not done with work.",
+          "closing_price": 207.4
         }
       ],
       "sector": "Technology",
@@ -906,13 +898,6 @@
           "date": "2026-07-08",
           "sentiment": "strong_buy",
           "segment": "in_depth_analysis",
-          "note": "Down 10% from all-time high but up 33% YTD; strong earnings and margins despite fuel charge confusion; trades under 18x management's conservative guidance; best position in ages with strong demand and cost initiatives.",
-          "closing_price": 309.76
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "strong_buy",
-          "segment": "in_depth_analysis",
           "note": "Down 10% from its high on a misread quarter \u2014 margin drag was zero-margin fuel surcharges and guidance confusion from the fiscal-year change; under 18x a conservative forecast.",
           "closing_price": 309.76
         }
@@ -1226,10 +1211,17 @@
           "closing_price": 938.38
         },
         {
+          "date": "2026-07-08",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Referenced as SK Hynix's U.S. competitor in the red-hot DRAM memory shortage; no direct call.",
+          "closing_price": 948.8
+        },
+        {
           "date": "2026-07-09",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Memory chip supplier riding boom but historically subject to boom-bust cycles; trading at high multiples; risk of supply glut when capacity catches up to demand.",
+          "note": "Ripped higher with the storage complex on memory pricing, but Cramer prefers proprietary Nvidia to commodity memory names near the top of a boom cycle.",
           "closing_price": 991.64
         },
         {
@@ -1240,18 +1232,25 @@
           "closing_price": 937.0
         },
         {
-          "date": "2026-07-09",
-          "sentiment": "caution_concern",
+          "date": "2026-07-14",
+          "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Ripped higher with the storage complex on memory pricing, but Cramer prefers proprietary Nvidia to commodity memory names near the top of a boom cycle.",
-          "closing_price": 991.64
+          "note": "Red-hot commodity chip maker; trades 13.5x earnings; benefiting from supply-constrained memory/storage shortages lasting until 2028.",
+          "closing_price": 983.12
         },
         {
-          "date": "2026-07-08",
-          "sentiment": "wait_hold_neutral",
+          "date": "2026-07-15",
+          "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Referenced as SK Hynix's U.S. competitor in the red-hot DRAM memory shortage; no direct call.",
-          "closing_price": 948.8
+          "note": "Tumbled 8% despite strong data center memory demand fundamentals; frighteningly negative performance conflicts with best numbers in portfolio.",
+          "closing_price": 904.28
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Memory chip maker with strong demand but caught in margin death spiral; if borrowing money to buy, you still have chance to exit with shirt on; persist and naked by Monday.",
+          "closing_price": 853.2
         }
       ],
       "sector": "Technology",
@@ -1871,6 +1870,13 @@
           "segment": "opening_commentary",
           "note": "Part of the data-storage complex topping the S&P leaderboard on tight supply; commodity exposure makes it vulnerable when the cycle turns.",
           "closing_price": 890.09
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Good company but storage chip stocks caught in hedge fund leverage unwind; margin traders being blown out; avoid being part of panic selling.",
+          "closing_price": 745.49
         }
       ],
       "sector": "Technology",
@@ -2101,6 +2107,13 @@
           "segment": "lightning_round",
           "note": "Industrial internet exposure; Cramer enthusiastically endorses doubling existing position\u2014'terrific company' with strong fundamentals.",
           "closing_price": 92.94
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Semiconductor in margin death spiral; wait days for margin players purged; bottom not yet in \u2014 timing unclear.",
+          "closing_price": 81.68
         }
       ],
       "sector": "Technology",
@@ -2701,6 +2714,13 @@
           "segment": "in_depth_analysis",
           "note": "Cited as the simpler, cleaner beverage comparison versus PepsiCo's complicated snack-plus-beverage structure.",
           "closing_price": 82.63
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "For tech-heavy investor diversification; echoes 2000 dot-com reversal playbook (investors moved to Coke, Bristol Myers); defensive, stable dividend business.",
+          "closing_price": 84.92
         }
       ],
       "sector": "Consumer Defensive",
@@ -2988,6 +3008,13 @@
           "segment": "opening_commentary",
           "note": "Health insurer rallying on private credit narrative reversal; Cramer likes UnitedHealth very much here with durable upside.",
           "closing_price": 426.54
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Excellent margin improvement, great pricing, Optum recovery, Steve Hemsley returned as CEO restoring leadership; up 28% YTD but well below 2-year highs; gave up $40 opening gain \u2014 fantastic quarter, stock weakness opportunity.",
+          "closing_price": 423.38
         }
       ],
       "sector": "Healthcare",
@@ -3122,6 +3149,13 @@
           "segment": "closing_commentary",
           "note": "Bank rally has staying power on moderately higher rates (NIM expansion), strong consumer (May retail +6.9% YoY), tame delinquencies; still cheap; 50%+ upside before reasonably priced.",
           "closing_price": 333.46
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Highest net income, revenue growth, largest deposit base, highest ROE, largest capital return, highest investment revenues of major banks; trades 15x earnings\u2014best bank in world.",
+          "closing_price": 342.89
         }
       ],
       "sector": "Financial Services",
@@ -3179,6 +3213,13 @@
           "segment": "lightning_round",
           "note": "Data center optical play but Cramer pivots caller to Corning instead; rejected choice suggests weakness; pass.",
           "closing_price": 175.13
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Speculative stock; can allocate up to 10% of portfolio to speculation but not now while speculative wave unwinding; wait for margin panic to pass.",
+          "closing_price": 100.24
         }
       ],
       "sector": "Technology",
@@ -3506,6 +3547,13 @@
           "segment": "opening_commentary",
           "note": "Big debt deals from Oracle add to the supply overhang Cramer is worried about.",
           "closing_price": 140.49
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Cost basis irrelevant; stock going down; too risky for IRA portfolio \u2014 sell and redeploy into more conservative holdings.",
+          "closing_price": 124.21
         }
       ],
       "sector": "Technology",
@@ -3788,7 +3836,7 @@
           "date": "2026-07-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Lacks best-in-class AI (Gemini now default) but has superior consumer product; history shows Apple eventually solves gaps; don't sell on AI comparisons; temporary underperformance vs. peers.",
+          "note": "Don't sell Apple \u2014 the Siri/AI gap is real but history says they eventually deliver a superior consumer product.",
           "closing_price": 316.22
         },
         {
@@ -3796,15 +3844,14 @@
           "sentiment": "strong_buy",
           "segment": "opening_commentary",
           "note": "Hit a new high of 323 before easing to 317; carriers will absorb price increases and the OpenAI suit may cut near-term AI-hardware risk \u2014 own it, don't trade it.",
-          "price_level": 317,
           "closing_price": 317.31
         },
         {
-          "date": "2026-07-09",
+          "date": "2026-07-15",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Don't sell Apple \u2014 the Siri/AI gap is real but history says they eventually deliver a superior consumer product.",
-          "closing_price": 316.22
+          "note": "Buffett continues to like stock despite selling some; his approval from Becky Quick interview contradicts sell-side analysts and makes them look silly.",
+          "closing_price": 327.5
         }
       ],
       "sector": "Technology",
@@ -4178,10 +4225,17 @@
           "closing_price": 367.03
         },
         {
+          "date": "2026-07-08",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Its $45B slug within an $85B offering priced well for participants, but chasers were hurt; cited as evidence of supply soaking up sideline cash.",
+          "closing_price": 361.92
+        },
+        {
           "date": "2026-07-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Gemini AI is default on Apple's 2.5B device installed base, replicating Google Search's historical dominance; YouTube vastly profitable but overlooked; raised $45B capital\u2014necessary not reckless.",
+          "note": "Most likely single winner of the AI race with Gemini as default on Apple's 2.5B-device base; market is ignoring YouTube's extraordinary profitability and Waymo.",
           "closing_price": 358.89
         },
         {
@@ -4192,18 +4246,11 @@
           "closing_price": 352.51
         },
         {
-          "date": "2026-07-09",
+          "date": "2026-07-15",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Most likely single winner of the AI race with Gemini as default on Apple's 2.5B-device base; market is ignoring YouTube's extraordinary profitability and Waymo.",
-          "closing_price": 358.89
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Its $45B slug within an $85B offering priced well for participants, but chasers were hurt; cited as evidence of supply soaking up sideline cash.",
-          "closing_price": 361.92
+          "note": "Buffett's surprise purchase signals major tech endorsement; stock jumped 3% on news. Start of potential wonderful relationship like Apple.",
+          "closing_price": 370.92
         }
       ],
       "sector": "Communication Services",
@@ -4419,6 +4466,20 @@
           "segment": "opening_commentary",
           "note": "Healthcare defensive rotation: stock jumped nearly $8 ahead of earnings as money fled hardware/components into full-immunity healthcare plays amid uncertainty.",
           "closing_price": 267.24
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Carpet-bombed despite beat and raise; cardio franchise couple-hundred-million miss on $100B business triggered outsized selloff\u2014not justified by results.",
+          "closing_price": 247.02
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Triple-A balance sheet; oncology franchise best-in-class; neurology (Spravato, Caplyta, Icotide) unexpectedly strong; ophthalmology heating up; $150M heart miss immaterial on $100B revenue base; down $20 from highs.",
+          "closing_price": 249.97
         }
       ],
       "sector": "Healthcare",
@@ -4965,7 +5026,7 @@
           "date": "2026-07-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Zuckerberg's capex spending on chips/data centers likely has profitable monetization plans for WhatsApp agents and web services; don't compare to other cloud spenders; stock rallied $28 despite initial panic.",
+          "note": "Initial panic on Broadcom chip production and capex ramp reversed to a $28 gain; Zuckerberg likely has a high-ROI monetization plan across 3.5B users and WhatsApp.",
           "closing_price": 631.48
         },
         {
@@ -4976,11 +5037,11 @@
           "closing_price": 656.73
         },
         {
-          "date": "2026-07-09",
-          "sentiment": "buy",
+          "date": "2026-07-15",
+          "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
-          "note": "Initial panic on Broadcom chip production and capex ramp reversed to a $28 gain; Zuckerberg likely has a high-ROI monetization plan across 3.5B users and WhatsApp.",
-          "closing_price": 631.48
+          "note": "Called 'rotten fruit'\u2014still coasting on merchant-of-computing narrative from week ago; unclear if rally justified by fundamentals.",
+          "closing_price": 681.31
         }
       ],
       "sector": "Communication Services",
@@ -5449,11 +5510,11 @@
           "closing_price": 245.98
         },
         {
-          "date": "2026-07-09",
-          "sentiment": "wait_hold_neutral",
+          "date": "2026-07-08",
+          "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Criticized for heavy data center capex to monetize infrastructure like Anthropic, but comparison-driven sentiment undervalues long-term cloud upside; wait for profitability announcement on AI business.",
-          "closing_price": 247.04
+          "note": "Cramer flagged the $2B bond offering as 'shaky' and part of the debt deluge weighing on market liquidity.",
+          "closing_price": 243.62
         },
         {
           "date": "2026-07-09",
@@ -5463,11 +5524,11 @@
           "closing_price": 247.04
         },
         {
-          "date": "2026-07-08",
+          "date": "2026-07-15",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Cramer flagged the $2B bond offering as 'shaky' and part of the debt deluge weighing on market liquidity.",
-          "closing_price": 243.62
+          "note": "Called 'dead money'\u2014spending portions on AI with no visible return yet; borrowing without clear data center ROI path forward.",
+          "closing_price": 254.96
         }
       ],
       "sector": "Consumer Cyclical",
@@ -5757,15 +5818,15 @@
           "date": "2026-07-09",
           "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
-          "note": "Copilot perceived as suboptimal vs. other AI products, but company may have secret products not yet announced; spending necessary for AI competition; sentiment-driven selling ignores upside potential.",
+          "note": "Copilot seen as a suboptimal AI product, but Cramer speculates there may be an undisclosed product that changes the narrative.",
           "closing_price": 384.36
         },
         {
-          "date": "2026-07-09",
-          "sentiment": "wait_hold_neutral",
+          "date": "2026-07-15",
+          "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Copilot seen as a suboptimal AI product, but Cramer speculates there may be an undisclosed product that changes the narrative.",
-          "closing_price": 384.36
+          "note": "City analyst report contradicts realist concerns about Copilot and Azure; stock jumped 3%. Cramer taking abstract view over fears of anthropic client switching.",
+          "closing_price": 395.63
         }
       ],
       "sector": "Technology",
@@ -6292,15 +6353,15 @@
           "date": "2026-07-09",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Inexpensive valuation; Arvind Krishna executing well; buy on panic pullbacks; stock has been having panic attacks but fundamentals remain solid.",
+          "note": "Caller pick: inexpensive with Arvind Krishna executing well; buy some now and add into the periodic panic selloffs.",
           "closing_price": 295.3
         },
         {
-          "date": "2026-07-09",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Caller pick: inexpensive with Arvind Krishna executing well; buy some now and add into the periodic panic selloffs.",
-          "closing_price": 295.3
+          "date": "2026-07-14",
+          "sentiment": "sell_avoid",
+          "segment": "in_depth_analysis",
+          "note": "Crashed 25% on guidance miss; corporate IT budgets squeezed by cybersecurity, hardware, AI token priorities; mainframe and consulting sales weak; cannot buy even on weakness; weakness persistent.",
+          "closing_price": 217.07
         }
       ],
       "sector": "Technology",
@@ -6598,6 +6659,13 @@
           "segment": "opening_commentary",
           "note": "Up $3.50 despite analyst downgrade from hold to sell \u2014 bullish signal. Enterprise software benefiting from rotation away from hardware; recent analyst downside miss ignored as market reprices defensives.",
           "closing_price": 221.54
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Up 4% today is good opportunity to sell; down 35% YTD. No CEO or CFO; eviscerated by Figma and Canva. $89B market cap unsustainable.",
+          "closing_price": 224.56
         }
       ],
       "sector": "Technology",
@@ -6630,6 +6698,13 @@
           "segment": "opening_commentary",
           "note": "Home builder needs rate cuts to stimulate demand and move homes. Higher rate environment is headwind; wait for Fed policy shift.",
           "closing_price": 90.49
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "caution_concern",
+          "segment": "lightning_round",
+          "note": "Brett (Maryland caller) asks about building materials outlook. Cramer passes\u2014too hard to own in rising-rate uncertainty despite company quality.",
+          "closing_price": 85.29
         }
       ],
       "sector": "Consumer Cyclical",
@@ -7307,13 +7382,6 @@
           "segment": "closing_commentary",
           "note": "Consumer staples leader performing well in trust during selloff. Diversified portfolio structure allows safe ownership of higher-risk tech via PG/JNJ buffer.",
           "closing_price": 146.54
-        },
-        {
-          "date": "2026-06-24",
-          "sentiment": "wait_hold_neutral",
-          "segment": "closing_commentary",
-          "note": "Used as a teaching example, not a recommendation: a CPG recession stock whose rallies often reflect defensive sector rotation rather than company fundamentals.",
-          "closing_price": 152.04
         }
       ],
       "sector": "Consumer Defensive",
@@ -7882,6 +7950,13 @@
           "segment": "opening_commentary",
           "note": "Private equity/brokerage rally justified as private credit chaos narrative proved false per Goldman Sachs redemption data (3.24% vs 5% allowed); buy over risky Blue Owl.",
           "closing_price": 980.38
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Passed $15 trillion AUM hurdle with superb quarter; sense of multi-day move coming as it pulls away from competition.",
+          "closing_price": 1093.4
         }
       ],
       "sector": "Financial Services",
@@ -8069,6 +8144,20 @@
           "segment": "opening_commentary",
           "note": "Cramer's favorite bank reports tomorrow but would need to vastly exceed consensus just to add ~4%; banks lack tech's upside.",
           "closing_price": 1045.91
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Net income +78%, EPS +92%, investment banking +55%, FICC +32%, equities trading +72%; trades 18x earnings; top five position in charitable trust; early innings of deal cycle.",
+          "closing_price": 1140.0
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Cramer thought Goldman fabulous; financials show strength though one-day pop nature limits staying power.",
+          "closing_price": 1152.07
         }
       ],
       "sector": "Financial Services",
@@ -9328,16 +9417,18 @@
           "closing_price": null
         },
         {
-          "date": "2026-07-09",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Cited as the AI monetization benchmark Amazon's data center spend is measured against."
-        },
-        {
           "date": "2026-07-08",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Gigantic private fundraising adds to capital drain; Cramer says it had better come public soon given endless cash needs."
+          "note": "Gigantic private fundraising adds to capital drain; Cramer says it had better come public soon given endless cash needs.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-07-09",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Cited as the AI monetization benchmark Amazon's data center spend is measured against.",
+          "closing_price": null
         }
       ],
       "sector": "Healthcare",
@@ -9475,6 +9566,20 @@
           "segment": "opening_commentary",
           "note": "Data center compute supplier benefiting from AI infrastructure buildout; up 233% YTD; analyst price target leapfrog continuing.",
           "closing_price": 419.32
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Taking business from IBM at ~150 to now 457; trades 25x earnings but estimates likely too low; benefiting from supply constraints, corporate hardware spending surge.",
+          "closing_price": 457.54
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Down nearly 10% despite best numbers and potential market share gains from IBM; component stock collapse suggests market stress despite fundamentals.",
+          "closing_price": 412.68
         }
       ],
       "sector": "Technology",
@@ -9699,13 +9804,6 @@
           "date": "2026-07-08",
           "sentiment": "sell_avoid",
           "segment": "opening_commentary",
-          "note": "Been huge disappointment; managed to exit with shirt but not great return; not working, no progress; avoid this stock.",
-          "closing_price": 190.77
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
           "note": "A huge disappointment that Cramer exited; chart looks decent but the story simply isn't working \u2014 stay away.",
           "closing_price": 190.77
         }
@@ -9832,6 +9930,13 @@
           "segment": "closing_commentary",
           "note": "Bank leadership on M&A/IPO bonanza ($1.2T YTD), deregulation tailwinds, and higher rates; still trading at low multiples with significant upside.",
           "closing_price": 56.53
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Revenue +15%, asset management fees +19%, investment banking +50%, net income +20%/+72%; trades 12x forward earnings despite blowout quarter\u2014insanely cheap.",
+          "closing_price": 60.62
         }
       ],
       "sector": "Financial Services",
@@ -10600,6 +10705,13 @@
           "segment": "opening_commentary",
           "note": "Pharma down; inflation and slowdown weighing on sector; going wrong way.",
           "closing_price": 206.37
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Jim (Florida caller) held since 2013 spinoff; stock up quite a bit. Cramer confirms doing really well, recommends holding and buying any dips.",
+          "closing_price": 244.11
         }
       ],
       "sector": "Healthcare",
@@ -10674,6 +10786,13 @@
           "segment": "lightning_round",
           "note": "Solid beat, demand holding strong despite stock down 12% post-earnings\u2014'silliest action of season.' Buy aggressively; aircraft servicing demand real; caller 6-for-6 on picks.",
           "closing_price": 173.99
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "CEO Chris Calio leading terrific execution; mix of defense and commercial attractive; recently in 170s, reports July 23; hold position and wait for pullback toward 170 before adding.",
+          "closing_price": 194.36
         }
       ],
       "sector": "Industrials",
@@ -11184,8 +11303,21 @@
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
           "note": "Analyst raised target from $1,200 to $2,000 on further memory price increases, but Cramer objects that a commodity chipmaker now trades at a higher forward multiple than Nvidia.",
-          "price_target": 2000,
           "closing_price": 1858.27
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Stock up 643% this year; trades 27x earnings with stupendous earnings growth; supply-constrained memory beneficiary.",
+          "closing_price": 1757.82
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Great company but perilous stock in margin unwinding; hedge funds shorting bad young managers; margin buyers forced to sell at bad prices \u2014 wait for clarity.",
+          "closing_price": 1411.08
         }
       ],
       "sector": "Technology",
@@ -11650,6 +11782,13 @@
           "closing_price": 288.69
         },
         {
+          "date": "2026-04-17",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "May disappoint; revenue hit from war-time aircraft maintenance downtime; watch for guidance on recovery post-war.",
+          "closing_price": null
+        },
+        {
           "date": "2026-04-21",
           "sentiment": "buy_on_pullback",
           "segment": "in_depth_analysis",
@@ -11696,7 +11835,7 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Fantastic business hitting all-time high today; Larry Culp executing well. Caller who started accumulating in late $200s showed courage sticking through downturn; well-positioned for continued appreciation.",
-          "closing_price": null
+          "closing_price": 351.73
         },
         {
           "date": "2026-07-01",
@@ -11704,6 +11843,13 @@
           "segment": "lightning_round",
           "note": "Preferred over speculative New Scale Power as safer way to play power-to-AI data center theme; Cramer endorses as more established alternative.",
           "closing_price": 374.94
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "strong_buy",
+          "segment": "in_depth_analysis",
+          "note": "Beat and raised on exceptional execution; $210B backlog (4 years of revenue); Farnborough catalyst next week; down 10% from peak despite 22% earnings growth \u2014 rare buying window.",
+          "closing_price": null
         }
       ],
       "sector": "Industrials",
@@ -11875,18 +12021,18 @@
           "closing_price": 111.54
         },
         {
-          "date": "2026-07-13",
-          "sentiment": "buy",
-          "segment": "closing_commentary",
-          "note": "Rolling back prices in a way that should bring shoppers back despite a soft quarter; a reliable bounce-back name.",
-          "closing_price": 114.78
-        },
-        {
           "date": "2026-07-09",
           "sentiment": "wait_hold_neutral",
           "segment": "in_depth_analysis",
           "note": "Announced Monday price rollbacks specifically naming Frito-Lay chips and Pepsi sodas \u2014 likely forced PepsiCo's pricing hand.",
           "closing_price": 112.21
+        },
+        {
+          "date": "2026-07-13",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "Rolling back prices in a way that should bring shoppers back despite a soft quarter; a reliable bounce-back name.",
+          "closing_price": 114.78
         }
       ],
       "sector": "Consumer Defensive",
@@ -12064,6 +12210,13 @@
           "segment": "in_depth_analysis",
           "note": "Requires housing turnover to thrive; not attractive in weak housing market; Berkshire Hathaway's recent selling validates weakness.",
           "closing_price": 184.41
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Housing transactions 40-year low; insufficient deal flow to support; cannot recommend.",
+          "closing_price": 210.07
         }
       ],
       "sector": "Industrials",
@@ -13142,6 +13295,13 @@
           "segment": "opening_commentary",
           "note": "Data center infrastructure name sold off as investors rotate capital into SpaceX; not fundamentally damaged. Chairman Dave Cody conveyed positive order pipeline narrative; should recover when SpaceX momentum normalizes.",
           "closing_price": 299.6
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Data center speculative play being margined out; wait for better prices; not far off but professionals still selling.",
+          "closing_price": 294.11
         }
       ],
       "sector": "Industrials",
@@ -13167,13 +13327,6 @@
           "segment": "opening_commentary",
           "note": "FCC approved $23B EchoStar spectrum purchase for 5G rural coverage. Cramer: 'I don't want to be in AT&T.' Starlink and Amazon Leo satellite competition will overshadow AT&T's rural broadband advantage.",
           "closing_price": 24.43
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "Facing headwind from Starlink competition; no growth story; recommend selling due to competitive pressures; stock up against Starlink is problematic.",
-          "closing_price": 21.12
         },
         {
           "date": "2026-07-08",
@@ -13987,7 +14140,7 @@
           "date": "2026-07-09",
           "sentiment": "caution_concern",
           "segment": "in_depth_analysis",
-          "note": "Frito-Lay down 2% in North America as consumers hit sticker shock on $6+ chip bags amid high gasoline prices; management surprised by demand destruction; may need drastic price cuts to regain share.",
+          "note": "Frito-Lay North America volumes turned negative as gasoline inflation squeezed consumer snack budgets; Cramer fears the start of a slow pricing rollback and says only drastic price cuts can reverse the domestic dive.",
           "closing_price": 137.86
         },
         {
@@ -13996,13 +14149,6 @@
           "segment": "opening_commentary",
           "note": "Once-consistent grower delivered a weak quarter and severely punished holders; lacks control over its own destiny versus tech.",
           "closing_price": 138.49
-        },
-        {
-          "date": "2026-07-09",
-          "sentiment": "caution_concern",
-          "segment": "in_depth_analysis",
-          "note": "Frito-Lay North America volumes turned negative as gasoline inflation squeezed consumer snack budgets; Cramer fears the start of a slow pricing rollback and says only drastic price cuts can reverse the domestic dive.",
-          "closing_price": 137.86
         }
       ],
       "sector": "Consumer Defensive",
@@ -14283,13 +14429,6 @@
           "segment": "closing_commentary",
           "note": "Cut quarterly dividend from 25 cents to 14 cents (44% cut) and now yields 8%\u2014unsustainably high level indicating market fears further dividend cuts ahead.",
           "closing_price": 6.76
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "caution_concern",
-          "segment": "lightning_round",
-          "note": "Digital sales 23% of mix and new AI drive-throughs rolling out, but franchise base not strong enough; group very challenged with even McDonald's struggling; turnaround thesis too optimistic.",
-          "closing_price": 7.45
         },
         {
           "date": "2026-07-08",
@@ -15054,6 +15193,20 @@
           "segment": "in_depth_analysis",
           "note": "Fuel cell / non-combustible fuel technology for power generation; Cramer huge believer; execute switch from oil as soon as tomorrow; benefits from data center electricity demand.",
           "closing_price": 273.51
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Carl (83-year-old caller, down 30% on sourcing disputes) asks about it. Cramer recommends buy\u2014non-combustible power for data centers; Brookfield loves it.",
+          "closing_price": 239.38
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Great company but perilous stock in margin panic; hedge funds shorting to pressure competitors out; not done going down \u2014 wait for stabilization.",
+          "closing_price": 206.73
         }
       ],
       "sector": "Industrials",
@@ -15863,6 +16016,13 @@
           "segment": "opening_commentary",
           "note": "Stock went parabolic after reporting this week; auto-linked semi showing strength similar to ON Semiconductor; data-center momentum lifting sector.",
           "closing_price": 295.24
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Great company but perilous stock in hedge fund short attack; margin call cascade destroying valuation; fundamentals strong but stock too risky now.",
+          "closing_price": 270.66
         }
       ],
       "sector": "Technology",
@@ -16207,21 +16367,15 @@
           "date": "2026-07-08",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Cheap if the data center trade holds, but a $29B raise with no retail appeal would force institutions to sell other stocks to fund it."
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "Down 26% from its post-spin high on classic spin-off dumping; largest LTL player emerging from a multi-year freight bear market with less capacity.",
-          "price_level": 143
+          "note": "Cheap if the data center trade holds, but a $29B raise with no retail appeal would force institutions to sell other stocks to fund it.",
+          "closing_price": null
         },
         {
           "date": "2026-07-08",
           "sentiment": "buy_on_pullback",
           "segment": "in_depth_analysis",
           "note": "Attractive aerospace-engine and gas-turbine end markets with accelerating revenue and improving profitability post PIK-loan paydown, but trades at a premium to Howmet \u2014 wait for $42 or the 30s.",
-          "price_target": 42
+          "closing_price": null
         }
       ],
       "sector": "",
@@ -16290,13 +16444,6 @@
           "segment": "lightning_round",
           "note": "Energy-storage SPAC; Cramer approves\u2014'makes a lot of sense.' Reiterates book guidance: hold one SPAC per five-stock diversified portfolio.",
           "closing_price": 20.87
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "buy",
-          "segment": "lightning_round",
-          "note": "Good spec despite ugly chart post-failed breakout; caller got in at $2.46, trimmed at $20.44; Cramer advises buying more on weakness; positive view on long-term potential.",
-          "closing_price": 11.58
         },
         {
           "date": "2026-07-08",
@@ -16723,6 +16870,13 @@
           "segment": "lightning_round",
           "note": "Time to buy at current 18 level after rejection at 28 and pullback from highs. Fintech thesis intact; continue to believe this level is attractive entry.",
           "closing_price": 17.91
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Stock stuck around 18.5 level; great level to get involved; CEO Anthony Noto building younger customer base; more service company than bank; Cramer likes strategy.",
+          "closing_price": 18.55
         }
       ],
       "sector": "Financial Services",
@@ -17516,6 +17670,13 @@
           "segment": "opening_commentary",
           "note": "Finally getting due; remarkable job; stepson worked there; Eric Yuan respected; can go higher; you've got a winner.",
           "closing_price": 92.03
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Best growth in years; Q2 guidance raised; AI Companion +184% YoY, My Notes 1.5M users in 4 months; trades 15x earnings; platform expanding to enterprise automation, contact center, AI; $51M Anthropic stake potential upside.",
+          "closing_price": 91.15
         }
       ],
       "sector": "Technology",
@@ -17638,15 +17799,7 @@
           "date": "2026-07-08",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "$1.2B secondary at $15.50 (down $4.50 from $20 trading) signals yellow light on equity supply; deep discounts on secondaries concerning for market equilibrium.",
-          "closing_price": 16.66
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "caution_concern",
-          "segment": "opening_commentary",
           "note": "Raised $1.2B selling 75M shares at $15.50, far below the $20 print \u2014 a deep-in-the-hole deal that signals supply strain.",
-          "price_level": 15.5,
           "closing_price": 16.66
         }
       ],
@@ -17935,6 +18088,13 @@
           "segment": "in_depth_analysis",
           "note": "Great buy right here after being crushed; remains the best name in turbines, which are in very short supply.",
           "closing_price": 1070.99
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "3-year backlog for data center power solutions; too constrained near-term; look at Quanta (QNTA) instead for more available capacity and better entry point.",
+          "closing_price": 1036.22
         }
       ],
       "sector": "Industrials",
@@ -17972,15 +18132,15 @@
           "date": "2026-07-08",
           "sentiment": "buy",
           "segment": "interview",
-          "note": "7+ quarters consistent growth, women's now 40% of business and accelerating to 50%; DTC 51% with e-commerce only 12% (huge upside); raised FY guidance and 14% dividend hike; blue tab premium denim gaining share.",
+          "note": "Beat, raised full-year guidance and hiked the dividend 14%; women's, tops, Beyond Yoga and 51% DTC mix give a 170-year-old brand real runway.",
           "closing_price": 24.37
         },
         {
-          "date": "2026-07-08",
+          "date": "2026-07-16",
           "sentiment": "buy",
-          "segment": "interview",
-          "note": "Beat, raised full-year guidance and hiked the dividend 14%; women's, tops, Beyond Yoga and 51% DTC mix give a 170-year-old brand real runway.",
-          "closing_price": 24.37
+          "segment": "opening_commentary",
+          "note": "Perfect quarter: women's division strength, DTC growing, all KPIs beat; temporarily crushed but rebounding; remains too cheap relative to earnings quality.",
+          "closing_price": 24.99
         }
       ],
       "sector": "Consumer Cyclical",
@@ -18110,6 +18270,13 @@
           "segment": "lightning_round",
           "note": "Cloud security platform; losing a lot of money; not Cramer's style; bottoming but not yet compelling.",
           "closing_price": 106.79
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Very good company but at nexus of margin craziness; hedge funds in trouble owning it; margin buyers using leverage; too many ill-positioned speculators; not done going down \u2014 another time to buy, not now.",
+          "closing_price": 159.69
         }
       ],
       "sector": "Technology",
@@ -18388,6 +18555,13 @@
           "segment": "opening_commentary",
           "note": "SEC investigation overhang; left me cold; Dell superior choice despite similar data center exposure.",
           "closing_price": 28.56
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Suboptimal management team; prefer Dell or HPE for server/hardware exposure.",
+          "closing_price": 27.65
         }
       ],
       "sector": "Technology",
@@ -18606,13 +18780,6 @@
           "segment": "lightning_round",
           "note": "Episodic, one of hardest stocks to own; Cramer ick.",
           "closing_price": 49.24
-        },
-        {
-          "date": "2026-06-24",
-          "sentiment": "caution_concern",
-          "segment": "closing_commentary",
-          "note": "Historical example that residential solar was a financing story, not a renewables story; the group was crushed in 2023 once long-term rates stayed elevated.",
-          "closing_price": 47.82
         }
       ],
       "sector": "Technology",
@@ -19026,6 +19193,13 @@
           "segment": "closing_commentary",
           "note": "Bank rally beneficiary on rate environment, strong consumer, deregulation; cheap valuation leaves room for 50%+ rally before reasonably priced.",
           "closing_price": 83.81
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Quarter terrific but savaged by analysts obsessed with NIM/NII; CEO Scharf transforming into merchant bank winning in M&A, IPOs; trades 12x earnings \u2014 told Investing Club it's a steal.",
+          "closing_price": 88.07
         }
       ],
       "sector": "Financial Services",
@@ -19058,6 +19232,13 @@
           "segment": "opening_commentary",
           "note": "Best companies in truck industry that nobody listens to except Cramer; great conference call; after three down years industry finally on fire; stock headed higher.",
           "closing_price": 227.04
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Terrific beat-and-raise: revenue +19%, EPS +45% YoY, operating ratio improved; intermodal loads at record, cadence strengthening; freight capacity shrinking, demand rising \u2014 first real cycle turn signal in decade; trading 38x earnings but story fantastic.",
+          "closing_price": 298.41
         }
       ],
       "sector": "Industrials",
@@ -19488,15 +19669,7 @@
           "date": "2026-07-08",
           "sentiment": "caution_concern",
           "segment": "lightning_round",
-          "note": "Trading $55 (down from $82 peak, up from $40 low); selling at 6x earnings with 5% yield; heavy commodity exposure to China; inexpensive here but if bounces, sell; don't worry about current level.",
-          "closing_price": 55.72
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "caution_concern",
-          "segment": "lightning_round",
           "note": "Inexpensive at six times earnings with a 5% yield and should bounce, but it's a China-dependent commodity name \u2014 sell into any strength.",
-          "price_level": 55,
           "closing_price": 55.72
         }
       ],
@@ -20139,6 +20312,13 @@
           "segment": "opening_commentary",
           "note": "Master limited partnership; better growth-and-income alternative to AT&T; performed well during war and before.",
           "closing_price": 38.79
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Tom (Texas caller) holds good position. Cramer doubles down\u20146% yield, want to own it for fixed income, terrific play.",
+          "closing_price": 37.52
         }
       ],
       "sector": "Energy",
@@ -21225,6 +21405,13 @@
           "segment": "opening_commentary",
           "note": "America's edge on natural gas globally; pulled back ~20% past month on peace concerns; $11 level right; still up huge YTD.",
           "closing_price": 240.11
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "strong_buy",
+          "segment": "lightning_round",
+          "note": "Never lost faith; early backer; strong LNG export player; US dominates global LNG export market; continue to back.",
+          "closing_price": 265.03
         }
       ],
       "sector": "Energy",
@@ -22135,6 +22322,13 @@
           "segment": "opening_commentary",
           "note": "$29B NASDAQ IPO listing faces demand questions; already $1T company in Korea; institutions will need to sell other stocks to buy; very cheap if data center cycle intact but competition from Samsung disappointing.",
           "closing_price": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Memory chip company; if borrowing money to buy, you're part of margin plague; faster we purge these leveraged buyers, healthier market becomes.",
+          "closing_price": 23.14
         }
       ],
       "sector": "",
@@ -22192,6 +22386,13 @@
           "segment": "opening_commentary",
           "note": "Liked alongside CSX as transport theme. Railroad benefiting from discipline in infrastructure sector. Long rails and airlines as transport plays holding structural advantage.",
           "closing_price": 283.12
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "At all-time high but not concern; great management; dominant position in oligopoly; not a semiconductor maker \u2014 own the stock.",
+          "closing_price": 299.42
         }
       ],
       "sector": "Industrials",
@@ -22249,6 +22450,13 @@
           "segment": "in_depth_analysis",
           "note": "The tried-and-true comparable at a cheaper enterprise multiple (46 vs TPC's 55); Cramer likes the stock very much.",
           "closing_price": 271.58
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "strong_buy",
+          "segment": "in_depth_analysis",
+          "note": "Fred (California caller) holding since 2013; world's largest single-crystal turbine blade producer for jet engines and data center turbines. Remarkable company; every dip is a buy.",
+          "closing_price": 279.24
         }
       ],
       "sector": "Industrials",
@@ -23171,6 +23379,13 @@
           "segment": "in_depth_analysis",
           "note": "Drone defense contractor up 37-82% YTD; profitable but extremely expensive at current levels; no real catalysts beyond political rhetoric.",
           "closing_price": 128.68
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Defense stocks cut in half; punished enough at this level; Cramer long-time supporter.",
+          "closing_price": 50.36
         }
       ],
       "sector": "Industrials",
@@ -25051,6 +25266,13 @@
           "segment": "interview",
           "note": "Regional Southeast bank crushing fundamentals: 3\u00a2 EPS beat, strong NII growth (+6%), ROTCE +200bp to 15%+. South's economic tailwinds, OBBB capex boost, Middle East calm all supporting capex cycle. Still great bank to own.",
           "closing_price": 24.17
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "CEO Jordan reports solid Q, loan growth strong, credit quality excellent, regional economy booming across Sunbelt. Every dip has been buying opportunity.",
+          "closing_price": 24.94
         }
       ],
       "sector": "Financial Services",
@@ -25688,13 +25910,6 @@
           "closing_price": 148.3
         },
         {
-          "date": "2026-07-09",
-          "sentiment": "wait_hold_neutral",
-          "segment": "in_depth_analysis",
-          "note": "Referenced as the $75B IPO that preceded the SK Hynix ADR offering, part of the market's recent test of appetite for mega equity issuance.",
-          "closing_price": 152.16
-        },
-        {
           "date": "2026-07-08",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
@@ -25706,8 +25921,21 @@
           "sentiment": "buy_on_pullback",
           "segment": "closing_commentary",
           "note": "Morgan Stanley's Adam Jonas initiates at Overweight with a $300 target driven by Starlink connectivity and orbital compute, with space only 3% of the base case; buy some here and more lower for the long haul.",
-          "price_target": 300,
           "closing_price": 148.3
+        },
+        {
+          "date": "2026-07-09",
+          "sentiment": "wait_hold_neutral",
+          "segment": "in_depth_analysis",
+          "note": "Referenced as the $75B IPO that preceded the SK Hynix ADR offering, part of the market's recent test of appetite for mega equity issuance.",
+          "closing_price": 152.16
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Highest-profile growth stock; can feel 1999-like on valuation but has huge revenues; will make significant money; lead underwriter Goldman benefiting.",
+          "closing_price": 136.08
         }
       ],
       "sector": "Industrials",
@@ -26040,16 +26268,18 @@
           "closing_price": null
         },
         {
-          "date": "2026-07-13",
-          "sentiment": "caution_concern",
-          "segment": "in_depth_analysis",
-          "note": "Apple trade-secret suit plus the NYT copyright case and dozens of IP claims form a serious, non-dismissable overhang that clouds IPO prospects."
-        },
-        {
           "date": "2026-07-08",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Massive private fundraising competes for the same capital pool; Cramer wants it public given its cash requirements."
+          "note": "Massive private fundraising competes for the same capital pool; Cramer wants it public given its cash requirements.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-07-13",
+          "sentiment": "caution_concern",
+          "segment": "in_depth_analysis",
+          "note": "Apple trade-secret suit plus the NYT copyright case and dozens of IP claims form a serious, non-dismissable overhang that clouds IPO prospects.",
+          "closing_price": null
         }
       ],
       "sector": "",
@@ -28335,18 +28565,6 @@
         }
       ]
     },
-    "GEA": {
-      "company": "GE Aerospace",
-      "mentions": [
-        {
-          "date": "2026-04-17",
-          "sentiment": "caution_concern",
-          "segment": "opening_commentary",
-          "note": "May disappoint; revenue hit from war-time aircraft maintenance downtime; watch for guidance on recovery post-war.",
-          "closing_price": null
-        }
-      ]
-    },
     "SNP": {
       "company": "SanDisk (Kioxia)",
       "mentions": [
@@ -28632,6 +28850,13 @@
           "segment": "in_depth_analysis",
           "note": "Largest US IPO ever (2014) at $120, crashed to $57 by Sept 2015, now at $131\u2014nearly 12 years to recover IPO-peak gains. Historical warning for mega-IPO pop-and-drop dynamics.",
           "closing_price": 131.5
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "China GDP disappointing (4.4%) but remain patient; down on dip; still best way to play China long-term; hold existing position.",
+          "closing_price": 117.49
         }
       ]
     },
@@ -28668,6 +28893,13 @@
           "segment": "opening_commentary",
           "note": "Data center construction; reported tremendous quarter, stock up 52% (+276 points); beneficiary of buildout wave.",
           "closing_price": 131.62
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Jeff (South Africa living caller) bought on dip, stock keeps dipping 10% past 3 months but numbers solid. Cramer recommends buy\u2014road builder should be bought, likely consolidation candidate.",
+          "closing_price": 103.86
         }
       ]
     },
@@ -28836,6 +29068,13 @@
           "segment": "opening_commentary",
           "note": "One-time excellent company now worried about; yields 5%+ which on quality name signals market concerns about dividend sustainability despite historical strength.",
           "closing_price": 88.9
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Positive analyst note and price target increase today; 5% yield attractive; Kimberly tie-up with Canview expected to produce terrific results \u2014 buy.",
+          "closing_price": 98.71
         }
       ]
     },
@@ -28901,7 +29140,8 @@
           "date": "2026-07-09",
           "sentiment": "mild_buy",
           "segment": "in_depth_analysis",
-          "note": "Dominant HBM supplier at 56.4% share and cheap at 7x current-year earnings, but memory is boom-bust; take a medium-sized position and leave room to buy weakness."
+          "note": "Dominant HBM supplier at 56.4% share and cheap at 7x current-year earnings, but memory is boom-bust; take a medium-sized position and leave room to buy weakness.",
+          "closing_price": null
         }
       ]
     },
@@ -29269,15 +29509,7 @@
           "date": "2026-07-09",
           "sentiment": "buy",
           "segment": "in_depth_analysis",
-          "note": "Small-cap ($1.7B market cap) providing critical connectors, cable hardware for data center and grid buildout; 24% sequential earnings beat, 19% YoY growth; doubled past 12 months but still positioned for data center upside; pull back from $400 to $340s offers entry point.",
-          "closing_price": 344.55
-        },
-        {
-          "date": "2026-07-09",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
           "note": "Small-cap grid and data center hardware maker with a 24% sequential earnings beat; pullback from $400+ to the $340s offers a good entry at 35x earnings on a ~$13/share 2028 estimate.",
-          "price_level": 340,
           "closing_price": 344.55
         }
       ]
@@ -29349,18 +29581,18 @@
       "company": "Solstice Advanced Materials",
       "mentions": [
         {
-          "date": "2026-07-13",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "$14.5B Element Solutions deal is strategically brilliant (materials colossus for semis/nuclear) but both stocks sold off; a good deal lost in the shuffle for now.",
-          "closing_price": 61.06
-        },
-        {
           "date": "2026-07-08",
           "sentiment": "buy",
           "segment": "in_depth_analysis",
           "note": "Cited as a post-spin-off template: fell from $53 to $40 before rallying to $90; Element Solutions deal was a good one despite market skepticism.",
           "closing_price": 61.01
+        },
+        {
+          "date": "2026-07-13",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "$14.5B Element Solutions deal is strategically brilliant (materials colossus for semis/nuclear) but both stocks sold off; a good deal lost in the shuffle for now.",
+          "closing_price": 61.06
         }
       ]
     },
@@ -29372,7 +29604,6 @@
           "sentiment": "buy_on_pullback",
           "segment": "in_depth_analysis",
           "note": "Acquisition-driven digital-brand turnaround roll-up with strong numbers but heavy rising debt and super-voting founders; start small and leave room to buy lower.",
-          "price_level": 31,
           "closing_price": 50.6
         }
       ]
@@ -29445,22 +29676,175 @@
           "sentiment": "buy",
           "segment": "closing_commentary",
           "note": "Broke out above $37 resistance and crossed $40 today on high volume after a 20-month rounded base; Fitzpatrick and Cramer see $55 before year-end.",
-          "price_target": 55,
-          "price_level": 40,
           "closing_price": 40.46
         }
       ]
     },
-    "QS": {
-      "company": "QuantumScape",
+    "ACN": {
+      "company": "ACN",
+      "sector": "",
+      "style": "",
       "mentions": [
         {
-          "date": "2026-06-24",
+          "date": "2026-07-16",
           "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Down 50% YTD with 4.7% dividend yield and $7.5B buyback, but AI/cloud work duplicates Accenture services at much lower cost; fundamental threat despite valuation appeal \u2014 stay away.",
+          "closing_price": 144.61
+        }
+      ]
+    },
+    "ADPT": {
+      "company": "ADPT",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-15",
+          "sentiment": "mild_buy",
+          "segment": "lightning_round",
+          "note": "Bill Mus caller question. Stock down hard with hyperscalers; Cramer likes it but recommends small start due to losses and volatility.",
+          "closing_price": 22.9
+        }
+      ]
+    },
+    "BNY": {
+      "company": "BNY",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-15",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Up 290% since Vince took over Aug 2022; outperforming all big banks and trust bank peers. Multi-day move expected; Cramer pounded table.",
+          "closing_price": 162.35
+        }
+      ]
+    },
+    "BSCI": {
+      "company": "BSCI",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-14",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Caller Nick at 102; one of worst misses; healthcare equipment sector under pressure; wait two quarters before buying.",
+          "closing_price": null
+        }
+      ]
+    },
+    "CORN": {
+      "company": "CORN",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
           "segment": "closing_commentary",
-          "note": "Historical cautionary tale of SPAC-era speculation: peaked near $132 in December 2020 with no meaningful revenue, then collapsed to single digits by late 2022, with subsequent bounces attributed to short squeezes.",
-          "price_level": 132,
-          "closing_price": 7.12
+          "note": "Parabolic rally ($77 to $207) example of leverage-driven excess; when fundamentals divorce from stock price, professionals take profits; have to cut positions in half at peaks; current unwind likely to destroy even good fundamentals.",
+          "closing_price": 17.62
+        }
+      ]
+    },
+    "CRK": {
+      "company": "CRK",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-14",
+          "sentiment": "caution_concern",
+          "segment": "lightning_round",
+          "note": "Caller Kenny (Pico Holdings ticker); Cramer doesn't know the business; afraid to come in late after huge run; insufficient clarity.",
+          "closing_price": 12.98
+        }
+      ]
+    },
+    "DGE": {
+      "company": "DGE",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Liquor sector (gins, vodkas, browns) all performing terribly; despite being best-in-class, sector headwinds too strong; don't try to call bottom \u2014 avoid entire group.",
+          "closing_price": null
+        }
+      ]
+    },
+    "EXLS": {
+      "company": "EXLS",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Outsourced services business but Cramer needs to research further; no immediate recommendation \u2014 comeback later with more analysis.",
+          "closing_price": 28.69
+        }
+      ]
+    },
+    "HYNX": {
+      "company": "HYNX",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-14",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Korean semiconductor raised $26.5B in US markets; up $41 today but trades 4x next year's earnings\u2014ridiculously cheap on constrained supply, pricing power.",
+          "closing_price": 38.77
+        }
+      ]
+    },
+    "ICE": {
+      "company": "ICE",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Adam (Florida caller) asked about blockchain disruption; Cramer says doesn't make him want to get away from ICE\u2014owns everybody, inexpensive here. BNY better buy.",
+          "closing_price": 139.84
+        }
+      ]
+    },
+    "QNTA": {
+      "company": "QNTA",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-16",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Electrical components for data center buildouts; fallen from 788 to 630; better entry than Wesco (WCC) \u2014 buy for data center infrastructure play.",
+          "closing_price": null
+        }
+      ]
+    },
+    "XLE": {
+      "company": "XLE",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-15",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Dennis (North Carolina caller) notes CEO was on show, story loved, stock cut in half. Cramer says pure spec\u2014nuclear too darn expensive, not happening.",
+          "closing_price": 56.5
         }
       ]
     }

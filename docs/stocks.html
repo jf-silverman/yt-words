@@ -1881,6 +1881,8 @@ function renderAnalytics(d) {
         <option value="chart-pullback">Buy on Pullback</option>
         <option value="chart-backtest">Following His Buy Calls</option>
         <option value="chart-edge">Where His Edge Came From</option>
+        <option value="chart-breakeven">Hit Rate vs. Breakeven</option>
+        <option value="chart-calibration">Calibration Curve</option>
       </select>
       <span style="font-size:12px;color:#57606a">Pre-computed from SQLite · Updated ${gen}</span>
     </div>
@@ -2226,6 +2228,64 @@ function renderAnalytics(d) {
       ${edgeHtml}
     </div>
 
+    <!-- Hit rate vs. breakeven -->
+    <div id="chart-breakeven" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        Hit Rate vs. Breakeven
+        <div class="analytics-card-sub">Is following each call type actually profitable, given how big the wins run vs. the losses? · &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="be-details-chk" onchange="document.getElementById('be-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show methodology &amp; definitions</label></div>
+        <div id="be-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:720px">
+          <p style="margin:0 0 6px">A high win rate can still lose money if the losers are bigger than the winners. This panel connects the two. Each call is treated as a trade in the direction Cramer called it — a <strong>win</strong> is the stock moving his way (up for buy calls, down for caution/sell calls) over the next 30 or 90 days.</p>
+          <p style="margin:0 0 6px"><strong>Avg Win / Avg Loss</strong> — the mean size of the winning and losing trades (means, not medians, because breakeven is an expectancy calculation). <strong>Breakeven WR</strong> is the win rate you'd need just to break even given that payoff ratio: |avg&nbsp;loss| ÷ (avg&nbsp;win + |avg&nbsp;loss|). <strong>Actual WR</strong> is his real direction-adjusted win rate.</p>
+          <p style="margin:0 0 6px"><strong>Edge</strong> = Actual WR − Breakeven WR, in percentage points. Positive (green) means mechanically following that call type made money over the window; negative (red) means it didn't, even when the raw win rate looked fine.</p>
+          <p style="margin:0"><em>Everything here sits inside one ~6-month AI-driven bull market (Jan–Jul 2026)</em>, which flatters buy calls and penalizes caution. Buckets under 30 trades are tagged.</p>
+        </div>
+      </div>
+      <div class="analytics-card-body">
+        <div style="margin:4px 0 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="font-size:12px;color:#57606a;font-weight:600">Horizon:</span>
+          <button class="filter-btn active" id="be-period-30d" onclick="setBePeriod('30d')">30d</button>
+          <button class="filter-btn" id="be-period-90d" onclick="setBePeriod('90d')">90d</button>
+        </div>
+        <p id="be-hero" style="margin:0 0 12px;font-size:13px;color:#444;max-width:720px;line-height:1.5"></p>
+        <div style="overflow-x:auto">
+          <table id="table-breakeven" class="a-table">
+            <thead><tr>
+              <th>Call Type</th>
+              <th style="text-align:right">Calls</th>
+              <th style="text-align:right">Avg Win</th>
+              <th style="text-align:right">Avg Loss</th>
+              <th style="text-align:right">Breakeven WR</th>
+              <th style="text-align:right">Actual WR</th>
+              <th style="text-align:right">Edge</th>
+            </tr></thead>
+            <tbody id="be-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calibration curve -->
+    <div id="chart-calibration" class="analytics-card" style="display:none;margin-bottom:20px">
+      <div class="analytics-card-header">
+        Calibration Curve
+        <div class="analytics-card-sub">Does stronger conviction language actually predict a higher chance the stock rises? · &nbsp;<label style="font-weight:400;cursor:pointer"><input type="checkbox" id="calib-details-chk" onchange="document.getElementById('calib-details').style.display=this.checked?'block':'none'" style="cursor:pointer"> Show methodology &amp; definitions</label></div>
+        <div id="calib-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:720px">
+          <p style="margin:0 0 6px">Each call type is placed on the x-axis in order of stated conviction, from most bearish (Sell/Avoid) on the left to most bullish (Strong Buy) on the right. The y-axis is the share of those calls where the stock was simply <strong>higher</strong> 30 (or 90) days later — the raw probability the stock rose, <em>not</em> direction-adjusted, so every bucket is measured the same way.</p>
+          <p style="margin:0 0 6px">If Cramer's conviction language carries real signal, the line should climb steadily left to right: the more bullish he sounds, the more often the stock actually goes up. A flat or jagged line means the intensity of his wording is mostly enthusiasm, not information. The dashed line is the <strong>base rate</strong> — the share of <em>all</em> calls whose stock rose — so points above it did better than picking at random.</p>
+          <p style="margin:0"><strong>Spearman ρ</strong> summarizes how cleanly the ranking holds (+1 = win rate rises perfectly with conviction, 0 = no relationship, negative = it runs backwards). Buckets under 30 calls are drawn hollow — treat them lightly.</p>
+        </div>
+      </div>
+      <div class="analytics-card-body">
+        <div style="margin:4px 0 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="font-size:12px;color:#57606a;font-weight:600">Horizon:</span>
+          <button class="filter-btn active" id="calib-period-30d" onclick="setCalibPeriod('30d')">30d</button>
+          <button class="filter-btn" id="calib-period-90d" onclick="setCalibPeriod('90d')">90d</button>
+        </div>
+        <p id="calib-verdict" style="margin:0 0 10px;font-size:13px;color:#444;max-width:720px;line-height:1.5"></p>
+        <div style="height:320px;position:relative"><canvas id="calib-canvas"></canvas></div>
+      </div>
+    </div>
+
     <p class="analytics-note" style="display:none" id="analytics-note">
       * 30d/90d returns use nearest trading day in a ±50% window of the target (e.g. 30d looks in days 30–45).
       Returns show — until price data exists that far out. Since-mention return uses latest available closing price.
@@ -2244,6 +2304,121 @@ function renderAnalytics(d) {
     renderBacktest();
   };
   renderBacktest();
+
+  // ── Hit rate vs. breakeven ────────────────────────────────────────────────
+  let bePeriod = '30d', calibPeriod = '30d';
+  const beBuckets = [...d.sentiment_perf]
+    .filter(r => r.be_n_30d != null || r.be_n_90d != null)
+    .sort((a, b) => SENTIMENT_ORDER.indexOf(a.sentiment) - SENTIMENT_ORDER.indexOf(b.sentiment));
+
+  function renderBreakeven(h) {
+    const body = document.getElementById('be-body');
+    if (!body) return;
+    const edgeCol = v => v > 0 ? '#1a7f37' : v < 0 ? '#d03030' : '#57606a';
+    let profitable = 0, total = 0;
+    body.innerHTML = beBuckets.map(r => {
+      const n  = r[`be_n_${h}`], aw = r[`be_avg_win_${h}`], al = r[`be_avg_loss_${h}`];
+      const be = r[`be_breakeven_${h}`], ac = r[`be_actual_wr_${h}`];
+      if (n == null) return '';
+      const edge = +(ac - be).toFixed(1);
+      total++; if (edge > 0) profitable++;
+      const small = n < 30 ? ' <span class="cap-badge" style="background:#fff8e6;color:#9a6700">small</span>' : '';
+      return `<tr>
+        <td data-rank="${SENTIMENT_ORDER.indexOf(r.sentiment)}">${sentBadge(r.sentiment)}</td>
+        <td style="text-align:right">${n}${small}</td>
+        <td style="text-align:right;font-family:monospace;color:#1a7f37">+${aw.toFixed(1)}%</td>
+        <td style="text-align:right;font-family:monospace;color:#d03030">${al.toFixed(1)}%</td>
+        <td style="text-align:right;font-family:monospace">${be.toFixed(1)}%</td>
+        <td style="text-align:right;font-family:monospace;font-weight:700">${ac.toFixed(1)}%</td>
+        <td style="text-align:right;font-family:monospace;font-weight:700;color:${edgeCol(edge)}">${edge > 0 ? '+' : ''}${edge.toFixed(1)}</td>
+      </tr>`;
+    }).join('');
+    const hero = document.getElementById('be-hero');
+    if (hero) hero.innerHTML = `<strong>${profitable} of ${total}</strong> call types cleared their breakeven bar at ${h}. <em>Edge</em> is how many percentage points the actual win rate beats the rate you'd need to break even given the win/loss sizes — positive means mechanically following that call made money over the window.`;
+  }
+  window.setBePeriod = function(v) {
+    bePeriod = v;
+    ['30d','90d'].forEach(x => document.getElementById('be-period-'+x)?.classList.toggle('active', x === v));
+    renderBreakeven(v);
+  };
+
+  // ── Calibration curve ─────────────────────────────────────────────────────
+  // Buckets most-bearish → most-bullish (reverse conviction order): a rising line means
+  // higher conviction predicts a higher chance the stock rose.
+  const calibBuckets = [...d.sentiment_perf]
+    .filter(r => r.win_rate_30d != null || r.win_rate_90d != null)
+    .sort((a, b) => SENTIMENT_ORDER.indexOf(b.sentiment) - SENTIMENT_ORDER.indexOf(a.sentiment));
+
+  function _pearson(xs, ys) {
+    const n = xs.length, mx = xs.reduce((s,v)=>s+v,0)/n, my = ys.reduce((s,v)=>s+v,0)/n;
+    let num=0, dx=0, dy=0;
+    for (let i=0;i<n;i++){ const a=xs[i]-mx, b=ys[i]-my; num+=a*b; dx+=a*a; dy+=b*b; }
+    return (dx===0||dy===0) ? null : num/Math.sqrt(dx*dy);
+  }
+  function _spearman(vals) {   // vals in intended order; x = position, y = value ranks
+    const sorted = [...vals].sort((a,b)=>a-b);
+    const yrank = vals.map(v => { const f=sorted.indexOf(v), l=sorted.lastIndexOf(v); return (f+l)/2; });
+    return _pearson(vals.map((_,i)=>i), yrank);
+  }
+
+  function renderCalibration(h) {
+    const cv = document.getElementById('calib-canvas');
+    if (!cv || typeof Chart === 'undefined') return;
+    const field = 'win_rate_' + h, nfield = 'n_with_' + h;
+    const pts    = calibBuckets.filter(r => r[field] != null);
+    const labels = pts.map(r => SENTIMENT_LABELS[r.sentiment] || (r.sentiment||'').replace(/_/g,' '));
+    const ys     = pts.map(r => r[field]);
+    const ns     = pts.map(r => r[nfield] || 0);
+    const cols   = pts.map(r => SENTIMENT_COLORS[r.sentiment] || '#8b949e');
+    let bw=0, bn=0;
+    for (const r of d.sentiment_perf) { if (r[field]!=null && r[nfield]) { bw += r[field]*r[nfield]; bn += r[nfield]; } }
+    const baseRate = bn ? bw/bn : null;
+    const rho = ys.length >= 3 ? _spearman(ys) : null;
+
+    const existing = Chart.getChart(cv); if (existing) existing.destroy();
+    new Chart(cv, {
+      type: 'line',
+      data: { labels, datasets: [
+        { label: `% of calls where stock rose (${h})`, data: ys,
+          borderColor: '#0969da', borderWidth: 2, tension: 0.15, fill: false,
+          pointBackgroundColor: pts.map((_,i) => ns[i] < 30 ? '#ffffff' : cols[i]),
+          pointBorderColor: cols, pointBorderWidth: 2, pointRadius: 6, pointHoverRadius: 8 },
+        ...(baseRate != null ? [{ label: `Base rate — all calls (${h})`, data: ys.map(()=>baseRate),
+          borderColor: '#8b949e', borderDash: [6,4], borderWidth: 1.5, pointRadius: 0, fill: false }] : []),
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          y: { title: { display: true, text: '% of calls where the stock rose' }, ticks: { callback: v => v + '%' } },
+          x: { title: { display: true, text: 'Stated conviction   (bearish → bullish)' } },
+        },
+        plugins: {
+          legend: { display: true, position: 'bottom' },
+          tooltip: { callbacks: { label: c => c.datasetIndex === 0
+            ? `${c.parsed.y.toFixed(1)}% rose · n=${ns[c.dataIndex]}` : `Base rate ${baseRate.toFixed(1)}%` } },
+        },
+      },
+    });
+
+    const vEl = document.getElementById('calib-verdict');
+    if (vEl) {
+      let verdict;
+      if (rho == null) { vEl.innerHTML = ''; return; }
+      if (rho >= 0.7) verdict = '<strong>Well-calibrated</strong> — win rate rises fairly cleanly with conviction';
+      else if (rho >= 0.3) verdict = '<strong>Weakly calibrated</strong> — the ordering mostly holds but with reversals';
+      else if (rho > -0.3) verdict = '<strong>Poorly calibrated</strong> — conviction language barely tracks outcomes';
+      else verdict = '<strong>Inverted</strong> — stronger conviction predicts a <em>lower</em> chance of rising';
+      vEl.innerHTML = `${verdict}. Spearman ρ = <strong>${rho.toFixed(2)}</strong> between conviction rank and the ${h} chance the stock rose${baseRate!=null?`, against a ${baseRate.toFixed(1)}% base rate`:''}.`;
+    }
+  }
+  window.setCalibPeriod = function(v) {
+    calibPeriod = v;
+    ['30d','90d'].forEach(x => document.getElementById('calib-period-'+x)?.classList.toggle('active', x === v));
+    renderCalibration(v);
+  };
+
+  renderBreakeven(bePeriod);
+  makeSortable('table-breakeven', null);
 
   // Sentiment: default sort by col 0 (sentiment name) ascending — but rows were
   // pre-sorted by conviction order, so col=null keeps that order; clicking a header sorts.
@@ -2342,7 +2517,7 @@ function renderAnalytics(d) {
   })();
 
   // ── Top-level chart switcher ──────────────────────────────────────────────
-  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest','chart-pullback','chart-backtest','chart-edge'];
+  const CHART_IDS = ['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-calls','chart-latest','chart-pullback','chart-backtest','chart-edge','chart-breakeven','chart-calibration'];
   const NOTE_IDS  = new Set(['chart-sentiment','chart-segment','chart-mktcap','chart-sector','chart-latest']);
 
   function showAnalyticsChart(id) {
@@ -2350,6 +2525,8 @@ function renderAnalytics(d) {
       document.getElementById(cid).style.display = cid === id ? '' : 'none';
     });
     document.getElementById('analytics-note').style.display = NOTE_IDS.has(id) ? '' : 'none';
+    // Chart.js can only size once its container is visible, so draw on show.
+    if (id === 'chart-calibration') renderCalibration(calibPeriod);
   }
 
   document.getElementById('analytics-chart-select').addEventListener('change', e => showAnalyticsChart(e.target.value));
