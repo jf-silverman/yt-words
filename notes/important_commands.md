@@ -163,3 +163,26 @@ git add docs/
 git commit -m "Manual site update"
 git push
 ```
+
+## Generated artifacts are owned by `main` (pre-commit hook)
+
+Pipeline-generated files — `docs/data/`, `docs/redirect/`, `data/daily_prices/`,
+`data/stock_sentiments.json`, `data/processed_episodes.json`, `data/overcast_episode_ids.json`,
+`data/transcript_timing.csv` — may only be committed on `main`. A `.githooks/pre-commit` hook
+blocks committing them on any other branch (they'd cause 3-way merge conflicts / shard corruption
+on `dev → main`). Source files (`docs/*.html`, `code/`, `prompts/`, `notes/`) are unaffected.
+
+```bash
+# One-time per clone (already set on this machine; shared across both worktrees):
+git config core.hooksPath .githooks
+
+# Previewing artifact changes on a feature branch is fine — just don't commit them:
+python3 code/pipeline.py --rebuild-shards      # regenerates; leave uncommitted
+git restore --staged docs/data/ docs/redirect/ data/   # if you accidentally staged them
+
+# To PUBLISH artifact changes, regenerate on the main worktree (it owns them):
+cd ~/Documents/DS/yt-words-cron && python3 code/pipeline.py --rebuild-shards
+
+# Genuine exception only:
+git commit --no-verify
+```

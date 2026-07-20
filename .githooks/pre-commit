@@ -1,0 +1,42 @@
+#!/bin/sh
+# ─────────────────────────────────────────────────────────────────────────────
+# Guard: pipeline-generated artifacts are owned by `main`.
+#
+# GitHub Pages publishes from main, and the pipeline (nightly run or --rebuild-shards)
+# regenerates these files and commits them to main via commit_and_push(). If a feature
+# branch ALSO commits regenerated copies, both sides change the same files and a later
+# merge to main does a 3-way merge on generated JSON — which conflicts noisily and can
+# silently corrupt shards. (This broke a dev->main merge on 2026-07-20.)
+#
+# So: refuse to commit generated artifacts on any branch except main. Regenerate them on
+# the main worktree (~/Documents/DS/yt-words-cron) instead, where the pipeline owns them.
+#
+# Bypass (rarely legitimate):  git commit --no-verify
+# ─────────────────────────────────────────────────────────────────────────────
+
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+[ "$branch" = "main" ] && exit 0        # main is the artifact owner — always allowed
+
+# Pipeline-generated / pipeline-owned paths (source files under docs/*.html, code/,
+# prompts/, notes/ are NOT listed and remain freely committable on feature branches).
+pattern='^(docs/data/|docs/redirect/|data/daily_prices/|data/stock_sentiments\.json$|data/processed_episodes\.json$|data/overcast_episode_ids\.json$|data/transcript_timing\.csv$)'
+
+blocked=$(git diff --cached --name-only | grep -E "$pattern")
+[ -z "$blocked" ] && exit 0
+
+n=$(printf '%s\n' "$blocked" | grep -c .)
+echo "✋ pre-commit: $n pipeline-generated artifact(s) staged on '$branch' — these belong to main only."
+echo ""
+printf '%s\n' "$blocked" | sed 's/^/    /' | head -n 12
+[ "$n" -gt 12 ] && echo "    … and $((n - 12)) more"
+echo ""
+echo "  You likely ran --rebuild-shards to preview; leave those changes uncommitted."
+echo "  Unstage them and commit only your source changes:"
+echo ""
+echo "      git restore --staged docs/data/ docs/redirect/ data/"
+echo ""
+echo "  To PUBLISH artifact changes, regenerate on the main worktree (it owns them):"
+echo "      cd ~/Documents/DS/yt-words-cron && python3 code/pipeline.py --rebuild-shards"
+echo ""
+echo "  (Deliberate override:  git commit --no-verify)"
+exit 1
