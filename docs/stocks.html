@@ -2272,7 +2272,8 @@ function renderAnalytics(d) {
         <div id="calib-details" style="display:none;margin-top:10px;font-size:12px;color:#444;line-height:1.6;font-weight:400;max-width:720px">
           <p style="margin:0 0 6px">Each call type is placed on the x-axis in order of stated conviction, from most bearish (Sell/Avoid) on the left to most bullish (Strong Buy) on the right. The y-axis is the share of those calls where the stock was simply <strong>higher</strong> 30 (or 90) days later — the raw probability the stock rose, <em>not</em> direction-adjusted, so every bucket is measured the same way.</p>
           <p style="margin:0 0 6px">If Cramer's conviction language carries real signal, the line should climb steadily left to right: the more bullish he sounds, the more often the stock actually goes up. A flat or jagged line means the intensity of his wording is mostly enthusiasm, not information. The dashed line is the <strong>base rate</strong> — the share of <em>all</em> calls whose stock rose — so points above it did better than picking at random.</p>
-          <p style="margin:0"><strong>Spearman ρ</strong> summarizes how cleanly the ranking holds (+1 = win rate rises perfectly with conviction, 0 = no relationship, negative = it runs backwards). Buckets under 30 calls are drawn hollow — treat them lightly.</p>
+          <p style="margin:0 0 6px"><strong>Spearman ρ</strong> summarizes how cleanly the ranking holds (+1 = win rate rises perfectly with conviction, 0 = no relationship, negative = it runs backwards). Buckets under 30 calls are drawn hollow — treat them lightly.</p>
+          <p style="margin:0"><strong>Buy on Pullback is excluded here.</strong> Its thesis is conditional — "wait for a dip, then buy" — so measuring it from the call-day close (as every other bucket is) doesn't describe the actual strategy, and mixing a different entry basis onto one curve would be misleading. It has its own dedicated <em>Buy on Pullback</em> panel that handles the dip mechanics properly.</p>
         </div>
       </div>
       <div class="analytics-card-body">
@@ -2345,8 +2346,11 @@ function renderAnalytics(d) {
   // ── Calibration curve ─────────────────────────────────────────────────────
   // Buckets most-bearish → most-bullish (reverse conviction order): a rising line means
   // higher conviction predicts a higher chance the stock rose.
+  // Buy on Pullback is excluded: its thesis is conditional ("wait for a dip"), so a
+  // %-rose-from-the-call-close measure doesn't describe the strategy and isn't comparable
+  // to the point-in-time buckets. It has its own dedicated panel.
   const calibBuckets = [...d.sentiment_perf]
-    .filter(r => r.win_rate_30d != null || r.win_rate_90d != null)
+    .filter(r => r.sentiment !== 'buy_on_pullback' && (r.win_rate_30d != null || r.win_rate_90d != null))
     .sort((a, b) => SENTIMENT_ORDER.indexOf(b.sentiment) - SENTIMENT_ORDER.indexOf(a.sentiment));
 
   function _pearson(xs, ys) {
@@ -2371,7 +2375,7 @@ function renderAnalytics(d) {
     const ns     = pts.map(r => r[nfield] || 0);
     const cols   = pts.map(r => SENTIMENT_COLORS[r.sentiment] || '#8b949e');
     let bw=0, bn=0;
-    for (const r of d.sentiment_perf) { if (r[field]!=null && r[nfield]) { bw += r[field]*r[nfield]; bn += r[nfield]; } }
+    for (const r of d.sentiment_perf) { if (r.sentiment !== 'buy_on_pullback' && r[field]!=null && r[nfield]) { bw += r[field]*r[nfield]; bn += r[nfield]; } }
     const baseRate = bn ? bw/bn : null;
     const rho = ys.length >= 3 ? _spearman(ys) : null;
 
