@@ -50,20 +50,29 @@ flowchart TD
     RD --> PUSH
     PUSH --> PAGES(["GitHub Pages<br/>stocks.html"])
 
-    %% Explicit color: on every classDef — a fill without one inherits the
-    %% viewer's theme text colour, which renders light-on-light in dark mode.
-    classDef store fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
-    classDef out   fill:#cdebd2,stroke:#2f7d43,stroke-width:1px,color:#0b1020
+    %% Every node is styled explicitly, including `default`. Anything left unstyled
+    %% inherits the viewer's mermaid theme, which on GitHub in dark mode is a near-black
+    %% fill — unreadable next to these light ones. Every class below sets an explicit
+    %% text colour too, since a fill alone still inherits the theme's (light) text.
+    classDef default fill:#f4f5f8,stroke:#6b7280,stroke-width:1px,color:#0b1020
+    classDef store   fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
+    classDef out     fill:#cdebd2,stroke:#2f7d43,stroke-width:1px,color:#0b1020
+    classDef ext     fill:#ffe8cc,stroke:#b3701a,stroke-width:1px,color:#0b1020
+    classDef store_db fill:#e6dcff,stroke:#6b4bbf,stroke-width:2px,color:#0b1020
     class TXT,SS,RD,SUM,DOCS,RULES store
     class MAIL,PAGES out
+    class YT,YF,OC,AN ext
+    class DB store_db
+    style EXT fill:#fbfbfd,stroke:#9aa0ac,color:#0b1020
 ```
 
 | Box | Meaning |
 |-----|---------|
+| Orange | an external source we don't control — YouTube, Yahoo, Overcast, Claude |
+| Grey | a processing step in `pipeline.py` |
 | Blue, double-edged | a stored file or directory on disk |
+| Purple cylinder | the SQLite database — source of truth for mention data |
 | Green, rounded | a delivered product — the nightly email, the live site |
-| Plain rectangle | a processing step in `pipeline.py` |
-| Cylinder | the SQLite database (source of truth) |
 
 ---
 
@@ -100,10 +109,13 @@ flowchart LR
     REC --> TAB2(["Recent Picks tab"])
     ANLY --> TAB3(["Analytics tab"])
 
-    classDef store fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
-    classDef out   fill:#cdebd2,stroke:#2f7d43,stroke-width:1px,color:#0b1020
+    classDef default fill:#f4f5f8,stroke:#6b7280,stroke-width:1px,color:#0b1020
+    classDef store   fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
+    classDef out     fill:#cdebd2,stroke:#2f7d43,stroke-width:1px,color:#0b1020
+    classDef store_db fill:#e6dcff,stroke:#6b4bbf,stroke-width:2px,color:#0b1020
     class IDX,SH,REC,ANLY,BT,PR store
     class TAB1,TAB2,TAB3 out
+    class DB store_db
 ```
 
 `stocks.html` is fully client-side — it fetches these JSON files and renders
@@ -130,8 +142,11 @@ flowchart TD
     TXT[["data/transcripts/"]] --> BF["backfill.py --reanalyze<br/>(no YouTube calls)"]
     BF --> DB
 
-    classDef store fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
+    classDef default fill:#f4f5f8,stroke:#6b7280,stroke-width:1px,color:#0b1020
+    classDef store   fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
+    classDef store_db fill:#e6dcff,stroke:#6b4bbf,stroke-width:2px,color:#0b1020
     class UNKMD,R20,ANLY,TXT store
+    class DB store_db
 ```
 
 ---
