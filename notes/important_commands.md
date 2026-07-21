@@ -49,6 +49,11 @@ python3 code/pipeline.py --fetch-sectors
 
 # Rewrite redirect pages for a specific date (e.g. if Overcast ID was wrong)
 python3 code/pipeline.py --fix-redirects 2026-06-26
+
+# Regenerate the manual-review queue of unidentified tickers (???? / ???)
+# Writes notes/unknown-tickers.md with a timestamped YouTube link per mention.
+# Always derived from the DB — resolved rows drop off automatically.
+python3 code/pipeline.py --list-unknown-tickers
 ```
 
 ## Database (SQLite)
