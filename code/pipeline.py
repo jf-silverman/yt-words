@@ -805,7 +805,7 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
 
     targets = only if only is not None else set(stocks.keys())
     for ticker in targets:
-        if ticker in stocks:
+        if ticker in stocks and not is_unknown_ticker(ticker):
             lp = latest_prices.get(ticker)
             shard = {**stocks[ticker]}
             if lp:
@@ -823,6 +823,8 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
             (TICKER_DATA_DIR / f"{ticker}.json").write_text(json.dumps(shard))
     index = {}
     for t, e in stocks.items():
+        if is_unknown_ticker(t):
+            continue  # unidentified companies must not be searchable — see is_unknown_ticker
         mentions = e.get("mentions", [])
         dates_with_price = len({m.get("date") for m in mentions if m.get("closing_price") is not None})
         index[t] = {"name": e.get("company", ""), "count": len(mentions), "dates": dates_with_price}
@@ -838,6 +840,8 @@ def _write_recent_json(stocks: dict) -> None:
     # Group all mentions by (ticker, date, segment)
     groups: dict[tuple, list[dict]] = {}
     for ticker, entry in stocks.items():
+        if is_unknown_ticker(ticker):
+            continue  # keep unidentified companies out of Recent Picks too
         total = len(entry.get("mentions", []))
         sector = entry.get("sector", "")
         style  = entry.get("style", "")
@@ -1052,7 +1056,9 @@ def rebuild_ticker_shards() -> None:
     # Delete shard files for tickers no longer in stocks (removed from DB or filtered out).
     # `reserved` must list every non-shard file in docs/data/ or it gets pruned here.
     reserved = {"index.json", "recent.json", "analytics.json", "backtest_by_ticker.json"}
-    active = set(stocks.keys())
+    # Placeholder tickers are deliberately not written as shards, so they must not count
+    # as active either — otherwise their stale shards survive every prune.
+    active = {t for t in stocks if not is_unknown_ticker(t)}
     removed = 0
     for p in TICKER_DATA_DIR.glob("*.json"):
         if p.name in reserved or p.name.endswith("_prices.json"):
@@ -2044,6 +2050,173 @@ def commit_and_push(dates: list[str]) -> None:
         print("  Generated files are still on disk — links will use YouTube fallback until next push")
 
 
+# ── Unknown-ticker report ─────────────────────────────────────────────────────
+
+UNKNOWN_TICKER = "????"
+UNKNOWN_TICKERS_DOC = ROOT / "notes" / "unknown-tickers.md"
+
+
+def is_unknown_ticker(ticker: str | None) -> bool:
+    """True for Haiku's placeholder when it heard a company but not its symbol.
+
+    Matches any all-'?' ticker: both '????' and the '???' variant occur in the DB.
+    These must never reach the site — every unidentified company collapses into one
+    entry that renders under whichever company name happened to be stored last (the
+    '????' entry was showing 22 unrelated companies as "OpenAI").
+    """
+    t = (ticker or "").strip()
+    return bool(t) and set(t) == {"?"}
+
+
+def _section_index(date_str: str) -> dict[str, list[tuple[str, int]]]:
+    """Map segment -> [(section title, start_seconds)] for one episode date.
+
+    start_seconds lives nowhere in the DB, so recover it from generated artifacts. The
+    archived summary HTML is the better source: it carries every section as
+    `<h3><a href="...?t=SECS">▶ Name [M:SS]</a></h3>` and exists for every episode back to
+    January. Redirect pages are the fallback — they only start in June.
+    """
+    out: dict[str, list[tuple[str, int]]] = {}
+
+    def _add(title: str, secs: int) -> None:
+        for seg in _section_segments(title):
+            out.setdefault(seg, []).append((title, secs))
+
+    summary = SUMMARIES_DIR / f"{date_str}_summary.html"
+    if summary.exists():
+        html = summary.read_text(errors="replace")
+        for href, label in re.findall(r"<h3><a href=\"([^\"]+)\">(.*?)</a></h3>", html, re.S):
+            m = re.search(r"[?&]t=(\d+)", href)
+            if not m:
+                continue
+            # "▶ In-Depth: Costco (COST) [29:31]" -> "In-Depth: Costco (COST)"
+            title = re.sub(r"\s*\[[\d:]+\]\s*$", "", label.replace("▶", "")).strip()
+            _add(re.sub(r"\s+", " ", title), int(m.group(1)))
+        if out:
+            return out
+
+    d = DOCS_DIR / "redirect" / date_str
+    if not d.is_dir():
+        return out
+
+    for page in sorted(d.glob("*.html")):
+        page_html = page.read_text(errors="replace")
+        title_m = re.search(r"<h1>(.*?)</h1>", page_html, re.S)
+        title = re.sub(r"\s+", " ", title_m.group(1)).strip() if title_m else page.stem
+
+        # Two link shapes: overcast.fm/+ID/M:SS (or H:MM:SS) and overcast://...&t=SECONDS
+        secs = None
+        if (m := re.search(r"[?&]t=(\d+)", page_html)):
+            secs = int(m.group(1))
+        elif (m := re.search(r"overcast\.fm/\+[\w-]+/([\d:]+)", page_html)):
+            secs = 0
+            for p in (int(x) for x in m.group(1).split(":")):
+                secs = secs * 60 + p
+        if secs is not None:
+            _add(title, secs)
+
+    return out
+
+
+def build_unknown_ticker_report(write: bool = True) -> str:
+    """Regenerate the manual-review list of mentions stored under ticker '????'.
+
+    Derived from the DB every time rather than hand-maintained. The previous hand-written
+    table in notes/bugs.md silently rotted: reanalysing an episode calls
+    _clear_mentions_for_date(), which rewrites every mention for that date, so rows in a
+    transcribed list stop corresponding to anything. By 2026-07-21 only 6 of its 18 rows
+    still existed while 16 undocumented ones had accumulated.
+    """
+    from db import get_connection
+
+    conn = get_connection()
+    rows = conn.execute(
+        """
+        SELECT m.ticker, m.date, m.segment, m.sentiment, m.note, e.video_id
+        FROM mentions m
+        JOIN episodes e ON e.id = m.episode_id
+        WHERE m.ticker GLOB '*[?]*'
+        ORDER BY m.date, m.segment
+        """
+    ).fetchall()
+    rows = [r for r in rows if is_unknown_ticker(r["ticker"])]
+
+    lines = [
+        "# Unknown Tickers — Manual Review Queue",
+        "",
+        f"**{len(rows)} mention(s)** are stored under a placeholder ticker "
+        f"(`????` / `???`) — Haiku heard a company but could not identify its symbol. "
+        "These are excluded from the website until they are resolved.",
+        "",
+        "> Generated file — do not edit by hand. Regenerate with:",
+        "> `python3 code/pipeline.py --list-unknown-tickers`",
+        "",
+        "Each row needs someone to open the episode at the timestamp and identify the",
+        "company. Once you know it:",
+        "",
+        "```bash",
+        "sqlite3 data/mad_money.db \\",
+        '  "UPDATE mentions SET ticker=\'CORRECT\' '
+        "WHERE ticker='????' AND date='YYYY-MM-DD' AND segment='SEGMENT';\"",
+        "python3 code/pipeline.py --backfill-prices --tickers CORRECT",
+        "python3 code/pipeline.py --rebuild-shards",
+        "```",
+        "",
+        "Re-run the generator afterwards and the row disappears on its own.",
+        "",
+        "| Date | Placeholder | Segment | Time | Call | Cramer's description | Episode |",
+        "|------|-------------|---------|------|------|----------------------|---------|",
+    ]
+
+    idx_cache: dict[str, dict] = {}
+    unresolved = 0
+
+    for r in rows:
+        date_str, seg = r["date"], r["segment"] or ""
+        if date_str not in idx_cache:
+            idx_cache[date_str] = _section_index(date_str)
+        cands = idx_cache[date_str].get(_norm_segment(seg), [])
+
+        vid = r["video_id"] or ""
+        if cands:
+            # Ambiguous only when a date has two sections of the same kind (e.g. two
+            # interviews); list every candidate rather than silently guessing one.
+            stamps, links = [], []
+            for title, secs in sorted(cands, key=lambda c: c[1]):
+                stamps.append(_fmt_seconds(secs))
+                label = title if len(cands) > 1 else "watch"
+                links.append(f"[{label}](https://youtu.be/{vid}?t={secs})" if vid else label)
+            time_cell, link_cell = " / ".join(stamps), " · ".join(links)
+        else:
+            unresolved += 1
+            time_cell = "—"
+            link_cell = f"[episode](https://youtu.be/{vid})" if vid else "—"
+
+        note = re.sub(r"\s+", " ", (r["note"] or "")).replace("|", "\\|").strip()
+        lines.append(
+            f"| {date_str} | `{r['ticker']}` | {seg} | {time_cell} | "
+            f"{r['sentiment'] or ''} | {note} | {link_cell} |"
+        )
+
+    if unresolved:
+        lines += [
+            "",
+            f"_{unresolved} row(s) show no timestamp — that episode has no redirect pages "
+            "on disk (they are only generated when an Overcast ID or audio URL is found), "
+            "so the link points at the start of the episode._",
+        ]
+    lines.append("")
+
+    md = "\n".join(lines)
+    if write:
+        UNKNOWN_TICKERS_DOC.parent.mkdir(parents=True, exist_ok=True)
+        UNKNOWN_TICKERS_DOC.write_text(md)
+        print(f"  {len(rows)} unknown-ticker mention(s) → {UNKNOWN_TICKERS_DOC}")
+        if unresolved:
+            print(f"  {unresolved} without a resolvable timestamp (no redirect pages on disk)")
+    return md
+
+
 # ── Redirect page repair utility ──────────────────────────────────────────────
 
 def fix_redirect_pages(date_str: str) -> None:
@@ -2116,6 +2289,9 @@ def main() -> None:
     parser.add_argument("--fix-redirects", metavar="DATE",
                         help="Re-generate existing redirect pages for DATE (YYYY-MM-DD) "
                              "with correct Overcast universal links")
+    parser.add_argument("--list-unknown-tickers", action="store_true",
+                        help=f"Regenerate notes/unknown-tickers.md — the manual-review queue of "
+                             f"mentions stored under the placeholder ticker '{UNKNOWN_TICKER}'")
     parser.add_argument("--backfill-prices", action="store_true",
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
     parser.add_argument("--tickers", metavar="TICKER1,TICKER2",
@@ -2141,6 +2317,10 @@ def main() -> None:
 
     if args.fix_redirects:
         fix_redirect_pages(args.fix_redirects)
+        return
+
+    if args.list_unknown_tickers:
+        build_unknown_ticker_report()
         return
 
     if args.rebuild_shards:

@@ -108,41 +108,34 @@ python3 code/pipeline.py --rebuild-shards
 
 ---
 
-### BUG-006 — 18 mentions stored under ticker `????` (Haiku could not identify ticker)
-**Discovered:** 2026-06-29  
-**Symptom:** 18 mentions exist in the DB with ticker `????` — Haiku's placeholder when it heard a company name but couldn't identify the ticker symbol. These appear in the Search tab as a single entry labeled with whichever company name was last stored for that ticker.  
-**Root cause:** When Haiku cannot map a spoken company name to a ticker, it outputs `????`. Each episode with an unidentifiable company adds another row under the same `????` ticker, making the entry a mix of unrelated companies.  
-**All 18 affected entries:**
+### BUG-006 — mentions stored under a placeholder ticker (`????` / `???`)
+**Discovered:** 2026-06-29 · **Reworked:** 2026-07-21
 
-| Date | Segment | Timestamp | Cramer's description | YouTube |
-|------|---------|-----------|----------------------|---------|
-| 2026-01-05 | opening_commentary | 0:22 | "40M US users, 30% YoY merchant growth, expanding to UK; fintech with proprietary credit underwriting; path to $100" | [link](https://youtu.be/k4bEI8CxAgQ?t=22) |
-| 2026-01-05 | lightning_round | 36:23 | "Developing targeted cancer therapies; speculative biotech, extreme losses possible; if it's Dr. Seagull/Seattle Gen, reference unclear" | [link](https://youtu.be/k4bEI8CxAgQ?t=2183) |
-| 2026-01-12 | lightning_round | 35:53 | "Down ~1.5% YTD; Cramer calls stock undervalued; appears to be semiconductor play but ticker uncertain from transcript" | [link](https://youtu.be/mNt5O1Tnd5c?t=2153) |
-| 2026-02-04 | opening_commentary | 0:23 | "Crypto derivative speculation; people fall over; avoid — poor near-term outlook" | [link](https://youtu.be/4dmImsBvqe8?t=23) |
-| 2026-03-24 | opening_commentary | 0:18 | "Private AI/data platform displacing legacy software; held by Fundrise and Robinhood venture funds; Cramer calls it 'impressive'" | [link](https://youtu.be/WIdKqDtRhRg?t=18) |
-| 2026-04-15 | opening_commentary | 0:17 | "Shoe maker pivoting to 'AI compute infrastructure' on $50M convertible; stock rallied 600% — classic bubble signal; no execution track record" | [link](https://youtu.be/Vi8jBjp-9KA?t=17) |
-| 2026-04-22 | opening_commentary | 0:18 | "Data center infrastructure provider; private/recently IPO'd; CEO was on show but stock doesn't trade publicly yet" | [link](https://youtu.be/7fVc-U9XTvA?t=18) |
-| 2026-04-23 | closing_commentary | 40:00 | "Hong Kong-based IoT solutions provider up 2,000% in April alone ($6→$140); ~$2B market cap on $11M revenue; meme stock bubble" | [link](https://youtu.be/4AOW-E3MQLY?t=2400) |
-| 2026-05-01 | opening_commentary | 0:16 | "Mega IPO coming; valuation $157B (Oct 2024) → $852B (Feb 2026); $375B supply risk if 10% float; history shows pop then correction" | [link](https://youtu.be/yd5ubeTfIDw?t=16) |
-| 2026-05-05 | lightning_round | 32:32 | "Avoid; Cramer recommends MP Materials as only pure-play rare earths stock worth owning" | [link](https://youtu.be/stBiW-NPi9E?t=1952) |
-| 2026-05-08 | lightning_round | 36:34 | "Stock straight up without earnings; avoid momentum plays without fundamentals; pass" | [link](https://youtu.be/M2Kob8bAgqs?t=2194) |
-| 2026-05-18 | opening_commentary | 0:17 | "Stock blasted on failed melanoma trial result; cannot buy drug stocks with that degree of decline on day one; damaged stock" | [link](https://youtu.be/6dOjtUMJmt8?t=17) |
-| 2026-05-18 | lightning_round | 40:37 | "Fairly new public company serving power infrastructure; 66% YoY revenue growth, doubled gross profit, backlog ~$88M; 'great niche company'" | [link](https://youtu.be/6dOjtUMJmt8?t=2437) |
-| 2026-05-27 | lightning_round | 37:51 | "Nice dividend, going higher; terrific situation with good yield" | [link](https://youtu.be/iuDuWGkbX4g?t=2271) |
-| 2026-05-28 | opening_commentary | 0:17 | "Pure-play drone maker; one of three best drone plays; supplier selection not yet complete — upside ahead" | [link](https://youtu.be/G_nPvcsM8LA?t=17) |
-| 2026-05-28 | lightning_round | 35:21 | "Caller bogged down in large losing position (bought 350, now sub-200 for 8-9 months); recommends Bitcoin instead" | [link](https://youtu.be/G_nPvcsM8LA?t=2121) |
-| 2026-06-03 | lightning_round | 35:46 | "Space-related stock; Cramer unfamiliar with company and will research; probably good company but needs further analysis" | [link](https://youtu.be/hNHRqIXUT0o?t=2146) |
-| 2026-06-08 | caller_qa | 26:03 | "IPO priced expectation $170-180, opened at $370, subsequently collapsed; classic botched deal; cut position in half and sell on rallies" | [link](https://youtu.be/JIu6vZ3sLlQ?t=1563) |
+**Symptom:** when Haiku hears a company name but cannot identify its symbol it emits a
+placeholder ticker. Every such mention piles up under the same key, so the site showed one
+Search entry holding 23 unrelated companies, labelled with whichever company name happened
+to be stored last (it was rendering as "OpenAI").
 
-**Status:** Open — each `????` mention requires manually listening to the episode to identify the correct company and ticker. Once identified, fix with:
-```bash
-# In SQLite:
-UPDATE mentions SET ticker='CORRECT' WHERE ticker='????' AND date='YYYY-MM-DD' AND segment='SEGMENT';
-python3 code/pipeline.py --backfill-prices --tickers CORRECT
-python3 code/pipeline.py --rebuild-shards
-```
-Note: this is a different issue from BUG-004 Category B, which has known wrong tickers. Here the ticker is completely unknown.
+**Fixed on 2026-07-21:**
+- Placeholder tickers are now excluded from `index.json`, `recent.json` and the per-ticker
+  shards, so they never reach the website. `is_unknown_ticker()` in `pipeline.py` matches
+  any all-`?` ticker (both `????` and `???` occur).
+- The review queue is **generated from the DB**, not hand-maintained:
+
+  ```bash
+  python3 code/pipeline.py --list-unknown-tickers   # → notes/unknown-tickers.md
+  ```
+
+**Why the old hand-written table was removed:** it listed 18 rows captured on 2026-06-29 and
+silently rotted. Reanalysing an episode calls `_clear_mentions_for_date()`, which rewrites
+every mention for that date, so transcribed rows stop corresponding to anything. By
+2026-07-21 only **6 of its 18 rows still existed**, 12 had vanished, and 16 undocumented
+ones had accumulated. Deriving the list on demand removes that failure mode entirely.
+
+**Status:** Open as data work (the companies still need identifying), but no longer a
+website defect. See `notes/unknown-tickers.md` for the current queue.
+
+
 
 ---
 
