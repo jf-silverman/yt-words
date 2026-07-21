@@ -261,3 +261,48 @@ built. Candidates surfaced by comparing note similarity across runs within an ep
 
 Re-run the detector with the note-similarity script in the BUG-010 discussion, or just
 diff each episode's segments against its transcript.
+
+---
+
+## BUG-011 — DB company names overwritten by each night's model guess (RESOLVED 2026-07-21)
+
+**Status:** Code fixed. 45 names reconciled; 50 likely mis-tickers queued for review.
+
+`upsert_stock()` was called as `company=stock.get("company", entry.get("company", ""))`,
+so whatever Haiku called the company *that night* won over the established name. One bad
+guess in one episode permanently overwrote the DB — `LRCX` was stored as "Eli Lilly".
+
+The site was unaffected (it reads `stock_sentiments.json`, which had "Lam Research"), so
+this only ever showed up in the DB and anything built from it.
+
+**Fix:** the argument order is reversed — `entry.get("company") or stock.get("company","")`
+— so an established name wins and a new ticker still gets named on first sight. This
+matches the documented rule that `stock_sentiments.json` is authoritative for
+company/sector/style.
+
+### The sweep
+
+Fetched `yfinance` `shortName` for all 885 tickers and compared it against both stores:
+
+| | Count | Action |
+|---|---|---|
+| Both stores agree with Yahoo | 573 | none |
+| Ticker doesn't resolve on Yahoo | 203 | hallucinated / private / OTC — out of scope |
+| Stored name was just the ticker | 13 | adopted Yahoo's name |
+| One store matched Yahoo, other didn't | 24 | kept the matching one, fixed the other |
+| Company renamed since we stored it | 8 | updated (RTX, SLB, RH, PCG, BXP, EZPW, SLV, SY) |
+| **Neither store matched Yahoo** | **50** | **`notes/ticker-name-mismatches.md`** |
+
+That last group is the important one — same class as BUG-010's `SK`/`HYNX`: a call filed
+under a real but unrelated company's ticker, where it inherits that company's price
+history. Examples: `SPOT` (Spotify) holding a "One Holding" call, `NVR` (homebuilder)
+holding Novo Nordisk, `BCS` (Barclays) holding Banco Santander, `ABR`/`ABX` both holding
+Barrick Gold. They need a transcript check each, so they were queued, not auto-fixed.
+
+**Process note — a mistake worth not repeating.** The first attempt at this resynced the
+DB *from* the JSON on the assumption that the JSON was authoritative. It is for
+company/sector/style *by policy*, but in practice both stores contain errors, and that
+pass overwrote correct DB names with wrong JSON ones (`ACM` AECOM &rarr; "Acuity
+Electronics", `BLK` BlackRock &rarr; "Blackstone", `CDNS` Cadence &rarr; "CoreWeave").
+Recovered from a pre-edit copy of the DB. Use an *external* arbiter (Yahoo) when
+reconciling two stores that can each be wrong — don't assume either side is clean.
