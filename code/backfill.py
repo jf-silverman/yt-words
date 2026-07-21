@@ -39,6 +39,7 @@ from pipeline import (
     RULES_FILE,
     SENTIMENTS_FILE,
     SUMMARIES_DIR,
+    _claude_bin,
     analyze_with_haiku,
     build_email_html,
     fetch_overcast_episode_id,
@@ -76,7 +77,7 @@ def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
 
     result = subprocess.run(
         [
-            "claude", "-p", user_msg,
+            _claude_bin(), "-p", user_msg,
             "--system-prompt", system_prompt,
             "--model", "claude-haiku-4-5-20251001",
             "--tools", "",
@@ -220,7 +221,7 @@ def _clear_mentions_for_date(date_str: str) -> None:
 def reanalyze_from_transcripts(
     start: str | None,
     end: str | None,
-    backend: str = "api",
+    backend: str = "claude-code",
 ) -> None:
     """Re-run analysis on existing local transcripts. No YouTube calls."""
     transcript_files = sorted(OUTPUT_DIR.glob("*_transcript.txt"))
@@ -342,9 +343,9 @@ def main() -> None:
                         help="End date inclusive (required for normal mode)")
     parser.add_argument("--reanalyze", action="store_true",
                         help="Re-run analysis on existing local transcripts; no YouTube download")
-    parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
-                        help="Analysis backend: 'api' uses Haiku API credits (default); "
-                             "'claude-code' shells out to the claude CLI (uses your subscription)")
+    parser.add_argument("--backend", choices=["api", "claude-code"], default="claude-code",
+                        help="Analysis backend: 'claude-code' shells out to the claude CLI and "
+                             "uses your subscription (default); 'api' spends Haiku API credits")
     parser.add_argument("--max-scan", type=int, default=3000, metavar="N",
                         help="Max channel entries to scan in normal mode (default: 3000)")
     args = parser.parse_args()
