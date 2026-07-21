@@ -196,28 +196,6 @@ def discover_episodes_in_range(start: str, end: str, max_scan: int) -> list[dict
     return episodes
 
 
-def _clear_mentions_for_date(date_str: str) -> None:
-    """Remove all mentions for a given episode date from stock_sentiments.json and SQLite."""
-    if SENTIMENTS_FILE.exists():
-        db = json.loads(SENTIMENTS_FILE.read_text())
-        stocks = db.get("stocks", {})
-        for entry in stocks.values():
-            entry["mentions"] = [
-                m for m in entry.get("mentions", [])
-                if m.get("date") != date_str
-            ]
-        SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
-
-    conn = get_connection()
-    c = conn.cursor()
-    c.execute("""
-        DELETE FROM mentions
-        WHERE episode_id IN (SELECT id FROM episodes WHERE date = ?)
-    """, (date_str,))
-    conn.commit()
-    conn.close()
-
-
 def reanalyze_from_transcripts(
     start: str | None,
     end: str | None,
@@ -301,11 +279,10 @@ def reanalyze_from_transcripts(
             n_stk = len(analysis.get("stocks", []))
             print(f"  Sections: {n_sec}  Stocks: {n_stk}")
 
-            # Clear old mentions AFTER successful analysis so bad transcripts don't wipe data
-            print(f"  Clearing old mentions for {date_str}…")
-            _clear_mentions_for_date(date_str)
-
-            # Write fresh mentions to JSON + SQLite
+            # Write fresh mentions to JSON + SQLite. update_stock_sentiments() clears
+            # the date first, so this path no longer needs its own clear step — and
+            # every other write path (a plain pipeline re-run) now gets it too, which
+            # is what the duplicate SK / '????' rows came from.
             update_stock_sentiments(analysis, video_id=video_id)
 
             # Regenerate summary HTML

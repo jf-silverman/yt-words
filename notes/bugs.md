@@ -191,3 +191,73 @@ on its own. A structurally valid but empty analysis was indistinguishable from s
 
 **Fix:** the pipeline now raises when an analysis returns sections but zero stocks, so the
 episode is skipped, left out of `processed_episodes.json`, and picked up on the next run.
+
+---
+
+## BUG-010 — Re-processing a date layered duplicate mentions instead of replacing them (RESOLVED 2026-07-21)
+
+**Status:** Code fixed. Data partially cleaned — see the review queue below.
+
+`_clear_mentions_for_date()` lived in `backfill.py` and was only called by
+`--reanalyze`. Every other write path — a plain pipeline re-run on an existing date,
+`backfill.py` without the flag — went straight to `update_stock_sentiments()`, which
+only ever *appended*.
+
+`UNIQUE(episode_id, ticker, segment)` hides this most of the time: a call reproduced
+identically just updates the existing row. It only leaks when the second analysis
+disagrees with the first — a call assigned to a different segment, or the same company
+named under a different ticker. Then both rows survive and neither looks wrong in
+isolation. **18 episodes** were written in more than one batch this way.
+
+Concrete damage found:
+
+| Date | Bad row | Reality |
+|------|---------|---------|
+| 2026-07-08 | `????` in_depth | duplicate of the correct `DPC` row |
+| 2026-07-08 | `SK` opening | duplicate of `SKHY` (same $29B raise) |
+| 2026-07-09 | `SNPS` | "an analyst raised his price target for **Sanders**" = SanDisk; `SNDK` had the same note |
+| 2026-07-09 | `WHW` | "The company is **Wirehouser**, sir" = Weyerhaeuser; `WY` had the same call |
+| 2026-07-09 | `SKHX` | SK Hynix again ("dominates HBM, 56% share") |
+| 2026-01-23 / 01-27 | `NWR`, `NWL` | "**Newor**" / "**New Coror**" = Nucor (CEO Leon Topalian); `NUE` had both calls |
+| 2026-01-30 | `FRMA`, `FIRN` | "**a firm** … CEO **Max Lechin** … buy now pay later kingpin" = Affirm |
+| 2026-01-30 | `ABBY` | "**Abby** reports" = AbbVie; `ABBV` had the same call |
+| 2026-01-20 | `NUSCALE POWER` | company name stored as a ticker; `SMR` is the same call |
+| 2026-01-23 | `SANDISK` | company name as ticker; `SNDK` had the same call. A second `SANDISK` row (2026-05-04) was retargeted, not deleted |
+| 2026-07-14 | `HYNX` | SK Hynix a third time; carried a **$38.77** close from an unrelated ticker |
+
+Worst of these was `SK`: six SK Hynix calls under a ticker whose 2026-07-16 row carried
+a **$23.14** close belonging to an unrelated company. All six now sit under `SKHY`.
+
+**Fix:** `_clear_mentions_for_date()` moved into `pipeline.py` and is now called by
+`update_stock_sentiments()` itself, so *every* write path is idempotent. It is guarded on
+a non-empty analysis so a degraded result can't wipe good data, and it returns the tickers
+it cleared so their shards are rewritten even when the new analysis drops them entirely.
+`backfill.py`'s own copy was removed.
+
+### Why the rest wasn't bulk-deleted
+
+The tempting rule — "the newest analysis wins, delete everything older" — was tested and
+**rejected**. Two traps:
+
+1. `created_at` does not identify the run. `upsert_mention()` *updates* rows the new
+   analysis reproduced, so they keep their original `created_at` and only `updated_at`
+   moves. Splitting by `created_at` misreads a full re-analysis as a partial one.
+2. Splitting by `updated_at` instead would have deleted **508 rows**, including the
+   verified-correct `DPC` row and the whole of 2026-06-24's opening commentary. The later
+   pass was not a faithful superset — the two runs genuinely disagree, and neither is
+   authoritative.
+
+So the remaining suspects need a transcript check each, the same way the table above was
+built. Candidates surfaced by comparing note similarity across runs within an episode:
+
+- 2026-01-20: `RISH` vs `RSHN` (Hong Kong TikTok play), `SMR` vs `SIRI` (satellite
+  broadband — *both* notes look mis-tickered), `ALGT` vs `ALLE` (electronic security
+  = Allegion), `CORZ` vs `CRWV`
+- 2026-01-30: `CHIP` vs `CMG`
+- 2026-07-09: `LMS`, `AUIV` (lightning round, no obvious counterpart)
+- Same-ticker-two-segments pairs across 2026-01-15…01-30, 04-30, 06-16…06-18 — these may
+  be genuine (Cramer previews in the opening, then does the deep dive), so they need
+  listening, not a rule.
+
+Re-run the detector with the note-similarity script in the BUG-010 discussion, or just
+diff each episode's segments against its transcript.
