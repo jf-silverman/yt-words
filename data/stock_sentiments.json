@@ -11327,6 +11327,13 @@
           "closing_price": 1096.51
         },
         {
+          "date": "2026-05-04",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "At $1,255, projected $63 FY2026 and ~$170 FY2027 EPS; up 3,500% yet <10x FY2027 earnings (cheap for growth stock). Data-center storage shortage drives triple-digit YoY growth; supply constrained; valuations still reasonable despite run.",
+          "closing_price": 1255.86
+        },
+        {
           "date": "2026-05-05",
           "sentiment": "buy",
           "segment": "opening_commentary",
@@ -15033,6 +15040,13 @@
           "segment": "caller_qa",
           "note": "Over 40 million US users, expanding into the UK, and a phenomenal underwriting team; Cramer sees a run to par ($100).",
           "closing_price": 80.8
+        },
+        {
+          "date": "2026-01-30",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Buy now pay later kingpin will put up fantastic quarter; CEO Max Levchin; should be bought ahead of quarter; bears will be put on run.",
+          "closing_price": 60.3
         },
         {
           "date": "2026-02-25",
@@ -23644,24 +23658,6 @@
       "market_cap": 1514504832,
       "market_cap_category": "small"
     },
-    "FIRN": {
-      "company": "Firm (formerly Affirm Holdings)",
-      "mentions": [
-        {
-          "date": "2026-01-30",
-          "sentiment": "strong_buy",
-          "segment": "opening_commentary",
-          "note": "Buy now pay later kingpin will put up fantastic quarter; CEO Max Levchin; should be bought ahead of quarter; bears will be put on run.",
-          "closing_price": null
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
     "SY": {
       "company": "Sysco (food distributor)",
       "mentions": [
@@ -23988,24 +23984,6 @@
       "market_cap": 1330526720,
       "market_cap_category": "small"
     },
-    "NWL": {
-      "company": "Newell Brands",
-      "mentions": [
-        {
-          "date": "2026-01-27",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Mixed quarter but stock at 52-week highs; protected by steel tariffs blocking foreign dumping; CEO cited supportive trade environment.",
-          "closing_price": 4.36
-        }
-      ],
-      "sector": "Consumer Defensive",
-      "style": "",
-      "industry": "Household & Personal Products",
-      "pe_ratio": null,
-      "market_cap": 2473079808,
-      "market_cap_category": "mid"
-    },
     "RAN": {
       "company": "Ramco Resources",
       "mentions": [
@@ -24233,24 +24211,6 @@
           "sentiment": "buy",
           "segment": "lightning_round",
           "note": "Insurer held since 2021 at $18; up to $46 then hammered to $38 post-earnings. Cramer bullish long-term despite poor quarter \u2014 insurers broadly missing this cycle. Keep buying, reinvesting dividends; many good quarters ahead.",
-          "closing_price": null
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
-    "NWR": {
-      "company": "Newor",
-      "mentions": [
-        {
-          "date": "2026-01-23",
-          "sentiment": "buy_on_pullback",
-          "segment": "opening_commentary",
-          "note": "Best steel company in world up 12% despite pre-announced miss. Buy on Monday weakness as Fed cuts rates and tariffs on foreign steel support.",
           "closing_price": null
         }
       ],
@@ -26474,24 +26434,6 @@
       "market_cap": null,
       "market_cap_category": ""
     },
-    "ABBY": {
-      "company": "ABBY",
-      "sector": "Communication Services",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-01-30",
-          "sentiment": "mild_buy",
-          "segment": "opening_commentary",
-          "note": "Reports this week; expect very good quarter and like the dividend but AstraZeneca's portfolio currently stronger.",
-          "closing_price": 0.0
-        }
-      ],
-      "industry": "Internet Content & Information",
-      "pe_ratio": null,
-      "market_cap": 11975,
-      "market_cap_category": "nano"
-    },
     "ACGX": {
       "company": "ACGX",
       "sector": "Consumer Cyclical",
@@ -26945,24 +26887,6 @@
       "market_cap": 16783165440,
       "market_cap_category": "large"
     },
-    "FRMA": {
-      "company": "FRMA",
-      "sector": "Basic Materials",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-01-30",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Buy-now-pay-later leader expected to put up fantastic quarter; CEO Max Lechin will put bears on run; buy ahead of quarter.",
-          "closing_price": 0.0
-        }
-      ],
-      "industry": "Other Industrial Metals & Mining",
-      "pe_ratio": null,
-      "market_cap": 39291,
-      "market_cap_category": "nano"
-    },
     "GALA": {
       "company": "GALA",
       "sector": "",
@@ -27214,24 +27138,6 @@
       "pe_ratio": 15.67,
       "market_cap": 71020994560,
       "market_cap_category": "large"
-    },
-    "NUSCALE POWER": {
-      "company": "NUSCALE POWER",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-01-20",
-          "sentiment": "sell_avoid",
-          "segment": "in_depth_analysis",
-          "note": "Small reactor developer up 25-41% YTD; unprofitable; fell 76% in fall correction; no revenue drivers near term.",
-          "closing_price": null
-        }
-      ],
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
     },
     "NVNT": {
       "company": "Navient",
@@ -27498,31 +27404,6 @@
           "sentiment": "caution_concern",
           "segment": "lightning_round",
           "note": "Cybersecurity/software stocks hammered on AI displacement fears despite strong Q4 and growth; avoid falling knives; wait for multiple bottom before entry.",
-          "closing_price": null
-        }
-      ],
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
-    "SANDISK": {
-      "company": "SanDisk (Western Digital subsidiary)",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-01-23",
-          "sentiment": "strong_buy",
-          "segment": "opening_commentary",
-          "note": "Storage play reporting same time as Apple; will be very positive. Won't get same reception as Apple \u2014 'Wow' momentum buying continues despite huge run.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-05-04",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "At $1,255, projected $63 FY2026 and ~$170 FY2027 EPS; up 3,500% yet <10x FY2027 earnings (cheap for growth stock). Data-center storage shortage drives triple-digit YoY growth; supply constrained; valuations still reasonable despite run.",
           "closing_price": null
         }
       ],
@@ -29956,20 +29837,6 @@
       "market_cap": 219721360,
       "market_cap_category": "micro"
     },
-    "SKHX": {
-      "company": "SK Hynix",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-07-09",
-          "sentiment": "mild_buy",
-          "segment": "in_depth_analysis",
-          "note": "Dominates HBM market (56% share); revenue tripled, earnings swung to $30B profit (2024) and $153B projected (2026); trades at 7x earnings despite strength; supply-demand tight through 2027-28. Put on medium position, leave room to buy weakness; volatility expected from $26.4B IPO.",
-          "closing_price": null
-        }
-      ]
-    },
     "VAC": {
       "company": "VAC",
       "sector": "Consumer Cyclical",
@@ -30272,20 +30139,6 @@
       "market_cap": 4164098560,
       "market_cap_category": "mid"
     },
-    "HYNX": {
-      "company": "SK Hynix",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-07-14",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Korean semiconductor raised $26.5B in US markets; up $41 today but trades 4x next year's earnings\u2014ridiculously cheap on constrained supply, pricing power.",
-          "closing_price": 38.77
-        }
-      ]
-    },
     "ICE": {
       "company": "ICE",
       "sector": "Financial Services",
@@ -30425,6 +30278,20 @@
           "segment": "opening_commentary",
           "note": "Cheap if the data center trade holds, but a $29B raise with no retail appeal would force institutions to sell other stocks to fund it.",
           "closing_price": null
+        },
+        {
+          "date": "2026-07-09",
+          "sentiment": "mild_buy",
+          "segment": "in_depth_analysis",
+          "note": "Dominates HBM market (56% share); revenue tripled, earnings swung to $30B profit (2024) and $153B projected (2026); trades at 7x earnings despite strength; supply-demand tight through 2027-28. Put on medium position, leave room to buy weakness; volatility expected from $26.4B IPO.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Korean semiconductor raised $26.5B in US markets; up $41 today but trades 4x next year's earnings\u2014ridiculously cheap on constrained supply, pricing power.",
+          "closing_price": 193.92
         },
         {
           "date": "2026-07-16",
