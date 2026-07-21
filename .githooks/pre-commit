@@ -19,7 +19,7 @@ branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
 # Pipeline-generated / pipeline-owned paths (source files under docs/*.html, code/,
 # prompts/, notes/ are NOT listed and remain freely committable on feature branches).
-pattern='^(docs/data/|docs/redirect/|data/daily_prices/|data/stock_sentiments\.json$|data/processed_episodes\.json$|data/overcast_episode_ids\.json$|data/transcript_timing\.csv$)'
+pattern='^(docs/data/|docs/redirect/|data/daily_prices/|data/stock_sentiments\.json$|data/processed_episodes\.json$|data/overcast_episode_ids\.json$|data/transcript_timing\.csv$|data/ticker_names\.json$)'
 
 blocked=$(git diff --cached --name-only | grep -E "$pattern")
 [ -z "$blocked" ] && exit 0

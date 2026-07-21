@@ -306,3 +306,62 @@ pass overwrote correct DB names with wrong JSON ones (`ACM` AECOM &rarr; "Acuity
 Electronics", `BLK` BlackRock &rarr; "Blackstone", `CDNS` Cadence &rarr; "CoreWeave").
 Recovered from a pre-edit copy of the DB. Use an *external* arbiter (Yahoo) when
 reconciling two stores that can each be wrong — don't assume either side is clean.
+
+---
+
+## BUG-012 — No validation that a ticker matches the company it was filed under (RESOLVED 2026-07-21)
+
+**Status:** Fixed — mismatches are now caught at ingest.
+
+Every mis-ticker in BUG-010 and BUG-011 shared one cause: nothing ever checked that the
+symbol Haiku chose actually belongs to the company it named. The auto-captions mangle
+names ("Newor" &rarr; `NWR` not `NUE`, "Sanders" &rarr; `SNPS` not `SNDK`, "Wirehouser"
+&rarr; `WHW` not `WY`), the model picks a plausible symbol, and the call lands on a real,
+unrelated company where it inherits that company's price history. Nothing looks wrong.
+
+**Fix:** `validate_analysis_tickers()` runs in the nightly pipeline immediately after
+analysis, before anything is written. For each (ticker, company) pair it asks Yahoo what
+that symbol actually is, and when the names disagree it asks Yahoo which symbol the
+*company* name belongs to. Output:
+
+```
+  !! 4 suspicious ticker(s) in the 2026-07-21 analysis:
+  !!   SNPS     stored as 'SanDisk', but SNPS is 'Synopsys, Inc.'
+  !!            Yahoo says 'SanDisk' is SNDK
+  !!   BLK      stored as 'Blackstone', but BLK is 'BlackRock, Inc.'
+  !!            Yahoo says 'Blackstone' is BX
+```
+
+Replayed against the historical bugs it flags all four of `NWR`, `SNPS`, `WHW`, `BLK`
+with the correct suggestion each time, and stays quiet on `AAPL`, on placeholder tickers,
+and on `PRIVATE_COMPANIES` entries (which are deliberately not on Yahoo).
+
+**Advisory, never automatic.** A flagged call is still stored. The model is right far more
+often than not, the *company* half of the pair can be the wrong one, and silently dropping
+or rewriting calls would be worse than a warning. `--check-ticker-names` regenerates the
+full queue across every ticker.
+
+### The name matcher
+
+`names_agree()` compares token sets, not a similarity ratio. This is the whole trick:
+**"Blackstone" and "BlackRock" score 0.74 on difflib** — comfortably above any threshold
+loose enough to also accept "Lam Research" vs "Lam Research Corporation". A ratio cannot
+separate them; token sets can. Rules, in order:
+
+1. Identical token sets (after stripping Inc/Corp/Holdings/…) &rarr; match.
+2. One set contained in the other **and the smaller has ≥2 words** &rarr; match. The
+   word-count guard is what stops "Marriott Vacations Worldwide" matching "Marriott
+   International".
+3. Jaccard overlap ≥ 0.5 &rarr; match.
+4. Otherwise compare the whitespace-free forms at ≥ 0.85, in *source word order* (not
+   sorted — sorting scrambles "United Health" away from "UnitedHealth", and set order
+   is not stable across runs).
+
+31 cases are asserted in both directions. It intentionally over-flags: a shared single
+word is not identity, so `Chipotle` vs `Chipotle Mexican Grill` shows up. Missing a real
+mis-ticker corrupts a price history; a false positive costs one glance.
+
+**Yahoo is the arbiter, not the owner.** It decides *whether* a name is wrong; it does not
+overwrite anything, because it has no entry for private companies (`ANTH`, `OPAI`,
+`SPCX`), returns bare numbers as names for some symbols, and knows nothing about the
+~200 hallucinated tickers.

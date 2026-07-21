@@ -2116,6 +2116,262 @@ def commit_and_push(dates: list[str]) -> None:
         print("  Generated files are still on disk — links will use YouTube fallback until next push")
 
 
+# ── Ticker/company validation ─────────────────────────────────────────────────
+#
+# Haiku picks the ticker from what it hears, and the auto-captions mangle names:
+# "Newor" -> NWR instead of NUE, "Sanders" -> SNPS instead of SNDK, "Wirehouser"
+# -> WHW instead of WY. A wrong ticker is worse than a missing one, because the
+# call silently inherits a real, unrelated company's price history.
+#
+# Yahoo is the arbiter: it knows what a symbol actually is. We only *flag* —
+# never auto-correct — because the model's company name can itself be the wrong
+# half of the pair, and because Yahoo has no entry for private companies or for
+# the placeholder tickers.
+
+TICKER_NAME_CACHE = ROOT / "data" / "ticker_names.json"
+NAME_MISMATCH_DOC = ROOT / "notes" / "ticker-name-mismatches.md"
+
+_NAME_NOISE = re.compile(
+    r"\b(inc|incorporated|corp|corporation|co|company|companies|ltd|limited|llc|lp|plc|"
+    r"holdings?|group|the|sa|nv|ag|se|ab|as|oyj|technologies|technology|international|"
+    r"and|class|common|stock|shares|depositary|receipts?)\b"
+)
+
+
+def _name_token_list(s: str | None) -> list[str]:
+    """Significant words of a company name, in the order they appear."""
+    s = re.sub(r"[^a-z0-9 ]", " ", (s or "").lower())
+    return [t for t in _NAME_NOISE.sub(" ", s).split() if len(t) > 1]
+
+
+def _name_tokens(s: str | None) -> set[str]:
+    return set(_name_token_list(s))
+
+
+def names_agree(a: str | None, b: str | None) -> bool:
+    """True if two company names plausibly describe the same company.
+
+    Deliberately token-based rather than a similarity ratio. "Blackstone" and
+    "BlackRock" — two real, different companies we actually confused — score 0.74
+    on difflib, which sails past any threshold loose enough to accept
+    "Lam Research" vs "Lam Research Corporation". Comparing token sets separates
+    them cleanly: shared tokens mean the same company, a bare string resemblance
+    does not.
+    """
+    ta, tb = _name_tokens(a), _name_tokens(b)
+    if not ta or not tb:
+        return True          # nothing to compare — don't cry wolf
+    if ta == tb:
+        return True
+    # A subset counts only when the smaller name carries at least two significant
+    # words. One shared word is not identity: "Marriott Vacations Worldwide" and
+    # "Marriott International" are different companies, as are Liberty/Morgan/First
+    # anything.
+    if (ta <= tb or tb <= ta) and min(len(ta), len(tb)) >= 2:
+        return True
+    if len(ta & tb) / len(ta | tb) >= 0.5:
+        return True
+    # Fall back to the whitespace-free forms, so a name that merely spells or splits
+    # differently ("JPMorgan Chase" / "JP Morgan Chase", "Symbiotic" / "Symbotic")
+    # isn't reported as a different company. 0.85 is deliberately high: "blackstone"
+    # vs "blackrock" scores 0.74 and must stay flagged.
+    import difflib
+    # Join in the order the words appear, not set order — set iteration order is not
+    # stable across runs, and sorting would scramble "United Health" away from
+    # "UnitedHealth".
+    ca = "".join(_name_token_list(a))
+    cb = "".join(_name_token_list(b))
+    return difflib.SequenceMatcher(None, ca, cb).ratio() >= 0.85
+
+
+def _yahoo_ticker_name(ticker: str, cache: dict) -> str | None:
+    """Yahoo's name for a symbol, memoised to data/ticker_names.json."""
+    if ticker in cache:
+        return cache[ticker]
+    name = None
+    try:
+        r = requests.get(
+            f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}",
+            params={"interval": "1d", "range": "1d"},
+            headers={"User-Agent": "Mozilla/5.0"}, timeout=8,
+        )
+        if r.ok:
+            meta = (r.json().get("chart", {}).get("result") or [{}])[0].get("meta", {})
+            name = meta.get("longName") or meta.get("shortName")
+    except Exception:
+        return None          # network trouble must never break a run
+    cache[ticker] = name
+    return name
+
+
+def suggest_ticker(company: str) -> str | None:
+    """Ask Yahoo which symbol a company name belongs to."""
+    try:
+        r = requests.get(
+            "https://query2.finance.yahoo.com/v1/finance/search",
+            params={"q": company, "quotesCount": 5, "newsCount": 0},
+            headers={"User-Agent": "Mozilla/5.0"}, timeout=8,
+        )
+        if not r.ok:
+            return None
+        for q in r.json().get("quotes", []):
+            # US listings only — the same company lists in a dozen places
+            if q.get("quoteType") == "EQUITY" and q.get("exchange") in {
+                "NYQ", "NMS", "NGM", "NCM", "ASE", "PCX", "BTS", "NYS"
+            }:
+                return q.get("symbol")
+    except Exception:
+        pass
+    return None
+
+
+def validate_analysis_tickers(analysis: dict, suggest: bool = True) -> list[dict]:
+    """Check every (ticker, company) the model produced against Yahoo.
+
+    Returns one dict per suspicious pair. Never raises and never edits the
+    analysis — a bad network day should cost us a warning, not an episode.
+    """
+    cache = {}
+    if TICKER_NAME_CACHE.exists():
+        try:
+            cache = json.loads(TICKER_NAME_CACHE.read_text())
+        except Exception:
+            cache = {}
+
+    flags = []
+    for stock in analysis.get("stocks", []):
+        ticker = (stock.get("ticker") or "").upper()
+        company = stock.get("company") or ""
+        if not ticker or not company or is_unknown_ticker(ticker):
+            continue
+        if ticker in PRIVATE_COMPANIES:
+            continue                     # deliberately not on Yahoo
+        actual = _yahoo_ticker_name(ticker, cache)
+        if actual is None:
+            flags.append({"ticker": ticker, "company": company,
+                          "actual": None, "suggested": suggest_ticker(company) if suggest else None,
+                          "reason": "ticker not found on Yahoo"})
+        elif not names_agree(company, actual):
+            flags.append({"ticker": ticker, "company": company,
+                          "actual": actual,
+                          "suggested": suggest_ticker(company) if suggest else None,
+                          "reason": "ticker belongs to a different company"})
+
+    try:
+        TICKER_NAME_CACHE.write_text(json.dumps(cache, indent=0, sort_keys=True))
+    except Exception:
+        pass
+    return flags
+
+
+def report_ticker_flags(flags: list[dict], date_str: str) -> None:
+    """Print flagged tickers so they're visible in the nightly run's output."""
+    if not flags:
+        print("  Ticker check: all tickers match their company names")
+        return
+    print(f"\n  {'!' * 60}")
+    print(f"  !! {len(flags)} suspicious ticker(s) in the {date_str} analysis:")
+    for f in flags:
+        actual = f["actual"] or "— no such symbol —"
+        line = f"  !!   {f['ticker']:<8} stored as {f['company'][:32]!r}, but {f['ticker']} is {actual!r}"
+        print(line)
+        if f["suggested"] and f["suggested"] != f["ticker"]:
+            print(f"  !!   {'':<8} Yahoo says {f['company'][:32]!r} is {f['suggested']}")
+    print(f"  !! Review with: python3 code/pipeline.py --check-ticker-names")
+    print(f"  {'!' * 60}\n")
+
+
+def build_name_mismatch_report(write: bool = True) -> list[dict]:
+    """Regenerate notes/ticker-name-mismatches.md from the whole DB.
+
+    Same shape as the unknown-ticker queue: always derived from current data, so a
+    row that gets resolved simply stops appearing. Manual — the nightly run checks
+    only the episode it just analyzed.
+    """
+    from db import get_connection
+
+    cache = {}
+    if TICKER_NAME_CACHE.exists():
+        try:
+            cache = json.loads(TICKER_NAME_CACHE.read_text())
+        except Exception:
+            cache = {}
+
+    stocks = json.loads(SENTIMENTS_FILE.read_text()).get("stocks", {})
+    conn = get_connection()
+    counts = {r["ticker"]: (r["n"], r["lo"], r["hi"]) for r in conn.execute(
+        "SELECT ticker, COUNT(*) n, MIN(date) lo, MAX(date) hi FROM mentions GROUP BY ticker")}
+    conn.close()
+
+    rows, checked = [], 0
+    for ticker, entry in sorted(stocks.items()):
+        company = entry.get("company") or ""
+        if not company or is_unknown_ticker(ticker) or ticker in PRIVATE_COMPANIES:
+            continue
+        # A company stored as its own symbol is unnamed, not mis-named.
+        if company.strip().upper() == ticker:
+            continue
+        actual = _yahoo_ticker_name(ticker, cache)
+        # Yahoo sometimes answers with a bare number instead of a name; that is not
+        # evidence of anything.
+        if actual and actual.strip().isdigit():
+            actual = None
+        checked += 1
+        if actual and not names_agree(company, actual):
+            n, lo, hi = counts.get(ticker, (0, "", ""))
+            rows.append({"ticker": ticker, "company": company, "actual": actual,
+                         "n": n, "lo": lo, "hi": hi})
+    try:
+        TICKER_NAME_CACHE.write_text(json.dumps(cache, indent=0, sort_keys=True))
+    except Exception:
+        pass
+
+    rows.sort(key=lambda r: (-r["n"], r["ticker"]))
+    if write:
+        out = [
+            "# Ticker / Company Name Mismatches — Review Queue\n",
+            f"**{len(rows)} ticker(s)** hold a company that Yahoo Finance says belongs to a",
+            "*different* company. Each is a likely mis-ticker: the call is probably about the",
+            "company in the last column, filed under the wrong symbol — where it silently",
+            "inherits that symbol's real price history.\n",
+            "> **Generated file — do not edit by hand.**",
+            ">",
+            "> ```bash",
+            "> python3 code/pipeline.py --check-ticker-names",
+            "> ```",
+            ">",
+            "> **Manual — the nightly pipeline does not run this.** The nightly run checks only",
+            "> the episode it just analyzed and prints any flags in its output; this rebuilds the",
+            "> full picture across every ticker. Re-run it to pick up new episodes and to drop",
+            "> rows you have resolved.\n",
+            "Confirm against the transcript first, then retarget the mention (or delete it if it",
+            "duplicates a correct row):\n",
+            "```bash",
+            "sqlite3 data/mad_money.db \\",
+            "  \"UPDATE mentions SET ticker='CORRECT', closing_price=NULL WHERE ticker='WRONG';\"",
+            "python3 code/pipeline.py --rebuild-shards",
+            "python3 code/pipeline.py --backfill-prices --tickers CORRECT",
+            "```\n",
+            "| Ticker | Mentions | Dates | Yahoo says the symbol is | We stored it as |",
+            "|--------|---------:|-------|--------------------------|-----------------|",
+        ]
+        for r in rows:
+            span = r["lo"] if r["lo"] == r["hi"] else f"{r['lo']} … {r['hi']}"
+            out.append(f"| `{r['ticker']}` | {r['n']} | {span} | {r['actual']} | **{r['company']}** |")
+        out.append("")
+        out.append(f"_Checked {checked} tickers with a stored company name. Tickers Yahoo does not")
+        out.append("recognise at all (hallucinated, private, OTC) are not listed here — see the")
+        out.append("'Hallucinated tickers' note in CLAUDE.md._\n")
+        out.append("_This list intentionally over-flags. A shared single word is not treated as a")
+        out.append("match, so `Chipotle` vs `Chipotle Mexican Grill` appears even though it is fine —")
+        out.append("the same rule is what keeps `Marriott Vacations Worldwide` from matching")
+        out.append("`Marriott International`. Missing a real mis-ticker costs a corrupted price")
+        out.append("history; a false positive costs one glance._")
+        NAME_MISMATCH_DOC.write_text("\n".join(out) + "\n")
+        print(f"  {len(rows)} name mismatch(es) out of {checked} checked → {NAME_MISMATCH_DOC}")
+    return rows
+
+
 # ── Unknown-ticker report ─────────────────────────────────────────────────────
 
 UNKNOWN_TICKER = "????"
@@ -2371,6 +2627,10 @@ def main() -> None:
                         help="Regenerate notes/unknown-tickers.md — the manual-review queue of "
                              "mentions stored under a placeholder ticker (???? / ???). "
                              "Run by hand; the nightly pipeline does not do this for you")
+    parser.add_argument("--check-ticker-names", action="store_true",
+                        help="Regenerate notes/ticker-name-mismatches.md — every ticker whose stored "
+                             "company disagrees with Yahoo Finance. Run by hand; the nightly pipeline "
+                             "checks only the episode it just analyzed")
     parser.add_argument("--backfill-prices", action="store_true",
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
     parser.add_argument("--tickers", metavar="TICKER1,TICKER2",
@@ -2400,6 +2660,10 @@ def main() -> None:
 
     if args.list_unknown_tickers:
         build_unknown_ticker_report()
+        return
+
+    if args.check_ticker_names:
+        build_name_mismatch_report()
         return
 
     if args.rebuild_shards:
@@ -2484,6 +2748,13 @@ def main() -> None:
                     f"analysis returned {n_sections} sections but 0 stocks — "
                     "treating as a failed analysis so it retries next run"
                 )
+
+            # Catch mis-tickered calls at the moment they enter the DB, while the
+            # transcript is right there to check against. Advisory only — a flagged
+            # call is still stored, because the model is more often right than not
+            # and silently dropping calls would be worse than a noisy warning.
+            print("  Checking tickers against Yahoo...")
+            report_ticker_flags(validate_analysis_tickers(analysis), date_str)
 
             print("  Updating stock_sentiments.json...")
             update_stock_sentiments(analysis, video_id=video_id)
