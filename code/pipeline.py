@@ -1027,10 +1027,14 @@ def _sync_mentions_from_db(stocks: dict) -> None:
     # first reaches the JSON via this path (e.g. one created by a manual correction) is
     # stuck showing its symbol as its name, and each worktree has its own copy of
     # stock_sentiments.json, so hand-fixing one doesn't fix the other.
+    # Entries stubbed by an earlier run are repaired the same way: a company equal to its
+    # own ticker is a leftover placeholder, never a real name, so adopt the DB's.
     for ticker in db_mentions:
         if ticker not in stocks:
             stocks[ticker] = {"company": db_companies.get(ticker, ticker),
                               "sector": "", "style": "", "mentions": []}
+        elif stocks[ticker].get("company") == ticker and ticker in db_companies:
+            stocks[ticker]["company"] = db_companies[ticker]
 
     # Overwrite mentions from DB; tickers removed from DB get empty lists (pruned below)
     for ticker in list(stocks):
