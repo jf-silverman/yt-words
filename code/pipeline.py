@@ -661,7 +661,12 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
         # Write to SQLite
         upsert_stock(
             ticker=ticker,
-            company=stock.get("company", entry.get("company", "")),
+            # The established name wins over whatever the model called it tonight.
+            # This was the other way round, so one bad guess in one episode
+            # overwrote the DB's name for good: LRCX was stored as "Eli Lilly".
+            # stock_sentiments.json is authoritative for company/sector/style, and
+            # the DB should follow it rather than the other way round.
+            company=entry.get("company") or stock.get("company", ""),
             sector=entry.get("sector"),
             style=entry.get("style"),
         )
