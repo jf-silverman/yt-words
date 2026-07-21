@@ -561,6 +561,42 @@ def write_price_files(stocks: dict, only: set[str] | None = None) -> None:
         time.sleep(0.2)
 
 
+def _clear_mentions_for_date(stocks: dict, date_str: str) -> set[str]:
+    """Drop every mention for date_str from the in-memory JSON dict and from SQLite.
+
+    Called before writing a fresh analysis so that re-processing a date *replaces*
+    its mentions instead of layering new ones on top of the old ones.
+
+    UNIQUE(episode_id, ticker, segment) only rejects an exact repeat, so without
+    this a re-analysis that moves a call to a different segment — or names the same
+    company under a different ticker — leaves both rows behind, and nothing about
+    the result looks wrong. That is how 2026-07-08 came to hold the same Doncasters
+    call as both DPC and '????', and six SK Hynix calls ended up under a bogus 'SK'
+    carrying an unrelated company's closing price.
+
+    Returns the tickers that lost mentions so their shards are rewritten even when
+    the new analysis no longer mentions them at all.
+    """
+    from db import get_connection
+
+    cleared: set[str] = set()
+    for ticker, entry in stocks.items():
+        mentions = entry.get("mentions", [])
+        kept = [m for m in mentions if m.get("date") != date_str]
+        if len(kept) != len(mentions):
+            cleared.add(ticker)
+            entry["mentions"] = kept
+
+    conn = get_connection()
+    conn.execute("""
+        DELETE FROM mentions
+        WHERE episode_id IN (SELECT id FROM episodes WHERE date = ?)
+    """, (date_str,))
+    conn.commit()
+    conn.close()
+    return cleared
+
+
 def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
     if SENTIMENTS_FILE.exists():
         db = json.loads(SENTIMENTS_FILE.read_text())
@@ -586,6 +622,13 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
                                     is_fundamentals=is_fund)
     else:
         episode_id = None
+
+    # Make re-processing a date idempotent. Guarded on a non-empty analysis so a
+    # degraded result can never wipe good data — the caller already treats
+    # sections-but-no-stocks as a failure, and this is the second line of defence.
+    cleared: set[str] = set()
+    if analysis.get("stocks"):
+        cleared = _clear_mentions_for_date(stocks, episode_date)
 
     for stock in analysis.get("stocks", []):
         ticker = stock.get("ticker", "").upper()
@@ -636,7 +679,10 @@ def update_stock_sentiments(analysis: dict, video_id: str = "") -> None:
     SENTIMENTS_FILE.write_text(json.dumps(db, indent=2))
 
     # Write per-ticker shards for touched tickers + refresh index
+    # `cleared` covers tickers this analysis dropped entirely — without it their
+    # shards would keep advertising a mention the DB no longer has.
     touched = {s.get("ticker", "").upper() for s in analysis.get("stocks", []) if s.get("ticker")}
+    touched |= cleared
     _write_ticker_shards(stocks, only=touched)
     write_price_files(stocks, only=touched)
 
