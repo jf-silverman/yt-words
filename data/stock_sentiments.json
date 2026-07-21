@@ -15662,13 +15662,6 @@
           "segment": "opening_commentary",
           "note": "Semiconductor equipment manufacturer in acute shortage; essential for computing buildout.",
           "closing_price": 502.51
-        },
-        {
-          "date": "2026-07-09",
-          "sentiment": "caution_concern",
-          "segment": "opening_commentary",
-          "note": "Analyst raised price target from $1,200 to $2,000 for Sanders (likely typo for Sandisk); commodity chip stocks rallying but face bust risk when memory supply catches up to demand.",
-          "closing_price": 443.37
         }
       ],
       "sector": "Technology",
@@ -16452,20 +16445,6 @@
           "sentiment": "wait_hold",
           "segment": "lightning_round",
           "note": "Data center infrastructure play (caller Claire, TN); conflicting signals\u2014executive resignation vs insider buying\u2014prevent clear call; requires research.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "caution_concern",
-          "segment": "opening_commentary",
-          "note": "Cheap if the data center trade holds, but a $29B raise with no retail appeal would force institutions to sell other stocks to fund it.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "buy_on_pullback",
-          "segment": "in_depth_analysis",
-          "note": "Attractive aerospace-engine and gas-turbine end markets with accelerating revenue and improving profitability post PIK-loan paydown, but trades at a premium to Howmet \u2014 wait for $42 or the 30s.",
           "closing_price": null
         }
       ],
@@ -21287,9 +21266,9 @@
           "closing_price": 62.05
         }
       ],
-      "sector": "",
+      "sector": "Financial Services",
       "style": "",
-      "industry": "",
+      "industry": "Asset Management",
       "pe_ratio": null,
       "market_cap": null,
       "market_cap_category": ""
@@ -22403,59 +22382,6 @@
       "pe_ratio": 19.52,
       "market_cap": 428205604864,
       "market_cap_category": "mega"
-    },
-    "SK": {
-      "company": "SK Hynix",
-      "mentions": [
-        {
-          "date": "2026-01-21",
-          "sentiment": "caution_concern",
-          "segment": "in_depth_analysis",
-          "note": "Korean memory giant with hidden supply capacity history; could surprise market if flooding supply; wildcard risk to memory stock momentum.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-01-21",
-          "sentiment": "caution_concern",
-          "segment": "closing_commentary",
-          "note": "Korean memory giant with hidden supply; Cramer blindsided by competitor supply in past cycles; could crash memory market if unleashed.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-03-04",
-          "sentiment": "caution_concern",
-          "segment": "closing_commentary",
-          "note": "Parabolic 350% gain in 12mo but -16% in 5 days, -10% overnight; represents >50% of Cospi index with Samsung; correction worst in ages\u2014volatility signal, wait for stabilization.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-05-14",
-          "sentiment": "mild_buy",
-          "segment": "opening_commentary",
-          "note": "High-bandwidth memory chip supplier with $35.5B quarterly revenue; real business with $1T market cap not overvalued versus speculative alternatives.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-07-08",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "$29B NASDAQ IPO listing faces demand questions; already $1T company in Korea; institutions will need to sell other stocks to buy; very cheap if data center cycle intact but competition from Samsung disappointing.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-07-16",
-          "sentiment": "caution_concern",
-          "segment": "closing_commentary",
-          "note": "Memory chip company; if borrowing money to buy, you're part of margin plague; faster we purge these leveraged buyers, healthier market becomes.",
-          "closing_price": 23.14
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
     },
     "CARR": {
       "company": "Carrier Global",
@@ -24354,7 +24280,7 @@
       "market_cap_category": "large"
     },
     "CSX": {
-      "company": "CSX",
+      "company": "CSX Corporation",
       "mentions": [
         {
           "date": "2026-01-23",
@@ -25772,7 +25698,7 @@
       "market_cap_category": "large"
     },
     "KBR": {
-      "company": "KBR",
+      "company": "KBR Inc.",
       "mentions": [
         {
           "date": "2026-01-05",
@@ -26657,7 +26583,7 @@
       "market_cap_category": ""
     },
     "BF": {
-      "company": "BF",
+      "company": "Brown-Forman",
       "sector": "",
       "style": "",
       "mentions": [
@@ -26718,7 +26644,7 @@
       "market_cap_category": ""
     },
     "BURL": {
-      "company": "BURL",
+      "company": "Burlington Coat Factory",
       "sector": "Consumer Cyclical",
       "style": "growth",
       "mentions": [
@@ -26736,7 +26662,7 @@
       "market_cap_category": "large"
     },
     "CBRL": {
-      "company": "CBRL",
+      "company": "Cracker Barrel",
       "sector": "Consumer Cyclical",
       "style": "growth",
       "mentions": [
@@ -26761,7 +26687,7 @@
       "market_cap_category": "small"
     },
     "CCC": {
-      "company": "CCC",
+      "company": "CCC Intelligent Solutions",
       "sector": "Technology",
       "style": "growth",
       "mentions": [
@@ -26869,7 +26795,7 @@
       "market_cap_category": ""
     },
     "CRS": {
-      "company": "CRS",
+      "company": "Carpenter Technology",
       "sector": "Industrials",
       "style": "growth",
       "mentions": [
@@ -26912,7 +26838,7 @@
       "market_cap_category": "small"
     },
     "CUBE": {
-      "company": "CUBE",
+      "company": "CubeSmart",
       "sector": "Real Estate",
       "style": "blend",
       "mentions": [
@@ -26966,7 +26892,7 @@
       "market_cap_category": "nano"
     },
     "FFIV": {
-      "company": "FFIV",
+      "company": "F5 Networks",
       "sector": "Technology",
       "style": "growth",
       "mentions": [
@@ -27002,7 +26928,7 @@
       "market_cap_category": ""
     },
     "FPS": {
-      "company": "FPS",
+      "company": "Forging Power Solutions",
       "sector": "Industrials",
       "style": "growth",
       "mentions": [
@@ -27128,7 +27054,7 @@
       "market_cap_category": ""
     },
     "LCID": {
-      "company": "LCID",
+      "company": "Lucid Motors",
       "sector": "Consumer Cyclical",
       "style": "",
       "mentions": [
@@ -27182,7 +27108,7 @@
       "market_cap_category": "large"
     },
     "MTECH": {
-      "company": "MTECH",
+      "company": "Mtech",
       "sector": "",
       "style": "",
       "mentions": [
@@ -27200,7 +27126,7 @@
       "market_cap_category": ""
     },
     "MTN": {
-      "company": "MTN",
+      "company": "Vail Resorts",
       "sector": "Consumer Cyclical",
       "style": "blend",
       "mentions": [
@@ -27218,7 +27144,7 @@
       "market_cap_category": "mid"
     },
     "NAT": {
-      "company": "NAT",
+      "company": "Nordic American Tankers",
       "sector": "Energy",
       "style": "blend",
       "mentions": [
@@ -27308,7 +27234,7 @@
       "market_cap_category": ""
     },
     "NVNT": {
-      "company": "NVNT",
+      "company": "Navient",
       "sector": "",
       "style": "",
       "mentions": [
@@ -27326,7 +27252,7 @@
       "market_cap_category": ""
     },
     "NVR": {
-      "company": "NVR",
+      "company": "Novo Nordisk",
       "sector": "Consumer Cyclical",
       "style": "blend",
       "mentions": [
@@ -27344,7 +27270,7 @@
       "market_cap_category": "large"
     },
     "NVS": {
-      "company": "NVS",
+      "company": "Novartis",
       "sector": "Healthcare",
       "style": "blend",
       "mentions": [
@@ -27376,7 +27302,7 @@
       "market_cap_category": "mega"
     },
     "OAKL": {
-      "company": "OAKL",
+      "company": "Oaklo",
       "sector": "",
       "style": "",
       "mentions": [
@@ -27394,7 +27320,7 @@
       "market_cap_category": ""
     },
     "OBNK": {
-      "company": "OBNK",
+      "company": "Origin Bancorp",
       "sector": "",
       "style": "",
       "mentions": [
@@ -27437,7 +27363,7 @@
       "market_cap_category": "mid"
     },
     "QBTS": {
-      "company": "QBTS",
+      "company": "D-Wave Systems",
       "sector": "Technology",
       "style": "",
       "mentions": [
@@ -27527,7 +27453,7 @@
       "market_cap_category": ""
     },
     "RLGT": {
-      "company": "RLGT",
+      "company": "Radiant Logistics",
       "sector": "Industrials",
       "style": "blend",
       "mentions": [
@@ -27581,7 +27507,7 @@
       "market_cap_category": ""
     },
     "SANDISK": {
-      "company": "SANDISK",
+      "company": "SanDisk (Western Digital subsidiary)",
       "sector": "",
       "style": "",
       "mentions": [
@@ -27606,7 +27532,7 @@
       "market_cap_category": ""
     },
     "SNEX": {
-      "company": "SNEX",
+      "company": "StoneX Group",
       "sector": "Financial Services",
       "style": "blend",
       "mentions": [
@@ -27624,7 +27550,7 @@
       "market_cap_category": "large"
     },
     "SOLST": {
-      "company": "SOLST",
+      "company": "Solstice Advanced Materials",
       "sector": "",
       "style": "",
       "mentions": [
@@ -27642,7 +27568,7 @@
       "market_cap_category": ""
     },
     "STG": {
-      "company": "STG",
+      "company": "Seagate Technology",
       "sector": "Consumer Defensive",
       "style": "value",
       "mentions": [
@@ -27696,7 +27622,7 @@
       "market_cap_category": ""
     },
     "TLN": {
-      "company": "TLN",
+      "company": "Talen Energy",
       "sector": "Utilities",
       "style": "",
       "mentions": [
@@ -27777,7 +27703,13 @@
           "note": "One of hottest stocks; expensive; data-center-dependent; take 25% off, let rest run 15% more.",
           "closing_price": 142.59
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Semiconductor Equipment & Materials",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 4592664576,
+      "market_cap_category": "mid"
     },
     "TEL": {
       "company": "TE Connectivity",
@@ -27789,7 +27721,13 @@
           "note": "Stock should be higher; multiple too low vs peers; buying for trust; terrific company since inception.",
           "closing_price": 201.61
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Electronic Components",
+      "style": "blend",
+      "pe_ratio": 21.57,
+      "market_cap": 61632339968,
+      "market_cap_category": "large"
     },
     "FI": {
       "company": "Fiserv",
@@ -27813,7 +27751,13 @@
           "note": "Up 152% in 2025 on an FDA approval for a rare lung-disease drug, though a disappointing sinusitis trial pulled it back 18% from highs; worth watching, not yet a full recommendation.",
           "closing_price": 175.2
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 23700797440,
+      "market_cap_category": "large"
     },
     "KRMN": {
       "company": "Karman Space & Defense",
@@ -27825,7 +27769,13 @@
           "note": "Cramer calls it a good speculation given its exposure to two of his favorite themes: space and national security.",
           "closing_price": 83.99
         }
-      ]
+      ],
+      "sector": "Industrials",
+      "industry": "Aerospace & Defense",
+      "style": "growth",
+      "pe_ratio": 200.61,
+      "market_cap": 6114763264,
+      "market_cap_category": "mid"
     },
     "USAR": {
       "company": "USA Rare Earth",
@@ -27837,7 +27787,13 @@
           "note": "Cramer calls it a 'year of magical investing' stock whose moment has passed; can't recommend it.",
           "closing_price": 17.52
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Other Industrial Metals & Mining",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 3891494400,
+      "market_cap_category": "mid"
     },
     "FBIN": {
       "company": "Fortune Brands Innovations",
@@ -27849,7 +27805,13 @@
           "note": "A housing-linked play Cramer would rather own via Home Depot instead.",
           "closing_price": 53.32
         }
-      ]
+      ],
+      "sector": "Industrials",
+      "industry": "Building Products & Equipment",
+      "style": "blend",
+      "pe_ratio": 22.12,
+      "market_cap": 5937829888,
+      "market_cap_category": "mid"
     },
     "MDLN": {
       "company": "Medline",
@@ -27861,7 +27823,13 @@
           "note": "Largest IPO in four years priced healthily and trades modestly above offer; a buy if the stock comes in further.",
           "closing_price": 40.43
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Medical Instruments & Supplies",
+      "style": "growth",
+      "pe_ratio": 34.73,
+      "market_cap": 70540279808,
+      "market_cap_category": "large"
     },
     "PSA": {
       "company": "Public Storage",
@@ -27873,7 +27841,13 @@
           "note": "Preferred alternative to CubeSmart within the self-storage REIT space.",
           "closing_price": 279.2
         }
-      ]
+      ],
+      "sector": "Real Estate",
+      "industry": "REIT - Industrial",
+      "style": "growth",
+      "pe_ratio": 31.98,
+      "market_cap": 54401597440,
+      "market_cap_category": "large"
     },
     "SUN": {
       "company": "Sunoco",
@@ -27885,7 +27859,13 @@
           "note": "Down modestly for the year but Cramer called it undervalued and a buy.",
           "closing_price": 57.27
         }
-      ]
+      ],
+      "sector": "Energy",
+      "industry": "Oil & Gas Refining & Marketing",
+      "style": "blend",
+      "pe_ratio": 19.03,
+      "market_cap": 14054589440,
+      "market_cap_category": "large"
     },
     "MNTN": {
       "company": "MNTN",
@@ -27897,7 +27877,13 @@
           "note": "Recently public and unprofitable; stock needs earnings per share to turn around and currently lacks it.",
           "closing_price": 11.7
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Software - Application",
+      "style": "value",
+      "pe_ratio": 6.31,
+      "market_cap": 648321600,
+      "market_cap_category": "small"
     },
     "CIRC": {
       "company": "Circle Internet",
@@ -27909,7 +27895,13 @@
           "note": "Caller case study: flew too close to sun; crashed from $300 to $55; buying on way down did not work; sideways since November; don't want to own.",
           "closing_price": null
         }
-      ]
+      ],
+      "sector": "Industrials",
+      "industry": "Staffing & Employment Services",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 65223304,
+      "market_cap_category": "micro"
     },
     "VRTV": {
       "company": "Vertiv",
@@ -27933,7 +27925,13 @@
           "note": "Lost magical-investing shine; Google's AI crowding into low-code automation space\u2014momentum broken.",
           "closing_price": 25.21
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Software - Infrastructure",
+      "style": "growth",
+      "pe_ratio": 1286.75,
+      "market_cap": 1889260928,
+      "market_cap_category": "small"
     },
     "COER": {
       "company": "Cotera Energy",
@@ -27969,7 +27967,13 @@
           "note": "Financial data provider down 34% YTD; mission-critical tool (used on Mad Money) and not easily replaced by AI; multiple compression from unfounded fears.",
           "closing_price": 190.26
         }
-      ]
+      ],
+      "sector": "Financial Services",
+      "industry": "Financial Data & Stock Exchanges",
+      "style": "blend",
+      "pe_ratio": 16.35,
+      "market_cap": 8818832384,
+      "market_cap_category": "mid"
     },
     "V": {
       "company": "Visa",
@@ -27988,7 +27992,13 @@
           "note": "Second-largest US IPO in history; had rough first year post-IPO but became incredible long-term stock starting early 2009. Historical example of patience rewarded.",
           "closing_price": 328.03
         }
-      ]
+      ],
+      "sector": "Financial Services",
+      "industry": "Credit Services",
+      "style": "growth",
+      "pe_ratio": 31.12,
+      "market_cap": 678846660608,
+      "market_cap_category": "mega"
     },
     "FSM": {
       "company": "Fortuna Mining",
@@ -28000,7 +28010,13 @@
           "note": "Mining stock prone to cyclical weakness; swap into Agnico Eagle as the better-managed operator.",
           "closing_price": 13.22
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Gold",
+      "style": "value",
+      "pe_ratio": 7.8,
+      "market_cap": 2550901248,
+      "market_cap_category": "mid"
     },
     "LILY": {
       "company": "Eli Lilly",
@@ -28024,7 +28040,13 @@
           "note": "Medical technology for kidney dialysis; down 24% in 2025 but up 43% in February on terrific quarter; analysts and investors got too negative; stock caught fire.",
           "closing_price": 153.98
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Medical Care Facilities",
+      "style": "blend",
+      "pe_ratio": 22.87,
+      "market_cap": 15224040448,
+      "market_cap_category": "large"
     },
     "ARESZ": {
       "company": "Ares Management",
@@ -28048,7 +28070,13 @@
           "note": "Contract research organization (CRO) ninth-worst in February, down 22.3%, on weaker full-year forecast despite solid beat; caught in AI displacement panic unfairly; RFK Jr.'s FDA skepticism on new drugs a headwind.",
           "closing_price": 174.27
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Diagnostics & Research",
+      "style": "blend",
+      "pe_ratio": 25.04,
+      "market_cap": 33642035200,
+      "market_cap_category": "large"
     },
     "ODDY": {
       "company": "Auddy (likely ticker ODD or similar beauty/cosmetics retailer)",
@@ -28072,7 +28100,13 @@
           "note": "Most controversial private credit fund (highest tech exposure); blocked redemption hatches, offered 30% liquidity on some funds; signal of deeper distress; avoid.",
           "closing_price": 3.12
         }
-      ]
+      ],
+      "sector": "Real Estate",
+      "industry": "REIT - Office",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 546323712,
+      "market_cap_category": "small"
     },
     "FGAN": {
       "company": "Forgant Power Solutions",
@@ -28127,7 +28161,13 @@
           "note": "Caller Ray (bought Jan, analysts bearish): Good company on sale; ridiculous decline; hold and add on any dips.",
           "closing_price": 3.38
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Software - Application",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 293550784,
+      "market_cap_category": "micro"
     },
     "CSII": {
       "company": "Casey's General Stores",
@@ -28223,7 +28263,13 @@
           "note": "Caller Tyler (OH): stock tripled in 12 months after new CEO/CFO; Q4 earnings beat, recent pullback normal; multiple ~21x; Cramer: did pretty good job, near-term weakness buyable.",
           "closing_price": 0.97
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Software - Application",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 9815981,
+      "market_cap_category": "nano"
     },
     "DBFS": {
       "company": "Dropbox",
@@ -28247,7 +28293,13 @@
           "note": "Caller Greg (CA): Kathy Wood bought it; Cramer: big let-down, came on show, talked big game, didn't deliver; sell.",
           "closing_price": 4.94
         }
-      ]
+      ],
+      "sector": "Consumer Cyclical",
+      "industry": "Internet Retail",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 10738029568,
+      "market_cap_category": "large"
     },
     "SIZ": {
       "company": "Signet Jewelers",
@@ -28278,7 +28330,13 @@
           "note": "Large block trade at end of day created uncertainty; part of magical thinking era; prefer to wait for stock to come in and see if block holds before buying.",
           "closing_price": 1.22
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 50910768,
+      "market_cap_category": "micro"
     },
     "CMS": {
       "company": "Columbia Banking System",
@@ -28290,7 +28348,13 @@
           "note": "High-quality company on new lows repeatedly; story-telling gap. Potential MVP anomaly\u2014wait for better entry before accumulating.",
           "closing_price": 74.42
         }
-      ]
+      ],
+      "sector": "Utilities",
+      "industry": "Utilities - Regulated Electric",
+      "style": "blend",
+      "pe_ratio": 20.04,
+      "market_cap": 22347243520,
+      "market_cap_category": "large"
     },
     "EXXN": {
       "company": "Exxon Mobil",
@@ -28338,7 +28402,13 @@
           "note": "Petrochemical supplier benefiting from war scenario; part of Chem7 list; short-term play with two-week shelf life if geopolitical resolution.",
           "closing_price": 61.54
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Chemicals",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 5066957824,
+      "market_cap_category": "mid"
     },
     "HUN": {
       "company": "Huntsman",
@@ -28350,7 +28420,13 @@
           "note": "Petrochemical company; part of Chem7 war-beneficiary plays; limited durability if Iran tensions resolve.",
           "closing_price": 12.55
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Chemicals",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 2172519680,
+      "market_cap_category": "mid"
     },
     "AAU": {
       "company": "Apyx Mining",
@@ -28374,7 +28450,13 @@
           "note": "$8B commercial lighting company trades <14x earnings down 25% YTD; low multiple signals construction slowdown; consistent grower but weak outlook.",
           "closing_price": 74.11
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Specialty Chemicals",
+      "style": "blend",
+      "pe_ratio": 16.77,
+      "market_cap": 4587079168,
+      "market_cap_category": "mid"
     },
     "KGC": {
       "company": "Kagra",
@@ -28386,7 +28468,13 @@
           "note": "Yields unsustainable 9%; endless multiple shrinkage; frozen foods/protein portfolio not delivering; not personal\u2014market doesn't want it.",
           "closing_price": 28.74
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Gold",
+      "style": "value",
+      "pe_ratio": 9.91,
+      "market_cap": 27816779776,
+      "market_cap_category": "large"
     },
     "CORE": {
       "company": "CoreWeave",
@@ -28424,7 +28512,13 @@
           "note": "Drone sector play but contract contested; another leg down if contract lost; stay away until clarity.",
           "closing_price": 0.6
         }
-      ]
+      ],
+      "sector": "Real Estate",
+      "industry": "Real Estate - Development",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 99973104,
+      "market_cap_category": "micro"
     },
     "VOO": {
       "company": "S&P 500 ETF",
@@ -28497,7 +28591,13 @@
           "note": "Data-center connectivity enabler helping machines communicate; Cramer bullish on semis-related ecosystem plays.",
           "closing_price": 9.32
         }
-      ]
+      ],
+      "sector": "Communication Services",
+      "industry": "Telecom Services",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 6887629312,
+      "market_cap_category": "mid"
     },
     "VDV": {
       "company": "Verdiv",
@@ -28557,7 +28657,13 @@
           "note": "Cruise line down 3.3%; 'sinks and sinks'; vacation demand deteriorating.",
           "closing_price": 0.17
         }
-      ]
+      ],
+      "sector": "Consumer Cyclical",
+      "industry": "Furnishings, Fixtures & Appliances",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 8543560,
+      "market_cap_category": "nano"
     },
     "NVSX": {
       "company": "Novartis",
@@ -28727,7 +28833,13 @@
           "note": "Drone maker IPO'd at $20, +35% to $27 on day one; $8B+ pipeline, $645M EUCOM Deep Strike contract (4,800+ drones); Q1 '26 revenue 4x YoY, returning to profitability; $3B valuation too cheap at 7x sales, 38x PE.",
           "closing_price": 7.68
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Software - Infrastructure",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 25465942,
+      "market_cap_category": "nano"
     },
     "IMTX": {
       "company": "Immunity Bio",
@@ -28739,7 +28851,13 @@
           "note": "Not clear what they did wrong; currently in trouble; wait to see how company gets out of issues before reassessing.",
           "closing_price": 11.17
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 1284727680,
+      "market_cap_category": "small"
     },
     "ALPHABET": {
       "company": "Alphabet",
@@ -28799,7 +28917,13 @@
           "note": "LSD-based anxiety/depression treatment in Phase 3; single-dose efficacy with 50% remission rate; Trump executive order accelerates approval by 4\u20136 months; up 73% YTD, 300% over 12 months.",
           "closing_price": 6.08
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Scientific & Technical Instruments",
+      "style": "growth",
+      "pe_ratio": 34.89,
+      "market_cap": 50732376,
+      "market_cap_category": "micro"
     },
     "ASRA": {
       "company": "Astera Labs",
@@ -28823,7 +28947,13 @@
           "note": "DuPont spin-off making specialized semiconductor materials; charitable trust trimmed position after 30% rally in 3 weeks; too fast, risky.",
           "closing_price": 13.08
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Medical Devices",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 1511561472,
+      "market_cap_category": "small"
     },
     "BCTX": {
       "company": "Billion to One",
@@ -28835,7 +28965,13 @@
           "note": "Good diagnostic company; diagnostic sector weak (Becton Dickinson, Abbott Labs down) but BCTX never ran; winner set up for earnings May 6.",
           "closing_price": 4.03
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 32145712,
+      "market_cap_category": "nano"
     },
     "TLNE": {
       "company": "Talen Energy",
@@ -28859,7 +28995,13 @@
           "note": "Brad Jacobs series of acquisitions to build home building supply clearinghouse; when rates drop, 20\u219230 move; Brad's a winner\u2014be with him not against him.",
           "closing_price": 220.0
         }
-      ]
+      ],
+      "sector": "Industrials",
+      "industry": "Trucking",
+      "style": "growth",
+      "pe_ratio": 73.47,
+      "market_cap": 25100494848,
+      "market_cap_category": "large"
     },
     "RELIANCE": {
       "company": "Reliance Inc",
@@ -28895,7 +29037,13 @@
           "note": "Acquired by Indian company; watch for deal close. Takeover bid good news for shareholders.",
           "closing_price": 2.58
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Chemicals",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 5228483,
+      "market_cap_category": "nano"
     },
     "HONEYWELL": {
       "company": "Honeywell",
@@ -28955,7 +29103,13 @@
           "note": "'Science drive-by,' not a real company; avoid entirely; sell if held.",
           "closing_price": 5.03
         }
-      ]
+      ],
+      "sector": "Real Estate",
+      "industry": "REIT - Specialty",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 4233682944,
+      "market_cap_category": "mid"
     },
     "WANO": {
       "company": "Western Alliance Bancorporation (implied WANO MLP context unclear\u2014likely Enterprise Products energy MLP reference)",
@@ -28979,7 +29133,13 @@
           "note": "Heavily shorted, building new data centers aggressively. Potential financing/convertible deal could pop stock; watch for CEO announcement (Mike Linton Traeger).",
           "closing_price": 0.04
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Health Information Services",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 28026278,
+      "market_cap_category": "nano"
     },
     "BABA": {
       "company": "Alibaba",
@@ -28998,7 +29158,13 @@
           "note": "China GDP disappointing (4.4%) but remain patient; down on dip; still best way to play China long-term; hold existing position.",
           "closing_price": 117.49
         }
-      ]
+      ],
+      "sector": "Consumer Cyclical",
+      "industry": "Internet Retail",
+      "style": "blend",
+      "pe_ratio": 18.24,
+      "market_cap": 282926809088,
+      "market_cap_category": "mega"
     },
     "ATEN": {
       "company": "Aten International",
@@ -29010,7 +29176,13 @@
           "note": "Power management; stock got hit ridiculously, bought on dip; essential for data center electricity infrastructure.",
           "closing_price": 27.13
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Software - Infrastructure",
+      "style": "growth",
+      "pe_ratio": 59.23,
+      "market_cap": 2601294080,
+      "market_cap_category": "mid"
     },
     "CWVU": {
       "company": "CoreWeave",
@@ -29041,7 +29213,13 @@
           "note": "Jeff (South Africa living caller) bought on dip, stock keeps dipping 10% past 3 months but numbers solid. Cramer recommends buy\u2014road builder should be bought, likely consolidation candidate.",
           "closing_price": 103.86
         }
-      ]
+      ],
+      "sector": "Industrials",
+      "industry": "Engineering & Construction",
+      "style": "growth",
+      "pe_ratio": 44.5,
+      "market_cap": 5760607744,
+      "market_cap_category": "mid"
     },
     "CIX": {
       "company": "Celestica",
@@ -29053,7 +29231,13 @@
           "note": "Caller held from $5, now $425; advised to take cost basis off table and let rest run with house money; playing with free capital.",
           "closing_price": 23.2
         }
-      ]
+      ],
+      "sector": "Industrials",
+      "industry": "Security & Protection Services",
+      "style": "blend",
+      "pe_ratio": 15.55,
+      "market_cap": 314237952,
+      "market_cap_category": "small"
     },
     "PNTS": {
       "company": "Palantir Technologies",
@@ -29113,7 +29297,13 @@
           "note": "Sports apparel; worried about quick management turnover without explanation; earnings Tuesday alongside Under Armour.",
           "closing_price": 1.4
         }
-      ]
+      ],
+      "sector": "Industrials",
+      "industry": "Engineering & Construction",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 16320000,
+      "market_cap_category": "nano"
     },
     "ARISTA": {
       "company": "Arista Networks",
@@ -29149,7 +29339,13 @@
           "note": "Property-casualty insurer in an industry ripe for consolidation; merger cycle ahead as consolidation accelerates in under-served market.",
           "closing_price": 334.62
         }
-      ]
+      ],
+      "sector": "Financial Services",
+      "industry": "Insurance - Property & Casualty",
+      "style": "value",
+      "pe_ratio": 9.91,
+      "market_cap": 81422303232,
+      "market_cap_category": "large"
     },
     "ALL": {
       "company": "Allstate",
@@ -29161,7 +29357,13 @@
           "note": "P&C insurer benefiting from industry consolidation tailwinds as too many U.S. insurers create M&A opportunity.",
           "closing_price": 243.12
         }
-      ]
+      ],
+      "sector": "Financial Services",
+      "industry": "Insurance - Property & Casualty",
+      "style": "value",
+      "pe_ratio": 5.58,
+      "market_cap": 64857202688,
+      "market_cap_category": "large"
     },
     "MDL": {
       "company": "Medline Industries",
@@ -29216,7 +29418,13 @@
           "note": "Positive analyst note and price target increase today; 5% yield attractive; Kimberly tie-up with Canview expected to produce terrific results \u2014 buy.",
           "closing_price": 98.71
         }
-      ]
+      ],
+      "sector": "Consumer Defensive",
+      "industry": "Household & Personal Products",
+      "style": "blend",
+      "pe_ratio": 15.56,
+      "market_cap": 11574591488,
+      "market_cap_category": "large"
     },
     "VCOR": {
       "company": "Vicor",
@@ -29252,7 +29460,13 @@
           "note": "Pure speculative play with binary outcomes; can lose everything or double; insufficient conviction to recommend without more data.",
           "closing_price": 8.11
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 194935984,
+      "market_cap_category": "micro"
     },
     "ALAB": {
       "company": "Astera Labs",
@@ -29264,7 +29478,13 @@
           "note": "AI infrastructure play; caller Gregory bought at $40, doubled to $80, holding with house money; Cramer strongly approves: can never lose money, hold and be happy.",
           "closing_price": 287.48
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Semiconductors",
+      "style": "growth",
+      "pe_ratio": 217.57,
+      "market_cap": 55193354240,
+      "market_cap_category": "large"
     },
     "HXSCL": {
       "company": "SK Hynix",
@@ -29295,7 +29515,13 @@
           "note": "Drone company surged 57% on Pentagon stake announcement; president's son Donald Jr. as advisor; early signal of government's drone-supplier investment wave.",
           "closing_price": 29.6
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Computer Hardware",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 926246208,
+      "market_cap_category": "small"
     },
     "WINN": {
       "company": "Wynn Resorts",
@@ -29331,7 +29557,13 @@
           "note": "Caller holding oil plays; Cramer favors switching to clean energy plays as data center power demand shifts renewable.",
           "closing_price": 199.03
         }
-      ]
+      ],
+      "sector": "Energy",
+      "industry": "Oil & Gas E&P",
+      "style": "growth",
+      "pe_ratio": 203.1,
+      "market_cap": 55992598528,
+      "market_cap_category": "large"
     },
     "QTUM": {
       "company": "Quantinium",
@@ -29355,7 +29587,13 @@
           "note": "Missed quarter badly; placed in penalty box. Wait for next quarter earnings to see evidence of recovery before reconsidering position.",
           "closing_price": 31.52
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Semiconductor Equipment & Materials",
+      "style": "value",
+      "pe_ratio": 11.54,
+      "market_cap": 1843205120,
+      "market_cap_category": "small"
     },
     "RAL": {
       "company": "Reliant",
@@ -29367,7 +29605,13 @@
           "note": "Aerospace/semiconductor testing equipment company parabolic after good quarter. Avoid chasing parabolic stocks; what goes up in straight line comes down faster.",
           "closing_price": 60.17
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Electronic Components",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 8087729664,
+      "market_cap_category": "mid"
     },
     "FXFR": {
       "company": "FedEx Freight",
@@ -29403,7 +29647,13 @@
           "note": "Industrial precision instruments spun from Danaher; new high list appearance surprised Cramer; unclear on catalysts, monitor before action.",
           "closing_price": 60.06
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Scientific & Technical Instruments",
+      "style": "growth",
+      "pe_ratio": 35.87,
+      "market_cap": 18591948800,
+      "market_cap_category": "large"
     },
     "DKGS": {
       "company": "DraftKings",
@@ -29427,7 +29677,13 @@
           "note": "Losing significant money; may take lifetime to profitability; avoid despite encouragement to young investor on birthday.",
           "closing_price": 3.5
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 188212320,
+      "market_cap_category": "micro"
     },
     "TTIC": {
       "company": "Tyler Technologies",
@@ -29451,7 +29707,13 @@
           "note": "Caller Michelle raves about DDS as one of best retailers; Cramer doesn't know it well enough; sticking with retail names he knows best.",
           "closing_price": 632.81
         }
-      ]
+      ],
+      "sector": "Consumer Cyclical",
+      "industry": "Department Stores",
+      "style": "blend",
+      "pe_ratio": 13.44,
+      "market_cap": 8833003520,
+      "market_cap_category": "mid"
     },
     "AXO": {
       "company": "Axon Enterprises",
@@ -29535,7 +29797,13 @@
           "note": "CEO trying turnaround; unclear if M&A catalyst will materialize. 4.75% yield supports hold. Wait for acquisition catalyst or strategic clarity.",
           "closing_price": 59.76
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Semiconductors",
+      "style": "blend",
+      "pe_ratio": 26.34,
+      "market_cap": 9508665344,
+      "market_cap_category": "mid"
     },
     "FMIV": {
       "company": "Forum Acquisition",
@@ -29550,7 +29818,7 @@
       ]
     },
     "AUIV": {
-      "company": "AUIV",
+      "company": "Aurora Innovation",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29565,8 +29833,8 @@
     },
     "CR": {
       "company": "CR",
-      "sector": "",
-      "style": "",
+      "sector": "Industrials",
+      "style": "growth",
       "mentions": [
         {
           "date": "2026-07-09",
@@ -29575,11 +29843,15 @@
           "note": "Terrific company with excellent chart; buy here and on weakness; one of Philadelphia's best.",
           "closing_price": 217.03
         }
-      ]
+      ],
+      "industry": "Specialty Industrial Machinery",
+      "pe_ratio": 39.85,
+      "market_cap": 12564018176,
+      "market_cap_category": "large"
     },
     "DPC": {
-      "company": "DPC",
-      "sector": "",
+      "company": "Doncasters (DPC Holdings)",
+      "sector": "Industrials",
       "style": "",
       "mentions": [
         {
@@ -29589,10 +29861,14 @@
           "note": "Precision aerospace and power generation components supplier with 26% Q1 growth; high barriers to entry; valuation at 55x EV/EBITDA vs. HII at 46x; wait for $42 (HII valuation equivalent) or $30s for discount entry.",
           "closing_price": 47.66
         }
-      ]
+      ],
+      "industry": "Aerospace & Defense",
+      "pe_ratio": null,
+      "market_cap": 6843907072,
+      "market_cap_category": "mid"
     },
     "FDEX": {
-      "company": "FDEX",
+      "company": "FedEx Freight",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29606,7 +29882,7 @@
       ]
     },
     "LMS": {
-      "company": "LMS",
+      "company": "Lemonade",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29621,8 +29897,8 @@
     },
     "NHC": {
       "company": "NHC",
-      "sector": "",
-      "style": "",
+      "sector": "Healthcare",
+      "style": "blend",
       "mentions": [
         {
           "date": "2026-07-09",
@@ -29638,12 +29914,16 @@
           "note": "Senior housing operator with a reliable pattern of institutional buying at the 50-day moving average; wait for the next shallow pullback for an excellent entry.",
           "closing_price": 214.18
         }
-      ]
+      ],
+      "industry": "Medical Care Facilities",
+      "pe_ratio": 28.28,
+      "market_cap": 3475993344,
+      "market_cap_category": "mid"
     },
     "PLPC": {
       "company": "PLPC",
-      "sector": "",
-      "style": "",
+      "sector": "Industrials",
+      "style": "growth",
       "mentions": [
         {
           "date": "2026-07-09",
@@ -29652,12 +29932,16 @@
           "note": "Small-cap grid and data center hardware maker with a 24% sequential earnings beat; pullback from $400+ to the $340s offers a good entry at 35x earnings on a ~$13/share 2028 estimate.",
           "closing_price": 344.55
         }
-      ]
+      ],
+      "industry": "Electrical Equipment & Parts",
+      "pe_ratio": 47.88,
+      "market_cap": 1624237568,
+      "market_cap_category": "small"
     },
     "PNNT": {
       "company": "PNNT",
-      "sector": "",
-      "style": "",
+      "sector": "Financial Services",
+      "style": "blend",
       "mentions": [
         {
           "date": "2026-07-09",
@@ -29666,10 +29950,14 @@
           "note": "Senior living operator; broke above $37 resistance recently on high volume, crossed $40; bull-pattern base after 40% pullback from $36 peak; Fitzpatrick projects $55 by year-end; embracing AI to improve employee efficiency.",
           "closing_price": 3.4
         }
-      ]
+      ],
+      "industry": "Asset Management",
+      "pe_ratio": 16.02,
+      "market_cap": 219721360,
+      "market_cap_category": "micro"
     },
     "SKHX": {
-      "company": "SKHX",
+      "company": "SK Hynix",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29684,7 +29972,7 @@
     },
     "VAC": {
       "company": "VAC",
-      "sector": "",
+      "sector": "Consumer Cyclical",
       "style": "",
       "mentions": [
         {
@@ -29701,21 +29989,11 @@
           "note": "Caller's actual holding, up ~70% year to date; Cramer likes it but says it's not as good as Marriott hotels.",
           "closing_price": 98.81
         }
-      ]
-    },
-    "WHW": {
-      "company": "WHW",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-07-09",
-          "sentiment": "buy_on_pullback",
-          "segment": "opening_commentary",
-          "note": "Timberland owner with 3.7% secure dividend, forestry and real estate exposure; vulnerable if rates rise but attractively priced if rates decline; Cramer more bullish than Wall Street.",
-          "closing_price": null
-        }
-      ]
+      ],
+      "industry": "Resorts & Casinos",
+      "pe_ratio": null,
+      "market_cap": 3354544640,
+      "market_cap_category": "mid"
     },
     "SOLS": {
       "company": "Solstice Advanced Materials",
@@ -29734,7 +30012,13 @@
           "note": "$14.5B Element Solutions deal is strategically brilliant (materials colossus for semis/nuclear) but both stocks sold off; a good deal lost in the shuffle for now.",
           "closing_price": 61.06
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Specialty Chemicals",
+      "style": "growth",
+      "pe_ratio": 50.39,
+      "market_cap": 9524577280,
+      "market_cap_category": "mid"
     },
     "BNDS": {
       "company": "Bending Spoons",
@@ -29758,7 +30042,13 @@
           "note": "Great commercial bank being acquired by Santander US; regulatory approval secured, complementary consumer/commercial fit with strong funding via HSA business.",
           "closing_price": 76.22
         }
-      ]
+      ],
+      "sector": "Financial Services",
+      "industry": "Banks - Regional",
+      "style": "blend",
+      "pe_ratio": 12.48,
+      "market_cap": 12331836416,
+      "market_cap_category": "large"
     },
     "LASR": {
       "company": "nLIGHT",
@@ -29770,7 +30060,13 @@
           "note": "Speculative buy on defense momentum including a Golden Dome award and Stryker vehicle systems.",
           "closing_price": 68.79
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Semiconductors",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 4279164672,
+      "market_cap_category": "mid"
     },
     "MOS": {
       "company": "Mosaic",
@@ -29782,7 +30078,13 @@
           "note": "Gulf disruption makes Mosaic an instant low-cost fertilizer producer as commodity prices rise.",
           "closing_price": 22.31
         }
-      ]
+      ],
+      "sector": "Basic Materials",
+      "industry": "Agricultural Inputs",
+      "style": "growth",
+      "pe_ratio": 158.3,
+      "market_cap": 7044118016,
+      "market_cap_category": "mid"
     },
     "RUN": {
       "company": "Sunrun",
@@ -29794,7 +30096,13 @@
           "note": "Cramer wishes they made money; won't endorse until profitability arrives, though he credits the caller's presentation.",
           "closing_price": 12.46
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Solar",
+      "style": "value",
+      "pe_ratio": 5.49,
+      "market_cap": 2787448320,
+      "market_cap_category": "mid"
     },
     "WY": {
       "company": "Weyerhaeuser",
@@ -29806,7 +30114,13 @@
           "note": "Rate-sensitive timber REIT with a ~3.7% yield; Cramer is more bullish than the Street but says you only buy it if you believe rates ultimately go lower.",
           "closing_price": 22.5
         }
-      ]
+      ],
+      "sector": "Real Estate",
+      "industry": "REIT - Specialty",
+      "style": "growth",
+      "pe_ratio": 42.15,
+      "market_cap": 17020211200,
+      "market_cap_category": "large"
     },
     "PNTG": {
       "company": "Pennant Group",
@@ -29818,12 +30132,18 @@
           "note": "Broke out above $37 resistance and crossed $40 today on high volume after a 20-month rounded base; Fitzpatrick and Cramer see $55 before year-end.",
           "closing_price": 40.46
         }
-      ]
+      ],
+      "sector": "Healthcare",
+      "industry": "Medical Care Facilities",
+      "style": "growth",
+      "pe_ratio": 48.13,
+      "market_cap": 1439202944,
+      "market_cap_category": "small"
     },
     "ACN": {
       "company": "ACN",
-      "sector": "",
-      "style": "",
+      "sector": "Technology",
+      "style": "value",
       "mentions": [
         {
           "date": "2026-07-16",
@@ -29832,11 +30152,15 @@
           "note": "Down 50% YTD with 4.7% dividend yield and $7.5B buyback, but AI/cloud work duplicates Accenture services at much lower cost; fundamental threat despite valuation appeal \u2014 stay away.",
           "closing_price": 144.61
         }
-      ]
+      ],
+      "industry": "Information Technology Services",
+      "pe_ratio": 11.24,
+      "market_cap": 86081888256,
+      "market_cap_category": "large"
     },
     "ADPT": {
       "company": "ADPT",
-      "sector": "",
+      "sector": "Healthcare",
       "style": "",
       "mentions": [
         {
@@ -29846,12 +30170,16 @@
           "note": "Bill Mus caller question. Stock down hard with hyperscalers; Cramer likes it but recommends small start due to losses and volatility.",
           "closing_price": 22.9
         }
-      ]
+      ],
+      "industry": "Diagnostics & Research",
+      "pe_ratio": null,
+      "market_cap": 3567389440,
+      "market_cap_category": "mid"
     },
     "BNY": {
       "company": "BNY",
-      "sector": "",
-      "style": "",
+      "sector": "Financial Services",
+      "style": "blend",
       "mentions": [
         {
           "date": "2026-07-15",
@@ -29860,10 +30188,14 @@
           "note": "Up 290% since Vince took over Aug 2022; outperforming all big banks and trust bank peers. Multi-day move expected; Cramer pounded table.",
           "closing_price": 162.35
         }
-      ]
+      ],
+      "industry": "Banks - Diversified",
+      "pe_ratio": 19.66,
+      "market_cap": 108914622464,
+      "market_cap_category": "large"
     },
     "BSCI": {
-      "company": "BSCI",
+      "company": "Boston Scientific",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29877,7 +30209,7 @@
       ]
     },
     "CORN": {
-      "company": "CORN",
+      "company": "Corning",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29892,8 +30224,8 @@
     },
     "CRK": {
       "company": "CRK",
-      "sector": "",
-      "style": "",
+      "sector": "Energy",
+      "style": "value",
       "mentions": [
         {
           "date": "2026-07-14",
@@ -29902,10 +30234,14 @@
           "note": "Caller Kenny (Pico Holdings ticker); Cramer doesn't know the business; afraid to come in late after huge run; insufficient clarity.",
           "closing_price": 12.98
         }
-      ]
+      ],
+      "industry": "Oil & Gas E&P",
+      "pe_ratio": 6.0,
+      "market_cap": 3891469824,
+      "market_cap_category": "mid"
     },
     "DGE": {
-      "company": "DGE",
+      "company": "Diageo",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29920,8 +30256,8 @@
     },
     "EXLS": {
       "company": "EXLS",
-      "sector": "",
-      "style": "",
+      "sector": "Technology",
+      "style": "blend",
       "mentions": [
         {
           "date": "2026-07-16",
@@ -29930,10 +30266,14 @@
           "note": "Outsourced services business but Cramer needs to research further; no immediate recommendation \u2014 comeback later with more analysis.",
           "closing_price": 28.69
         }
-      ]
+      ],
+      "industry": "Information Technology Services",
+      "pe_ratio": 17.36,
+      "market_cap": 4164098560,
+      "market_cap_category": "mid"
     },
     "HYNX": {
-      "company": "HYNX",
+      "company": "SK Hynix",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29948,8 +30288,8 @@
     },
     "ICE": {
       "company": "ICE",
-      "sector": "",
-      "style": "",
+      "sector": "Financial Services",
+      "style": "blend",
       "mentions": [
         {
           "date": "2026-07-15",
@@ -29958,10 +30298,14 @@
           "note": "Adam (Florida caller) asked about blockchain disruption; Cramer says doesn't make him want to get away from ICE\u2014owns everybody, inexpensive here. BNY better buy.",
           "closing_price": 139.84
         }
-      ]
+      ],
+      "industry": "Financial Data & Stock Exchanges",
+      "pe_ratio": 20.24,
+      "market_cap": 78645829632,
+      "market_cap_category": "large"
     },
     "QNTA": {
-      "company": "QNTA",
+      "company": "Quanta Services",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29975,7 +30319,7 @@
       ]
     },
     "XLE": {
-      "company": "XLE",
+      "company": "X Energy",
       "sector": "",
       "style": "",
       "mentions": [
@@ -29998,7 +30342,13 @@
           "note": "Part of data center buildout; strong run from $31 to $307; expect profit-taking as oversupply of AI infrastructure stock crushes valuations.",
           "closing_price": 307.34
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Electronic Components",
+      "style": "growth",
+      "pe_ratio": 41.5,
+      "market_cap": 39311605760,
+      "market_cap_category": "large"
     },
     "LYFT": {
       "company": "Lyft",
@@ -30010,7 +30360,13 @@
           "note": "CEO David Richer executing well; crossed inflection point with growing bookings, $1B+ free cash flow generation; good level to start.",
           "closing_price": 15.43
         }
-      ]
+      ],
+      "sector": "Technology",
+      "industry": "Software - Application",
+      "style": "value",
+      "pe_ratio": 2.24,
+      "market_cap": 5822431744,
+      "market_cap_category": "mid"
     },
     "CLSK": {
       "company": "CleanSpark",
@@ -30022,7 +30378,66 @@
           "note": "Bitcoin play; just buy Bitcoin directly instead\u2014easier to track and cleaner exposure.",
           "closing_price": 14.42
         }
-      ]
+      ],
+      "sector": "Financial Services",
+      "industry": "Capital Markets",
+      "style": "",
+      "pe_ratio": null,
+      "market_cap": 3911998208,
+      "market_cap_category": "mid"
+    },
+    "SKHY": {
+      "company": "SK Hynix",
+      "sector": "Technology",
+      "style": "blend",
+      "mentions": [
+        {
+          "date": "2026-01-21",
+          "sentiment": "caution_concern",
+          "segment": "in_depth_analysis",
+          "note": "Korean memory giant with hidden supply capacity history; could surprise market if flooding supply; wildcard risk to memory stock momentum.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-01-21",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Korean memory giant with hidden supply; Cramer blindsided by competitor supply in past cycles; could crash memory market if unleashed.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-03-04",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Parabolic 350% gain in 12mo but -16% in 5 days, -10% overnight; represents >50% of Cospi index with Samsung; correction worst in ages\u2014volatility signal, wait for stabilization.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-05-14",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "High-bandwidth memory chip supplier with $35.5B quarterly revenue; real business with $1T market cap not overvalued versus speculative alternatives.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-07-08",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Cheap if the data center trade holds, but a $29B raise with no retail appeal would force institutions to sell other stocks to fund it.",
+          "closing_price": null
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Memory chip company; if borrowing money to buy, you're part of margin plague; faster we purge these leveraged buyers, healthier market becomes.",
+          "closing_price": 152.31
+        }
+      ],
+      "industry": "Semiconductors",
+      "pe_ratio": 24.84,
+      "market_cap": 1213165469696,
+      "market_cap_category": "mega"
     }
   }
 }
