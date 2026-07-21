@@ -50,11 +50,20 @@ flowchart TD
     RD --> PUSH
     PUSH --> PAGES(["GitHub Pages<br/>stocks.html"])
 
-    classDef store fill:#eef,stroke:#66a
-    classDef out fill:#efe,stroke:#6a6
+    %% Explicit color: on every classDef — a fill without one inherits the
+    %% viewer's theme text colour, which renders light-on-light in dark mode.
+    classDef store fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
+    classDef out   fill:#cdebd2,stroke:#2f7d43,stroke-width:1px,color:#0b1020
     class TXT,SS,RD,SUM,DOCS,RULES store
     class MAIL,PAGES out
 ```
+
+| Box | Meaning |
+|-----|---------|
+| Blue, double-edged | a stored file or directory on disk |
+| Green, rounded | a delivered product — the nightly email, the live site |
+| Plain rectangle | a processing step in `pipeline.py` |
+| Cylinder | the SQLite database (source of truth) |
 
 ---
 
@@ -77,19 +86,24 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    DB[("mad_money.db")] --> IDX["index.json<br/>every ticker, for search"]
-    DB --> SH["{TICKER}.json<br/>one shard per ticker,<br/>fetched on demand"]
-    DB --> REC["recent.json<br/>last 90 days"]
-    DB --> ANLY["analytics.json<br/>build_analytics_json()"]
-    DB --> BT["backtest_by_ticker.json<br/>60d buy-call backtest,<br/>&ge;3 calls only"]
-    DB --> PR["{TICKER}_prices.json<br/>daily closes"]
+    DB[("mad_money.db")] --> IDX[["index.json<br/>every ticker, for search"]]
+    DB --> SH[["{TICKER}.json<br/>one shard per ticker,<br/>fetched on demand"]]
+    DB --> REC[["recent.json<br/>last 90 days"]]
+    DB --> ANLY[["analytics.json<br/>build_analytics_json()"]]
+    DB --> BT[["backtest_by_ticker.json<br/>60d buy-call backtest,<br/>&ge;3 calls only"]]
+    DB --> PR[["{TICKER}_prices.json<br/>daily closes"]]
 
-    IDX --> TAB1["Search tab"]
+    IDX --> TAB1(["Search tab"])
     SH --> TAB1
     BT --> TAB1
     PR --> TAB1
-    REC --> TAB2["Recent Picks tab"]
-    ANLY --> TAB3["Analytics tab"]
+    REC --> TAB2(["Recent Picks tab"])
+    ANLY --> TAB3(["Analytics tab"])
+
+    classDef store fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
+    classDef out   fill:#cdebd2,stroke:#2f7d43,stroke-width:1px,color:#0b1020
+    class IDX,SH,REC,ANLY,BT,PR store
+    class TAB1,TAB2,TAB3 out
 ```
 
 `stocks.html` is fully client-side — it fetches these JSON files and renders
@@ -115,6 +129,9 @@ flowchart TD
 
     TXT[["data/transcripts/"]] --> BF["backfill.py --reanalyze<br/>(no YouTube calls)"]
     BF --> DB
+
+    classDef store fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
+    class UNKMD,R20,ANLY,TXT store
 ```
 
 ---
