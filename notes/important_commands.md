@@ -53,8 +53,31 @@ python3 code/pipeline.py --fix-redirects 2026-06-26
 # Regenerate the manual-review queue of unidentified tickers (???? / ???)
 # Writes notes/unknown-tickers.md with a timestamped YouTube link per mention.
 # Always derived from the DB — resolved rows drop off automatically.
+#
+# MANUAL: the nightly pipeline does NOT run this. Re-run it yourself to pick up
+# placeholders from new episodes, and again after resolving any.
 python3 code/pipeline.py --list-unknown-tickers
 ```
+
+### Working the unknown-ticker queue
+
+`????` / `???` are what Haiku emits when it hears a company but can't identify its symbol.
+Those mentions are excluded from the website (`index.json`, `recent.json`, per-ticker
+shards) so they can't collapse into one bogus Search entry — but they stay in the DB until
+someone identifies them.
+
+```bash
+python3 code/pipeline.py --list-unknown-tickers   # 1. build/refresh the queue
+# 2. open notes/unknown-tickers.md, follow a row's link, identify the company
+sqlite3 data/mad_money.db \
+  "UPDATE mentions SET ticker='CORRECT' WHERE ticker='????' AND date='YYYY-MM-DD' AND segment='SEGMENT';"
+python3 code/pipeline.py --backfill-prices --tickers CORRECT
+python3 code/pipeline.py --rebuild-shards         # 3. publish (run on the main worktree)
+python3 code/pipeline.py --list-unknown-tickers   # 4. row drops off the queue
+```
+
+Tip: the deep-link labels often name the company outright (e.g. `Interview: Mistral AI`,
+`In-Depth: TPC Holdings (????)`) — check those before listening to anything.
 
 ## Database (SQLite)
 

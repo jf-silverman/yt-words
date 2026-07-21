@@ -1,9 +1,16 @@
 # Unknown Tickers — Manual Review Queue
 
-**23 mention(s)** are stored under a placeholder ticker (`????` / `???`) — Haiku heard a company but could not identify its symbol. These are excluded from the website until they are resolved.
+**21 mention(s)** are stored under a placeholder ticker (`????` / `???`) — Haiku heard a company but could not identify its symbol. These are excluded from the website until they are resolved.
 
-> Generated file — do not edit by hand. Regenerate with:
-> `python3 code/pipeline.py --list-unknown-tickers`
+> **Generated file — do not edit by hand.**
+>
+> ```bash
+> python3 code/pipeline.py --list-unknown-tickers
+> ```
+>
+> This is **manual — the nightly pipeline does not run it**, so this file does not
+> update itself as new episodes land. Re-run the command to pick up new placeholders
+> (and to drop rows you have already resolved).
 
 Each row needs someone to open the episode at the timestamp and identify the
 company. Once you know it:
@@ -40,7 +47,5 @@ Re-run the generator afterwards and the row disappears on its own.
 | 2026-06-04 | `????` | lightning_round | 36:00 | wait_hold_neutral | 100% speculation on recent regulatory approval; only appropriate as small speculative allocation, not as core portfolio holding or primary position. | [watch](https://youtu.be/2KJ4PtpX3Wk?t=2160) |
 | 2026-06-10 | `????` | lightning_round | 37:00 | wait_hold | Data center infrastructure play (caller Claire, TN); conflicting signals—executive resignation vs insider buying—prevent clear call; requires research. | [watch](https://youtu.be/PSHvy4EAT1g?t=2220) |
 | 2026-07-01 | `???` | lightning_round | 36:55 | sell_avoid | Power supplier to AI data centers with Tennessee Valley Authority backing and $1B liquidity; too speculative for Cramer; prefers GE as safer alternative to power-to-AI theme. | [watch](https://youtu.be/McE90rfiEIg?t=2215) |
-| 2026-07-08 | `????` | in_depth_analysis | 11:21 / 19:20 | buy_on_pullback | Attractive aerospace-engine and gas-turbine end markets with accelerating revenue and improving profitability post PIK-loan paydown, but trades at a premium to Howmet — wait for $42 or the 30s. | [In-Depth: FedEx (FDX)](https://youtu.be/k1DEekxlGG4?t=681) · [In-Depth: TPC Holdings (????)](https://youtu.be/k1DEekxlGG4?t=1160) |
-| 2026-07-08 | `????` | opening_commentary | 0:17 | caution_concern | Cheap if the data center trade holds, but a $29B raise with no retail appeal would force institutions to sell other stocks to fund it. | [watch](https://youtu.be/k1DEekxlGG4?t=17) |
 
 _1 row(s) show no timestamp — that episode has no redirect pages on disk (they are only generated when an Overcast ID or audio URL is found), so the link points at the start of the episode._

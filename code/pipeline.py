@@ -114,6 +114,10 @@ PRIVATE_COMPANIES: dict[str, dict] = {
     "ANTH": {"name": "Anthropic", "ipo_date": None},
     "OPAI": {"name": "OpenAI",    "ipo_date": None},
     "SPCX": {"name": "SpaceX",   "ipo_date": "2026-06-12"},
+    # Public in Korea long before this, but no US listing until the Nasdaq ADR
+    # (2026-07-10). Cramer discussed the pending $29B raise on 2026-07-08, so that
+    # mention has no US close — same shape as a pre-IPO row.
+    "SKHY": {"name": "SK Hynix", "ipo_date": "2026-07-10"},
 }
 
 
@@ -1003,6 +1007,8 @@ def _sync_mentions_from_db(stocks: dict) -> None:
         ORDER BY m.ticker, m.date
     """)
     rows = cur.fetchall()
+    cur.execute("SELECT ticker, company FROM stocks WHERE company != ''")
+    db_companies = {r["ticker"]: r["company"] for r in cur.fetchall()}
     conn.close()
 
     db_mentions: dict[str, list] = {}
@@ -1016,10 +1022,15 @@ def _sync_mentions_from_db(stocks: dict) -> None:
             "closing_price": row["closing_price"],
         })
 
-    # Add stub entries for DB tickers not yet in JSON metadata
+    # Add stub entries for DB tickers not yet in JSON metadata. Take the company name
+    # from the DB rather than defaulting to the ticker itself — otherwise a ticker that
+    # first reaches the JSON via this path (e.g. one created by a manual correction) is
+    # stuck showing its symbol as its name, and each worktree has its own copy of
+    # stock_sentiments.json, so hand-fixing one doesn't fix the other.
     for ticker in db_mentions:
         if ticker not in stocks:
-            stocks[ticker] = {"company": ticker, "sector": "", "style": "", "mentions": []}
+            stocks[ticker] = {"company": db_companies.get(ticker, ticker),
+                              "sector": "", "style": "", "mentions": []}
 
     # Overwrite mentions from DB; tickers removed from DB get empty lists (pruned below)
     for ticker in list(stocks):
@@ -2119,13 +2130,18 @@ def _section_index(date_str: str) -> dict[str, list[tuple[str, int]]]:
 
 
 def build_unknown_ticker_report(write: bool = True) -> str:
-    """Regenerate the manual-review list of mentions stored under ticker '????'.
+    """Regenerate the manual-review list of mentions stored under a placeholder ticker.
 
     Derived from the DB every time rather than hand-maintained. The previous hand-written
     table in notes/bugs.md silently rotted: reanalysing an episode calls
     _clear_mentions_for_date(), which rewrites every mention for that date, so rows in a
     transcribed list stop corresponding to anything. By 2026-07-21 only 6 of its 18 rows
     still existed while 16 undocumented ones had accumulated.
+
+    Deliberately NOT wired into the nightly run: commit_and_push() only stages docs/ and
+    data/, so a nightly-written notes/ file would sit dirty on main forever. Automating it
+    would mean adding this path to both commit_and_push()'s staged paths and the
+    .githooks/pre-commit blocked list. Run it by hand when working the queue.
     """
     from db import get_connection
 
@@ -2148,8 +2164,15 @@ def build_unknown_ticker_report(write: bool = True) -> str:
         f"(`????` / `???`) — Haiku heard a company but could not identify its symbol. "
         "These are excluded from the website until they are resolved.",
         "",
-        "> Generated file — do not edit by hand. Regenerate with:",
-        "> `python3 code/pipeline.py --list-unknown-tickers`",
+        "> **Generated file — do not edit by hand.**",
+        ">",
+        "> ```bash",
+        "> python3 code/pipeline.py --list-unknown-tickers",
+        "> ```",
+        ">",
+        "> This is **manual — the nightly pipeline does not run it**, so this file does not",
+        "> update itself as new episodes land. Re-run the command to pick up new placeholders",
+        "> (and to drop rows you have already resolved).",
         "",
         "Each row needs someone to open the episode at the timestamp and identify the",
         "company. Once you know it:",
@@ -2290,8 +2313,9 @@ def main() -> None:
                         help="Re-generate existing redirect pages for DATE (YYYY-MM-DD) "
                              "with correct Overcast universal links")
     parser.add_argument("--list-unknown-tickers", action="store_true",
-                        help=f"Regenerate notes/unknown-tickers.md — the manual-review queue of "
-                             f"mentions stored under the placeholder ticker '{UNKNOWN_TICKER}'")
+                        help="Regenerate notes/unknown-tickers.md — the manual-review queue of "
+                             "mentions stored under a placeholder ticker (???? / ???). "
+                             "Run by hand; the nightly pipeline does not do this for you")
     parser.add_argument("--backfill-prices", action="store_true",
                         help="Fetch closing prices for all mentions missing them in stock_sentiments.json")
     parser.add_argument("--tickers", metavar="TICKER1,TICKER2",
