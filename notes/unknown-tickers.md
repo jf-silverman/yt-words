@@ -2,8 +2,15 @@
 
 **23 mention(s)** are stored under a placeholder ticker (`????` / `???`) — Haiku heard a company but could not identify its symbol. These are excluded from the website until they are resolved.
 
-> Generated file — do not edit by hand. Regenerate with:
-> `python3 code/pipeline.py --list-unknown-tickers`
+> **Generated file — do not edit by hand.**
+>
+> ```bash
+> python3 code/pipeline.py --list-unknown-tickers
+> ```
+>
+> This is **manual — the nightly pipeline does not run it**, so this file does not
+> update itself as new episodes land. Re-run the command to pick up new placeholders
+> (and to drop rows you have already resolved).
 
 Each row needs someone to open the episode at the timestamp and identify the
 company. Once you know it:

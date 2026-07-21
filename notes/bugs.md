@@ -126,6 +126,13 @@ to be stored last (it was rendering as "OpenAI").
   python3 code/pipeline.py --list-unknown-tickers   # → notes/unknown-tickers.md
   ```
 
+  This is **run manually — the nightly pipeline does not regenerate it**, so the queue does
+  not grow on its own as new episodes land. Re-run the command to pick up new placeholders
+  and to drop rows you have resolved. (It is deliberately not automated: `commit_and_push()`
+  only stages `docs/` + `data/`, so a nightly-written `notes/` file would sit dirty on main
+  forever. Automating it would mean adding the path to both `commit_and_push()` and the
+  `.githooks/pre-commit` blocked list.)
+
 **Why the old hand-written table was removed:** it listed 18 rows captured on 2026-06-29 and
 silently rotted. Reanalysing an episode calls `_clear_mentions_for_date()`, which rewrites
 every mention for that date, so transcribed rows stop corresponding to anything. By
