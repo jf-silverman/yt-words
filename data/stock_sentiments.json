@@ -2090,7 +2090,8 @@
           "date": "2026-07-20",
           "sentiment": "buy",
           "segment": "opening_commentary",
-          "note": "Aerospace/industrial play; scoop up on weakness; benefits from data center infrastructure buildout indirectly."
+          "note": "Aerospace/industrial play; scoop up on weakness; benefits from data center infrastructure buildout indirectly.",
+          "closing_price": null
         }
       ],
       "sector": "Industrials",
@@ -4640,8 +4641,6 @@
           "sentiment": "mild_buy",
           "segment": "in_depth_analysis",
           "note": "Down 44% YoY but cheapest since 2022 at 19x earnings; strong buyback fortress ($27B remaining authorization, $12.5B annual FCF); build small position, add pyramid-style on weakness.",
-          "price_target": 400,
-          "price_level": 300,
           "closing_price": 67.6
         }
       ],
@@ -9477,7 +9476,8 @@
           "date": "2026-07-20",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Frontier AI model targeted by China's Kimmy K3; IPO timing in question amid cost pressures and geopolitical headwinds."
+          "note": "Frontier AI model targeted by China's Kimmy K3; IPO timing in question amid cost pressures and geopolitical headwinds.",
+          "closing_price": null
         }
       ],
       "sector": "Healthcare",
@@ -16669,8 +16669,6 @@
           "sentiment": "wait_hold_neutral",
           "segment": "lightning_round",
           "note": "Company losing fortune; avoid chasing here; stock out of favor along with speculative plays; wait for consolidation around $40 level.",
-          "price_target": 40,
-          "price_level": 50,
           "closing_price": 57.42
         }
       ],
@@ -17777,13 +17775,6 @@
           "segment": "interview",
           "note": "Best growth in years; Q2 guidance raised; AI Companion +184% YoY, My Notes 1.5M users in 4 months; trades 15x earnings; platform expanding to enterprise automation, contact center, AI; $51M Anthropic stake potential upside.",
           "closing_price": 91.15
-        },
-        {
-          "date": "2026-07-17",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "COVID-era profiteer became damaged company as growth opportunity evaporated post-vaccination; fell $588 (Oct 2020 peak) to $70s within two years; exemplifies why broken business models never recover and catching falling knives fails.",
-          "closing_price": 91.13
         }
       ],
       "sector": "Technology",
@@ -24488,7 +24479,6 @@
           "sentiment": "wait_hold_neutral",
           "segment": "caller_qa",
           "note": "Trading at 19x earnings with active buybacks; company making comeback despite tariff headwinds; don't sell on 30% decline.",
-          "price_level": 300,
           "closing_price": 2994.13
         }
       ],
@@ -26421,7 +26411,8 @@
           "date": "2026-07-20",
           "sentiment": "caution_concern",
           "segment": "opening_commentary",
-          "note": "Frontier AI model targeted by China; IPO delayed to 2027; massive capex commitments create near-term funding uncertainty despite $122B funding round."
+          "note": "Frontier AI model targeted by China; IPO delayed to 2027; massive capex commitments create near-term funding uncertainty despite $122B funding round.",
+          "closing_price": null
         }
       ],
       "sector": "",
@@ -29997,53 +29988,6 @@
         }
       ]
     },
-    "UPST": {
-      "company": "Upstart Holdings",
-      "mentions": [
-        {
-          "date": "2026-07-17",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "FinTech lender exposed to interest rate cycle; business model deteriorated as Fed raised rates; fell $400 (late 2021 peak) to low teens; demonstrates critical distinction between damaged stocks (tactical) and damaged companies (structural).",
-          "closing_price": 29.51
-        }
-      ]
-    },
-    "CMGI": {
-      "company": "CMGI",
-      "mentions": [
-        {
-          "date": "2026-07-17",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "Dot-com bust casualty that went to zero; illustrates why buy-and-hold without homework fails in secular downturns; demonstrates false assumption that stocks always recover to prior highs."
-        }
-      ]
-    },
-    "M": {
-      "company": "Macy's",
-      "mentions": [
-        {
-          "date": "2026-07-17",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "Retail victim of Amazon competition; stock cut in half; investors who refused profit-taking due to tax concerns ended up with zero gains; classic example of tax-driven indecision destroying wealth preservation.",
-          "closing_price": 23.68
-        }
-      ]
-    },
-    "ARKK": {
-      "company": "Ark Innovation ETF",
-      "mentions": [
-        {
-          "date": "2026-07-17",
-          "sentiment": "caution_concern",
-          "segment": "opening_commentary",
-          "note": "Highly concentrated growth portfolio\u2014best performer 2020, among worst in 2022; illustrates why undiversified portfolios blow up in multi-year cycles despite exceptional short-term performance in benign environments; concentration is risk masquerading as skill.",
-          "closing_price": 75.2
-        }
-      ]
-    },
     "CLS": {
       "company": "Celestica",
       "mentions": [
@@ -30052,7 +29996,6 @@
           "sentiment": "caution_concern",
           "segment": "in_depth_analysis",
           "note": "Part of data center buildout; strong run from $31 to $307; expect profit-taking as oversupply of AI infrastructure stock crushes valuations.",
-          "price_level": 307,
           "closing_price": 307.34
         }
       ]
@@ -30065,8 +30008,6 @@
           "sentiment": "buy",
           "segment": "lightning_round",
           "note": "CEO David Richer executing well; crossed inflection point with growing bookings, $1B+ free cash flow generation; good level to start.",
-          "price_target": 20,
-          "price_level": 15,
           "closing_price": 15.43
         }
       ]
