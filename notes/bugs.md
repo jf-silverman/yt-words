@@ -143,3 +143,51 @@ python3 code/pipeline.py --backfill-prices --tickers CORRECT
 python3 code/pipeline.py --rebuild-shards
 ```
 Note: this is a different issue from BUG-004 Category B, which has known wrong tickers. Here the ticker is completely unknown.
+
+---
+
+## BUG-007 — Silent git push failure (RESOLVED 2026-07-21)
+
+**Status:** Fixed.
+
+**Root cause:** `origin` was an HTTPS remote with `credential.helper = osxkeychain`.
+Under cron there is no GUI session and the login keychain is unavailable, so git could
+not read credentials and every nightly push died with:
+
+```
+fatal: could not read Username for 'https://github.com': Device not configured
+```
+
+Interactive pushes kept succeeding, which masked the problem — the backlog only surfaced
+when a manual push happened to sweep the stranded commits along.
+
+**Fix:**
+1. Remote switched to SSH (`git@github.com:jf-silverman/yt-words.git`). The existing
+   `~/.ssh/id_ed25519` is already registered with GitHub and has **no passphrase**, so it
+   works headless. One `git remote set-url` covers both worktrees (shared `.git`).
+2. `commit_and_push()` now prints a loud `!!!!` banner on push failure, including the
+   unpushed-commit count and the exact recovery command, instead of a single quiet line.
+
+---
+
+## BUG-008 — Episode analysis truncated at max_tokens (RESOLVED 2026-07-21)
+
+**Status:** Fixed.
+
+The 2026-07-20 episode was skipped with `Unterminated string starting at: line 527
+column 15 (char 28896)`. `analyze_with_haiku()` used `max_tokens=8192`; a stock-heavy
+episode emits ~30k chars of JSON, so the response was cut off mid-string and `json.loads`
+failed. Raised to `ANALYSIS_MAX_TOKENS = 32000`.
+
+---
+
+## BUG-009 — "0 stocks" analyses marked processed and never retried (RESOLVED 2026-07-21)
+
+**Status:** Fixed.
+
+The 2026-07-17 run logged `Sections: 6  Stocks: 0`, wrote a stub summary, emailed
+"0 stocks", and recorded the video in `processed_episodes.json` — so it would never retry
+on its own. A structurally valid but empty analysis was indistinguishable from success.
+
+**Fix:** the pipeline now raises when an analysis returns sections but zero stocks, so the
+episode is skipped, left out of `processed_episodes.json`, and picked up on the next run.

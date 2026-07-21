@@ -3,11 +3,12 @@
 ## Running the Pipeline
 
 ```bash
-# Normal run — process 1 new episode, send email via SMTP (uses Haiku API)
+# Normal run — process 1 new episode, send email via SMTP.
+# Analysis uses the Claude Code subscription by default (no API credits spent).
 python3 code/pipeline.py --email-mode smtp
 
-# Run using Claude Code subscription instead of Haiku API (no API credits)
-python3 code/pipeline.py --backend claude-code --email-mode smtp
+# Opt in to the Haiku API instead (spends API credits — only when explicitly wanted)
+python3 code/pipeline.py --backend api --email-mode smtp
 
 # Process up to N new episodes in one run
 python3 code/pipeline.py --max-episodes 3 --email-mode smtp
@@ -19,11 +20,14 @@ python3 code/pipeline.py --dry-run
 ## Backfill & Reprocessing
 
 ```bash
-# Reprocess a date range (uses Haiku API by default)
+# Reprocess a date range (Claude Code subscription by default)
 python3 code/backfill.py --start 2026-05-01 --end 2026-05-31
 
-# Reprocess using Claude Code subscription instead of API
-python3 code/backfill.py --start 2026-05-01 --end 2026-05-31 --backend claude-code
+# Re-run analysis on transcripts already on disk (no YouTube calls) — fixes a bad episode
+python3 code/backfill.py --reanalyze --start 2026-07-17 --end 2026-07-17
+
+# Opt in to the Haiku API instead (spends API credits)
+python3 code/backfill.py --start 2026-05-01 --end 2026-05-31 --backend api
 ```
 
 ## Data Maintenance

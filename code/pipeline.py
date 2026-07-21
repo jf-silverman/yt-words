@@ -348,14 +348,22 @@ def fetch_transcript(video_id: str, upload_date: str = "") -> tuple[str, list, s
 
 # ── 3. Haiku analysis ──────────────────────────────────────────────────────────
 
+ANALYSIS_MODEL = "claude-haiku-4-5-20251001"
+
+# A stock-heavy episode emits ~30k chars of JSON. At 8192 the 2026-07-20 episode
+# truncated mid-string ("Unterminated string ... char 28896") and the whole episode was
+# skipped, so give the response real headroom — unused tokens cost nothing.
+ANALYSIS_MAX_TOKENS = 32000
+
+
 def analyze_with_haiku(date_str: str, transcript_text: str) -> dict:
     """Call Claude Haiku with the Mad Money rules. Returns parsed analysis dict."""
     system_prompt = RULES_FILE.read_text()
     client = anthropic.Anthropic()
 
     message = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=8192,
+        model=ANALYSIS_MODEL,
+        max_tokens=ANALYSIS_MAX_TOKENS,
         system=system_prompt,
         messages=[
             {
@@ -376,8 +384,38 @@ def analyze_with_haiku(date_str: str, transcript_text: str) -> dict:
     return json.loads(raw)
 
 
+def _claude_bin() -> str:
+    """Absolute path to the `claude` CLI.
+
+    cron runs with a minimal PATH (/usr/bin:/bin), so a bare "claude" resolves fine in an
+    interactive shell but raises FileNotFoundError under the nightly job. Resolve it here
+    instead of relying on PATH.
+    """
+    import shutil, os
+
+    found = shutil.which("claude")
+    if found:
+        return found
+    for cand in ("/opt/homebrew/bin/claude", "/usr/local/bin/claude",
+                 os.path.expanduser("~/.local/bin/claude"),
+                 os.path.expanduser("~/.claude/local/claude")):
+        if os.path.exists(cand):
+            return cand
+    raise RuntimeError(
+        "claude CLI not found on PATH or in the usual install locations. "
+        "Install it, or run with --backend api to use Haiku API credits instead."
+    )
+
+
 def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
-    """Analyze using the claude CLI (Claude Code subscription — no API credits)."""
+    """Analyze using the claude CLI (Claude Code subscription — no API credits).
+
+    Flags mirror backfill.py: pin the model explicitly (without --model this inherits
+    whatever the session default is), and strip tools/settings/MCP/hooks. This is a pure
+    text-in JSON-out call, and the nightly run executes *inside the project directory* —
+    without --setting-sources "" it would pick up CLAUDE.md, skills and hooks and behave
+    unpredictably.
+    """
     import subprocess, os
 
     user_message = f"Episode date: {date_str}\n\nTranscript:\n{transcript_text}"
@@ -388,9 +426,17 @@ def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
     env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
 
     result = subprocess.run(
-        ["claude", "-p", "--system-prompt", system_prompt],
-        input=user_message,
-        capture_output=True, text=True, env=env, timeout=300,
+        [
+            _claude_bin(), "-p", user_message,
+            "--system-prompt", system_prompt,
+            "--model", ANALYSIS_MODEL,
+            "--tools", "",
+            "--setting-sources", "",
+            "--strict-mcp-config",
+            "--disable-slash-commands",
+            "--no-session-persistence",
+        ],
+        capture_output=True, text=True, env=env, timeout=900,
     )
 
     if result.returncode != 0:
@@ -1981,7 +2027,20 @@ def commit_and_push(dates: list[str]) -> None:
         print(f"  Pushed to origin/{PAGES_BRANCH} — redirect pages are live")
     except subprocess.CalledProcessError as e:
         err = (e.stderr or "").strip().splitlines()[-1:] or [str(e)]
-        print(f"  Git push failed: {err[0]}")
+        # Loud on purpose: this failed silently for days (BUG-007) while the nightly email
+        # kept arriving, so nothing signalled that the live site had stopped updating.
+        print("\n" + "!" * 72)
+        print(f"!! GIT PUSH FAILED: {err[0]}")
+        print("!! The live site is NOT updating. Commits are stacking up locally.")
+        try:
+            behind = git("log", f"origin/{PAGES_BRANCH}..{PAGES_BRANCH}", "--oneline",
+                         check=False).stdout.strip().splitlines()
+            if behind:
+                print(f"!! {len(behind)} unpushed commit(s); oldest: {behind[-1]}")
+        except Exception:
+            pass
+        print(f"!! Recover with:  git -C {ROOT} push origin {PAGES_BRANCH}")
+        print("!" * 72 + "\n")
         print("  Generated files are still on disk — links will use YouTube fallback until next push")
 
 
@@ -2049,9 +2108,9 @@ def main() -> None:
                         help="Max new episodes to process (default: 5) — each gets its own separate email")
     parser.add_argument("--email-mode", choices=["smtp", "mcp"], default="smtp",
                         help="Email delivery mode (default: smtp)")
-    parser.add_argument("--backend", choices=["api", "claude-code"], default="api",
-                        help="Analysis backend: 'api' uses Haiku API credits (default); "
-                             "'claude-code' shells out to the claude CLI (uses your subscription)")
+    parser.add_argument("--backend", choices=["api", "claude-code"], default="claude-code",
+                        help="Analysis backend: 'claude-code' shells out to the claude CLI and "
+                             "uses your subscription (default); 'api' spends Haiku API credits")
     parser.add_argument("--dry-run", action="store_true",
                         help="Analyze and format but do not send email")
     parser.add_argument("--fix-redirects", metavar="DATE",
@@ -2156,6 +2215,16 @@ def main() -> None:
             n_stocks = len(analysis.get("stocks", []))
             n_sections = len(analysis.get("sections", []))
             print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
+
+            # A real episode always names stocks. Sections-but-no-stocks means the model
+            # returned a structurally valid but empty result (this happened on 2026-07-17,
+            # which then sent a "0 stocks" email and marked itself processed, so it never
+            # retried). Treat it as a failure so the next run picks it up again.
+            if n_sections and not n_stocks:
+                raise RuntimeError(
+                    f"analysis returned {n_sections} sections but 0 stocks — "
+                    "treating as a failed analysis so it retries next run"
+                )
 
             print("  Updating stock_sentiments.json...")
             update_stock_sentiments(analysis, video_id=video_id)
