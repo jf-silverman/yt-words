@@ -1007,6 +1007,8 @@ def _sync_mentions_from_db(stocks: dict) -> None:
         ORDER BY m.ticker, m.date
     """)
     rows = cur.fetchall()
+    cur.execute("SELECT ticker, company FROM stocks WHERE company != ''")
+    db_companies = {r["ticker"]: r["company"] for r in cur.fetchall()}
     conn.close()
 
     db_mentions: dict[str, list] = {}
@@ -1020,10 +1022,15 @@ def _sync_mentions_from_db(stocks: dict) -> None:
             "closing_price": row["closing_price"],
         })
 
-    # Add stub entries for DB tickers not yet in JSON metadata
+    # Add stub entries for DB tickers not yet in JSON metadata. Take the company name
+    # from the DB rather than defaulting to the ticker itself — otherwise a ticker that
+    # first reaches the JSON via this path (e.g. one created by a manual correction) is
+    # stuck showing its symbol as its name, and each worktree has its own copy of
+    # stock_sentiments.json, so hand-fixing one doesn't fix the other.
     for ticker in db_mentions:
         if ticker not in stocks:
-            stocks[ticker] = {"company": ticker, "sector": "", "style": "", "mentions": []}
+            stocks[ticker] = {"company": db_companies.get(ticker, ticker),
+                              "sector": "", "style": "", "mentions": []}
 
     # Overwrite mentions from DB; tickers removed from DB get empty lists (pruned below)
     for ticker in list(stocks):
