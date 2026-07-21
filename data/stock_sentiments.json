@@ -6312,7 +6312,7 @@
       "market_cap_category": "mid"
     },
     "IBM": {
-      "company": "IBM",
+      "company": "International Business Machines",
       "mentions": [
         {
           "date": "2026-01-14",
@@ -26435,7 +26435,7 @@
       "market_cap_category": ""
     },
     "ACGX": {
-      "company": "ACGX",
+      "company": "Alliance Creative Group, Inc.",
       "sector": "Consumer Cyclical",
       "style": "value",
       "mentions": [
@@ -26489,7 +26489,7 @@
       "market_cap_category": "small"
     },
     "ALGT": {
-      "company": "ALGT",
+      "company": "Allegiant Travel Company",
       "sector": "Industrials",
       "style": "",
       "mentions": [
@@ -26665,7 +26665,7 @@
       "market_cap_category": ""
     },
     "CIE": {
-      "company": "CIE",
+      "company": "iShares International Fdmtl ETF Comm",
       "sector": "",
       "style": "",
       "mentions": [
@@ -26683,7 +26683,7 @@
       "market_cap_category": ""
     },
     "CLST": {
-      "company": "CLST",
+      "company": "Catalyst Bancorp, Inc.",
       "sector": "Financial Services",
       "style": "growth",
       "mentions": [
@@ -26701,7 +26701,7 @@
       "market_cap_category": "micro"
     },
     "CORZ": {
-      "company": "CORZ",
+      "company": "Core Scientific, Inc.",
       "sector": "Technology",
       "style": "",
       "mentions": [
@@ -26719,7 +26719,7 @@
       "market_cap_category": "mid"
     },
     "CRIT": {
-      "company": "CRIT",
+      "company": "Exchange Traded Concepts Trust ",
       "sector": "",
       "style": "",
       "mentions": [
@@ -26762,7 +26762,7 @@
       "market_cap_category": "large"
     },
     "CRVS": {
-      "company": "CRVS",
+      "company": "Corvus Pharmaceuticals, Inc.",
       "sector": "Healthcare",
       "style": "",
       "mentions": [
@@ -26816,7 +26816,7 @@
       "market_cap_category": ""
     },
     "FDFT": {
-      "company": "FDFT",
+      "company": "Foodfest International 2000, In",
       "sector": "Financial Services",
       "style": "",
       "mentions": [
@@ -27014,7 +27014,7 @@
       "market_cap_category": "large"
     },
     "MLI": {
-      "company": "MLI",
+      "company": "Mueller Industries, Inc.",
       "sector": "Industrials",
       "style": "blend",
       "mentions": [
@@ -27122,7 +27122,7 @@
       "market_cap_category": ""
     },
     "NOC": {
-      "company": "NOC",
+      "company": "Northrop Grumman Corporation",
       "sector": "Industrials",
       "style": "blend",
       "mentions": [
@@ -27305,7 +27305,7 @@
       "market_cap_category": ""
     },
     "RCKT": {
-      "company": "RCKT",
+      "company": "Rocket Pharmaceuticals, Inc.",
       "sector": "Healthcare",
       "style": "",
       "mentions": [
@@ -27467,7 +27467,7 @@
       "market_cap_category": "micro"
     },
     "TDY": {
-      "company": "TDY",
+      "company": "Teledyne Technologies Incorpora",
       "sector": "Technology",
       "style": "growth",
       "mentions": [
