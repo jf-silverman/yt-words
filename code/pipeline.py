@@ -114,6 +114,10 @@ PRIVATE_COMPANIES: dict[str, dict] = {
     "ANTH": {"name": "Anthropic", "ipo_date": None},
     "OPAI": {"name": "OpenAI",    "ipo_date": None},
     "SPCX": {"name": "SpaceX",   "ipo_date": "2026-06-12"},
+    # Public in Korea long before this, but no US listing until the Nasdaq ADR
+    # (2026-07-10). Cramer discussed the pending $29B raise on 2026-07-08, so that
+    # mention has no US close — same shape as a pre-IPO row.
+    "SKHY": {"name": "SK Hynix", "ipo_date": "2026-07-10"},
 }
 
 
