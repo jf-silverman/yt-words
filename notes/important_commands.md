@@ -57,6 +57,34 @@ python3 code/pipeline.py --fix-redirects 2026-06-26
 # MANUAL: the nightly pipeline does NOT run this. Re-run it yourself to pick up
 # placeholders from new episodes, and again after resolving any.
 python3 code/pipeline.py --list-unknown-tickers
+
+# Regenerate the ticker/company mismatch queue (notes/ticker-name-mismatches.md)
+# Every ticker whose stored company disagrees with what Yahoo says that symbol is.
+#
+# MANUAL: the nightly run checks only the episode it just analyzed and prints any
+# flags in its output. This rebuilds the full picture across every ticker.
+python3 code/pipeline.py --check-ticker-names
+```
+
+### Ticker/company mismatches
+
+Haiku picks the ticker from what it hears, and the auto-captions mangle names — "Newor"
+became `NWR` instead of `NUE`, "Sanders" became `SNPS` instead of `SNDK`. A wrong ticker
+is worse than a missing one: the call silently inherits a real, unrelated company's
+price history.
+
+The nightly run now checks every (ticker, company) pair against Yahoo right after
+analysis and prints a `!!` block naming the suspect and the symbol Yahoo thinks the
+company actually is. It is **advisory** — the call is still stored, because the model is
+right far more often than not. Act on it the next morning:
+
+```bash
+python3 code/pipeline.py --check-ticker-names    # full queue across all tickers
+# confirm against data/transcripts/{date}_transcript.txt, then:
+sqlite3 data/mad_money.db \
+  "UPDATE mentions SET ticker='CORRECT', closing_price=NULL WHERE ticker='WRONG' AND date='YYYY-MM-DD';"
+python3 code/pipeline.py --rebuild-shards
+python3 code/pipeline.py --backfill-prices --tickers CORRECT
 ```
 
 ### Working the unknown-ticker queue
