@@ -42,6 +42,38 @@
       background: #fff; font-size: 12px; cursor: pointer; color: #57606a;
       white-space: nowrap;
     }
+    /* Episode date picker — a popout calendar. 117 episodes made a <select> unusable. */
+    .cal-wrap { position: relative; display: inline-block; }
+    .cal-trigger {
+      padding: 5px 12px; border: 1px solid #d0d7de; border-radius: 6px; background: #fff;
+      cursor: pointer; font-size: 14px; color: #24292f; font-weight: 600;
+    }
+    .cal-trigger:hover { border-color: #0969da; color: #0969da; }
+    .cal-trigger::after { content: " \25BE"; color: #8b949e; font-weight: 400; }
+    .cal-pop {
+      position: absolute; z-index: 60; top: calc(100% + 6px); left: 0; width: 252px;
+      background: #fff; border: 1px solid #d0d7de; border-radius: 8px; padding: 10px;
+      box-shadow: 0 8px 24px rgba(31,35,40,.16);
+    }
+    .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .cal-title { font-weight: 600; font-size: 13px; color: #24292f; }
+    .cal-nav {
+      border: none; background: none; font-size: 15px; line-height: 1; cursor: pointer;
+      color: #57606a; padding: 3px 8px; border-radius: 4px;
+    }
+    .cal-nav:hover:not(:disabled) { background: #f6f8fa; color: #0969da; }
+    .cal-nav:disabled { color: #d8dee4; cursor: default; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+    .cal-dow { font-size: 10px; color: #8b949e; text-align: center; padding: 2px 0; }
+    .cal-day { text-align: center; font-size: 12px; padding: 5px 0; border-radius: 4px; color: #d8dee4; }
+    .cal-day.has { color: #0969da; background: #ddf4ff; cursor: pointer; font-weight: 600; }
+    .cal-day.has:hover { background: #0969da; color: #fff; }
+    .cal-day.sel { background: #0969da; color: #fff; }
+    .cal-foot {
+      margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f3f6;
+      display: flex; justify-content: space-between; font-size: 11px;
+    }
+    .cal-foot button { border: none; background: none; color: #0969da; cursor: pointer; font-size: 11px; padding: 0; }
     .filter-btn:hover { border-color: #0969da; color: #0969da; }
     .filter-btn.active { background: #0969da; color: #fff; border-color: #0969da; font-weight: 600; }
     .chk-label {
@@ -411,7 +443,10 @@
   <div id="episodes-panel" style="display:none">
     <div class="filter-bar">
       <span class="filter-label">Episode:</span>
-      <select id="ep-select" style="padding:6px 8px;font-size:14px;max-width:340px"></select>
+      <span class="cal-wrap">
+        <button class="cal-trigger" id="ep-trigger" onclick="toggleEpCal(event)">Loading…</button>
+        <div class="cal-pop" id="ep-cal" style="display:none"></div>
+      </span>
       <span id="ep-links" style="margin-left:12px;font-size:13px"></span>
     </div>
     <div class="filter-bar">
@@ -1336,9 +1371,12 @@ function showTab(tab) {
 // One night's complete mention list. The nightly email only shows the recipient's
 // own holdings, so this is where the rest of an episode lives.
 
-let epIndex = null;      // [{date, video_id, n, is_fundamentals}]
+let epIndex = null;      // [{date, video_id, n, is_fundamentals}] newest first
+let epByDate = {};       // 'YYYY-MM-DD' -> index entry
 const epCache = {};      // date -> episode shard
 let epSegFilter = 'all';
+let epCurrent = null;    // selected date
+let epCalMonth = null;   // first-of-month currently drawn in the calendar
 
 async function loadEpisodes() {
   if (!epIndex) {
@@ -1349,17 +1387,95 @@ async function loadEpisodes() {
         '<p style="color:#a00000">Could not load episode index.</p>';
       return;
     }
-    const sel = document.getElementById('ep-select');
-    sel.innerHTML = epIndex.map(e => {
-      const d = new Date(e.date + 'T12:00:00');
-      const label = d.toLocaleDateString(undefined, {weekday:'short', year:'numeric', month:'short', day:'numeric'});
-      return `<option value="${e.date}">${label} — ${e.n} mention${e.n === 1 ? '' : 's'}` +
-             `${e.is_fundamentals ? ' (fundamentals)' : ''}</option>`;
-    }).join('');
-    sel.addEventListener('change', () => showEpisode(sel.value));
+    epByDate = Object.fromEntries(epIndex.map(e => [e.date, e]));
+    epCurrent = epIndex[0].date;
+    epCalMonth = firstOfMonth(epCurrent);
   }
-  showEpisode(document.getElementById('ep-select').value || epIndex[0].date);
+  renderEpTrigger();
+  showEpisode(epCurrent);
 }
+
+// ── date picker ───────────────────────────────────────────────────────────────
+// Parsed at noon to dodge the DST/UTC off-by-one that bites 'YYYY-MM-DD' parsing.
+function parseDay(s) { return new Date(s + 'T12:00:00'); }
+function firstOfMonth(s) { const d = parseDay(s); return new Date(d.getFullYear(), d.getMonth(), 1); }
+function ymd(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function renderEpTrigger() {
+  const e = epByDate[epCurrent];
+  const label = parseDay(epCurrent).toLocaleDateString(undefined,
+    { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+  document.getElementById('ep-trigger').textContent =
+    `${label} · ${e ? e.n : 0} mention${e && e.n === 1 ? '' : 's'}`;
+}
+
+function toggleEpCal(evt) {
+  if (evt) evt.stopPropagation();
+  const pop = document.getElementById('ep-cal');
+  const open = pop.style.display !== 'none';
+  if (open) { pop.style.display = 'none'; return; }
+  epCalMonth = firstOfMonth(epCurrent);
+  renderEpCal();
+  pop.style.display = '';
+}
+
+function renderEpCal() {
+  const pop = document.getElementById('ep-cal');
+  const y = epCalMonth.getFullYear(), m = epCalMonth.getMonth();
+  const dates = Object.keys(epByDate);
+  const minDate = dates[dates.length - 1], maxDate = dates[0];
+  const prevOk = `${y}-${String(m + 1).padStart(2, '0')}` > minDate.slice(0, 7);
+  const nextOk = `${y}-${String(m + 1).padStart(2, '0')}` < maxDate.slice(0, 7);
+
+  const lead = new Date(y, m, 1).getDay();          // 0=Sun
+  const nDays = new Date(y, m + 1, 0).getDate();
+  let cells = '';
+  for (let i = 0; i < lead; i++) cells += '<div class="cal-day"></div>';
+  for (let day = 1; day <= nDays; day++) {
+    const key = ymd(new Date(y, m, day));
+    const e = epByDate[key];
+    const cls = 'cal-day' + (e ? ' has' : '') + (key === epCurrent ? ' sel' : '');
+    const title = e ? ` title="${e.n} mention${e.n === 1 ? '' : 's'}"` : '';
+    cells += e
+      ? `<div class="${cls}"${title} onclick="pickEpisode('${key}')">${day}</div>`
+      : `<div class="${cls}">${day}</div>`;
+  }
+  pop.innerHTML = `
+    <div class="cal-head">
+      <button class="cal-nav" onclick="stepEpMonth(-1)" ${prevOk ? '' : 'disabled'} title="Previous month">&#8249;</button>
+      <span class="cal-title">${epCalMonth.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</span>
+      <button class="cal-nav" onclick="stepEpMonth(1)" ${nextOk ? '' : 'disabled'} title="Next month">&#8250;</button>
+    </div>
+    <div class="cal-grid">
+      ${['S','M','T','W','T','F','S'].map(d => `<div class="cal-dow">${d}</div>`).join('')}
+      ${cells}
+    </div>
+    <div class="cal-foot">
+      <button onclick="pickEpisode('${maxDate}')">Latest episode</button>
+      <span style="color:#8b949e">${epIndex.length} episodes</span>
+    </div>`;
+}
+
+function stepEpMonth(delta) {
+  epCalMonth = new Date(epCalMonth.getFullYear(), epCalMonth.getMonth() + delta, 1);
+  renderEpCal();
+}
+
+function pickEpisode(dateStr) {
+  epCurrent = dateStr;
+  epSegFilter = 'all';
+  document.getElementById('ep-cal').style.display = 'none';
+  renderEpTrigger();
+  showEpisode(dateStr);
+}
+
+// Click anywhere else closes the popup.
+document.addEventListener('click', e => {
+  const pop = document.getElementById('ep-cal');
+  if (pop && pop.style.display !== 'none' && !e.target.closest('.cal-wrap')) pop.style.display = 'none';
+});
 
 async function showEpisode(dateStr) {
   const wrap = document.getElementById('ep-table');
@@ -1395,7 +1511,7 @@ async function showEpisode(dateStr) {
 
   if (!rows.length) { wrap.innerHTML = '<p style="color:#57606a">No mentions.</p>'; return; }
 
-  wrap.innerHTML = `<div class="table-wrap"><table class="a-table">
+  wrap.innerHTML = `<div class="table-wrap"><table class="a-table" id="ep-mentions-table">
     <thead><tr>
       <th>Ticker</th><th>Company</th><th>Sentiment</th>
       <th>Segment</th><th style="text-align:right">Close</th><th>What Cramer said</th>
@@ -1405,20 +1521,28 @@ async function showEpisode(dateStr) {
         ? '<span style="color:#8b949e" title="Cramer named a company but the ticker could not be identified">unidentified</span>'
         : `<a href="#" onclick="gotoTicker('${m.ticker}');return false;"><strong>${m.ticker}</strong></a>`;
       const price = (m.closing_price != null) ? `$${m.closing_price.toFixed(2)}` : '—';
+      // data-rank drives the sorter: it sorts sentiment by conviction rather than
+      // alphabetically, and price numerically — parseFloat("$47.66") is NaN, so
+      // without this the Close column would fall back to a string sort.
+      const priceRank = (m.closing_price != null) ? m.closing_price : -1;
       return `<tr>
         <td>${tick}</td>
         <td>${m.company || ''}</td>
-        <td>${sentimentBadge(m.sentiment)}</td>
+        <td data-rank="${SENTIMENT_ORDER.indexOf(m.sentiment)}">${sentimentBadge(m.sentiment)}</td>
         <td>${humanizeSegment(m.segment)}</td>
-        <td style="text-align:right">${price}</td>
+        <td style="text-align:right" data-rank="${priceRank}">${price}</td>
         <td style="font-size:13px;color:#57606a">${m.note || ''}</td>
       </tr>`;
     }).join('') + '</tbody></table></div>';
+
+  // Sortable on every column. No default sort — the shard arrives ticker-ordered,
+  // which is the sensible resting state.
+  makeSortable('ep-mentions-table');
 }
 
 function setEpSegment(seg) {
   epSegFilter = seg;
-  showEpisode(document.getElementById('ep-select').value);
+  showEpisode(epCurrent);
 }
 
 // Jump from an episode row into that ticker's Search card.
