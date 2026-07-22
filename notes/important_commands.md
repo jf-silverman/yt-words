@@ -66,6 +66,11 @@ python3 code/pipeline.py --list-unknown-tickers
 python3 code/pipeline.py --check-ticker-names
 ```
 
+Both queue files read company names from SQLite (a single shared file), not from
+`stock_sentiments.json`, so they give the same answer in either worktree. Decisions
+that required judgment — and rows deliberately left unresolved — are recorded by hand
+in `notes/ticker-review-log.md`; read that before re-working a row.
+
 ### Ticker/company mismatches
 
 Haiku picks the ticker from what it hears, and the auto-captions mangle names — "Newor"
