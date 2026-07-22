@@ -365,3 +365,54 @@ mis-ticker corrupts a price history; a false positive costs one glance.
 overwrite anything, because it has no entry for private companies (`ANTH`, `OPAI`,
 `SPCX`), returns bare numbers as names for some symbols, and knows nothing about the
 ~200 hallucinated tickers.
+
+---
+
+## BUG-013 — Prompt taught the mis-ticker patterns (2026-07-21)
+
+`prompts/mad_money_rules.md` had a "Ticker Verification" section, but it assumed the
+failure mode was *Cramer states a wrong ticker*. The actual failure is upstream: the
+YouTube auto-caption garbles the **company name**, and the model builds a ticker out of
+the garbled letters. Added a section that inverts the instruction — identify the company
+from context first, then derive the ticker from the company — with the nine real examples
+verified in BUG-010/011, plus two hard rules (never put a company name in the `ticker`
+field; beware near-miss *valid* tickers like `BLK`/`BX`, `LITE`/`LUMN`, `NUE`/`NWL`).
+
+### Backfill test
+
+Re-analyzed five known-bad episodes with the new prompt, writing nothing to the DB, and
+scored against the corrections confirmed from transcripts.
+
+| | Result |
+|---|---|
+| Targeted mis-tickers fixed | **7 of 8** |
+| Validator flags per call | 20.9% &rarr; **14.4%** |
+| Non-existent symbols per call | 10.9% &rarr; **5.6%** |
+| Company name stored as a ticker | 1 &rarr; **0** |
+
+All seven fixed: `NWR`/`NWL`&rarr;`NUE`, `FRMA`/`FIRN`&rarr;`AFRM`, `ABBY`&rarr;`ABBV`,
+`SNPS`&rarr;`SNDK`, `WHW`&rarr;`WY`, `SKHX`&rarr;`SKHY`.
+
+The eighth (NuScale, transcript says "New Scale") is a **partial win**: instead of storing
+`NUSCALE POWER` as a ticker it now emits `????` with `company: "New Scale Power"` — the
+behaviour the new hard rule asks for. A reviewable gap rather than corrupt data, but not
+resolved to `SMR`.
+
+### What it did NOT fix
+
+Invention persists. The new output still contains `COWR` for CoreWeave (`CRWV`), `VRTS`
+for Vertiv (`VRT`), `AURX` for Aurora (`AUR`), `CXW` for Comfort Systems, `PEN` for
+Pennant Group (`PNTG`), and — worst — `EV` as the ticker for a company it labelled
+"Unknown Nuclear Play", where the rules explicitly call for `????`.
+
+Placeholder rate rose from ~0% to 4.6% on these episodes. That is the **intended trade**:
+`????` is a reviewable gap, a wrong ticker is silent corruption. It does mean the
+`--list-unknown-tickers` queue will grow faster.
+
+**One limitation the validator cannot cover:** the model emitted ticker `OLO` with company
+`"Olo"` on a note describing a small modular reactor. Symbol and company agree, so
+`validate_analysis_tickers()` stays quiet — it checks that the pair is *internally*
+consistent, not that the pair matches what the transcript was about.
+
+_Comparison caveat: the "old" episode rows are inflated by the BUG-010 duplicate-batch
+corruption, so per-call rates are the fair measure, not raw counts._

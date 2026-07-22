@@ -139,6 +139,51 @@ and the context (sector, product type, CEO, customer base):
 - If you genuinely cannot determine the correct ticker, use `"????"` as the ticker value.
 - Use the corrected ticker everywhere: `ticker` field, `segment` assignment, all references.
 
+### Garbled company names (the most common source of wrong tickers)
+
+The transcript is a YouTube **auto-caption of spoken audio**, so company names are
+frequently misheard and spelled phonetically. This is the single biggest cause of bad
+data in this project.
+
+**Identify the company first, then derive the ticker from the company.** Never build a
+ticker out of the letters of a garbled name. A wrong ticker is far worse than `"????"`,
+because it attaches the call to a real, unrelated company.
+
+Real examples from past episodes, all of which produced wrong tickers:
+
+| Transcript says | Actually | Wrong ticker produced | Correct |
+|-----------------|----------|----------------------|---------|
+| "Newor", "New Coror" | Nucor (CEO Leon Topalian, steel) | `NWR`, `NWL` | `NUE` |
+| "Sanders", "Sandis" | SanDisk (memory/storage) | `SNPS` (Synopsys) | `SNDK` |
+| "Wirehouser" | Weyerhaeuser (timber REIT) | `WHW` | `WY` |
+| "Abby" | AbbVie (pharma) | `ABBY` | `ABBV` |
+| "a firm" | Affirm (CEO Max Levchin, BNPL) | `FRMA`, `FIRN` | `AFRM` |
+| "SKH Highix", "Highex" | SK Hynix (Korean DRAM) | `SK`, `SKHX`, `HYNX` | `SKHY` |
+| "Krenetics" | Crinetics Pharmaceuticals | — | `CRNX` |
+| "Albamaro" | Albemarle (lithium) | — | `ALB` |
+| "Symbiotic" | Symbotic (warehouse robotics) | — | `SYM` |
+
+How to resolve one:
+
+1. **Use the surrounding context**, which is usually unambiguous even when the name is
+   not — sector, product, CEO name, customer, recent news. "Best steel company in the
+   world" plus a CEO named Leon Topalian is Nucor no matter how the name is spelled.
+2. **Sound it out.** These are phonetic transcriptions. "Wirehouser" → Weyerhaeuser.
+3. If context still doesn't identify the company, use `"????"`. That is a correct,
+   reviewable answer.
+
+Two hard rules:
+
+- **Never put a company name in the `ticker` field.** `"NUSCALE POWER"` was stored as a
+  ticker; it should have been `SMR`. If you know the company but not the symbol, use
+  `"????"` and put the name in `company`.
+- **Beware near-miss real tickers.** Wrong symbols are damaging precisely when they are
+  *valid* symbols for a different company. `BLK` is BlackRock, `BX` is Blackstone.
+  `LITE` is Lumentum, `LUMN` is Lumen. `SNDK` is SanDisk, `SNPS` is Synopsys. `NUE` is
+  Nucor, `NWL` is Newell Brands. `WY` is Weyerhaeuser. `ALLE` is Allegion, `ALGT` is
+  Allegiant Travel. If two companies have similar names, confirm which one the context
+  describes before choosing.
+
 ### Special Tickers for Private / Recently-IPO'd Companies
 
 Always use these exact ticker symbols regardless of what Cramer says:
@@ -148,6 +193,7 @@ Always use these exact ticker symbols regardless of what Cramer says:
 | SpaceX | SPCX | IPO'd 2026-06-12; no closing price available for mentions before that date |
 | Anthropic | ANTH | Pre-IPO / private; no price data |
 | OpenAI | OPAI | Pre-IPO / private; no price data |
+| SK Hynix | SKHY | Korea-listed for years, but the US Nasdaq ADR began 2026-07-10; mentions before that have no US price. Never `SK`, `SKHX` or `HYNX` — `SK` is a different company. |
 
 Include them in the `stocks` array with the correct sentiment and note as usual. Do **not** add a `price_target` or `price_level` unless Cramer explicitly states one.
 
