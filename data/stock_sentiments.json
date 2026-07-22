@@ -1285,7 +1285,6 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Memory chip maker preferred to Nvidia on national security grounds. Pulled back from 1,200 high to 970; good value after pullback. Best option for memory exposure given Micron trade secret case precedent.",
-          "price_level": 970,
           "closing_price": 970.82
         }
       ],
@@ -1838,6 +1837,13 @@
           "closing_price": 595.86
         },
         {
+          "date": "2026-04-29",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Disk drive maker can't produce fast enough; supply-constrained story the market wants in data center buildout environment.",
+          "closing_price": 643.3
+        },
+        {
           "date": "2026-04-30",
           "sentiment": "sell_avoid",
           "segment": "in_depth_analysis",
@@ -1884,7 +1890,7 @@
           "sentiment": "mild_buy",
           "segment": "opening_commentary",
           "note": "Storage supplier benefiting from data center expansion; not overvalued on shortage and buildout rationale.",
-          "closing_price": null
+          "closing_price": 804.76
         },
         {
           "date": "2026-05-18",
@@ -3414,6 +3420,13 @@
           "segment": "opening_commentary",
           "note": "Rallied with the data center supply complex on intense demand and insufficient supply.",
           "closing_price": 192.38
+        },
+        {
+          "date": "2026-07-16",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Parabolic rally ($77 to $207) example of leverage-driven excess; when fundamentals divorce from stock price, professionals take profits; have to cut positions in half at peaks; current unwind likely to destroy even good fundamentals.",
+          "closing_price": 158.39
         }
       ],
       "sector": "Technology",
@@ -6771,7 +6784,6 @@
           "sentiment": "sell_avoid",
           "segment": "closing_commentary",
           "note": "Crashed from $638 to $227 (2.5 years). Under attack from Canva/Figma (low-end design) and Claude/ChatGPT (high-end productivity). Hunting both CEO and CFO (Narayen retiring, CFO departed June 15)\u2014massive transition risk. Hard to invest in leadership vacuum.",
-          "price_level": 227,
           "closing_price": 227.16
         }
       ],
@@ -8007,7 +8019,7 @@
       "market_cap_category": "large"
     },
     "BLK": {
-      "company": "Blackstone",
+      "company": "BlackRock",
       "mentions": [
         {
           "date": "2026-01-09",
@@ -8024,39 +8036,11 @@
           "closing_price": 1156.65
         },
         {
-          "date": "2026-03-10",
-          "sentiment": "mild_buy",
-          "segment": "closing_commentary",
-          "note": "Showed class act when fund gates opened \u2014 employees funded redemptions with own money. Demonstrates conviction in portfolio quality; won't short or bet against.",
-          "closing_price": 967.36
-        },
-        {
-          "date": "2026-03-11",
-          "sentiment": "buy",
-          "segment": "closing_commentary",
-          "note": "CEO Jack Dorsey announced 40% workforce cut (10K\u21926K) in favor of AI tools; stock rallied low 50s to high 60s; demonstrates AI productivity bet; may signal trend for big tech to adopt similar cost-cutting.",
-          "closing_price": 951.17
-        },
-        {
-          "date": "2026-03-17",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Private equity stocks blasted off as market detects private credit crisis may be overstated; cognoscenti believe risk is overdone.",
-          "closing_price": 971.01
-        },
-        {
           "date": "2026-04-14",
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Has high-quality private credit holdings. CEO Larry Fink told Cramer oil could be cut in half when war ends, signaling confidence in market outlook; bullish on solar as growth driver.",
           "closing_price": 1054.56
-        },
-        {
-          "date": "2026-07-01",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Private equity/brokerage rally justified as private credit chaos narrative proved false per Goldman Sachs redemption data (3.24% vs 5% allowed); buy over risky Blue Owl.",
-          "closing_price": 980.38
         },
         {
           "date": "2026-07-15",
@@ -8678,6 +8662,13 @@
           "closing_price": 12.11
         },
         {
+          "date": "2026-01-16",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "European bank exposure; international diversification; financial sector play.",
+          "closing_price": 12.23
+        },
+        {
           "date": "2026-01-23",
           "sentiment": "buy",
           "segment": "lightning_round",
@@ -8921,7 +8912,6 @@
           "sentiment": "mild_buy",
           "segment": "in_depth",
           "note": "Acquires Kenvue (J&J consumer health) for $48.7B; $2B synergies, defensive consolidation. Dividend king (4.7% yield, 54 consecutive increases). Protected from foreign competition. Long-term opportunity; expect Q2 miss creates entry.",
-          "price_level": 14,
           "closing_price": 108.05
         }
       ],
@@ -9829,6 +9819,13 @@
           "segment": "lightning_round",
           "note": "Medical device sector is from Hades; one good product didn't deliver sales. Entire device cohort (Intuitive, Abbott, Medtronic) crushed; just too hard to own.",
           "closing_price": 45.29
+        },
+        {
+          "date": "2026-07-14",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Caller Nick at 102; one of worst misses; healthcare equipment sector under pressure; wait two quarters before buying.",
+          "closing_price": 42.63
         }
       ],
       "sector": "Healthcare",
@@ -10054,6 +10051,13 @@
           "closing_price": 54.32
         },
         {
+          "date": "2026-04-28",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Down 4% YTD, trades 12\u00d7 earnings despite excellent management; undervalued opportunity in well-run bank.",
+          "closing_price": 52.66
+        },
+        {
           "date": "2026-06-01",
           "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
@@ -10138,24 +10142,6 @@
       "pe_ratio": 31.2,
       "market_cap": 3082893056,
       "market_cap_category": "mid"
-    },
-    "PSI": {
-      "company": "Power Solutions International",
-      "mentions": [
-        {
-          "date": "2026-06-01",
-          "sentiment": "sell_avoid",
-          "segment": "lightning_round",
-          "note": "Missed quarter badly and lowered guidance; cut losses immediately; wait full quarter before reconsidering.",
-          "closing_price": 153.63
-        }
-      ],
-      "sector": "",
-      "style": "growth",
-      "industry": "",
-      "pe_ratio": 51.68,
-      "market_cap": null,
-      "market_cap_category": ""
     },
     "INTC": {
       "company": "Intel",
@@ -10592,6 +10578,20 @@
           "segment": "opening_commentary",
           "note": "Owner of Kay, Zales, Jared. Elevated gold and silver prices may pressure margins; stock at 9x earnings may price in commodity upside already. High precious metals prices hurt jewelry retailer profitability.",
           "closing_price": 90.04
+        },
+        {
+          "date": "2026-03-19",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Strong Q4 execution with streamlined operations (8 to 4 brands), robust cash flow ($525M, +20% YoY), and resilient consumer across all income bands; digital and store investments unlocking organic growth.",
+          "closing_price": 89.56
+        },
+        {
+          "date": "2026-05-29",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Jewelry company serves as excellent barometer of consumer discretionary spending and overall consumer health; waiting for results",
+          "closing_price": 87.39
         },
         {
           "date": "2026-06-02",
@@ -11261,6 +11261,13 @@
           "segment": "lightning_round",
           "note": "Geopolitical uncertainty in Gulf region where company invested heavily; wait for clarity on situation before committing capital.",
           "closing_price": 95.43
+        },
+        {
+          "date": "2026-05-28",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Difficult investment due to Dubai property commitment; Vegas market strong but international exposure complicates thesis; hold or pass.",
+          "closing_price": 101.54
         }
       ],
       "sector": "Consumer Cyclical",
@@ -14052,7 +14059,7 @@
           "sentiment": "sell_avoid",
           "segment": "in_depth_analysis",
           "note": "Crypto miner turned AI data center; successful IPO sparked frenzy; up 33-40% YTD in 3 weeks; fell 50-57% in Oct-Nov froth; take profits aggressively.",
-          "closing_price": null
+          "closing_price": 95.22
         },
         {
           "date": "2026-01-21",
@@ -14060,6 +14067,27 @@
           "segment": "in_depth_analysis",
           "note": "Data center AI company dependent on OpenAI orders; if OpenAI capital raises fail or loses market share, Coreweave loses major revenue driver.",
           "closing_price": 94.05
+        },
+        {
+          "date": "2026-04-10",
+          "sentiment": "strong_buy",
+          "segment": "closing_commentary",
+          "note": "Interview with CEO Michael Intrader on Squawk on Street; won huge order from Anthropic; Cramer pressed on profitability path, Intrader candid (could be profitable in 3 months but opportunity too large); transparency rewarded with 11% stock gain.",
+          "closing_price": 102.0
+        },
+        {
+          "date": "2026-04-20",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Aggressive buy; infrastructure provider for AI data centers; new company with lots of debt; expect volatility but fundamentals terrific.",
+          "closing_price": 117.43
+        },
+        {
+          "date": "2026-05-01",
+          "sentiment": "buy_on_pullback",
+          "segment": "opening_commentary",
+          "note": "Heavily shorted, building new data centers aggressively. Potential financing/convertible deal could pop stock; watch for CEO announcement (Mike Linton Traeger).",
+          "closing_price": 119.01
         },
         {
           "date": "2026-05-12",
@@ -14074,6 +14102,13 @@
           "segment": "opening_commentary",
           "note": "Data center infrastructure builder mentioned by Nvidia; GPU/cloud infrastructure play benefiting from AI capex.",
           "closing_price": 124.82
+        },
+        {
+          "date": "2026-07-06",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Pure-play neocloud; $100B backlog visibility. Revenue ramp $13B\u2192$25B\u2192$40B (2026\u20132028); 2028 EPS $3.36, 2029 $6.92. Key risk: backlog-to-profit conversion post-debt/power. Cheaper than Nvidia's last stake price.",
+          "closing_price": 86.46
         }
       ],
       "sector": "Technology",
@@ -14762,7 +14797,7 @@
       "market_cap_category": "mid"
     },
     "SPOT": {
-      "company": "One Holding",
+      "company": "Spotify Technology",
       "mentions": [
         {
           "date": "2026-01-20",
@@ -15921,6 +15956,20 @@
           "closing_price": 110.92
         },
         {
+          "date": "2026-03-10",
+          "sentiment": "mild_buy",
+          "segment": "closing_commentary",
+          "note": "Showed class act when fund gates opened \u2014 employees funded redemptions with own money. Demonstrates conviction in portfolio quality; won't short or bet against.",
+          "closing_price": 109.96
+        },
+        {
+          "date": "2026-03-17",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Private equity stocks blasted off as market detects private credit crisis may be overstated; cognoscenti believe risk is overdone.",
+          "closing_price": 112.0
+        },
+        {
           "date": "2026-03-18",
           "sentiment": "buy",
           "segment": "lightning_round",
@@ -15968,6 +16017,13 @@
           "segment": "opening_commentary",
           "note": "Private credit redemption concerns proved overblown; stock jumped 7.5% to become best S&P 500 performer, signaling strong investor confidence in PE fundamentals.",
           "closing_price": 118.55
+        },
+        {
+          "date": "2026-07-01",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Private equity/brokerage rally justified as private credit chaos narrative proved false per Goldman Sachs redemption data (3.24% vs 5% allowed); buy over risky Blue Owl.",
+          "closing_price": 119.55
         }
       ],
       "sector": "Financial Services",
@@ -16573,7 +16629,8 @@
           "date": "2026-07-21",
           "sentiment": "buy_on_pullback",
           "segment": "lightning_round",
-          "note": "Caller Chris from NY presents high-risk infrastructure play down significantly; positioned as potential next Nebius (speculative turnaround story). 'Something good could happen.' Allowed as small-position speculation."
+          "note": "Caller Chris from NY presents high-risk infrastructure play down significantly; positioned as potential next Nebius (speculative turnaround story). 'Something good could happen.' Allowed as small-position speculation.",
+          "closing_price": null
         }
       ],
       "sector": "",
@@ -16751,7 +16808,6 @@
           "sentiment": "buy",
           "segment": "interview",
           "note": "Tech company in bank clothing; bullish trend channel (higher highs/lows). MACD buy signal last month. RSI trending higher but not overbought. High volume. Hasn't taken January highs yet ($35 resistance at $573). Reports next week with potential capital return catalyst.",
-          "price_level": 573,
           "closing_price": 538.3
         }
       ],
@@ -17367,6 +17423,13 @@
           "segment": "opening_commentary",
           "note": "Will lose significant share to Eli Lilly on GLP-1 pill (oral version); avoid; dropped a lot but fundamentals weakening.",
           "closing_price": 41.2
+        },
+        {
+          "date": "2026-04-28",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Not good at what they do; avoid. If seeking healthcare exposure, prefer J&J (down from highs, great balance sheet).",
+          "closing_price": 41.17
         }
       ],
       "sector": "Healthcare",
@@ -18674,7 +18737,6 @@
           "sentiment": "buy",
           "segment": "interview",
           "note": "Best-in-class credit card: smaller card base but cardholders spend more; charges fees for access to rewards. Flying since early June on 200-day MA breakout. MACD bullish. Strong while market weak. Friday earnings likely lights-out but stock historically sells off then rallies between quarters; 10:30-11am good entry.",
-          "price_level": 335,
           "closing_price": 350.79
         }
       ],
@@ -19665,24 +19727,6 @@
       "market_cap": null,
       "market_cap_category": ""
     },
-    "CRF": {
-      "company": "Carpenter Technology",
-      "mentions": [
-        {
-          "date": "2026-04-10",
-          "sentiment": "buy",
-          "segment": "lightning_round",
-          "note": "Legacy stock from caller's deceased father; amazingly company; comparable to NewCore; hold as tribute and quality.",
-          "closing_price": 7.15
-        }
-      ],
-      "sector": "Financial Services",
-      "style": "value",
-      "industry": "Asset Management",
-      "pe_ratio": 6.94,
-      "market_cap": 1148374272,
-      "market_cap_category": "small"
-    },
     "LITE": {
       "company": "Lumentum",
       "mentions": [
@@ -19692,6 +19736,62 @@
           "segment": "investing_club_qa",
           "note": "Parabolic straight-line chart too dangerous; hard pass; would be seller, not buyer; too extended.",
           "closing_price": 700.91
+        },
+        {
+          "date": "2026-03-27",
+          "sentiment": "buy",
+          "segment": "investing_club_meeting",
+          "note": "Nvidia ecosystem beneficiary; fiber/optical technology for AI infrastructure buildout.",
+          "closing_price": 702.73
+        },
+        {
+          "date": "2026-04-01",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Fiber optics play up 90.7% Q1; Nvidia invested $2B cementing relationship; wins as long as AI data center buildout continues unabated.",
+          "closing_price": 764.65
+        },
+        {
+          "date": "2026-04-09",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Optical and photonic component supplier killing it as data center AI infrastructure expands.",
+          "closing_price": 894.13
+        },
+        {
+          "date": "2026-04-13",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Nvidia invested $2B with multi-billion purchase commitments for fiber optic solutions; secured critical optical supply for AI buildout.",
+          "closing_price": 871.18
+        },
+        {
+          "date": "2026-04-20",
+          "sentiment": "buy",
+          "segment": "market_analysis",
+          "note": "Fiber optic rival to Coherent; up 36.5% since March 30 bottom (15th best performer); copper-to-fiber networking shift.",
+          "closing_price": 895.11
+        },
+        {
+          "date": "2026-04-21",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Proven optical play with NVIDIA endorsement. Preferred alternative to POET for exposure to AI data center optical buildout.",
+          "closing_price": 836.92
+        },
+        {
+          "date": "2026-04-22",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Photonics and optical components for data center signaling; on the show multiple times but stock kept running; Cramer frustrated at miss.",
+          "closing_price": 873.6
+        },
+        {
+          "date": "2026-05-01",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Data-center connectivity enabler helping machines communicate; Cramer bullish on semis-related ecosystem plays.",
+          "closing_price": 949.93
         },
         {
           "date": "2026-07-09",
@@ -20008,6 +20108,13 @@
       "company": "Bread Financial Holdings",
       "mentions": [
         {
+          "date": "2026-04-02",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Interesting fintech (rare positive); Cramer wants to interview CEO Ben Stoto to explain why better than others\u2014hold for deeper analysis.",
+          "closing_price": 73.02
+        },
+        {
           "date": "2026-04-08",
           "sentiment": "sell_avoid",
           "segment": "in_depth_analysis",
@@ -20192,6 +20299,13 @@
           "closing_price": 24.79
         },
         {
+          "date": "2026-04-07",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Cruise line down 3.3%; 'sinks and sinks'; vacation demand deteriorating.",
+          "closing_price": 18.73
+        },
+        {
           "date": "2026-05-20",
           "sentiment": "caution_concern",
           "segment": "closing_commentary",
@@ -20277,6 +20391,13 @@
     "TTAN": {
       "company": "ServiceTitan",
       "mentions": [
+        {
+          "date": "2026-03-05",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Caller Ray (bought Jan, analysts bearish): Good company on sale; ridiculous decline; hold and add on any dips.",
+          "closing_price": 78.26
+        },
         {
           "date": "2026-04-07",
           "sentiment": "wait_hold_neutral",
@@ -20584,24 +20705,6 @@
       "market_cap": 79119859712,
       "market_cap_category": "large"
     },
-    "JLS": {
-      "company": "Janus Living",
-      "mentions": [
-        {
-          "date": "2026-04-02",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "Pure senior housing IPO (100% exposure, vs. Ventas 60%, Welltower 85%); company-operated not just landlord; 10,422 units, 34 communities; 69% FL/TX, 9% Philadelphia; 15 life-plan communities = longer resident tenure; 2.5% yield; Healthpeak retains control/management; smaller than Ventas/Welltower = faster growth potential; right in valuation middle (37x last year FFO); newer story = riskier but 'leap of faith I'd be comfortable making.'",
-          "closing_price": 18.29
-        }
-      ],
-      "sector": "Financial Services",
-      "style": "value",
-      "industry": "Asset Management",
-      "pe_ratio": 9.98,
-      "market_cap": 95090680,
-      "market_cap_category": "micro"
-    },
     "WELL": {
       "company": "Welltower",
       "mentions": [
@@ -20704,24 +20807,6 @@
       "pe_ratio": null,
       "market_cap": null,
       "market_cap_category": ""
-    },
-    "BFIN": {
-      "company": "Bread Financial",
-      "mentions": [
-        {
-          "date": "2026-04-02",
-          "sentiment": "wait_hold_neutral",
-          "segment": "lightning_round",
-          "note": "Interesting fintech (rare positive); Cramer wants to interview CEO Ben Stoto to explain why better than others\u2014hold for deeper analysis.",
-          "closing_price": null
-        }
-      ],
-      "sector": "Financial Services",
-      "style": "growth",
-      "industry": "Banks - Regional",
-      "pe_ratio": 63.16,
-      "market_cap": 149528128,
-      "market_cap_category": "micro"
     },
     "PBR": {
       "company": "Polarcoin",
@@ -21159,6 +21244,13 @@
       "company": "Immunity Bio",
       "mentions": [
         {
+          "date": "2026-03-19",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Large block trade at end of day created uncertainty; part of magical thinking era; prefer to wait for stock to come in and see if block holds before buying.",
+          "closing_price": 8.82
+        },
+        {
           "date": "2026-03-27",
           "sentiment": "buy",
           "segment": "lightning_round",
@@ -21198,24 +21290,6 @@
       "market_cap": 8981476352,
       "market_cap_category": "mid"
     },
-    "BET": {
-      "company": "Canadian Natural Resources",
-      "mentions": [
-        {
-          "date": "2026-03-26",
-          "sentiment": "caution_concern",
-          "segment": "lightning_round",
-          "note": "Canadian natural gas producer; dividend 5%; prefer Chevron over smaller, less-brand-name alternatives.",
-          "closing_price": null
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
     "TSEM": {
       "company": "Tower Semiconductor",
       "mentions": [
@@ -21235,7 +21309,7 @@
       "market_cap_category": "large"
     },
     "EXE": {
-      "company": "Sempra Energy",
+      "company": "Expand Energy",
       "mentions": [
         {
           "date": "2026-03-26",
@@ -21869,6 +21943,13 @@
           "segment": "in_depth_analysis",
           "note": "Data-center backup power supplier crashed 29% on margin miss, but thesis intact; ramp costs temporary; trades 10x FY2026 earnings vs. Caterpillar 31x, Cummins 21x; Cramer: dislocation is entry point.",
           "closing_price": 55.5
+        },
+        {
+          "date": "2026-06-01",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Missed quarter badly and lowered guidance; cut losses immediately; wait full quarter before reconsidering.",
+          "closing_price": 39.38
         }
       ],
       "sector": "Industrials",
@@ -22011,7 +22092,6 @@
           "sentiment": "wait_hold_neutral",
           "segment": "interview",
           "note": "New CEO Ricky Lores (from HP). Stripe interested as suitor; potential acquisition play. 10x earnings. Good risk-reward but not great. Cramer prefers traditional credit card companies over BNPL model.",
-          "price_level": 60,
           "closing_price": 55.85
         }
       ],
@@ -22884,11 +22964,25 @@
           "closing_price": 428.13
         },
         {
+          "date": "2026-05-05",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Data center construction; reported tremendous quarter, stock up 52% (+276 points); beneficiary of buildout wave.",
+          "closing_price": 806.0
+        },
+        {
           "date": "2026-07-09",
           "sentiment": "buy",
           "segment": "in_depth_analysis",
           "note": "Services counterpart to Preformed in the AI infrastructure stack; up more than 200% over 12 months and still a good place to be.",
           "closing_price": 707.17
+        },
+        {
+          "date": "2026-07-15",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Jeff (South Africa living caller) bought on dip, stock keeps dipping 10% past 3 months but numbers solid. Cramer recommends buy\u2014road builder should be bought, likely consolidation candidate.",
+          "closing_price": 668.82
         }
       ],
       "sector": "Industrials",
@@ -23435,7 +23529,7 @@
       "market_cap_category": "mid"
     },
     "KLAR": {
-      "company": "Kl\u00e4r",
+      "company": "Klarna Group",
       "mentions": [
         {
           "date": "2026-02-06",
@@ -24197,31 +24291,6 @@
       "market_cap": null,
       "market_cap_category": ""
     },
-    "CSL": {
-      "company": "Comfort Systems USA",
-      "mentions": [
-        {
-          "date": "2026-01-27",
-          "sentiment": "buy",
-          "segment": "lightning_round",
-          "note": "$30B company with triple-digit growth last year; supplies HVAC for data center and AI stack buildout; Cramer should have kept recommending it lower; buy on dips as great company.",
-          "closing_price": 346.1
-        },
-        {
-          "date": "2026-05-18",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "HVAC with data center exposure at $1,854, nearly double YTD. Cramer: 'Not messing with that one'\u2014too extended.",
-          "closing_price": 333.57
-        }
-      ],
-      "sector": "Industrials",
-      "style": "blend",
-      "industry": "Building Products & Equipment",
-      "pe_ratio": 22.67,
-      "market_cap": 15715826688,
-      "market_cap_category": "large"
-    },
     "SPH": {
       "company": "Suburban Propane Partners",
       "mentions": [
@@ -24352,24 +24421,6 @@
           "sentiment": "caution_concern",
           "segment": "lightning_round",
           "note": "Flash storage arrays for hyperscaler data centers; $400M buyback and potential big customer deal. Sells at extremely high P/E; Cramer concerned interest rate spike will crush growth stocks regardless of earnings.",
-          "closing_price": null
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
-    "OLD": {
-      "company": "Old Republic International",
-      "mentions": [
-        {
-          "date": "2026-01-26",
-          "sentiment": "buy",
-          "segment": "lightning_round",
-          "note": "Insurer held since 2021 at $18; up to $46 then hammered to $38 post-earnings. Cramer bullish long-term despite poor quarter \u2014 insurers broadly missing this cycle. Keep buying, reinvesting dividends; many good quarters ahead.",
           "closing_price": null
         }
       ],
@@ -24655,24 +24706,6 @@
       "pe_ratio": null,
       "market_cap": null,
       "market_cap_category": ""
-    },
-    "ABR": {
-      "company": "Barrick Gold",
-      "mentions": [
-        {
-          "date": "2026-01-21",
-          "sentiment": "mild_buy",
-          "segment": "opening_commentary",
-          "note": "New management under Goldcorp; Cramer prefers Agnico Eagle; gold bug philosophy\u2014buy on weakness, don't trade.",
-          "closing_price": 8.06
-        }
-      ],
-      "sector": "Real Estate",
-      "style": "blend",
-      "industry": "REIT - Mortgage",
-      "pe_ratio": 13.5,
-      "market_cap": 1126069760,
-      "market_cap_category": "small"
     },
     "FLUTTER": {
       "company": "Flutter Entertainment",
@@ -25033,24 +25066,6 @@
       "market_cap": null,
       "market_cap_category": ""
     },
-    "RSHN": {
-      "company": "Rich Sparkle Holdings",
-      "mentions": [
-        {
-          "date": "2026-01-20",
-          "sentiment": "sell_avoid",
-          "segment": "in_depth_analysis",
-          "note": "Hong Kong financial services company soared $20s\u2192$180 on TikTocker deal; pure froth; now crashing (36% then 29% today); never should have spiked so much.",
-          "closing_price": 0.0
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
     "LDI": {
       "company": "LoanDepot",
       "mentions": [
@@ -25320,42 +25335,6 @@
       "market_cap": null,
       "market_cap_category": ""
     },
-    "BCS": {
-      "company": "Banco Santander",
-      "mentions": [
-        {
-          "date": "2026-01-16",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "European bank exposure; international diversification; financial sector play.",
-          "closing_price": 26.17
-        }
-      ],
-      "sector": "Financial Services",
-      "style": "value",
-      "industry": "Banks - Diversified",
-      "pe_ratio": 11.72,
-      "market_cap": 90090610688,
-      "market_cap_category": "large"
-    },
-    "ARCX": {
-      "company": "Ares Capital",
-      "mentions": [
-        {
-          "date": "2026-01-16",
-          "sentiment": "sell_avoid",
-          "segment": "in_depth_analysis",
-          "note": "Unclear holdings; 9% yield is red flag for sustainability; remove from portfolios; prefer clearer healthcare exposure.",
-          "closing_price": 48.83
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
     "ALCH": {
       "company": "Alchemy Pharmaceuticals",
       "mentions": [
@@ -25408,24 +25387,6 @@
       "industry": "Asset Management",
       "pe_ratio": null,
       "market_cap": 612,
-      "market_cap_category": "nano"
-    },
-    "SDOT": {
-      "company": "SanDisk",
-      "mentions": [
-        {
-          "date": "2026-01-15",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Up 72% YTD on memory chip shortage for data centers; however, TSMC's validation of AI chips may shift capital allocation away from memory makers.",
-          "closing_price": 56.6
-        }
-      ],
-      "sector": "Consumer Defensive",
-      "style": "",
-      "industry": "Farm Products",
-      "pe_ratio": null,
-      "market_cap": 21703176,
       "market_cap_category": "nano"
     },
     "FHN": {
@@ -26915,6 +26876,13 @@
           "closing_price": 334.76
         },
         {
+          "date": "2026-04-10",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Legacy stock from caller's deceased father; amazingly company; comparable to NewCore; hold as tribute and quality.",
+          "closing_price": 435.3
+        },
+        {
           "date": "2026-07-09",
           "sentiment": "buy",
           "segment": "lightning_round",
@@ -27323,24 +27291,6 @@
       "market_cap": null,
       "market_cap_category": ""
     },
-    "NVR": {
-      "company": "Novo Nordisk",
-      "sector": "Consumer Cyclical",
-      "style": "blend",
-      "mentions": [
-        {
-          "date": "2026-04-28",
-          "sentiment": "sell_avoid",
-          "segment": "lightning_round",
-          "note": "Not good at what they do; avoid. If seeking healthcare exposure, prefer J&J (down from highs, great balance sheet).",
-          "closing_price": 6442.36
-        }
-      ],
-      "industry": "Residential Construction",
-      "pe_ratio": 16.67,
-      "market_cap": 18432440320,
-      "market_cap_category": "large"
-    },
     "NVS": {
       "company": "Novartis",
       "sector": "Healthcare",
@@ -27383,31 +27333,6 @@
           "sentiment": "sell_avoid",
           "segment": "lightning_round",
           "note": "Not a science project but no near-term profit prospects important for stock\u2014avoid.",
-          "closing_price": null
-        }
-      ],
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
-    "OBNK": {
-      "company": "Origin Bancorp",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-01-15",
-          "sentiment": "strong_buy",
-          "segment": "lightning_round",
-          "note": "Regional bank 'rocket ship'; if pullback occurs, buy more; strong performer in banking sector rotation.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-03-17",
-          "sentiment": "wait_hold_neutral",
-          "segment": "lightning_round",
-          "note": "Okay, not great, not bad; hold existing position if owned.",
           "closing_price": null
         }
       ],
@@ -27613,24 +27538,6 @@
       "pe_ratio": null,
       "market_cap": null,
       "market_cap_category": ""
-    },
-    "STG": {
-      "company": "Seagate Technology",
-      "sector": "Consumer Defensive",
-      "style": "value",
-      "mentions": [
-        {
-          "date": "2026-04-29",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Disk drive maker can't produce fast enough; supply-constrained story the market wants in data center buildout environment.",
-          "closing_price": 3.26
-        }
-      ],
-      "industry": "Education & Training Services",
-      "pe_ratio": 1.06,
-      "market_cap": 57193044,
-      "market_cap_category": "micro"
     },
     "TDY": {
       "company": "Teledyne Technologies Incorpora",
@@ -27932,24 +27839,6 @@
       "market_cap": 648321600,
       "market_cap_category": "small"
     },
-    "CIRC": {
-      "company": "Circle Internet",
-      "mentions": [
-        {
-          "date": "2026-02-04",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "Caller case study: flew too close to sun; crashed from $300 to $55; buying on way down did not work; sideways since November; don't want to own.",
-          "closing_price": null
-        }
-      ],
-      "sector": "Industrials",
-      "industry": "Staffing & Employment Services",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 65223304,
-      "market_cap_category": "micro"
-    },
     "VRTV": {
       "company": "Vertiv",
       "mentions": [
@@ -28044,8 +27933,6 @@
           "sentiment": "buy",
           "segment": "interview",
           "note": "MACD bullish crossover mid-June; on-balance volume spiking (institutional buying climax). Textbook uptrend. $20B buyback likely to expand. Technical chart suggests $400 by fall. No credit risk (unlike AmEx). Gloved by mutual funds.",
-          "price_target": 400,
-          "price_level": 355,
           "closing_price": 355.82
         }
       ],
@@ -28207,24 +28094,6 @@
         }
       ]
     },
-    "SVCO": {
-      "company": "ServiceTitan",
-      "mentions": [
-        {
-          "date": "2026-03-05",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Caller Ray (bought Jan, analysts bearish): Good company on sale; ridiculous decline; hold and add on any dips.",
-          "closing_price": 3.38
-        }
-      ],
-      "sector": "Technology",
-      "industry": "Software - Application",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 293550784,
-      "market_cap_category": "micro"
-    },
     "CSII": {
       "company": "Casey's General Stores",
       "mentions": [
@@ -28309,24 +28178,6 @@
         }
       ]
     },
-    "VS": {
-      "company": "Victoria's Secret",
-      "mentions": [
-        {
-          "date": "2026-03-11",
-          "sentiment": "mild_buy",
-          "segment": "opening_commentary",
-          "note": "Caller Tyler (OH): stock tripled in 12 months after new CEO/CFO; Q4 earnings beat, recent pullback normal; multiple ~21x; Cramer: did pretty good job, near-term weakness buyable.",
-          "closing_price": 0.97
-        }
-      ],
-      "sector": "Technology",
-      "industry": "Software - Application",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 9815981,
-      "market_cap_category": "nano"
-    },
     "DBFS": {
       "company": "Dropbox",
       "mentions": [
@@ -28339,63 +28190,8 @@
         }
       ]
     },
-    "RKUNY": {
-      "company": "Recursion Pharmaceuticals",
-      "mentions": [
-        {
-          "date": "2026-03-11",
-          "sentiment": "sell_avoid",
-          "segment": "lightning_round",
-          "note": "Caller Greg (CA): Kathy Wood bought it; Cramer: big let-down, came on show, talked big game, didn't deliver; sell.",
-          "closing_price": 4.94
-        }
-      ],
-      "sector": "Consumer Cyclical",
-      "industry": "Internet Retail",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 10738029568,
-      "market_cap_category": "large"
-    },
-    "SIZ": {
-      "company": "Signet Jewelers",
-      "mentions": [
-        {
-          "date": "2026-03-19",
-          "sentiment": "buy",
-          "segment": "interview",
-          "note": "Strong Q4 execution with streamlined operations (8 to 4 brands), robust cash flow ($525M, +20% YoY), and resilient consumer across all income bands; digital and store investments unlocking organic growth.",
-          "closing_price": null
-        },
-        {
-          "date": "2026-05-29",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Jewelry company serves as excellent barometer of consumer discretionary spending and overall consumer health; waiting for results",
-          "closing_price": null
-        }
-      ]
-    },
-    "INMB": {
-      "company": "ImmunityBio",
-      "mentions": [
-        {
-          "date": "2026-03-19",
-          "sentiment": "wait_hold_neutral",
-          "segment": "lightning_round",
-          "note": "Large block trade at end of day created uncertainty; part of magical thinking era; prefer to wait for stock to come in and see if block holds before buying.",
-          "closing_price": 1.22
-        }
-      ],
-      "sector": "Healthcare",
-      "industry": "Biotechnology",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 50910768,
-      "market_cap_category": "micro"
-    },
     "CMS": {
-      "company": "Columbia Banking System",
+      "company": "CMS Energy",
       "mentions": [
         {
           "date": "2026-03-20",
@@ -28588,73 +28384,6 @@
         }
       ]
     },
-    "LUMN": {
-      "company": "Lumentum",
-      "mentions": [
-        {
-          "date": "2026-03-27",
-          "sentiment": "buy",
-          "segment": "investing_club_meeting",
-          "note": "Nvidia ecosystem beneficiary; fiber/optical technology for AI infrastructure buildout.",
-          "closing_price": 6.67
-        },
-        {
-          "date": "2026-04-01",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Fiber optics play up 90.7% Q1; Nvidia invested $2B cementing relationship; wins as long as AI data center buildout continues unabated.",
-          "closing_price": 7.07
-        },
-        {
-          "date": "2026-04-09",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Optical and photonic component supplier killing it as data center AI infrastructure expands.",
-          "closing_price": 7.48
-        },
-        {
-          "date": "2026-04-13",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "Nvidia invested $2B with multi-billion purchase commitments for fiber optic solutions; secured critical optical supply for AI buildout.",
-          "closing_price": 7.79
-        },
-        {
-          "date": "2026-04-20",
-          "sentiment": "buy",
-          "segment": "market_analysis",
-          "note": "Fiber optic rival to Coherent; up 36.5% since March 30 bottom (15th best performer); copper-to-fiber networking shift.",
-          "closing_price": 8.67
-        },
-        {
-          "date": "2026-04-21",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "Proven optical play with NVIDIA endorsement. Preferred alternative to POET for exposure to AI data center optical buildout.",
-          "closing_price": 8.73
-        },
-        {
-          "date": "2026-04-22",
-          "sentiment": "strong_buy",
-          "segment": "opening_commentary",
-          "note": "Photonics and optical components for data center signaling; on the show multiple times but stock kept running; Cramer frustrated at miss.",
-          "closing_price": 9.26
-        },
-        {
-          "date": "2026-05-01",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Data-center connectivity enabler helping machines communicate; Cramer bullish on semis-related ecosystem plays.",
-          "closing_price": 9.32
-        }
-      ],
-      "sector": "Communication Services",
-      "industry": "Telecom Services",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 6887629312,
-      "market_cap_category": "mid"
-    },
     "VDV": {
       "company": "Verdiv",
       "mentions": [
@@ -28702,24 +28431,6 @@
           "closing_price": null
         }
       ]
-    },
-    "NCL": {
-      "company": "Norwegian Cruise Line",
-      "mentions": [
-        {
-          "date": "2026-04-07",
-          "sentiment": "sell_avoid",
-          "segment": "opening_commentary",
-          "note": "Cruise line down 3.3%; 'sinks and sinks'; vacation demand deteriorating.",
-          "closing_price": 0.17
-        }
-      ],
-      "sector": "Consumer Cyclical",
-      "industry": "Furnishings, Fixtures & Appliances",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 8543560,
-      "market_cap_category": "nano"
     },
     "NVSX": {
       "company": "Novartis",
@@ -28814,32 +28525,6 @@
           "segment": "am_i_diversified",
           "note": "Eric's portfolio; maybe best defense company on Earth; replaces Medtronic in Cramer's suggested rebalance; missile/defense exposure critical.",
           "closing_price": null
-        }
-      ]
-    },
-    "CWEB": {
-      "company": "Coreweave",
-      "mentions": [
-        {
-          "date": "2026-04-10",
-          "sentiment": "strong_buy",
-          "segment": "closing_commentary",
-          "note": "Interview with CEO Michael Intrader on Squawk on Street; won huge order from Anthropic; Cramer pressed on profitability path, Intrader candid (could be profitable in 3 months but opportunity too large); transparency rewarded with 11% stock gain.",
-          "closing_price": 27.14
-        },
-        {
-          "date": "2026-04-20",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Aggressive buy; infrastructure provider for AI data centers; new company with lots of debt; expect volatility but fundamentals terrific.",
-          "closing_price": 30.07
-        },
-        {
-          "date": "2026-07-06",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "Pure-play neocloud; $100B backlog visibility. Revenue ramp $13B\u2192$25B\u2192$40B (2026\u20132028); 2028 EPS $3.36, 2029 $6.92. Key risk: backlog-to-profit conversion post-debt/power. Cheaper than Nvidia's last stake price.",
-          "closing_price": 20.66
         }
       ]
     },
@@ -28947,18 +28632,6 @@
           "sentiment": "buy",
           "segment": "opening_commentary",
           "note": "Implied as consumer discretionary beneficiary of lower rates and reduced geopolitical uncertainty.",
-          "closing_price": null
-        }
-      ]
-    },
-    "ONSM": {
-      "company": "ON Semiconductor",
-      "mentions": [
-        {
-          "date": "2026-04-20",
-          "sentiment": "buy",
-          "segment": "market_analysis",
-          "note": "Power/sensing chips for automotive; up 49% since March 30 (5th best performer); CPU demand spillover + lower rates boost auto sales.",
           "closing_price": null
         }
       ]
@@ -29071,36 +28744,6 @@
         }
       ]
     },
-    "BOFI": {
-      "company": "Bank of America",
-      "mentions": [
-        {
-          "date": "2026-04-28",
-          "sentiment": "buy",
-          "segment": "opening_commentary",
-          "note": "Down 4% YTD, trades 12\u00d7 earnings despite excellent management; undervalued opportunity in well-run bank.",
-          "closing_price": null
-        }
-      ]
-    },
-    "ORGN": {
-      "company": "Organon",
-      "mentions": [
-        {
-          "date": "2026-04-28",
-          "sentiment": "wait_hold_neutral",
-          "segment": "lightning_round",
-          "note": "Acquired by Indian company; watch for deal close. Takeover bid good news for shareholders.",
-          "closing_price": 2.58
-        }
-      ],
-      "sector": "Basic Materials",
-      "industry": "Chemicals",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 5228483,
-      "market_cap_category": "nano"
-    },
     "HONEYWELL": {
       "company": "Honeywell",
       "mentions": [
@@ -29179,24 +28822,6 @@
         }
       ]
     },
-    "CRVW": {
-      "company": "CoreWeave",
-      "mentions": [
-        {
-          "date": "2026-05-01",
-          "sentiment": "buy_on_pullback",
-          "segment": "opening_commentary",
-          "note": "Heavily shorted, building new data centers aggressively. Potential financing/convertible deal could pop stock; watch for CEO announcement (Mike Linton Traeger).",
-          "closing_price": 0.04
-        }
-      ],
-      "sector": "Healthcare",
-      "industry": "Health Information Services",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 28026278,
-      "market_cap_category": "nano"
-    },
     "BABA": {
       "company": "Alibaba",
       "mentions": [
@@ -29252,49 +28877,6 @@
         }
       ]
     },
-    "ROAD": {
-      "company": "Sterling Infrastructure",
-      "mentions": [
-        {
-          "date": "2026-05-05",
-          "sentiment": "strong_buy",
-          "segment": "opening_commentary",
-          "note": "Data center construction; reported tremendous quarter, stock up 52% (+276 points); beneficiary of buildout wave.",
-          "closing_price": 131.62
-        },
-        {
-          "date": "2026-07-15",
-          "sentiment": "buy",
-          "segment": "lightning_round",
-          "note": "Jeff (South Africa living caller) bought on dip, stock keeps dipping 10% past 3 months but numbers solid. Cramer recommends buy\u2014road builder should be bought, likely consolidation candidate.",
-          "closing_price": 103.86
-        }
-      ],
-      "sector": "Industrials",
-      "industry": "Engineering & Construction",
-      "style": "growth",
-      "pe_ratio": 44.5,
-      "market_cap": 5760607744,
-      "market_cap_category": "mid"
-    },
-    "CIX": {
-      "company": "Celestica",
-      "mentions": [
-        {
-          "date": "2026-05-05",
-          "sentiment": "strong_buy",
-          "segment": "opening_commentary",
-          "note": "Caller held from $5, now $425; advised to take cost basis off table and let rest run with house money; playing with free capital.",
-          "closing_price": 23.2
-        }
-      ],
-      "sector": "Industrials",
-      "industry": "Security & Protection Services",
-      "style": "blend",
-      "pe_ratio": 15.55,
-      "market_cap": 314237952,
-      "market_cap_category": "small"
-    },
     "PNTS": {
       "company": "Palantir Technologies",
       "mentions": [
@@ -29342,24 +28924,6 @@
           "closing_price": null
         }
       ]
-    },
-    "ONEG": {
-      "company": "One Holding",
-      "mentions": [
-        {
-          "date": "2026-05-08",
-          "sentiment": "caution_concern",
-          "segment": "opening_commentary",
-          "note": "Sports apparel; worried about quick management turnover without explanation; earnings Tuesday alongside Under Armour.",
-          "closing_price": 1.4
-        }
-      ],
-      "sector": "Industrials",
-      "industry": "Engineering & Construction",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 16320000,
-      "market_cap_category": "nano"
     },
     "ARISTA": {
       "company": "Arista Networks",
@@ -29506,24 +29070,6 @@
         }
       ]
     },
-    "DTIL": {
-      "company": "Design Therapeutics",
-      "mentions": [
-        {
-          "date": "2026-05-14",
-          "sentiment": "wait_hold_neutral",
-          "segment": "lightning_round",
-          "note": "Pure speculative play with binary outcomes; can lose everything or double; insufficient conviction to recommend without more data.",
-          "closing_price": 8.11
-        }
-      ],
-      "sector": "Healthcare",
-      "industry": "Biotechnology",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 194935984,
-      "market_cap_category": "micro"
-    },
     "ALAB": {
       "company": "Astera Labs",
       "mentions": [
@@ -29578,18 +29124,6 @@
       "pe_ratio": null,
       "market_cap": 926246208,
       "market_cap_category": "small"
-    },
-    "WINN": {
-      "company": "Wynn Resorts",
-      "mentions": [
-        {
-          "date": "2026-05-28",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Difficult investment due to Dubai property commitment; Vegas market strong but international exposure complicates thesis; hold or pass.",
-          "closing_price": 33.55
-        }
-      ]
     },
     "MNT": {
       "company": "Mountain",
@@ -30062,18 +29596,6 @@
       "market_cap": 9524577280,
       "market_cap_category": "mid"
     },
-    "BNDS": {
-      "company": "Bending Spoons",
-      "mentions": [
-        {
-          "date": "2026-07-13",
-          "sentiment": "buy_on_pullback",
-          "segment": "in_depth_analysis",
-          "note": "Acquisition-driven digital-brand turnaround roll-up with strong numbers but heavy rising debt and super-voting founders; start small and leave room to buy lower.",
-          "closing_price": 50.6
-        }
-      ]
-    },
     "WBS": {
       "company": "Webster Financial",
       "mentions": [
@@ -30243,34 +29765,6 @@
       "market_cap": 108914622464,
       "market_cap_category": "large"
     },
-    "BSCI": {
-      "company": "Boston Scientific",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-07-14",
-          "sentiment": "wait_hold_neutral",
-          "segment": "opening_commentary",
-          "note": "Caller Nick at 102; one of worst misses; healthcare equipment sector under pressure; wait two quarters before buying.",
-          "closing_price": null
-        }
-      ]
-    },
-    "CORN": {
-      "company": "Corning",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-07-16",
-          "sentiment": "caution_concern",
-          "segment": "closing_commentary",
-          "note": "Parabolic rally ($77 to $207) example of leverage-driven excess; when fundamentals divorce from stock price, professionals take profits; have to cut positions in half at peaks; current unwind likely to destroy even good fundamentals.",
-          "closing_price": 17.62
-        }
-      ]
-    },
     "CRK": {
       "company": "CRK",
       "sector": "Energy",
@@ -30353,23 +29847,16 @@
         }
       ]
     },
-    "XLE": {
-      "company": "X Energy",
-      "sector": "",
-      "style": "",
-      "mentions": [
-        {
-          "date": "2026-07-15",
-          "sentiment": "sell_avoid",
-          "segment": "lightning_round",
-          "note": "Dennis (North Carolina caller) notes CEO was on show, story loved, stock cut in half. Cramer says pure spec\u2014nuclear too darn expensive, not happening.",
-          "closing_price": 56.5
-        }
-      ]
-    },
     "CLS": {
       "company": "Celestica",
       "mentions": [
+        {
+          "date": "2026-05-05",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Caller held from $5, now $425; advised to take cost basis off table and let rest run with house money; playing with free capital.",
+          "closing_price": 417.66
+        },
         {
           "date": "2026-07-20",
           "sentiment": "caution_concern",
@@ -30521,6 +30008,272 @@
           "segment": "lightning_round",
           "note": "Aerospace/defense play down 60%+ from highs. Down so much that small position risk is limited (if owns at $5 goes to $4 hurts less). Allowed as speculative holding. Risk a little money on potential turnaround.",
           "closing_price": 5.28
+        }
+      ]
+    },
+    "ANPA": {
+      "company": "Rich Sparkle Holdings",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-20",
+          "sentiment": "sell_avoid",
+          "segment": "in_depth_analysis",
+          "note": "Hong Kong financial services company soared $20s\u2192$180 on TikTocker deal; pure froth; now crashing (36% then 29% today); never should have spiked so much.",
+          "closing_price": 71.09
+        }
+      ]
+    },
+    "ARCC": {
+      "company": "ARCC",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-16",
+          "sentiment": "sell_avoid",
+          "segment": "in_depth_analysis",
+          "note": "Unclear holdings; 9% yield is red flag for sustainability; remove from portfolios; prefer clearer healthcare exposure.",
+          "closing_price": 20.9
+        }
+      ]
+    },
+    "B": {
+      "company": "Barrick Mining",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-21",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "New management under Goldcorp; Cramer prefers Agnico Eagle; gold bug philosophy\u2014buy on weakness, don't trade.",
+          "closing_price": 49.07
+        }
+      ]
+    },
+    "BSP": {
+      "company": "Bending Spoons",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-13",
+          "sentiment": "buy_on_pullback",
+          "segment": "in_depth_analysis",
+          "note": "Acquisition-driven digital-brand turnaround roll-up with strong numbers but heavy rising debt and super-voting founders; start small and leave room to buy lower.",
+          "closing_price": 31.78
+        }
+      ]
+    },
+    "CNQ": {
+      "company": "CNQ",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-03-26",
+          "sentiment": "caution_concern",
+          "segment": "lightning_round",
+          "note": "Canadian natural gas producer; dividend 5%; prefer Chevron over smaller, less-brand-name alternatives.",
+          "closing_price": 48.67
+        }
+      ]
+    },
+    "CRCL": {
+      "company": "CRCL",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-02-04",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "Caller case study: flew too close to sun; crashed from $300 to $55; buying on way down did not work; sideways since November; don't want to own.",
+          "closing_price": 55.05
+        }
+      ]
+    },
+    "DSGN": {
+      "company": "Design Therapeutics",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-05-14",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Pure speculative play with binary outcomes; can lose everything or double; insufficient conviction to recommend without more data.",
+          "closing_price": null
+        }
+      ]
+    },
+    "FIX": {
+      "company": "Comfort Systems USA",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-27",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "$30B company with triple-digit growth last year; supplies HVAC for data center and AI stack buildout; Cramer should have kept recommending it lower; buy on dips as great company.",
+          "closing_price": 1160.38
+        },
+        {
+          "date": "2026-05-18",
+          "sentiment": "sell_avoid",
+          "segment": "opening_commentary",
+          "note": "HVAC with data center exposure at $1,854, nearly double YTD. Cramer: 'Not messing with that one'\u2014too extended.",
+          "closing_price": 1854.43
+        }
+      ]
+    },
+    "JAN": {
+      "company": "Janus Living",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-04-02",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Pure senior housing IPO (100% exposure, vs. Ventas 60%, Welltower 85%); company-operated not just landlord; 10,422 units, 34 communities; 69% FL/TX, 9% Philadelphia; 15 life-plan communities = longer resident tenure; 2.5% yield; Healthpeak retains control/management; smaller than Ventas/Welltower = faster growth potential; right in valuation middle (37x last year FFO); newer story = riskier but 'leap of faith I'd be comfortable making.'",
+          "closing_price": 23.89
+        }
+      ]
+    },
+    "OBK": {
+      "company": "Origin Bancorp",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-15",
+          "sentiment": "strong_buy",
+          "segment": "lightning_round",
+          "note": "Regional bank 'rocket ship'; if pullback occurs, buy more; strong performer in banking sector rotation.",
+          "closing_price": 40.48
+        },
+        {
+          "date": "2026-03-17",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Okay, not great, not bad; hold existing position if owned.",
+          "closing_price": 40.72
+        }
+      ]
+    },
+    "OGN": {
+      "company": "Organon",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-04-28",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Acquired by Indian company; watch for deal close. Takeover bid good news for shareholders.",
+          "closing_price": 13.32
+        }
+      ]
+    },
+    "ON": {
+      "company": "ON Semiconductor",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-04-20",
+          "sentiment": "buy",
+          "segment": "market_analysis",
+          "note": "Power/sensing chips for automotive; up 49% since March 30 (5th best performer); CPU demand spillover + lower rates boost auto sales.",
+          "closing_price": 85.56
+        }
+      ]
+    },
+    "ONON": {
+      "company": "On Holding",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-05-08",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Sports apparel; worried about quick management turnover without explanation; earnings Tuesday alongside Under Armour.",
+          "closing_price": 35.24
+        }
+      ]
+    },
+    "ORI": {
+      "company": "Old Republic International",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-26",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Insurer held since 2021 at $18; up to $46 then hammered to $38 post-earnings. Cramer bullish long-term despite poor quarter \u2014 insurers broadly missing this cycle. Keep buying, reinvesting dividends; many good quarters ahead.",
+          "closing_price": 38.74
+        }
+      ]
+    },
+    "RXRX": {
+      "company": "Recursion Pharmaceuticals",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-03-11",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Caller Greg (CA): Kathy Wood bought it; Cramer: big let-down, came on show, talked big game, didn't deliver; sell.",
+          "closing_price": 3.45
+        }
+      ]
+    },
+    "VSCO": {
+      "company": "Victoria's Secret",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-03-11",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Caller Tyler (OH): stock tripled in 12 months after new CEO/CFO; Q4 earnings beat, recent pullback normal; multiple ~21x; Cramer: did pretty good job, near-term weakness buyable.",
+          "closing_price": null
+        }
+      ]
+    },
+    "XE": {
+      "company": "X-Energy",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-07-15",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Dennis (North Carolina caller) notes CEO was on show, story loved, stock cut in half. Cramer says pure spec\u2014nuclear too darn expensive, not happening.",
+          "closing_price": 15.06
+        }
+      ]
+    },
+    "XYZ": {
+      "company": "Block (Square)",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-03-11",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "CEO Jack Dorsey announced 40% workforce cut (10K\u21926K) in favor of AI tools; stock rallied low 50s to high 60s; demonstrates AI productivity bet; may signal trend for big tech to adopt similar cost-cutting.",
+          "closing_price": 64.63
         }
       ]
     }
