@@ -1,6 +1,6 @@
 # Unknown Tickers — Manual Review Queue
 
-**21 mention(s)** are stored under a placeholder ticker (`????` / `???`) — Haiku heard a company but could not identify its symbol. These are excluded from the website until they are resolved.
+**22 mention(s)** are stored under a placeholder ticker (`????` / `???`) — Haiku heard a company but could not identify its symbol. These are excluded from the website until they are resolved.
 
 > **Generated file — do not edit by hand.**
 >
@@ -47,5 +47,6 @@ Re-run the generator afterwards and the row disappears on its own.
 | 2026-06-04 | `????` | lightning_round | 36:00 | wait_hold_neutral | 100% speculation on recent regulatory approval; only appropriate as small speculative allocation, not as core portfolio holding or primary position. | [watch](https://youtu.be/2KJ4PtpX3Wk?t=2160) |
 | 2026-06-10 | `????` | lightning_round | 37:00 | wait_hold | Data center infrastructure play (caller Claire, TN); conflicting signals—executive resignation vs insider buying—prevent clear call; requires research. | [watch](https://youtu.be/PSHvy4EAT1g?t=2220) |
 | 2026-07-01 | `???` | lightning_round | 36:55 | sell_avoid | Power supplier to AI data centers with Tennessee Valley Authority backing and $1B liquidity; too speculative for Cramer; prefers GE as safer alternative to power-to-AI theme. | [watch](https://youtu.be/McE90rfiEIg?t=2215) |
+| 2026-07-21 | `????` | lightning_round | 35:23 | buy_on_pullback | Caller Chris from NY presents high-risk infrastructure play down significantly; positioned as potential next Nebius (speculative turnaround story). 'Something good could happen.' Allowed as small-position speculation. | [watch](https://youtu.be/ShGPsBV3YZA?t=2123) |
 
 _1 row(s) show no timestamp — that episode has no redirect pages on disk (they are only generated when an Overcast ID or audio URL is found), so the link points at the start of the episode._
