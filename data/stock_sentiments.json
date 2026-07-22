@@ -2540,7 +2540,7 @@
       "mentions": [
         {
           "date": "2026-06-10",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
           "note": "Industrial distributor; new high list appearance mystifies Cramer; possibly housing data benefit but lacks clear catalyst.",
           "closing_price": 1317.63
@@ -3201,7 +3201,7 @@
         },
         {
           "date": "2026-06-10",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
           "note": "Stock fundamentally fine but timing is wrong; wait until SpaceX IPO deal is fully priced before entering position.",
           "closing_price": 309.14
@@ -4356,7 +4356,7 @@
         },
         {
           "date": "2026-06-10",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "in_depth_analysis",
           "note": "Cloud storage with 76% AI customer growth and path to profitability; solid fundamentals; timing poor due to SpaceX capital drain; put pin in it.",
           "closing_price": 7.4
@@ -5087,7 +5087,7 @@
         },
         {
           "date": "2026-05-26",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
           "note": "Powerful product suite (Facebook, Instagram, WhatsApp, AI, eyeglasses) but stalled momentum; 'what have you done lately' question unanswered; printing money profile weakened.",
           "closing_price": 612.34
@@ -5879,7 +5879,7 @@
         },
         {
           "date": "2026-05-26",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
           "note": "Terrific cloud business offset by weak enterprise software and disappointing Copilot AI product; must prove execution capability or stock will have to go.",
           "closing_price": 416.03
@@ -14879,7 +14879,7 @@
         },
         {
           "date": "2026-05-26",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "in_depth_spacex",
           "note": "Caller Pete queries alongside Broadcom/Micron; Cramer uncertain about near-term prospects, implying lack of conviction to recommend at current levels.",
           "closing_price": 158.01
@@ -16578,7 +16578,7 @@
         },
         {
           "date": "2026-05-26",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "lightning_round",
           "note": "Recently de-SPAC'd company that profitably operates; Cramer blesses speculation but concerned about late-cycle entry; recommend waiting for pullback.",
           "closing_price": null
@@ -16620,7 +16620,7 @@
         },
         {
           "date": "2026-06-10",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "lightning_round",
           "note": "Data center infrastructure play (caller Claire, TN); conflicting signals\u2014executive resignation vs insider buying\u2014prevent clear call; requires research.",
           "closing_price": null
@@ -17093,7 +17093,7 @@
       "mentions": [
         {
           "date": "2026-02-23",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "caller_qa",
           "note": "Digital finance platform down 30% from $26; at current valuation with strong growth rate might be worth reconsidering but wait for more clarity.",
           "closing_price": 18.22
@@ -25987,7 +25987,7 @@
         },
         {
           "date": "2026-06-10",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "interview",
           "note": "IPO pending but cautious on speculator flip dynamic; concerned at 4x oversubscription level; would prefer 10x oversubscription.",
           "closing_price": null
@@ -26744,7 +26744,7 @@
         },
         {
           "date": "2026-06-10",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "interview",
           "note": "Held up without blowing up; defensive consumer play but weak momentum; not a growth story in current environment.",
           "closing_price": 44.49
@@ -29232,7 +29232,7 @@
       "mentions": [
         {
           "date": "2026-06-10",
-          "sentiment": "wait_hold",
+          "sentiment": "wait_hold_neutral",
           "segment": "opening_commentary",
           "note": "Industrial precision instruments spun from Danaher; new high list appearance surprised Cramer; unclear on catalysts, monitor before action.",
           "closing_price": 60.06
