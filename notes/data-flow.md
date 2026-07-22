@@ -104,11 +104,13 @@ flowchart LR
     DB --> ANLY[["analytics.json<br/>build_analytics_json()"]]
     DB --> BT[["backtest_by_ticker.json<br/>60d buy-call backtest,<br/>&ge;3 calls only"]]
     DB --> PR[["{TICKER}_prices.json<br/>daily closes"]]
+    DB --> EPI[["episodes.json + episodes/{date}.json<br/>full mention table per episode"]]
 
     IDX --> TAB1(["Search tab"])
     SH --> TAB1
     BT --> TAB1
     PR --> TAB1
+    EPI --> TAB4(["Episodes tab"])
     REC --> TAB2(["Recent Picks tab"])
     ANLY --> TAB3(["Analytics tab"])
 
@@ -116,8 +118,8 @@ flowchart LR
     classDef store   fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
     classDef out     fill:#cdebd2,stroke:#2f7d43,stroke-width:1px,color:#0b1020
     classDef store_db fill:#e6dcff,stroke:#6b4bbf,stroke-width:2px,color:#0b1020
-    class IDX,SH,REC,ANLY,BT,PR store
-    class TAB1,TAB2,TAB3 out
+    class IDX,SH,REC,ANLY,BT,PR,EPI store
+    class TAB1,TAB2,TAB3,TAB4 out
     class DB store_db
 ```
 

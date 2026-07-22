@@ -892,7 +892,74 @@ def _write_ticker_shards(stocks: dict, only: set[str] | None = None) -> None:
         index[t] = {"name": e.get("company", ""), "count": len(mentions), "dates": dates_with_price}
     (TICKER_DATA_DIR / "index.json").write_text(json.dumps(index, separators=(",", ":")))
     _write_recent_json(stocks)
+    _write_episodes_json()
     build_analytics_json(str(TICKER_DATA_DIR / "analytics.json"))
+
+
+def _write_episodes_json() -> None:
+    """Write the per-episode mention tables that back the site's Episodes tab.
+
+    Two files, mirroring the per-ticker shard pattern:
+      docs/data/episodes.json        — small index, loaded when the tab opens
+      docs/data/episodes/{date}.json — one episode's full mention list, on demand
+
+    The subdirectory matters: the stale-shard pruner globs TICKER_DATA_DIR/*.json
+    non-recursively, so files under episodes/ are invisible to it. The top-level
+    episodes.json is NOT, and must stay in the pruner's `reserved` set.
+
+    Placeholder tickers ARE included here, unlike everywhere else on the site. They
+    are excluded from search/recent because every unidentified company collapses into
+    a single bogus entry — that can't happen in a per-episode table, where each row
+    stands on its own date. Omitting them would make a "full mentions" view quietly
+    incomplete, which is worse.
+    """
+    from db import get_connection
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT e.date, e.video_id, e.is_fundamentals,
+               m.ticker, m.sentiment, m.segment, m.note, m.closing_price
+        FROM mentions m
+        JOIN episodes e ON e.id = m.episode_id
+        ORDER BY e.date DESC, m.ticker
+    """)
+    rows = cur.fetchall()
+    companies = {r["ticker"]: r["company"] for r in
+                 conn.execute("SELECT ticker, company FROM stocks")}
+    conn.close()
+
+    episodes: dict[str, dict] = {}
+    for r in rows:
+        ep = episodes.setdefault(r["date"], {
+            "date": r["date"], "video_id": r["video_id"] or "",
+            "is_fundamentals": bool(r["is_fundamentals"]), "mentions": [],
+        })
+        ticker = r["ticker"]
+        ep["mentions"].append({
+            "ticker":        ticker,
+            "company":       "" if is_unknown_ticker(ticker) else companies.get(ticker, ""),
+            "unidentified":  is_unknown_ticker(ticker),
+            "sentiment":     r["sentiment"],
+            "segment":       r["segment"],
+            "note":          r["note"] or "",
+            "closing_price": r["closing_price"],
+        })
+
+    ep_dir = TICKER_DATA_DIR / "episodes"
+    ep_dir.mkdir(parents=True, exist_ok=True)
+    written = set()
+    for d, ep in episodes.items():
+        (ep_dir / f"{d}.json").write_text(json.dumps(ep, separators=(",", ":")))
+        written.add(f"{d}.json")
+    # Prune episode files whose mentions have all been deleted.
+    for p in ep_dir.glob("*.json"):
+        if p.name not in written:
+            p.unlink()
+
+    index = [{"date": e["date"], "video_id": e["video_id"],
+              "n": len(e["mentions"]), "is_fundamentals": e["is_fundamentals"]}
+             for e in sorted(episodes.values(), key=lambda x: x["date"], reverse=True)]
+    (TICKER_DATA_DIR / "episodes.json").write_text(json.dumps(index, separators=(",", ":")))
 
 
 def _write_recent_json(stocks: dict) -> None:
@@ -1128,7 +1195,8 @@ def rebuild_ticker_shards() -> None:
 
     # Delete shard files for tickers no longer in stocks (removed from DB or filtered out).
     # `reserved` must list every non-shard file in docs/data/ or it gets pruned here.
-    reserved = {"index.json", "recent.json", "analytics.json", "backtest_by_ticker.json"}
+    reserved = {"index.json", "recent.json", "analytics.json",
+                "backtest_by_ticker.json", "episodes.json"}
     # Placeholder tickers are deliberately not written as shards, so they must not count
     # as active either — otherwise their stale shards survive every prune.
     active = {t for t in stocks if not is_unknown_ticker(t)}
