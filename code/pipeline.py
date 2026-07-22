@@ -2304,11 +2304,20 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         except Exception:
             cache = {}
 
-    stocks = json.loads(SENTIMENTS_FILE.read_text()).get("stocks", {})
+    # Read names from the DB, not stock_sentiments.json. The JSON is a *tracked,
+    # main-owned* file, so each worktree carries its own copy and a feature branch's
+    # is stale the moment main rebuilds — running this there reported 100 rows against
+    # main's 78, purely from a week-old company list. The DB is a single shared file
+    # (symlinked into the cron worktree), so sourcing names from it makes this command
+    # give the same answer wherever it runs.
     conn = get_connection()
+    stocks = {r["ticker"]: {"company": r["company"]}
+              for r in conn.execute("SELECT ticker, company FROM stocks WHERE company != ''")}
     counts = {r["ticker"]: (r["n"], r["lo"], r["hi"]) for r in conn.execute(
         "SELECT ticker, COUNT(*) n, MIN(date) lo, MAX(date) hi FROM mentions GROUP BY ticker")}
     conn.close()
+    # Only tickers that still have mentions are worth reviewing.
+    stocks = {t: v for t, v in stocks.items() if t in counts}
 
     rows, checked = [], 0
     for ticker, entry in sorted(stocks.items()):
