@@ -1523,6 +1523,28 @@ _CHART_BULLISH = {"strong_buy", "buy", "buy_on_pullback", "mild_buy"}
 _CHART_BEARISH = {"sell_avoid", "caution_concern"}
 
 
+def _holding_edge(ticker: str) -> dict | None:
+    """Paired excess return vs both indexes for a ticker's buy calls, or None.
+
+    Reads docs/data/backtest_by_ticker.json, which the run regenerates before the
+    email is built. Only tickers with >=3 buy calls and a full 60-day window are in
+    it, so None simply means "not enough calls to say anything".
+
+    Deliberately the *paired* figure (excess_spy_median / excess_qqq_median): each
+    call is compared with the index over that call's own window before the median is
+    taken. See the paired-excess rule — the naive difference of medians can flip sign.
+    """
+    try:
+        data = json.loads((TICKER_DATA_DIR / "backtest_by_ticker.json").read_text())
+        e = data.get("tickers", {}).get(ticker, {}).get("hold")
+        if not e:
+            return None
+        return {"spy": e["excess_spy_median"], "qqq": e["excess_qqq_median"],
+                "n": e["n"], "window": data.get("window_days", 60)}
+    except Exception:
+        return None
+
+
 def _generate_price_chart_png(ticker: str) -> bytes | None:
     """
     Generate a chart of Cramer's mentions for ticker: one point per episode date
@@ -1661,13 +1683,30 @@ def _generate_price_chart_png(ticker: str) -> bytes | None:
             f"{ticker}  ${last_price:,.2f} at last call",
             fontsize=12, fontweight="bold", loc="left", color="#24292f",
         )
-        if pct_right:
+        # Headline stat: how his buy calls on this name did against BOTH indexes,
+        # paired per call. Replaced "% Days Right", which answered a much weaker
+        # question — a call can spend most days above its entry and still trail an
+        # index fund over the same window, which is the comparison that matters.
+        edge = _holding_edge(ticker)
+        if edge:
+            good = edge["spy"] > 0 and edge["qqq"] > 0
+            bad  = edge["spy"] < 0 and edge["qqq"] < 0
+            colr = "#1a7f37" if good else ("#a00000" if bad else "#9a6700")
+            ax.text(
+                1.0, 1.12,
+                f"vs S&P {edge['spy']:+.1f}%  ·  vs Nasdaq {edge['qqq']:+.1f}%"
+                f"   ({edge['n']} buy calls, {edge['window']}d)",
+                transform=ax.transAxes, ha="right", va="bottom",
+                fontsize=9.5, fontweight="bold", color=colr,
+            )
+        elif pct_right:
+            # Fewer than 3 buy calls — no honest benchmark comparison exists yet.
             pct, n_days = pct_right
             pct_color = "#1a7f37" if pct >= 50 else "#a00000"
             ax.text(
-                1.0, 1.12, f"% Days Right: {pct}% ({n_days}d)",
+                1.0, 1.12, f"% Days Right: {pct}% ({n_days}d) — too few calls to benchmark",
                 transform=ax.transAxes, ha="right", va="bottom",
-                fontsize=10, fontweight="bold", color=pct_color,
+                fontsize=9, fontweight="bold", color=pct_color,
             )
         ax.tick_params(axis="both", labelsize=9, colors="#57606a", length=0)
         for spine in ("top", "right"):
@@ -1917,9 +1956,21 @@ def build_email_html(summaries: list[dict],
         for section in analysis.get("sections", []):
             _section_parts(section)
 
-        # Stock table
-        if stocks:
-            parts.append('<h3>Stocks Mentioned</h3>')
+        # Holdings table. Deliberately NOT every stock mentioned: the full list ran to
+        # ~30 rows and buried the handful that matter, and each section above already
+        # covers what he said about everything else. The site is there for depth.
+        held = [s for s in stocks if (s.get("ticker") or "").upper() in hl]
+        if stocks and not held:
+            n_other = len(stocks)
+            parts.append(
+                '<h3>Your Holdings</h3>'
+                f'<p style="color:#57606a;font-size:14px;margin:4px 0 16px">'
+                f'None of your holdings were mentioned tonight '
+                f'({n_other} other stock{"s" if n_other != 1 else ""} discussed — see the sections above).</p>'
+            )
+        if held:
+            stocks = held
+            parts.append('<h3>Your Holdings Mentioned Tonight</h3>')
             parts.append(
                 '<table>'
                 '<colgroup>'
@@ -1940,7 +1991,9 @@ def build_email_html(summaries: list[dict],
                     pt = f' (at ${s["price_level"]})'
                 ticker = s.get("ticker", "")
                 is_holding = ticker in hl
-                row_class = ' class="holding"' if is_holding else ""
+                # Every row in this table is a holding now, so the yellow highlight and
+                # the "*" marker no longer distinguish anything — drop both.
+                row_class = ""
                 note = s.get("note", "")
                 ticker_note = s.get("ticker_note", "")
                 note_html = note
@@ -1948,7 +2001,7 @@ def build_email_html(summaries: list[dict],
                     note_html += f'<br><em style="color:#f0a030;font-size:11px">{ticker_note}</em>'
                 parts.append(
                     f'<tr id="ticker-{ticker}"{row_class}>'
-                    f'<td class="ticker">{_ticker_display(ticker, ep_date)}{"*" if is_holding else ""}</td>'
+                    f'<td class="ticker">{_ticker_display(ticker, ep_date)}</td>'
                     f'<td>{s.get("company","")}</td>'
                     f'<td>{_sentiment_badge(s.get("sentiment","neutral"))}{pt}</td>'
                     f'<td>{seg}</td>'
@@ -1965,9 +2018,16 @@ def build_email_html(summaries: list[dict],
                             img_src = f"cid:{cid}"
                         else:
                             img_src = f"data:image/png;base64,{base64.b64encode(png_bytes).decode('utf-8')}"
+                        # width="600" is an HTML *attribute*, not CSS. Gmail's reading pane is
+                        # ~600px wide and is unreliable about CSS max-width on images, so a
+                        # 1035px chart overflows it and later charts land outside the visible
+                        # area — which is exactly why only the first one showed in the pane
+                        # while all of them showed in "open in new window". display:block
+                        # avoids the inline-image baseline gap.
                         parts.append(
                             f'<tr class="chart-row"><td colspan="5">'
-                            f'<img src="{img_src}" alt="{ticker} price chart" style="max-width:100%;height:auto;">'
+                            f'<img src="{img_src}" alt="{ticker} price chart" width="600" '
+                            f'style="display:block;width:100%;max-width:600px;height:auto;">'
                             f'</td></tr>'
                         )
             parts.append('</table>')
