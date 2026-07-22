@@ -321,6 +321,7 @@
   <div class="tab-bar">
     <button class="tab-btn tab-active" id="tab-search" onclick="showTab('search')">Search</button>
     <button class="tab-btn" id="tab-recent" onclick="showTab('recent')">Stock Picker</button>
+    <button class="tab-btn" id="tab-episodes" onclick="showTab('episodes')">Episodes</button>
     <button class="tab-btn" id="tab-analytics" onclick="showTab('analytics')">Analytics</button>
   </div>
 
@@ -406,6 +407,21 @@
   </div>
 
   <!-- ── Analytics panel ── -->
+  <!-- ── Episodes panel ── -->
+  <div id="episodes-panel" style="display:none">
+    <div class="filter-bar">
+      <span class="filter-label">Episode:</span>
+      <select id="ep-select" style="padding:6px 8px;font-size:14px;max-width:340px"></select>
+      <span id="ep-links" style="margin-left:12px;font-size:13px"></span>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">Segment:</span>
+      <span id="ep-seg-filters"></span>
+    </div>
+    <p id="ep-caption" style="color:#57606a;font-size:13px;margin:4px 0 10px"></p>
+    <div id="ep-table"></div>
+  </div>
+
   <div id="analytics-panel" style="display:none">
     <div class="status" id="analytics-status"></div>
     <div id="analytics-body"></div>
@@ -1307,12 +1323,109 @@ function jumpToTicker(ticker) {
 // ── Tab switching ─────────────────────────────────────────────────────────────
 
 function showTab(tab) {
-  ['search','recent','analytics'].forEach(t => {
+  ['search','recent','episodes','analytics'].forEach(t => {
     document.getElementById(`${t}-panel`).style.display = t === tab ? '' : 'none';
     document.getElementById(`tab-${t}`).classList.toggle('tab-active', t === tab);
   });
   if (tab === 'recent')    loadRecent();
+  if (tab === 'episodes')  loadEpisodes();
   if (tab === 'analytics') loadAnalytics();
+}
+
+// ── Episodes ──────────────────────────────────────────────────────────────────
+// One night's complete mention list. The nightly email only shows the recipient's
+// own holdings, so this is where the rest of an episode lives.
+
+let epIndex = null;      // [{date, video_id, n, is_fundamentals}]
+const epCache = {};      // date -> episode shard
+let epSegFilter = 'all';
+
+async function loadEpisodes() {
+  if (!epIndex) {
+    try {
+      epIndex = await (await fetch('./data/episodes.json')).json();
+    } catch (e) {
+      document.getElementById('ep-table').innerHTML =
+        '<p style="color:#a00000">Could not load episode index.</p>';
+      return;
+    }
+    const sel = document.getElementById('ep-select');
+    sel.innerHTML = epIndex.map(e => {
+      const d = new Date(e.date + 'T12:00:00');
+      const label = d.toLocaleDateString(undefined, {weekday:'short', year:'numeric', month:'short', day:'numeric'});
+      return `<option value="${e.date}">${label} — ${e.n} mention${e.n === 1 ? '' : 's'}` +
+             `${e.is_fundamentals ? ' (fundamentals)' : ''}</option>`;
+    }).join('');
+    sel.addEventListener('change', () => showEpisode(sel.value));
+  }
+  showEpisode(document.getElementById('ep-select').value || epIndex[0].date);
+}
+
+async function showEpisode(dateStr) {
+  const wrap = document.getElementById('ep-table');
+  if (!epCache[dateStr]) {
+    wrap.innerHTML = '<p style="color:#57606a">Loading…</p>';
+    try {
+      epCache[dateStr] = await (await fetch(`./data/episodes/${dateStr}.json`)).json();
+    } catch (e) {
+      wrap.innerHTML = '<p style="color:#a00000">Could not load that episode.</p>';
+      return;
+    }
+  }
+  const ep = epCache[dateStr];
+
+  // Segment filter buttons, built from the segments this episode actually has.
+  const segs = [...new Set(ep.mentions.map(m => m.segment).filter(Boolean))].sort();
+  document.getElementById('ep-seg-filters').innerHTML =
+    [['all', 'All']].concat(segs.map(s => [s, humanizeSegment(s)]))
+      .map(([v, label]) =>
+        `<button class="filter-btn${epSegFilter === v ? ' active' : ''}" ` +
+        `onclick="setEpSegment('${v}')">${label}</button>`).join(' ');
+
+  document.getElementById('ep-links').innerHTML = ep.video_id
+    ? `<a href="https://youtu.be/${ep.video_id}" target="_blank" rel="noopener">▶ Watch on YouTube</a>`
+    : '';
+
+  const rows = ep.mentions.filter(m => epSegFilter === 'all' || m.segment === epSegFilter);
+  const nUnid = rows.filter(m => m.unidentified).length;
+  document.getElementById('ep-caption').textContent =
+    `${rows.length} mention${rows.length === 1 ? '' : 's'}` +
+    (epSegFilter === 'all' ? '' : ` in ${humanizeSegment(epSegFilter)}`) +
+    (nUnid ? ` · ${nUnid} company Cramer named but whose ticker could not be identified` : '');
+
+  if (!rows.length) { wrap.innerHTML = '<p style="color:#57606a">No mentions.</p>'; return; }
+
+  wrap.innerHTML = `<div class="table-wrap"><table class="a-table">
+    <thead><tr>
+      <th>Ticker</th><th>Company</th><th>Sentiment</th>
+      <th>Segment</th><th style="text-align:right">Close</th><th>What Cramer said</th>
+    </tr></thead><tbody>` +
+    rows.map(m => {
+      const tick = m.unidentified
+        ? '<span style="color:#8b949e" title="Cramer named a company but the ticker could not be identified">unidentified</span>'
+        : `<a href="#" onclick="gotoTicker('${m.ticker}');return false;"><strong>${m.ticker}</strong></a>`;
+      const price = (m.closing_price != null) ? `$${m.closing_price.toFixed(2)}` : '—';
+      return `<tr>
+        <td>${tick}</td>
+        <td>${m.company || ''}</td>
+        <td>${sentimentBadge(m.sentiment)}</td>
+        <td>${humanizeSegment(m.segment)}</td>
+        <td style="text-align:right">${price}</td>
+        <td style="font-size:13px;color:#57606a">${m.note || ''}</td>
+      </tr>`;
+    }).join('') + '</tbody></table></div>';
+}
+
+function setEpSegment(seg) {
+  epSegFilter = seg;
+  showEpisode(document.getElementById('ep-select').value);
+}
+
+// Jump from an episode row into that ticker's Search card.
+function gotoTicker(ticker) {
+  showTab('search');
+  const box = document.getElementById('search');
+  if (box) { box.value = ticker; box.dispatchEvent(new Event('input')); }
 }
 
 // ── Analytics ─────────────────────────────────────────────────────────────────
