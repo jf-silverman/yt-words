@@ -559,6 +559,13 @@
           "segment": "opening_commentary",
           "note": "At heart of data center infrastructure; no real Chinese competitor; core holding\u2014own it, don't trade it; remains foundational despite daily attacks.",
           "closing_price": 203.28
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Best-run company in world; own long-term, don't trade. Largest position in travel trust. Clients praise and work against it; China exposure controversial but national security concerns legitimate.",
+          "closing_price": 207.29
         }
       ],
       "sector": "Technology",
@@ -914,6 +921,13 @@
           "segment": "opening_commentary",
           "note": "Industrial backbone; comprehensible business; dig teeth in; best time to buy when tech is slaughtering investors.",
           "closing_price": 306.22
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "CEO Raj Subramaniam ('Superman') executing excellently on consolidating express to ground operations. Own into holiday season. Kept in travel trust (usually trims one of pair). Strong execution on integration strategy.",
+          "closing_price": 315.19
         }
       ],
       "sector": "Industrials",
@@ -1265,6 +1279,14 @@
           "segment": "closing_commentary",
           "note": "Memory chip maker with strong demand but caught in margin death spiral; if borrowing money to buy, you still have chance to exit with shirt on; persist and naked by Monday.",
           "closing_price": 853.2
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Memory chip maker preferred to Nvidia on national security grounds. Pulled back from 1,200 high to 970; good value after pullback. Best option for memory exposure given Micron trade secret case precedent.",
+          "price_level": 970,
+          "closing_price": 970.82
         }
       ],
       "sector": "Technology",
@@ -1493,6 +1515,13 @@
           "segment": "opening_commentary",
           "note": "Enterprise software with no component/chip shortage exposure. Benefited from remarkable rotation into defensive software before AI era; no shortages like hardware companies.",
           "closing_price": 169.52
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "wait_hold_neutral",
+          "segment": "closing_commentary",
+          "note": "Championed by Cramer since 2008; now down significantly. Well-positioned for AgentForce AI and customer adoption but market indifferent to growth story. $50B buyback insufficient to overcome hardware-favoring narrative. Good company, not good enough for Street without higher growth.",
+          "closing_price": 170.06
         }
       ],
       "sector": "Technology",
@@ -1595,6 +1624,13 @@
           "segment": "opening_commentary",
           "note": "SaaS company rallied 5% in software rotation; uncertainty on sustainability given history of torrential selling after enterprise software rallies.",
           "closing_price": 125.01
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Turmoil at top with co-founder Neil Bushry returning as CEO but stock unmoved. Return to founding leadership doesn't matter in hardware-only market. Enterprise software growth no longer impressive enough to overcome sector rotation.",
+          "closing_price": 141.17
         }
       ],
       "sector": "Technology",
@@ -3880,6 +3916,13 @@
           "segment": "opening_commentary",
           "note": "Core business bulletproof; no need for $200B AI infrastructure spend; let Alphabet pay for AI, Apple gets nominal payment for search deal\u2014great arrangement.",
           "closing_price": 326.59
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Largest position in travel trust. Own long-term, don't trade. Brand strength allows pass-through of higher memory costs to carriers. Benefits from Alphabet AI spending. Excellent company making fortunes.",
+          "closing_price": 327.74
         }
       ],
       "sector": "Technology",
@@ -4508,6 +4551,13 @@
           "segment": "opening_commentary",
           "note": "Triple-A balance sheet; oncology franchise best-in-class; neurology (Spravato, Caplyta, Icotide) unexpectedly strong; ophthalmology heating up; $150M heart miss immaterial on $100B revenue base; down $20 from highs.",
           "closing_price": 249.97
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Pharma innovator with AAA balance sheet. Invents life-saving drugs practically every month. Sold band-aid business; now pure-play healthcare innovation. Defensive, quality diversification away from concentration risk.",
+          "closing_price": 250.61
         }
       ],
       "sector": "Healthcare",
@@ -5262,6 +5312,13 @@
           "segment": "lightning_round",
           "note": "Competitor offers same functionality at fraction of cost; value proposition compromised.",
           "closing_price": 48.22
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "sell_avoid",
+          "segment": "closing_commentary",
+          "note": "Website builder down 50% from highs. Under attack from AI (Claude, ChatGPT) and site builders (Sleeper-in-it). Losing share to generative AI disruption. Structural obsolescence risk.",
+          "closing_price": 51.12
         }
       ],
       "sector": "Technology",
@@ -6076,6 +6133,13 @@
           "segment": "opening_commentary",
           "note": "Defensive enterprise software stock has 'gotten jiggy' (traded with Mag 7 before) \u2014 now seeing renewed bid as money rotates from commodity hardware into software with pricing power.",
           "closing_price": 110.73
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "caution_concern",
+          "segment": "closing_commentary",
+          "note": "Strong CEO Bill McDermott integrating AI excellently but 'nothing's ever enough.' Last quarter was upside surprise that 'meant very little'\u2014possibly meaningless. Market has no use for enterprise software even with good execution.",
+          "closing_price": 102.06
         }
       ],
       "sector": "Technology",
@@ -6701,6 +6765,14 @@
           "segment": "opening_commentary",
           "note": "Up 4% today is good opportunity to sell; down 35% YTD. No CEO or CFO; eviscerated by Figma and Canva. $89B market cap unsustainable.",
           "closing_price": 224.56
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "sell_avoid",
+          "segment": "closing_commentary",
+          "note": "Crashed from $638 to $227 (2.5 years). Under attack from Canva/Figma (low-end design) and Claude/ChatGPT (high-end productivity). Hunting both CEO and CFO (Narayen retiring, CFO departed June 15)\u2014massive transition risk. Hard to invest in leadership vacuum.",
+          "price_level": 227,
+          "closing_price": 227.16
         }
       ],
       "sector": "Technology",
@@ -8200,6 +8272,13 @@
           "segment": "opening_commentary",
           "note": "High-quality financial name to own when tech is volatile; comprehensible business, not subject to Chinese rumors or margin compression.",
           "closing_price": 1055.03
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Bank tech company trading at valuations radically lower than software. Tech embedded in banking operations. Good value diversification candidate away from memory stock concentration.",
+          "closing_price": 1085.56
         }
       ],
       "sector": "Financial Services",
@@ -8836,6 +8915,14 @@
           "segment": "opening_commentary",
           "note": "Premier staple (Kleenex, paper towels, diapers), 13x earnings, 5.25% safe yield. Merging with Kenvue; CEO Michael Sue executing synergies. Defensive anchor as growth stocks stumble.",
           "closing_price": 97.49
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "mild_buy",
+          "segment": "in_depth",
+          "note": "Acquires Kenvue (J&J consumer health) for $48.7B; $2B synergies, defensive consolidation. Dividend king (4.7% yield, 54 consecutive increases). Protected from foreign competition. Long-term opportunity; expect Q2 miss creates entry.",
+          "price_level": 14,
+          "closing_price": 108.05
         }
       ],
       "sector": "Consumer Defensive",
@@ -10011,6 +10098,13 @@
           "segment": "interview",
           "note": "Just began regular trading after spin-off; CEO John Smith targeting 15% operating margin by 2029; autonomous truck testing 99.9% successful; keeping in charitable trust.",
           "closing_price": 149.53
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "FedEx Freight spin-off terrific; can take out costs and be much more focused than consolidated structure. Kept in travel trust alongside FDX (rare dual holding). Structural advantage from separation.",
+          "closing_price": 150.38
         }
       ],
       "sector": "Industrials",
@@ -12891,6 +12985,13 @@
           "segment": "opening_commentary",
           "note": "Great company but enterprise software facing margin pressure from AI disruption; pricing power declining as customers get cheaper AI-powered alternatives.",
           "closing_price": 383.93
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "sell_avoid",
+          "segment": "closing_commentary",
+          "note": "Tax software down 56%. Customers switching to free AI chatbots (ChatGPT) for tax prep instead of TurboTax. Structural disruption: generative AI commoditizes tax software. Business model under existential threat.",
+          "closing_price": 289.92
         }
       ],
       "sector": "Technology",
@@ -15651,6 +15752,13 @@
           "segment": "in_depth_analysis",
           "note": "Caller pick: Walgreens and Rite Aid have been cleared from the field, Aetna is crushing it, and the only real competitor left is Amazon.",
           "closing_price": 102.81
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Only real drugstore chain in America; owns Aetna health insurance. Win-win business model: drugstore revenues + insurance margins. Defensive consumer play independent of economic cycles.",
+          "closing_price": 110.6
         }
       ],
       "sector": "Healthcare",
@@ -16460,6 +16568,12 @@
           "segment": "lightning_round",
           "note": "Data center infrastructure play (caller Claire, TN); conflicting signals\u2014executive resignation vs insider buying\u2014prevent clear call; requires research.",
           "closing_price": null
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy_on_pullback",
+          "segment": "lightning_round",
+          "note": "Caller Chris from NY presents high-risk infrastructure play down significantly; positioned as potential next Nebius (speculative turnaround story). 'Something good could happen.' Allowed as small-position speculation."
         }
       ],
       "sector": "",
@@ -16631,6 +16745,14 @@
           "segment": "interview",
           "note": "Down 4% despite beat on top/bottom line due to modest expense guidance miss; 3.7B people on network, most tech-forward system; leading agented AI commerce via Verifiable Intent protocol; stablecoin opportunity unlocking new payment flows; stock too low, oversold.",
           "closing_price": 502.92
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Tech company in bank clothing; bullish trend channel (higher highs/lows). MACD buy signal last month. RSI trending higher but not overbought. High volume. Hasn't taken January highs yet ($35 resistance at $573). Reports next week with potential capital return catalyst.",
+          "price_level": 573,
+          "closing_price": 538.3
         }
       ],
       "sector": "Financial Services",
@@ -17338,6 +17460,13 @@
           "segment": "in_depth_analysis",
           "note": "Down 35% from $141 highs; now 20x P/E (cheapest ever) vs 37x at peak; execution miss vs peers (3.6% same-store sales vs TJX 5%); strong balance sheet, 1,300 store goal, mid-teens earnings growth target; start small, buy on weakness.",
           "closing_price": 92.05
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Discount retailer missing quarters consistently; weak execution. Caller Will bought at 94, 88, now 70; stock broke down. TJX owns the segment and executes better; stick with TJX instead (though even TJX struggling).",
+          "closing_price": 66.0
         }
       ],
       "sector": "Consumer Defensive",
@@ -18539,6 +18668,14 @@
           "segment": "opening_commentary",
           "note": "Stock down 9% despite being rarely down for the year. Precisely the level to put on 50% position now, then add if dips further next week. Steve Squeri doing dynamite job.",
           "closing_price": 338.0
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "Best-in-class credit card: smaller card base but cardholders spend more; charges fees for access to rewards. Flying since early June on 200-day MA breakout. MACD bullish. Strong while market weak. Friday earnings likely lights-out but stock historically sells off then rallies between quarters; 10:30-11am good entry.",
+          "price_level": 335,
+          "closing_price": 350.79
         }
       ],
       "sector": "Financial Services",
@@ -19312,6 +19449,13 @@
           "segment": "opening_commentary",
           "note": "Rotate from tech to quality financials; less volatility, clear earnings streams, immune to geopolitical disruption.",
           "closing_price": 86.33
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Bank tech company trading at valuations radically lower than software. Tech embedded in banking operations. Good value diversification candidate away from memory stock concentration.",
+          "closing_price": 87.74
         }
       ],
       "sector": "Financial Services",
@@ -21861,6 +22005,14 @@
           "segment": "opening_commentary",
           "note": "Enrique Lores (ex-HPE CEO) now leading; company too hard to fix despite leadership change. Capital One Financial preferred alternative.",
           "closing_price": 45.02
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "wait_hold_neutral",
+          "segment": "interview",
+          "note": "New CEO Ricky Lores (from HP). Stripe interested as suitor; potential acquisition play. 10x earnings. Good risk-reward but not great. Cramer prefers traditional credit card companies over BNPL model.",
+          "price_level": 60,
+          "closing_price": 55.85
         }
       ],
       "sector": "Financial Services",
@@ -22705,6 +22857,13 @@
           "segment": "opening_commentary",
           "note": "4% dividend yield; Chris Gorman executing well; continue holding; accumulate on pullback to $19; big backer of execution.",
           "closing_price": 20.74
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "mild_buy",
+          "segment": "lightning_round",
+          "note": "Regional bank preferred to Truist. Ohio operations a plus ('great state to do business'). Similar profile to TFC but better execution and regional strength justify preference.",
+          "closing_price": 22.95
         }
       ],
       "sector": "Financial Services",
@@ -24391,6 +24550,13 @@
           "segment": "in_depth_analysis",
           "note": "Turnaround story accelerating under CEO Bill Brown (ex-L3 Harris); organic growth turned positive (+2.1% in 2025), operating margins recovering to 23%, EPS +18% YTD; 12 straight quarterly beats; new product launches up 68% (284 products in 2025); stock down 8% from Dec high on overreaction to mixed quarter; valued at just under 19x forward P/E\u2014cheap; Cramer rarely pounds table like this; time to buy into a great contrarian entry point for the first time.",
           "closing_price": 160.63
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "strong_buy",
+          "segment": "interview",
+          "note": "Magnificent Q2: organic growth 5.4% (best 5+ years), EPS +11%, cash conversion 107%, guidance raised. Innovation restarted (350+ new products, vitality index climbing). Data center Microsoft deal (expanded beam optics, 100 patents). Industrial safety growth. PFAS resolved. CEO execution excellent.",
+          "closing_price": 170.76
         }
       ],
       "sector": "Industrials",
@@ -27872,6 +28038,15 @@
           "segment": "in_depth_analysis",
           "note": "Second-largest US IPO in history; had rough first year post-IPO but became incredible long-term stock starting early 2009. Historical example of patience rewarded.",
           "closing_price": 328.03
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "MACD bullish crossover mid-June; on-balance volume spiking (institutional buying climax). Textbook uptrend. $20B buyback likely to expand. Technical chart suggests $400 by fall. No credit risk (unlike AmEx). Gloved by mutual funds.",
+          "price_target": 400,
+          "price_level": 355,
+          "closing_price": 355.82
         }
       ],
       "sector": "Financial Services",
@@ -30054,6 +30229,13 @@
           "segment": "interview",
           "note": "Up 290% since Vince took over Aug 2022; outperforming all big banks and trust bank peers. Multi-day move expected; Cramer pounded table.",
           "closing_price": 162.35
+        },
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "CEO joined OpenAI and OpenAI Foundation board (Bank tech meets AI tech). Trading at low valuations vs. software. AI integration play with institutional infrastructure.",
+          "closing_price": 158.89
         }
       ],
       "industry": "Banks - Diversified",
@@ -30305,6 +30487,42 @@
       "pe_ratio": 24.84,
       "market_cap": 1213165469696,
       "market_cap_category": "mega"
+    },
+    "AX": {
+      "company": "Axiom (Defense Technology)",
+      "mentions": [
+        {
+          "date": "2026-07-21",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Defense tech stock (caller Randy). Sector under pressure: investors turned against defense due to budget concerns. Iran geopolitical spending likely to continue weighing on sector. Cramer disagrees with thesis but acknowledges headwinds.",
+          "closing_price": 97.42
+        }
+      ]
+    },
+    "TFC": {
+      "company": "Truist Financial",
+      "mentions": [
+        {
+          "date": "2026-07-21",
+          "sentiment": "wait_hold_neutral",
+          "segment": "lightning_round",
+          "note": "Super-regional bank with strong recent earnings, low PE, 4% dividend yield. Cramer prefers KeyCorp (KEY) instead due to regional operations and execution track record. Passed over in lightning round.",
+          "closing_price": 51.38
+        }
+      ]
+    },
+    "ACHR": {
+      "company": "Archer Aviation",
+      "mentions": [
+        {
+          "date": "2026-07-21",
+          "sentiment": "buy_on_pullback",
+          "segment": "lightning_round",
+          "note": "Aerospace/defense play down 60%+ from highs. Down so much that small position risk is limited (if owns at $5 goes to $4 hurts less). Allowed as speculative holding. Risk a little money on potential turnaround.",
+          "closing_price": 5.28
+        }
+      ]
     }
   }
 }
