@@ -2018,9 +2018,16 @@ def build_email_html(summaries: list[dict],
                             img_src = f"cid:{cid}"
                         else:
                             img_src = f"data:image/png;base64,{base64.b64encode(png_bytes).decode('utf-8')}"
+                        # width="600" is an HTML *attribute*, not CSS. Gmail's reading pane is
+                        # ~600px wide and is unreliable about CSS max-width on images, so a
+                        # 1035px chart overflows it and later charts land outside the visible
+                        # area — which is exactly why only the first one showed in the pane
+                        # while all of them showed in "open in new window". display:block
+                        # avoids the inline-image baseline gap.
                         parts.append(
                             f'<tr class="chart-row"><td colspan="5">'
-                            f'<img src="{img_src}" alt="{ticker} price chart" style="max-width:100%;height:auto;">'
+                            f'<img src="{img_src}" alt="{ticker} price chart" width="600" '
+                            f'style="display:block;width:100%;max-width:600px;height:auto;">'
                             f'</td></tr>'
                         )
             parts.append('</table>')
