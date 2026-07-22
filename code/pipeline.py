@@ -444,7 +444,14 @@ def analyze_with_claude_code(date_str: str, transcript_text: str) -> dict:
     )
 
     if result.returncode != 0:
-        raise RuntimeError(f"claude CLI failed (rc={result.returncode}):\n{result.stderr}")
+        # Report BOTH streams. `claude -p` writes its failure reason (usage limit,
+        # auth expiry, model refusal) to *stdout*, so reporting only stderr produced
+        # an empty explanation and a nightly run that failed for no visible reason.
+        detail = "\n".join(filter(None, [
+            f"stderr: {result.stderr.strip()}" if result.stderr.strip() else "",
+            f"stdout: {result.stdout.strip()[:2000]}" if result.stdout.strip() else "",
+        ])) or "(both stdout and stderr were empty)"
+        raise RuntimeError(f"claude CLI failed (rc={result.returncode}):\n{detail}")
 
     raw = result.stdout.strip()
     if raw.startswith("```"):
