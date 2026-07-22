@@ -1814,11 +1814,18 @@ def _generate_price_chart_png(ticker: str) -> bytes | None:
 
 def build_email_html(summaries: list[dict],
                      highlight_tickers: set[str] | None = None,
-                     embed_charts: str = "base64") -> tuple[str, list[tuple[str, bytes]]]:
+                     embed_charts: str = "base64",
+                     all_stocks: bool = False) -> tuple[str, list[tuple[str, bytes]]]:
     """
     summaries: list of dicts with keys:
         date_str, analysis, audio_url (or None), video_id, redirect_pages
-    highlight_tickers: tickers to highlight in yellow (defaults to USER_HOLDINGS)
+    highlight_tickers: whose holdings the stock table is limited to (defaults to
+        USER_HOLDINGS). The nightly email is per-recipient, so this is USER_HOLDINGS
+        for the main copy and BROTHER_TICKERS for his.
+    all_stocks: list every stock mentioned instead of just the holdings. Used for the
+        archived summary, which is a permanent full record of the episode — passing an
+        empty highlight set would otherwise render it as "no holdings mentioned" and
+        drop the table entirely.
     redirect_pages: dict mapping start_seconds (int) → GitHub Pages URL
     embed_charts: "base64" for self-contained <img> (browser-viewable archive/preview
         files) or "cid" for cid: references (paired with MIMEImage attachments for
@@ -2027,7 +2034,7 @@ def build_email_html(summaries: list[dict],
         # Holdings table. Deliberately NOT every stock mentioned: the full list ran to
         # ~30 rows and buried the handful that matter, and each section above already
         # covers what he said about everything else. The site is there for depth.
-        held = [s for s in stocks if (s.get("ticker") or "").upper() in hl]
+        held = stocks if all_stocks else [s for s in stocks if (s.get("ticker") or "").upper() in hl]
         if stocks and not held:
             n_other = len(stocks)
             parts.append(
@@ -2038,7 +2045,8 @@ def build_email_html(summaries: list[dict],
             )
         if held:
             stocks = held
-            parts.append('<h3>Your Holdings Mentioned Tonight</h3>')
+            parts.append('<h3>Stocks Mentioned</h3>' if all_stocks
+                         else '<h3>Your Holdings Mentioned Tonight</h3>')
             parts.append(
                 '<table>'
                 '<colgroup>'
@@ -2964,7 +2972,9 @@ def main() -> None:
     # Archive one HTML summary per episode date (no holdings highlighting, no charts needed)
     SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
     for ep_summary in summaries:
-        ep_html, _ = build_email_html([ep_summary], highlight_tickers=set())
+        # all_stocks=True: the archive is the permanent full record of the episode,
+        # not a per-recipient email.
+        ep_html, _ = build_email_html([ep_summary], highlight_tickers=set(), all_stocks=True)
         arc = SUMMARIES_DIR / f"{ep_summary['date_str']}_summary.html"
         arc.write_text(ep_html)
         print(f"  Archived summary → {arc.name}")
