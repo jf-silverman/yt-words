@@ -26,27 +26,29 @@ flowchart TD
     AN <--> ANA
     ANA --> AJSON["structured JSON<br/>sections + stocks"]
 
-    AJSON --> UPD["4. update_stock_sentiments()<br/><i>clears the date first &mdash; idempotent</i>"]
+    AJSON --> VAL["4. validate_analysis_tickers()<br/><i>does the symbol match the company?</i><br/>advisory &mdash; warns, never edits"]
+    YF -->|"what is this symbol?<br/>what symbol is this company?"| VAL
+    VAL --> UPD["5. update_stock_sentiments()<br/><i>clears the date first &mdash; idempotent</i>"]
     YF -->|"closing price<br/>per ticker per date"| UPD
 
     UPD --> DB[("data/mad_money.db<br/><b>SQLite — source of truth</b><br/>episodes · mentions · stocks<br/>daily_prices · forward_returns")]
     UPD --> SS[["data/stock_sentiments.json<br/><i>owns company/sector/style</i>"]]
 
-    OC --> RED["5. Build redirect pages"]
+    OC --> RED["6. Build redirect pages"]
     AJSON --> RED
     RED --> RD[["docs/redirect/<br/>{date}_{segment}.html"]]
 
-    AJSON --> EM["6. Build + send email"]
+    AJSON --> EM["7. Build + send email"]
     DB --> EM
     EM --> MAIL(["Gmail SMTP<br/>nightly email"])
     EM --> SUM[["data/summaries/<br/>{date}_summary.html"]]
 
-    UPD --> SHARD["7. Write shards"]
+    UPD --> SHARD["8. Write shards"]
     DB --> SHARD
     SS --> SHARD
     SHARD --> DOCS[["docs/data/*.json"]]
 
-    DOCS --> PUSH["8. commit_and_push()<br/><b>refuses unless on main</b>"]
+    DOCS --> PUSH["9. commit_and_push()<br/><b>refuses unless on main</b>"]
     RD --> PUSH
     PUSH --> PAGES(["GitHub Pages<br/>stocks.html"])
 
@@ -83,11 +85,12 @@ flowchart TD
 | 1 | Discover | YouTube channel via yt-dlp | `data/processed_episodes.json` |
 | 2 | Transcript | YouTube auto-captions (json3, else vtt) | `data/transcripts/`, `data/transcript_timing.csv` |
 | 3 | Analyze | transcript + `prompts/mad_money_rules.md` | in-memory JSON |
-| 4 | Persist | analysis + Yahoo closing prices | SQLite, `data/stock_sentiments.json` |
-| 5 | Redirects | Overcast ID cache | `docs/redirect/` |
-| 6 | Email | analysis + DB (charts via matplotlib) | SMTP send, `data/summaries/` |
-| 7 | Shards | SQLite + `stock_sentiments.json` | `docs/data/` |
-| 8 | Publish | everything dirty under `docs/` + `data/` | `main` &rarr; GitHub Pages |
+| 4 | Validate tickers | analysis + Yahoo | warnings to stdout, `data/ticker_names.json` cache |
+| 5 | Persist | analysis + Yahoo closing prices | SQLite, `data/stock_sentiments.json` |
+| 6 | Redirects | Overcast ID cache | `docs/redirect/` |
+| 7 | Email | analysis + DB (charts via matplotlib) | SMTP send, `data/summaries/` |
+| 8 | Shards | SQLite + `stock_sentiments.json` | `docs/data/` |
+| 9 | Publish | everything dirty under `docs/` + `data/` | `main` &rarr; GitHub Pages |
 
 ---
 
@@ -131,6 +134,8 @@ These are run by hand and are **not** part of the cron.
 flowchart TD
     DB[("mad_money.db")] --> UNK["--list-unknown-tickers"]
     UNK --> UNKMD[["notes/unknown-tickers.md<br/>manual review queue"]]
+    DB --> CTN["--check-ticker-names"]
+    CTN --> CTNMD[["notes/ticker-name-mismatches.md<br/>symbol vs company review queue"]]
     UNKMD -.->|"human identifies<br/>the company"| FIX["sqlite UPDATE<br/>+ --backfill-prices<br/>+ --rebuild-shards"]
     FIX --> DB
 
@@ -145,7 +150,7 @@ flowchart TD
     classDef default fill:#f4f5f8,stroke:#6b7280,stroke-width:1px,color:#0b1020
     classDef store   fill:#dbe4ff,stroke:#3b5bbf,stroke-width:1px,color:#0b1020
     classDef store_db fill:#e6dcff,stroke:#6b4bbf,stroke-width:2px,color:#0b1020
-    class UNKMD,R20,ANLY,TXT store
+    class UNKMD,CTNMD,R20,ANLY,TXT store
     class DB store_db
 ```
 
@@ -160,7 +165,22 @@ that's needed — never hand-edit mentions in the JSON.
 
 Note the direction reverses for names: `upsert_stock()` writes the JSON's company
 name *into* the DB, so a name must be corrected in `stock_sentiments.json` or a
-later `--fetch-sectors` will overwrite it.
+later `--fetch-sectors` will overwrite it. An *established* name now wins over the
+one the model produced tonight — before that, one bad guess in one episode
+overwrote the DB permanently (`LRCX` was stored as "Eli Lilly"). See BUG-011.
+
+**Yahoo arbitrates names; it does not own them.** Both stores contain errors, so
+reconciling them against each other is unsafe — a pass that trusted the JSON
+overwrote correct DB names (`ACM` AECOM &rarr; "Acuity Electronics"). Use Yahoo as
+the external referee. It can't be the owner either: it has no entry for
+`PRIVATE_COMPANIES`, returns bare numbers as names for some symbols, and knows
+nothing about the ~200 hallucinated tickers.
+
+**A wrong ticker is worse than a missing one.** It attaches the call to a real,
+unrelated company and silently inherits that company's price history.
+`validate_analysis_tickers()` checks every (ticker, company) pair against Yahoo at
+ingest and warns; it never edits, because the *company* half of the pair can be the
+wrong one. See BUG-012.
 
 **Re-processing a date replaces it.** `update_stock_sentiments()` clears the date's
 mentions before writing. This matters because `UNIQUE(episode_id, ticker, segment)`
@@ -169,7 +189,7 @@ a call to another segment, or named the same company under a different ticker, l
 both rows in place and nothing looked wrong. See BUG-010.
 
 **`main` owns every generated artifact.** `docs/data/`, `docs/redirect/`,
-`data/daily_prices/`, and the four `data/*.json` state files may only be committed
+`data/daily_prices/`, and the five `data/*.json` state files may only be committed
 on `main`; `.githooks/pre-commit` enforces it. The cron therefore runs from a
 main-pinned worktree (`~/Documents/DS/yt-words-cron`), and `commit_and_push()`
 refuses to run anywhere else.
