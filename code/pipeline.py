@@ -161,8 +161,9 @@ SENTIMENT_ORDER = [
 
 # Map legacy values to consolidated canonical values
 _SENTIMENT_MAP = {
-    "hold":    "wait_hold_neutral",
-    "wait":    "wait_hold_neutral",
+    "hold":      "wait_hold_neutral",
+    "wait":      "wait_hold_neutral",
+    "wait_hold": "wait_hold_neutral",
     "neutral": "wait_hold_neutral",
     "caution": "caution_concern",
     "concern": "caution_concern",
