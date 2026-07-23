@@ -1,6 +1,6 @@
 # Ticker / Company Name Mismatches — Review Queue
 
-**59 ticker(s)** hold a company name that Yahoo Finance says belongs to
+**58 ticker(s)** hold a company name that Yahoo Finance says belongs to
 a different company. These are not all the same problem — some are wrong data,
 most are a name we wrote informally — so they are split by **what can actually be
 proved**, not by what they look like.
@@ -10,8 +10,8 @@ symbol does Yahoo return for the company name we stored? A different symbol back
 means the call is sitting on the wrong company; the same symbol means our name is
 merely informal.
 
-That settles **5 of 59**. It cannot settle the other
-**54**, because Yahoo's search only matches *current legal* names — it
+That settles **5 of 58**. It cannot settle the other
+**53**, because Yahoo's search only matches *current legal* names — it
 returns nothing for "Snapchat", "Burlington Coat Factory" or "D-Wave Systems"
 exactly as it returns nothing for a caption garble. Those need the transcript.
 
@@ -53,7 +53,7 @@ Confirm against the transcript before changing anything.
 _None._
 
 
-## 2. Undecidable without the transcript — 54 ticker(s)
+## 2. Undecidable without the transcript — 53 ticker(s)
 
 Yahoo's search recognises neither name, so there is no evidence either way. This
 bucket genuinely mixes both problems: harmless old names ("Burlington Coat
@@ -96,7 +96,6 @@ exactly the way "D-Wave Systems" vs "D-Wave Quantum" do. Sorted hint-first.
 | `QTUM` | **Quantinium** | Defiance Quantum ETF | **no** | 2026-06-04 · in_depth_analysis · [21:00](https://youtu.be/2KJ4PtpX3Wk?t=1260) |
 | `RAN` | **Ramco Resources** | RanMarine Technology B.V. | **no** | 2026-01-27 · lightning_round · [episode](https://youtu.be/VqOMrFKSevs) |
 | `SLS` | **Selecta Biosciences** | SELLAS Life Sciences Group, Inc | **no** | 2026-05-28 · lightning_round · [35:08](https://youtu.be/G_nPvcsM8LA?t=2108) |
-| `SPRL` | **Unknown (SPRL)** | STRAT PETROLEUM LTD | **no** | 2026-05-12 · lightning_round · [37:26](https://youtu.be/RDTfIM7usu4?t=2246) |
 | `THO` | **Tenneco (Thomas Oil)** | THOR Industries, Inc. | **no** | 2026-06-23 · opening_commentary · [0:17](https://youtu.be/TW-oqAAfZDY?t=17) |
 | `TMPO` | **Tempest AI** | Tempo Automation Holdings, Inc. | **no** | 2026-03-27 · lightning_round · [35:00](https://youtu.be/aK5g9aWVbWU?t=2100) |
 | `URG` | **US Anamoney (United States Rare Earth & Critical Materials)** | Ur Energy Inc | **no** | 2026-01-20 · in_depth_analysis · [episode](https://youtu.be/tKgYSl5KSq0) |
@@ -143,7 +142,7 @@ renamed-companies note in CLAUDE.md.
 | `WOOF` | **Petco** | Petco Health and Wellness Compa | 2026-06-05 · opening_commentary · [0:17](https://youtu.be/LDtdnZddg-k?t=17) |
 
 
-_Checked 809 tickers with a stored company name. Tickers Yahoo does not
+_Checked 808 tickers with a stored company name. Tickers Yahoo does not
 recognise at all (hallucinated, private, OTC) are not listed here — see the
 'Hallucinated tickers' note in CLAUDE.md._
 
