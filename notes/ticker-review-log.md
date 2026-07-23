@@ -15,16 +15,20 @@ These were verified far enough to know the machine suggestion is wrong, but not 
 enough to be confident in a replacement. **Do not apply a suggestion to these
 without listening to the audio.**
 
-| Ticker | Date | Stored as | Why it's held |
-|--------|------|-----------|---------------|
-| `AVX` | 2026-04-17 | Aeva Technologies | Transcript literally says *"drone maker Aeva"* — but Aeva Technologies is a **lidar** company, public since 2021, and the note describes a **fresh IPO** ("IPO'd at $20, +35% to $27 on day one"). Either the caption garbled a different drone IPO's name, or Cramer misspoke. `AEVA` is a portfolio holding, so a wrong move here corrupts a chart you actually read. |
-| `AX` | 2026-07-21 | Axiom (Defense Technology) | Flagged by the ingest validator on its first production run. `AX` is **Axos Financial**, a bank. Which defense company "Axiom" refers to is unclear — Axiom Space is private; there may be a recent listing. |
-| `BDN` | 2026-03-03 | "Blue (implied Blackstone or similar…)" | The stored company name is itself a guess, not a company. Needs the audio. |
-| `SPRL` | 2026-05-12 | "Spirail (exact company uncertain)" | Same — the name is admitted-uncertain at source. |
-| `URG` | 2026-01-20 | "US Anamoney (United States Rare Earth…)" | Garbled name. `URG` is Ur-Energy. Candidate is `USAR` (USA Rare Earth) but unconfirmed. |
-| `MIND` | 2026-04-20 | Biphenium Therapeutics | `MIND` is MIND Technology (marine tech). "Biphenium" doesn't resolve to a known issuer. |
-| `PBR` | 2026-04-02 | Polarcoin | `PBR` is Petrobras. "Polarcoin" doesn't resolve. |
-| `QTUM` / `QTEC` | 2026-06-04 / 03-25 | Quantinium / Quantee Electronics | Both stored tickers are **ETFs**. The underlying companies don't resolve to a listed symbol; these may belong in the `????` queue instead. |
+Jump-to-video links (`date · segment · time`) come from the same section timing
+the review queue uses; a link that lands on the episode start means that section
+has no timing on disk. Timestamps are section starts, so scrub forward a little.
+
+| Ticker | Where — date · segment · time | Stored as | Why it's held |
+|--------|-------------------------------|-----------|---------------|
+| `AVX` | 2026-04-17 · in_depth_analysis · [21:20](https://youtu.be/HYRppgkEDXc?t=1280) | Aeva Technologies | Transcript literally says *"drone maker Aeva"* — but Aeva Technologies is a **lidar** company, public since 2021, and the note describes a **fresh IPO** ("IPO'd at $20, +35% to $27 on day one"). Either the caption garbled a different drone IPO's name, or Cramer misspoke. `AEVA` is a portfolio holding, so a wrong move here corrupts a chart you actually read. |
+| `AX` | 2026-07-21 · opening_commentary · [episode](https://youtu.be/ShGPsBV3YZA) | Axiom (Defense Technology) | Flagged by the ingest validator on its first production run. `AX` is **Axos Financial**, a bank. Which defense company "Axiom" refers to is unclear — Axiom Space is private; there may be a recent listing. |
+| `BDN` | 2026-03-03 · closing_commentary · [39:00](https://youtu.be/ISGe21_RSYs?t=2340) | "Blue (implied Blackstone or similar…)" | The stored company name is itself a guess, not a company. Needs the audio. |
+| `SPRL` | 2026-05-12 · lightning_round · [37:26](https://youtu.be/RDTfIM7usu4?t=2246) | "Spirail (exact company uncertain)" | Same — the name is admitted-uncertain at source. |
+| `URG` | 2026-01-20 · in_depth_analysis · [episode](https://youtu.be/tKgYSl5KSq0) | "US Anamoney (United States Rare Earth…)" | Garbled name. `URG` is Ur-Energy. Candidate is `USAR` (USA Rare Earth) but unconfirmed. |
+| `MIND` | 2026-04-20 · interview · [28:08](https://youtu.be/-kPm8LikEBI?t=1688) | Biphenium Therapeutics | `MIND` is MIND Technology (marine tech). "Biphenium" doesn't resolve to a known issuer. |
+| `PBR` | 2026-04-02 · lightning_round · [36:20](https://youtu.be/3nt_bL2oclU?t=2180) | Polarcoin | `PBR` is Petrobras. "Polarcoin" doesn't resolve. |
+| `QTUM` / `QTEC` | 2026-06-04 · in_depth_analysis · [21:00](https://youtu.be/2KJ4PtpX3Wk?t=1260)<br>2026-03-25 · lightning_round · [56:00](https://youtu.be/V9apPO6VXII?t=3360) | Quantinium / Quantee Electronics | Both stored tickers are **ETFs**. The underlying companies don't resolve to a listed symbol; these may belong in the `????` queue instead. |
 
 ---
 
@@ -68,11 +72,11 @@ Holding and Under Armour"* — On Holding, not OneMain Financial.
 `--check-ticker-names` now proves out a small "likely mis-ticker" section. Three of
 the five were checked against the transcript; two were applied.
 
-| Ticker | Verdict | Transcript evidence |
-|--------|---------|---------------------|
-| `CPK` &rarr; `CPB` | **applied** | 2026-03-12: *"Yesterday, Campbell's reported one of the worst quarters I've seen in ages… Stock hit a 17-year low."* Was sitting on Chesapeake Utilities at $129.22; correct close is $21.65. |
-| `USA` &rarr; `USAR` | **applied** | 2026-05-05 lightning round: caller asks about USA Rare Earth, Cramer answers *"the only one we're recommending in that area is MP Materials."* Was on Liberty All-Star Equity Fund at $5.81; correct close is $27.42. |
-| `AVX` | **HELD — do not apply the suggestion** | See below. |
+| Ticker | Where — date · segment · time | Verdict | Transcript evidence |
+|--------|-------------------------------|---------|---------------------|
+| `CPK` &rarr; `CPB` | 2026-03-12 · closing_commentary · [39:57](https://youtu.be/MsK1NxlzwvY?t=2397) | **applied** | *"Yesterday, Campbell's reported one of the worst quarters I've seen in ages… Stock hit a 17-year low."* Was sitting on Chesapeake Utilities at $129.22; correct close is $21.65. |
+| `USA` &rarr; `USAR` | 2026-05-05 · lightning_round · [32:32](https://youtu.be/stBiW-NPi9E?t=1952) | **applied** | Caller asks about USA Rare Earth, Cramer answers *"the only one we're recommending in that area is MP Materials."* Was on Liberty All-Star Equity Fund at $5.81; correct close is $27.42. |
+| `AVX` | 2026-04-17 · in_depth_analysis · [21:20](https://youtu.be/HYRppgkEDXc?t=1280) | **HELD — do not apply the suggestion** | See below. |
 
 ### `AVX` — the suggestion was actively dangerous
 
@@ -106,6 +110,18 @@ The 2026-03-12 episode is one of **16 flagged `is_fundamentals=1`**, which
 price there had to be fetched and written to SQLite directly. Worth remembering: a
 queue row can point at a mention that is invisible on the site, because the queue
 counts mentions straight from the DB without that filter.
+
+---
+
+## 2026-07-23 — validator catch on the nightly run
+
+| Ticker | Where — date · segment · time | Verdict | Evidence |
+|--------|-------------------------------|---------|----------|
+| `KEL` &rarr; `KEEL` | 2026-07-22 · closing_commentary · [episode](https://youtu.be/wqIw4sfmmns) | **applied** | The ingest validator flagged it live: `KEL` resolves to no symbol, and Yahoo maps the stored name "Keel Infrastructure" to `KEEL`. Clean case (the name is the good half, unlike `AVX`). Was priceless; `KEEL` 2026-07-22 close is $4.69. |
+
+This is the validator working as designed on the same night it ran, rather than a
+row aging in the queue — the opposite failure mode from `AVX`, where the stored
+*name* was the hallucination.
 
 ---
 
