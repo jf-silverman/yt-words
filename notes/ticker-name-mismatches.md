@@ -1,9 +1,19 @@
 # Ticker / Company Name Mismatches — Review Queue
 
-**71 ticker(s)** hold a company that Yahoo Finance says belongs to a
-*different* company. Each is a likely mis-ticker: the call is probably about the
-company in the last column, filed under the wrong symbol — where it silently
-inherits that symbol's real price history.
+**64 ticker(s)** hold a company name that Yahoo Finance says belongs to
+a different company. These are not all the same problem — some are wrong data,
+most are a name we wrote informally — so they are split by **what can actually be
+proved**, not by what they look like.
+
+The test is the question in reverse: ignoring the symbol we filed it under, what
+symbol does Yahoo return for the company name we stored? A different symbol back
+means the call is sitting on the wrong company; the same symbol means our name is
+merely informal.
+
+That settles **10 of 64**. It cannot settle the other
+**54**, because Yahoo's search only matches *current legal* names — it
+returns nothing for "Snapchat", "Burlington Coat Factory" or "D-Wave Systems"
+exactly as it returns nothing for a caption garble. Those need the transcript.
 
 > **Generated file — do not edit by hand.**
 >
@@ -26,79 +36,116 @@ python3 code/pipeline.py --rebuild-shards
 python3 code/pipeline.py --backfill-prices --tickers CORRECT
 ```
 
-| Ticker | Mentions | Dates | Yahoo says the symbol is | We stored it as |
-|--------|---------:|-------|--------------------------|-----------------|
-| `MSTR` | 7 | 2026-01-05 … 2026-05-01 | Strategy Inc | **MicroStrategy** |
-| `ABT` | 6 | 2026-01-16 … 2026-06-18 | Abbott Laboratories | **Abbott Labs** |
-| `PAYX` | 4 | 2026-03-25 … 2026-06-30 | Paychex, Inc. | **Paychecks** |
-| `RH` | 3 | 2026-03-23 … 2026-04-08 | RH | **RH (Restoration Hardware)** |
-| `SNAP` | 3 | 2026-04-01 … 2026-06-16 | Snap Inc. | **Snapchat** |
-| `BTC` | 2 | 2026-03-02 … 2026-04-24 | Grayscale Bitcoin Mini Trust (B | **Bitcoin** |
-| `BWX` | 2 | 2026-01-15 | State Street SPDR Bloomberg Int | **Babcock and Wilcox Enterprises** |
-| `ELAN` | 2 | 2026-02-24 … 2026-06-02 | Elanco Animal Health Incorporat | **Elanco** |
-| `HBAN` | 2 | 2026-01-16 … 2026-04-10 | Huntington Bancshares Incorpora | **Huntington Bancorp** |
-| `VCX` | 2 | 2026-03-24 … 2026-07-08 | Fundrise Growth Tech Fund, LLC | **Fundrise Innovation Fund** |
-| `ABX` | 1 | 2026-01-28 | Abacus Global Management, Inc. | **Barrick Gold** |
-| `ACOM` | 1 | 2026-03-06 | Harbor Active Commodity ETF | **Acorn Realty Trust** |
-| `AEIS` | 1 | 2026-03-05 | Advanced Energy Industries, Inc | **Array Electronic Industries (Ametek/AEI Systems)** |
-| `AHCO` | 1 | 2026-04-27 | AdaptHealth Corp. | **Acuity Electronics** |
-| `ATEN` | 1 | 2026-05-05 | A10 Networks, Inc. | **Aten International** |
-| `AUTR` | 1 | 2026-03-27 | Autris | **Auterion** |
-| `AVX` | 1 | 2026-04-17 | Avax One Technology Ltd. | **Aeva Technologies** |
-| `AX` | 1 | 2026-07-21 | Axos Financial, Inc. | **Axiom (Defense Technology)** |
-| `BCTX` | 1 | 2026-04-27 | BriaCell Therapeutics Corp. | **Billion to One** |
-| `BDN` | 1 | 2026-03-03 | Brandywine Realty Trust | **Blue (implied Blackstone or similar; context suggests private credit entity)** |
-| `BITO` | 1 | 2026-05-14 | ProShares Bitcoin ETF | **Billion to One** |
-| `BK` | 1 | 2026-06-23 | Bank of New York Mellon Corp | **Bob Evans Farms** |
-| `BNAI` | 1 | 2026-03-06 | Brand Engagement Network Inc. | **Brand Engagement (formerly known)** |
-| `BURL` | 1 | 2026-04-07 | Burlington Stores, Inc. | **Burlington Coat Factory** |
-| `BXP` | 1 | 2026-03-25 | BXP, Inc. | **BXP (Boston Properties)** |
-| `CBT` | 1 | 2026-03-27 | Cabot Corporation | **Cabot Brands (Cut Brands lighting)** |
-| `CPK` | 1 | 2026-03-12 | Chesapeake Utilities Corporation | **Campbell Soup Company** |
-| `DD` | 1 | 2026-02-06 | DuPont de Nemours, Inc. | **DuPont** |
-| `DECK` | 1 | 2026-01-05 | Deckers Outdoor Corporation | **Deckers Brands** |
-| `EAGLE` | 1 | 2026-01-28 | Eagle Cement Corp | **Eagle Gold Mining** |
-| `EQPT` | 1 | 2026-03-24 | EquipmentShare.com Inc | **Equipment Shares** |
-| `EQST` | 1 | 2026-01-26 | Energy Quest, Inc | **Equipment Share** |
-| `FDS` | 1 | 2026-02-23 | FactSet Research Systems Inc. | **FactSet** |
-| `FG` | 1 | 2026-01-20 | F&G Annuities & Life, Inc. | **Figure Technologies** |
-| `FWONK` | 1 | 2026-03-06 | Liberty Media Corporation - Ser | **Liberty Media Formula One** |
-| `IMRX` | 1 | 2026-06-16 | Immuneering Corporation | **Immunity Bio** |
-| `IMTX` | 1 | 2026-04-17 | Immatics N.V. | **Immunity Bio** |
-| `INSP` | 1 | 2026-04-20 | Inspire Medical Systems, Inc. | **Inspira Technologies** |
-| `KD` | 1 | 2026-02-24 | Kyndryl Holdings, Inc. | **Kendrell** |
-| `KGC` | 1 | 2026-03-27 | Kinross Gold Corporation | **Kagra** |
-| `KMG` | 1 | 2026-03-26 | KMG Chemicals, Inc. | **Kimcor** |
-| `KRMN` | 1 | 2026-01-05 | Karman Holdings Inc. | **Karman Space & Defense** |
-| `MDLM` | 1 | 2026-01-16 | MEDLEY MANAGEMENT INC | **Medline Industries** |
-| `MIND` | 1 | 2026-04-20 | MIND Technology, Inc. | **Biphenium Therapeutics** |
-| `NRGV` | 1 | 2026-05-15 | Energy Vault Holdings, Inc. | **Energy Storage Company** |
-| `NU` | 1 | 2026-01-23 | Nu Holdings Ltd. | **Nubank** |
-| `PBR` | 1 | 2026-04-02 | Petroleo Brasileiro S.A. Petrob | **Polarcoin Beverage / Polar Bear (PBR stock ticker context unclear)** |
-| `PCG` | 1 | 2026-04-23 | Pacific Gas & Electric Co. | **PG&E Corporation** |
-| `PDYN` | 1 | 2026-03-24 | Palladyne AI Corp. | **Paladin** |
-| `PHM` | 1 | 2026-05-26 | PulteGroup, Inc. | **Pulte Homes** |
-| `PLC` | 1 | 2026-07-06 | Principal U.S. Large-Cap Multi-Factor ETF | **Power & Light Company** |
-| `PRIM` | 1 | 2026-03-10 | Primoris Services Corporation | **Primary Energy Holdings (infrastructure services)** |
-| `QBTS` | 1 | 2026-06-01 | D-Wave Quantum Inc. | **D-Wave Systems** |
-| `QTEC` | 1 | 2026-03-25 | First Trust NASDAQ-100-Technolo | **Quantee Electronics** |
-| `QTUM` | 1 | 2026-06-04 | Defiance Quantum ETF | **Quantinium** |
-| `RAL` | 1 | 2026-06-05 | Ralliant Corporation | **Reliant** |
-| `RAN` | 1 | 2026-01-27 | RanMarine Technology B.V. | **Ramco Resources** |
-| `SATL` | 1 | 2026-01-28 | Satellogic Inc. | **Satalogic Inc.** |
-| `SGHC` | 1 | 2026-04-13 | Super Group (SGHC) Limited | **Supergroup** |
-| `SLS` | 1 | 2026-05-28 | SELLAS Life Sciences Group, Inc | **Selecta Biosciences** |
-| `SPRL` | 1 | 2026-05-12 | STRAT PETROLEUM LTD | **Unknown (SPRL)** |
-| `TEM` | 1 | 2026-02-06 | Tempus AI, Inc. | **Tempest AI** |
-| `THO` | 1 | 2026-06-23 | THOR Industries, Inc. | **Tenneco (Thomas Oil)** |
-| `TKR` | 1 | 2026-06-04 | Timken Company (The) | **Timkin** |
-| `TMPO` | 1 | 2026-03-27 | Tempo Automation Holdings, Inc. | **Tempest AI** |
-| `UAMY` | 1 | 2026-03-12 | United States Antimony Corporation | **U.S. Antimony Corporation** |
-| `URG` | 1 | 2026-01-20 | Ur Energy Inc | **US Anamoney (United States Rare Earth & Critical Materials)** |
-| `USA` | 1 | 2026-05-05 | Liberty All-Star Equity Fund | **USA Rare Earth** |
-| `VDV` | 1 | 2026-03-27 | Vanguard Developed Markets ex-U | **Verdiv** |
-| `WOOF` | 1 | 2026-06-05 | Petco Health and Wellness Compa | **Petco** |
-| `XPO` | 1 | 2026-04-27 | XPO, Inc. | **XPO Logistics (formerly TopBuild acquisition vehicle)** |
+
+## 1. Likely mis-tickers — 5 ticker(s), the data is wrong
+
+**This is the section that matters.** Yahoo maps our stored company name to a
+*different* symbol than the one we filed the call under, so the call is most
+likely attached to an unrelated company and has inherited its price history.
+Every return, chart and backtest for both tickers is affected.
+
+The suggested symbol is advisory — Yahoo's search picks the first US listing and
+can be wrong, and the *company* half of the pair may be the mistaken one.
+Confirm against the transcript before changing anything.
+
+| Ticker | Mentions | Dates | We stored it as | That name is probably | But this symbol is |
+|--------|---------:|-------|-----------------|----------------------|--------------------|
+| `AVX` | 1 | 2026-04-17 | **Aeva Technologies** | `AEVA` | Avax One Technology Ltd. |
+| `AX` | 1 | 2026-07-21 | **Axiom (Defense Technology)** | `AXIN` | Axos Financial, Inc. |
+| `BDN` | 1 | 2026-03-03 | **Blue (implied Blackstone or similar; context suggests private credit entity)** | `OBDC` | Brandywine Realty Trust |
+| `CPK` | 1 | 2026-03-12 | **Campbell Soup Company** | `CPB` | Chesapeake Utilities Corporation |
+| `USA` | 1 | 2026-05-05 | **USA Rare Earth** | `USAR` | Liberty All-Star Equity Fund |
+
+
+## 2. Undecidable without the transcript — 54 ticker(s)
+
+Yahoo's search recognises neither name, so there is no evidence either way. This
+bucket genuinely mixes both problems: harmless old names ("Burlington Coat
+Factory", "Snapchat") sit next to real mis-tickers ("Kagra" filed on Kinross
+Gold, "Verdiv" on a Vanguard ETF). Read the transcript.
+
+**`Similar?` is a weak triage hint, not a verdict.** `no` means the two names
+share nothing and is worth looking at first; `~` means they resemble each other
+and is worth looking at last. No string rule does better than this — "Inspira
+Technologies" vs "Inspire Medical" are different companies but score like
+"Snapchat" vs "Snap Inc", and "Eagle Gold" vs "Eagle Cement" share a word
+exactly the way "D-Wave Systems" vs "D-Wave Quantum" do. Sorted hint-first.
+
+| Ticker | Mentions | Dates | We stored it as | Yahoo's name | Similar? |
+|--------|---------:|-------|-----------------|--------------|----------|
+| `BWX` | 2 | 2026-01-15 | **Babcock and Wilcox Enterprises** | State Street SPDR Bloomberg Int | **no** |
+| `ABX` | 1 | 2026-01-28 | **Barrick Gold** | Abacus Global Management, Inc. | **no** |
+| `ACOM` | 1 | 2026-03-06 | **Acorn Realty Trust** | Harbor Active Commodity ETF | **no** |
+| `AHCO` | 1 | 2026-04-27 | **Acuity Electronics** | AdaptHealth Corp. | **no** |
+| `ATEN` | 1 | 2026-05-05 | **Aten International** | A10 Networks, Inc. | **no** |
+| `BCTX` | 1 | 2026-04-27 | **Billion to One** | BriaCell Therapeutics Corp. | **no** |
+| `BITO` | 1 | 2026-05-14 | **Billion to One** | ProShares Bitcoin ETF | **no** |
+| `BK` | 1 | 2026-06-23 | **Bob Evans Farms** | Bank of New York Mellon Corp | **no** |
+| `EQST` | 1 | 2026-01-26 | **Equipment Share** | Energy Quest, Inc | **no** |
+| `FG` | 1 | 2026-01-20 | **Figure Technologies** | F&G Annuities & Life, Inc. | **no** |
+| `IMRX` | 1 | 2026-06-16 | **Immunity Bio** | Immuneering Corporation | **no** |
+| `IMTX` | 1 | 2026-04-17 | **Immunity Bio** | Immatics N.V. | **no** |
+| `INSP` | 1 | 2026-04-20 | **Inspira Technologies** | Inspire Medical Systems, Inc. | **no** |
+| `KD` | 1 | 2026-02-24 | **Kendrell** | Kyndryl Holdings, Inc. | **no** |
+| `KGC` | 1 | 2026-03-27 | **Kagra** | Kinross Gold Corporation | **no** |
+| `KMG` | 1 | 2026-03-26 | **Kimcor** | KMG Chemicals, Inc. | **no** |
+| `MDLM` | 1 | 2026-01-16 | **Medline Industries** | MEDLEY MANAGEMENT INC | **no** |
+| `MIND` | 1 | 2026-04-20 | **Biphenium Therapeutics** | MIND Technology, Inc. | **no** |
+| `NU` | 1 | 2026-01-23 | **Nubank** | Nu Holdings Ltd. | **no** |
+| `PBR` | 1 | 2026-04-02 | **Polarcoin Beverage / Polar Bear (PBR stock ticker context unclear)** | Petroleo Brasileiro S.A. Petrob | **no** |
+| `PCG` | 1 | 2026-04-23 | **PG&E Corporation** | Pacific Gas & Electric Co. | **no** |
+| `PDYN` | 1 | 2026-03-24 | **Paladin** | Palladyne AI Corp. | **no** |
+| `PLC` | 1 | 2026-07-06 | **Power & Light Company** | Principal U.S. Large-Cap Multi-Factor ETF | **no** |
+| `QTEC` | 1 | 2026-03-25 | **Quantee Electronics** | First Trust NASDAQ-100-Technolo | **no** |
+| `QTUM` | 1 | 2026-06-04 | **Quantinium** | Defiance Quantum ETF | **no** |
+| `RAN` | 1 | 2026-01-27 | **Ramco Resources** | RanMarine Technology B.V. | **no** |
+| `SLS` | 1 | 2026-05-28 | **Selecta Biosciences** | SELLAS Life Sciences Group, Inc | **no** |
+| `SPRL` | 1 | 2026-05-12 | **Unknown (SPRL)** | STRAT PETROLEUM LTD | **no** |
+| `THO` | 1 | 2026-06-23 | **Tenneco (Thomas Oil)** | THOR Industries, Inc. | **no** |
+| `TMPO` | 1 | 2026-03-27 | **Tempest AI** | Tempo Automation Holdings, Inc. | **no** |
+| `URG` | 1 | 2026-01-20 | **US Anamoney (United States Rare Earth & Critical Materials)** | Ur Energy Inc | **no** |
+| `VDV` | 1 | 2026-03-27 | **Verdiv** | Vanguard Developed Markets ex-U | **no** |
+| `PAYX` | 4 | 2026-03-25 … 2026-06-30 | **Paychecks** | Paychex, Inc. | ~ |
+| `SNAP` | 3 | 2026-04-01 … 2026-06-16 | **Snapchat** | Snap Inc. | ~ |
+| `BTC` | 2 | 2026-03-02 … 2026-04-24 | **Bitcoin** | Grayscale Bitcoin Mini Trust (B | ~ |
+| `HBAN` | 2 | 2026-01-16 … 2026-04-10 | **Huntington Bancorp** | Huntington Bancshares Incorpora | ~ |
+| `VCX` | 2 | 2026-03-24 … 2026-07-08 | **Fundrise Innovation Fund** | Fundrise Growth Tech Fund, LLC | ~ |
+| `AEIS` | 1 | 2026-03-05 | **Array Electronic Industries (Ametek/AEI Systems)** | Advanced Energy Industries, Inc | ~ |
+| `AUTR` | 1 | 2026-03-27 | **Auterion** | Autris | ~ |
+| `BURL` | 1 | 2026-04-07 | **Burlington Coat Factory** | Burlington Stores, Inc. | ~ |
+| `DECK` | 1 | 2026-01-05 | **Deckers Brands** | Deckers Outdoor Corporation | ~ |
+| `EAGLE` | 1 | 2026-01-28 | **Eagle Gold Mining** | Eagle Cement Corp | ~ |
+| `EQPT` | 1 | 2026-03-24 | **Equipment Shares** | EquipmentShare.com Inc | ~ |
+| `FWONK` | 1 | 2026-03-06 | **Liberty Media Formula One** | Liberty Media Corporation - Ser | ~ |
+| `KRMN` | 1 | 2026-01-05 | **Karman Space & Defense** | Karman Holdings Inc. | ~ |
+| `NRGV` | 1 | 2026-05-15 | **Energy Storage Company** | Energy Vault Holdings, Inc. | ~ |
+| `PRIM` | 1 | 2026-03-10 | **Primary Energy Holdings (infrastructure services)** | Primoris Services Corporation | ~ |
+| `QBTS` | 1 | 2026-06-01 | **D-Wave Systems** | D-Wave Quantum Inc. | ~ |
+| `RAL` | 1 | 2026-06-05 | **Reliant** | Ralliant Corporation | ~ |
+| `SATL` | 1 | 2026-01-28 | **Satalogic Inc.** | Satellogic Inc. | ~ |
+| `SGHC` | 1 | 2026-04-13 | **Supergroup** | Super Group (SGHC) Limited | ~ |
+| `TEM` | 1 | 2026-02-06 | **Tempest AI** | Tempus AI, Inc. | ~ |
+| `TKR` | 1 | 2026-06-04 | **Timkin** | Timken Company (The) | ~ |
+| `UAMY` | 1 | 2026-03-12 | **U.S. Antimony Corporation** | United States Antimony Corporation | ~ |
+
+
+## 3. Name variants — 5 ticker(s), cosmetic only
+
+Yahoo maps our stored name back to the *same* symbol, so the ticker is correct
+and no price history is affected. Our name is just informal ("Snapchat"),
+shortened ("Petco"), dated ("Burlington Coat Factory"), or a caption
+misspelling. Safe to leave alone; fix only if the wording bothers you on the
+site. For a genuine rename, prefer `New Name (formerly Old Name)` — see the
+renamed-companies note in CLAUDE.md.
+
+| Ticker | Mentions | Dates | We stored it as | Yahoo's name |
+|--------|---------:|-------|-----------------|--------------|
+| `ELAN` | 2 | 2026-02-24 … 2026-06-02 | **Elanco** | Elanco Animal Health Incorporat |
+| `DD` | 1 | 2026-02-06 | **DuPont** | DuPont de Nemours, Inc. |
+| `FDS` | 1 | 2026-02-23 | **FactSet** | FactSet Research Systems Inc. |
+| `PHM` | 1 | 2026-05-26 | **Pulte Homes** | PulteGroup, Inc. |
+| `WOOF` | 1 | 2026-06-05 | **Petco** | Petco Health and Wellness Compa |
+
 
 _Checked 810 tickers with a stored company name. Tickers Yahoo does not
 recognise at all (hallucinated, private, OTC) are not listed here — see the
