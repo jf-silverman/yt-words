@@ -2292,8 +2292,79 @@ def _name_tokens(s: str | None) -> set[str]:
     return set(_name_token_list(s))
 
 
+def _tok_match(x: str, y: str) -> bool:
+    """One token against one, allowing a clear abbreviation.
+
+    "Labs" for "Laboratories" is the recurring case. The bar is deliberately high —
+    the shorter token must be at least 4 characters and a true prefix of the longer,
+    with at least 2 characters of difference — so that near-miss company names stay
+    distinct: "blackstone"/"blackrock", "inspire"/"inspira", "tempo"/"tempest" and
+    "immunity"/"immatics" all diverge before the prefix ends and are unaffected.
+    """
+    if x == y:
+        return True
+    # Strip a trailing plural before the prefix test: "labs" is not a prefix of
+    # "laboratories" ("labo…"), but "lab" is.
+    x, y = x.rstrip("s"), y.rstrip("s")
+    short, long = (x, y) if len(x) <= len(y) else (y, x)
+    return len(short) >= 3 and len(long) - len(short) >= 3 and long.startswith(short)
+
+
+def _subsumes(ta: set[str], tb: set[str]) -> bool:
+    """True if either token set is contained in the other, allowing abbreviations."""
+    small, big = (ta, tb) if len(ta) <= len(tb) else (tb, ta)
+    return all(any(_tok_match(s, b) for b in big) for s in small)
+
+
+_ALIAS_CLAUSE = re.compile(
+    r"\(\s*(?:formerly(?:\s+known\s+as)?|f/?k/?a|née|nee|now|was)?\s*([^)]+?)\s*\)",
+    re.IGNORECASE,
+)
+
+
+def _name_aliases(s: str | None) -> list[str]:
+    """Every name a stored company string claims to be.
+
+    We record a renamed company as "Strategy (formerly MicroStrategy)" so the old
+    name stays searchable on the site — the transcripts and our own memory keep
+    using it for years after the rename. Yahoo only ever returns the *current*
+    name, so a single-string comparison would flag the row as a mismatch every
+    night forever. Splitting the parenthetical gives both names a chance to match.
+
+    Also picks up bare parentheticals used the same way: "RH (Restoration
+    Hardware)", "BXP (Boston Properties)".
+
+    This can only ever *add* ways to agree, so it cannot make a real mismatch
+    slip through — each candidate still has to clear names_agree on its own.
+    """
+    s = (s or "").strip()
+    if not s:
+        return []
+    inner = _ALIAS_CLAUSE.findall(s)
+    outer = _ALIAS_CLAUSE.sub(" ", s).strip()
+    return [c for c in [outer, *inner] if c]
+
+
 def names_agree(a: str | None, b: str | None) -> bool:
     """True if two company names plausibly describe the same company.
+
+    A name carrying a "(formerly X)" clause agrees if *either* the current or the
+    former name agrees — see _name_aliases.
+    """
+    ca, cb = _name_aliases(a) or [a], _name_aliases(b) or [b]
+    if len(ca) == 1 and len(cb) == 1:
+        return _names_agree_one(a, b)
+    # Drop candidates that carry no significant words ("Timken Company (The)" splits
+    # off a bare "The"). _names_agree_one treats an empty side as "nothing to compare,
+    # don't cry wolf" and returns True — as a split-out candidate that would be a
+    # wildcard matching anything, hiding real mismatches.
+    ca = [c for c in ca if _name_tokens(c)] or ca
+    cb = [c for c in cb if _name_tokens(c)] or cb
+    return any(_names_agree_one(x, y) for x in ca for y in cb)
+
+
+def _names_agree_one(a: str | None, b: str | None) -> bool:
+    """The core comparison: one name against one name, no alias splitting.
 
     Deliberately token-based rather than a similarity ratio. "Blackstone" and
     "BlackRock" — two real, different companies we actually confused — score 0.74
@@ -2311,8 +2382,14 @@ def names_agree(a: str | None, b: str | None) -> bool:
     # words. One shared word is not identity: "Marriott Vacations Worldwide" and
     # "Marriott International" are different companies, as are Liberty/Morgan/First
     # anything.
-    if (ta <= tb or tb <= ta) and min(len(ta), len(tb)) >= 2:
+    if _subsumes(ta, tb) and min(len(ta), len(tb)) >= 2:
         return True
+    # NB: deliberately NOT guarded on >=2 significant words, unlike the subset rule
+    # above. This branch is what accepts "Amazon" for "Amazon.com", "Cisco" for
+    # "Cisco Systems", "Ford" for "Ford Motor" — our stored name is the distinctive
+    # word and Yahoo adds one generic one. Adding the guard flagged 28 obviously
+    # correct tickers (AMZN, COST, CSCO, F, DE, LULU …) to catch one dubious row,
+    # because "Cabot Brands" vs "Cabot Corporation" has exactly the same shape.
     if len(ta & tb) / len(ta | tb) >= 0.5:
         return True
     # Fall back to the whitespace-free forms, so a name that merely spells or splits
