@@ -25741,24 +25741,6 @@
       "market_cap": 1086084864,
       "market_cap_category": "small"
     },
-    "USA": {
-      "company": "USA Rare Earths",
-      "mentions": [
-        {
-          "date": "2026-05-05",
-          "sentiment": "sell_avoid",
-          "segment": "lightning_round",
-          "note": "Avoid; recommend MP Materials instead for rare earth exposure.",
-          "closing_price": 5.81
-        }
-      ],
-      "sector": "Financial Services",
-      "style": "value",
-      "industry": "Asset Management",
-      "pe_ratio": 10.21,
-      "market_cap": 1763014656,
-      "market_cap_category": "small"
-    },
     "PSX": {
       "company": "Phillips 66",
       "mentions": [
@@ -27740,6 +27722,13 @@
           "segment": "lightning_round",
           "note": "Cramer calls it a 'year of magical investing' stock whose moment has passed; can't recommend it.",
           "closing_price": 17.52
+        },
+        {
+          "date": "2026-05-05",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Avoid; recommend MP Materials instead for rare earth exposure.",
+          "closing_price": 27.42
         }
       ],
       "sector": "Basic Materials",

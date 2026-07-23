@@ -1,6 +1,6 @@
 # Ticker / Company Name Mismatches — Review Queue
 
-**64 ticker(s)** hold a company name that Yahoo Finance says belongs to
+**62 ticker(s)** hold a company name that Yahoo Finance says belongs to
 a different company. These are not all the same problem — some are wrong data,
 most are a name we wrote informally — so they are split by **what can actually be
 proved**, not by what they look like.
@@ -10,7 +10,7 @@ symbol does Yahoo return for the company name we stored? A different symbol back
 means the call is sitting on the wrong company; the same symbol means our name is
 merely informal.
 
-That settles **10 of 64**. It cannot settle the other
+That settles **8 of 62**. It cannot settle the other
 **54**, because Yahoo's search only matches *current legal* names — it
 returns nothing for "Snapchat", "Burlington Coat Factory" or "D-Wave Systems"
 exactly as it returns nothing for a caption garble. Those need the transcript.
@@ -37,7 +37,7 @@ python3 code/pipeline.py --backfill-prices --tickers CORRECT
 ```
 
 
-## 1. Likely mis-tickers — 5 ticker(s), the data is wrong
+## 1. Likely mis-tickers — 3 ticker(s), the data is wrong
 
 **This is the section that matters.** Yahoo maps our stored company name to a
 *different* symbol than the one we filed the call under, so the call is most
@@ -53,8 +53,6 @@ Confirm against the transcript before changing anything.
 | `AVX` | 1 | 2026-04-17 | **Aeva Technologies** | `AEVA` | Avax One Technology Ltd. |
 | `AX` | 1 | 2026-07-21 | **Axiom (Defense Technology)** | `AXIN` | Axos Financial, Inc. |
 | `BDN` | 1 | 2026-03-03 | **Blue (implied Blackstone or similar; context suggests private credit entity)** | `OBDC` | Brandywine Realty Trust |
-| `CPK` | 1 | 2026-03-12 | **Campbell Soup Company** | `CPB` | Chesapeake Utilities Corporation |
-| `USA` | 1 | 2026-05-05 | **USA Rare Earth** | `USAR` | Liberty All-Star Equity Fund |
 
 
 ## 2. Undecidable without the transcript — 54 ticker(s)
@@ -147,7 +145,7 @@ renamed-companies note in CLAUDE.md.
 | `WOOF` | 1 | 2026-06-05 | **Petco** | Petco Health and Wellness Compa |
 
 
-_Checked 810 tickers with a stored company name. Tickers Yahoo does not
+_Checked 808 tickers with a stored company name. Tickers Yahoo does not
 recognise at all (hallucinated, private, OTC) are not listed here — see the
 'Hallucinated tickers' note in CLAUDE.md._
 
