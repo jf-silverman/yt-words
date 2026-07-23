@@ -416,3 +416,37 @@ consistent, not that the pair matches what the transcript was about.
 
 _Comparison caveat: the "old" episode rows are inflated by the BUG-010 duplicate-batch
 corruption, so per-call rates are the fair measure, not raw counts._
+
+---
+
+## BUG-014 — Three episodes' DB transcript_text held the wrong episode (RESOLVED 2026-07-23)
+
+`episodes.transcript_text` for **2026-02-25, 2026-03-12, 2026-04-15** had been
+overwritten with a *different* episode's transcript. 03-12 was the clearest: its DB
+copy was 92% the 2026-07-02 episode (a generic "Jim Cramer burst onto the scene" open),
+not the Campbell's episode that actually aired that day.
+
+**How it was found.** Building the `company_in_transcript` provenance column, the
+2026-03-12 check said Cramer never said "Campbell" — but the transcript *file* clearly
+did. A first fingerprint (first 400 chars) flagged 28 dates; a proper word-set Jaccard
+narrowed it to **3**. The rest were cosmetic (every Mad Money open is boilerplate;
+auto-caption revisions score ~0.9, not a mismatch).
+
+**Which store was right.** The date-named files in `data/transcripts/` are authoritative
+— each is fetched from that date's own (unique, correct) `video_id`, and the episode's
+mentions were analyzed from it. Proof: the file transcripts contain 11–12 of each date's
+analyzed companies; the corrupt DB copies contained only 5–7. The `video_id`s themselves
+were never wrong (no duplicates, all agree with `processed_episodes.json`) — only the
+stored text drifted.
+
+**Root cause (probable, not fully recoverable).** All three rows share a `created_at` of
+2026-06-19 22:10:58 (a bulk row creation) with `updated_at` on 07-01/07-02, so a
+migration or `backfill.py` pass around then wrote transcript_text against the wrong date.
+It was **not** an is_fundamentals problem — 15 of the 16 fundamentals episodes are a
+perfect match; 03-12 was the lone overlap and a coincidence.
+
+**Fix.** `resync_transcripts()` (`--resync-transcripts`, manual) re-syncs any episode
+whose DB↔file Jaccard is below 0.6 back to the file. Ran it: 3 fixed, all now 1.00.
+Idempotent; touches only `transcript_text` (mentions/prices/shards unaffected). The site
+never used this field — only the `--check-ticker-names` provenance column did, which is
+now accurate for these dates.
