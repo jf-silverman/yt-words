@@ -1,6 +1,6 @@
 # Ticker / Company Name Mismatches — Review Queue
 
-**60 ticker(s)** hold a company name that Yahoo Finance says belongs to
+**59 ticker(s)** hold a company name that Yahoo Finance says belongs to
 a different company. These are not all the same problem — some are wrong data,
 most are a name we wrote informally — so they are split by **what can actually be
 proved**, not by what they look like.
@@ -10,7 +10,7 @@ symbol does Yahoo return for the company name we stored? A different symbol back
 means the call is sitting on the wrong company; the same symbol means our name is
 merely informal.
 
-That settles **6 of 60**. It cannot settle the other
+That settles **5 of 59**. It cannot settle the other
 **54**, because Yahoo's search only matches *current legal* names — it
 returns nothing for "Snapchat", "Burlington Coat Factory" or "D-Wave Systems"
 exactly as it returns nothing for a caption garble. Those need the transcript.
@@ -39,7 +39,7 @@ python3 code/pipeline.py --backfill-prices --tickers CORRECT
 The **Where** column links each mention to its spot in the episode (`date · segment · timestamp`) so you can confirm the call by ear. A timestamp that resolves to the episode start means that section has no timing on disk yet — the same fallback the unknown-ticker queue uses.
 
 
-## 1. Likely mis-tickers — 1 ticker(s), the data is wrong
+## 1. Likely mis-tickers — 0 ticker(s), the data is wrong
 
 **This is the section that matters.** Yahoo maps our stored company name to a
 *different* symbol than the one we filed the call under, so the call is most
@@ -50,9 +50,7 @@ The suggested symbol is advisory — Yahoo's search picks the first US listing a
 can be wrong, and the *company* half of the pair may be the mistaken one.
 Confirm against the transcript before changing anything.
 
-| Ticker | We stored it as | That name is probably | But this symbol is | Where — date · segment · time |
-|--------|-----------------|----------------------|--------------------|-------------------------------|
-| `BDN` | **Blue (implied Blackstone or similar; context suggests private credit entity)** | `OBDC` | Brandywine Realty Trust | 2026-03-03 · closing_commentary · [39:00](https://youtu.be/ISGe21_RSYs?t=2340) |
+_None._
 
 
 ## 2. Undecidable without the transcript — 54 ticker(s)
@@ -145,7 +143,7 @@ renamed-companies note in CLAUDE.md.
 | `WOOF` | **Petco** | Petco Health and Wellness Compa | 2026-06-05 · opening_commentary · [0:17](https://youtu.be/LDtdnZddg-k?t=17) |
 
 
-_Checked 810 tickers with a stored company name. Tickers Yahoo does not
+_Checked 809 tickers with a stored company name. Tickers Yahoo does not
 recognise at all (hallucinated, private, OTC) are not listed here — see the
 'Hallucinated tickers' note in CLAUDE.md._
 

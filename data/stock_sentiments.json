@@ -28148,24 +28148,6 @@
         }
       ]
     },
-    "BDN": {
-      "company": "Blue (implied Blackstone or similar; context suggests private credit entity)",
-      "mentions": [
-        {
-          "date": "2026-03-03",
-          "sentiment": "sell_avoid",
-          "segment": "closing_commentary",
-          "note": "Most controversial private credit fund (highest tech exposure); blocked redemption hatches, offered 30% liquidity on some funds; signal of deeper distress; avoid.",
-          "closing_price": 3.12
-        }
-      ],
-      "sector": "Real Estate",
-      "industry": "REIT - Office",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 546323712,
-      "market_cap_category": "small"
-    },
     "FGAN": {
       "company": "Forgant Power Solutions",
       "mentions": [
