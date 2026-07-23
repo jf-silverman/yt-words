@@ -566,6 +566,13 @@
           "segment": "opening_commentary",
           "note": "Best-run company in world; own long-term, don't trade. Largest position in travel trust. Clients praise and work against it; China exposure controversial but national security concerns legitimate.",
           "closing_price": 207.29
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Long-term conviction strong (wore Nvidia cufflinks); recent trading confusing with sudden reversal; awaiting substantive news catalyst.",
+          "closing_price": 212.06
         }
       ],
       "sector": "Technology",
@@ -4335,6 +4342,13 @@
           "segment": "opening_commentary",
           "note": "Buffett's surprise purchase signals major tech endorsement; stock jumped 3% on news. Start of potential wonderful relationship like Apple.",
           "closing_price": 370.92
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Earnings beat masked by $6B negative free cash flow and $85B equity dilution; Google Cloud 82% growth offset by core search weakness amid AI transition.",
+          "closing_price": 342.09
         }
       ],
       "sector": "Communication Services",
@@ -4571,6 +4585,13 @@
           "segment": "opening_commentary",
           "note": "Pharma innovator with AAA balance sheet. Invents life-saving drugs practically every month. Sold band-aid business; now pure-play healthcare innovation. Defensive, quality diversification away from concentration risk.",
           "closing_price": 250.61
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "strong_buy",
+          "segment": "opening_commentary",
+          "note": "Excellent quarter coupled with FDA approval for Otava robotic surgical system; unlocking hidden healthcare technology value investors underappreciated.",
+          "closing_price": 255.63
         }
       ],
       "sector": "Healthcare",
@@ -6153,6 +6174,13 @@
           "segment": "closing_commentary",
           "note": "Strong CEO Bill McDermott integrating AI excellently but 'nothing's ever enough.' Last quarter was upside surprise that 'meant very little'\u2014possibly meaningless. Market has no use for enterprise software even with good execution.",
           "closing_price": 102.06
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "interview",
+          "note": "AI control tower managing enterprise AI chaos; 98% renewal rate, longer contract terms, consumption-based pricing adoption; Jensen Wong endorsement validates platform as enterprise AI operating system.",
+          "closing_price": 95.46
         }
       ],
       "sector": "Technology",
@@ -6577,6 +6605,13 @@
           "segment": "opening_commentary",
           "note": "Food stocks exhibit scarcity value and decent balance sheets despite limited growth profile.",
           "closing_price": 112.39
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Consumer staples breaking out; brand strength and pricing power offsetting macro pressures.",
+          "closing_price": 118.05
         }
       ],
       "sector": "Consumer Defensive",
@@ -7501,6 +7536,13 @@
           "segment": "closing_commentary",
           "note": "Consumer staples leader performing well in trust during selloff. Diversified portfolio structure allows safe ownership of higher-risk tech via PG/JNJ buffer.",
           "closing_price": 146.54
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Consumer staples counterintuitive strength amid higher rates and inflation; pricing power and brand dominance offsetting macro headwinds.",
+          "closing_price": 149.13
         }
       ],
       "sector": "Consumer Defensive",
@@ -7740,6 +7782,13 @@
           "segment": "opening_commentary",
           "note": "Cyber security stocks romping as U.S. government allows Anthropic Mythos 5 sale; security protection will generate meaningful business for CRWD (alltime high today).",
           "closing_price": 193.18
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Cybersecurity solution directly addresses AI agent rogue risk; traders ignored play despite fundamental relevance to OpenAI/Hugging Face incident.",
+          "closing_price": 188.42
         }
       ],
       "sector": "Technology",
@@ -8913,6 +8962,13 @@
           "segment": "in_depth",
           "note": "Acquires Kenvue (J&J consumer health) for $48.7B; $2B synergies, defensive consolidation. Dividend king (4.7% yield, 54 consecutive increases). Protected from foreign competition. Long-term opportunity; expect Q2 miss creates entry.",
           "closing_price": 108.05
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Consumer staples rally; benefiting from pricing power despite higher rates and inflation pressure on consumer goods.",
+          "closing_price": 108.88
         }
       ],
       "sector": "Consumer Defensive",
@@ -9019,6 +9075,13 @@
           "segment": "opening_commentary",
           "note": "Faith-based play: CEO Steve Cahill (Kellogg turnaround artist) tackling legacy cost structure. 6.85% yield, high-risk; portfolio hedge if tech momentum breaks and dividend holds.",
           "closing_price": 23.33
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Consumer staples strength; pricing power and brand dominance supporting margin expansion amid inflation.",
+          "closing_price": 25.96
         }
       ],
       "sector": "Consumer Defensive",
@@ -11229,6 +11292,13 @@
           "segment": "in_depth_analysis",
           "note": "Ford Energy battery storage subsidiary transforms EV losses into 20+ GW annual capacity data center power supply by late 2027; first positive recommendation in years now justified by lower oil/rate environment; trades 8x earnings, 4.3% dividend.",
           "closing_price": 13.96
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Longstanding undervaluation view; CEO Jim Farley executing on warranty fixes; 8x earnings attractive but GM cheaper alternative for tech diversification.",
+          "closing_price": 14.42
         }
       ],
       "sector": "Consumer Cyclical",
@@ -14769,6 +14839,13 @@
           "segment": "opening_commentary",
           "note": "Nuclear power generator, carbon-free; big tech companies want to use for data center power; earnings fine, zeitgeist is what matters.",
           "closing_price": 303.63
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy_on_pullback",
+          "segment": "lightning_round",
+          "note": "Power stocks have declined significantly, now good value at lows; power supply constraints and data center demand drive long-term bull thesis.",
+          "closing_price": 274.9
         }
       ],
       "sector": "Utilities",
@@ -14922,6 +14999,13 @@
           "segment": "opening_commentary",
           "note": "Design distributor challenging Adobe; don't know if earnings will be terrific; avoid owning Adobe on day Figma reports (Thursday); Adobe tried acquiring for $20B, now worth $10B.",
           "closing_price": 20.66
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Highly competitive market; design software space crowded; IPO hype faded post-listing.",
+          "closing_price": 21.47
         }
       ],
       "sector": "Technology",
@@ -15204,6 +15288,13 @@
           "segment": "interview",
           "note": "Q1: GMV +35%, revenue +33%, massive net income; real business generating enormous cash flow; 'Big Nothing' event drives merchant growth; AI underwriting keeps defaults steady.",
           "closing_price": 64.01
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "opening_commentary",
+          "note": "Preferred fintech play; Cramer recommends Affirm over SoFi as working alternative in challenging fintech environment.",
+          "closing_price": 73.92
         }
       ],
       "sector": "Financial Services",
@@ -17146,6 +17237,13 @@
           "segment": "opening_commentary",
           "note": "Stock stuck around 18.5 level; great level to get involved; CEO Anthony Noto building younger customer base; more service company than bank; Cramer likes strategy.",
           "closing_price": 18.55
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "caution_concern",
+          "segment": "opening_commentary",
+          "note": "Fintech sector remains very tough; Muddy Waters allegations don't hold water but fundamentals lacking explosive earnings power.",
+          "closing_price": 17.07
         }
       ],
       "sector": "Financial Services",
@@ -18378,6 +18476,13 @@
           "segment": "lightning_round",
           "note": "3-year backlog for data center power solutions; too constrained near-term; look at Quanta (QNTA) instead for more available capacity and better entry point.",
           "closing_price": 1036.22
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Earnings miss disappointing but fundamentals strong: $176B backlog (4 years revenue), 88% order growth, production ramping to 30GW by 2030; 9% decline is buying opportunity.",
+          "closing_price": 985.03
         }
       ],
       "sector": "Industrials",
@@ -18923,6 +19028,15 @@
           "segment": "closing_commentary",
           "note": "Trades ~6x earnings; CEO Bill Brown executing well; breakout coming; solid industrial play with terrific manufacturing.",
           "closing_price": 75.8
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "strong_buy",
+          "segment": "in_depth_analysis",
+          "note": "Blowout quarter with 41% EPS growth, raised guidance to $12-14 (23% YoY), strong pickup dominance; trades 6.2x forward earnings with $119 upside at 8x multiple rerate.",
+          "price_target": 119,
+          "price_level": 82,
+          "closing_price": 82.13
         }
       ],
       "sector": "Consumer Cyclical",
@@ -22894,6 +23008,13 @@
           "segment": "opening_commentary",
           "note": "February winner; defensive staples with strong brand prevailed during growth-stock rotation.",
           "closing_price": 99.14
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "mild_buy",
+          "segment": "opening_commentary",
+          "note": "Consumer staples rally amid macro headwinds; demonstrating pricing power.",
+          "closing_price": 91.63
         }
       ],
       "sector": "Consumer Defensive",
@@ -22944,6 +23065,13 @@
           "segment": "lightning_round",
           "note": "Regional bank preferred to Truist. Ohio operations a plus ('great state to do business'). Similar profile to TFC but better execution and regional strength justify preference.",
           "closing_price": 22.95
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Regional bank outperforming despite skeptical analyst commentary; stock rallying suggests market recognizing value and resilience.",
+          "closing_price": 23.11
         }
       ],
       "sector": "Financial Services",
@@ -28965,6 +29093,13 @@
           "segment": "opening_commentary",
           "note": "P&C insurer benefiting from industry consolidation tailwinds as too many U.S. insurers create M&A opportunity.",
           "closing_price": 243.12
+        },
+        {
+          "date": "2026-07-22",
+          "sentiment": "wait_hold_neutral",
+          "segment": "opening_commentary",
+          "note": "Steady Eddie insurance play; low multiple, difficult business to understand, but consistent winner for shareholders.",
+          "closing_price": 251.83
         }
       ],
       "sector": "Financial Services",
@@ -30263,6 +30398,55 @@
           "segment": "closing_commentary",
           "note": "CEO Jack Dorsey announced 40% workforce cut (10K\u21926K) in favor of AI tools; stock rallied low 50s to high 60s; demonstrates AI productivity bet; may signal trend for big tech to adopt similar cost-cutting.",
           "closing_price": 64.63
+        }
+      ]
+    },
+    "SEDG": {
+      "company": "SolarEdge",
+      "mentions": [
+        {
+          "date": "2026-07-22",
+          "sentiment": "caution_concern",
+          "segment": "lightning_round",
+          "note": "Solar stocks weak amid higher rate environment; difficult to make money without earnings support and improving macro conditions.",
+          "closing_price": 47.88
+        }
+      ]
+    },
+    "IONQ": {
+      "company": "IonQ",
+      "mentions": [
+        {
+          "date": "2026-07-22",
+          "sentiment": "sell_avoid",
+          "segment": "lightning_round",
+          "note": "Quantum computing high-beta, high-PE equity vulnerable to rate volatility; rates moving wrong direction for growth stocks.",
+          "closing_price": 34.68
+        }
+      ]
+    },
+    "INDB": {
+      "company": "Independent Bank Group",
+      "mentions": [
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "lightning_round",
+          "note": "Regional bank with strong Q2 earnings; Cramer bullish on regional bank sector as non-tech diversification; consolidation upside potential.",
+          "closing_price": 85.29
+        }
+      ]
+    },
+    "KEL": {
+      "company": "Keel Infrastructure",
+      "mentions": [
+        {
+          "date": "2026-07-22",
+          "sentiment": "buy",
+          "segment": "closing_commentary",
+          "note": "Speculative data center play (formerly Bit Farms) with 650MW approved power, no hyperscaler customer yet; Situational Awareness hedge fund backing; could double to $8 per BTI research.",
+          "price_target": 8,
+          "price_level": 4
         }
       ]
     }
