@@ -3221,10 +3221,52 @@ def _cookie_age_days() -> int | None:
 
 
 # Nightly backfill walks history backward one episode per run, starting just before
-# our current oldest (~2026-01-02) and continuing until it reaches this floor. Set
-# generously — "extend back quite a ways" — and trivially changed if you want more or
-# less. At one episode per weeknight, a year of history is ~250 runs.
-BACKFILL_STOP_DATE = "2024-01-01"
+# our current oldest (~2026-01-02) and continuing until it reaches this floor. Set to
+# 2025-01-01 for now (a full year of 2025 history); once we reach it we'll decide
+# whether to go further back. At one episode per weeknight, a year is ~250 runs.
+BACKFILL_STOP_DATE = "2025-01-01"
+
+
+def resync_transcripts(threshold: float = 0.6) -> list[tuple[str, float]]:
+    """Repair episodes whose DB transcript_text drifted from the on-disk file.
+
+    The date-named files in data/transcripts/ are authoritative — each is fetched
+    from that date's own video, and the episode's mentions were analyzed from it. A
+    few DB copies were found overwritten with a *different* episode's transcript
+    (2026-02-25 / 03-12 / 04-15, root cause a one-off historical migration/backfill;
+    see notes/bugs.md BUG-014). This re-syncs any episode whose DB↔file word-set
+    Jaccard falls below `threshold` back to the file. Idempotent and safe to re-run;
+    only the DB transcript_text is touched (mentions, prices, shards are untouched).
+    """
+    from db import get_connection
+    conn = get_connection()
+
+    def words(t):
+        return set(re.sub(r"[^a-z0-9 ]", " ", (t or "").lower()).split())
+
+    fixed = []
+    for r in conn.execute("SELECT date, transcript_text FROM episodes ORDER BY date"):
+        f = OUTPUT_DIR / f"{r['date']}_transcript.txt"
+        if not f.exists():
+            continue
+        ft = f.read_text(errors="replace")
+        dbw, ftw = words(r["transcript_text"]), words(ft)
+        if not dbw or not ftw:
+            continue
+        j = len(dbw & ftw) / len(dbw | ftw)
+        if j < threshold:
+            conn.execute("UPDATE episodes SET transcript_text=?, updated_at=? WHERE date=?",
+                         (ft, datetime.now().isoformat(), r["date"]))
+            fixed.append((r["date"], round(j, 2)))
+    conn.commit()
+    conn.close()
+    if fixed:
+        for d, j in fixed:
+            print(f"  re-synced {d} (was jaccard {j} vs file)")
+        print(f"{len(fixed)} transcript(s) re-synced from data/transcripts/.")
+    else:
+        print("All DB transcripts already match their files — nothing to re-sync.")
+    return fixed
 
 
 def _process_episode(ep: dict, args) -> dict:
@@ -3380,6 +3422,9 @@ def main() -> None:
     parser.add_argument("--fix-redirects", metavar="DATE",
                         help="Re-generate existing redirect pages for DATE (YYYY-MM-DD) "
                              "with correct Overcast universal links")
+    parser.add_argument("--resync-transcripts", action="store_true",
+                        help="Repair episodes whose DB transcript_text drifted from the "
+                             "authoritative data/transcripts/ file (see BUG-014). Manual.")
     parser.add_argument("--list-unknown-tickers", action="store_true",
                         help="Regenerate notes/unknown-tickers.md — the manual-review queue of "
                              "mentions stored under a placeholder ticker (???? / ???). "
@@ -3413,6 +3458,10 @@ def main() -> None:
 
     if args.fix_redirects:
         fix_redirect_pages(args.fix_redirects)
+        return
+
+    if args.resync_transcripts:
+        resync_transcripts()
         return
 
     if args.list_unknown_tickers:
