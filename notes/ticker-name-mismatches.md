@@ -123,7 +123,7 @@ exactly the way "D-Wave Systems" vs "D-Wave Quantum" do. Sorted hint-first.
 | `SGHC` | **Supergroup** | Super Group (SGHC) Limited | ~ | yes / yes | 2026-04-13 · interview · [29:50](https://youtu.be/ZJNO3IbjSDg?t=1790) |
 | `TEM` | **Tempest AI** | Tempus AI, Inc. | ~ | yes / yes | 2026-02-06 · opening_commentary · [0:03](https://youtu.be/xpEBYrOyHPE?t=3) |
 | `TKR` | **Timkin** | Timken Company (The) | ~ | yes / yes | 2026-06-04 · interview · [10:28](https://youtu.be/2KJ4PtpX3Wk?t=628) / [29:00](https://youtu.be/2KJ4PtpX3Wk?t=1740) |
-| `UAMY` | **U.S. Antimony Corporation** | United States Antimony Corporation | ~ | **✗** / **✗** | 2026-03-12 · lightning_round · [35:12](https://youtu.be/MsK1NxlzwvY?t=2112) |
+| `UAMY` | **U.S. Antimony Corporation** | United States Antimony Corporation | ~ | yes / **✗** | 2026-03-12 · lightning_round · [35:12](https://youtu.be/MsK1NxlzwvY?t=2112) |
 
 
 ## 3. Name variants — 5 ticker(s), cosmetic only
