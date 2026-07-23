@@ -2362,6 +2362,28 @@ def company_in_transcript(company: str | None, transcript: str | None) -> bool |
     return any(t in words for t in tokens)
 
 
+def ticker_in_transcript(ticker: str | None, transcript: str | None) -> bool | None:
+    """Companion to company_in_transcript: was the *symbol* itself spoken?
+
+    True  — the ticker appears verbatim in the transcript (a caller or Cramer said
+            "GDRX"), so the symbol came from the audio, not the model's inference.
+    False — it does not appear. Either the symbol was inferred from a spoken company
+            name, or the caption garbled it (Sterling's "STRL" was heard as "SPRL").
+    None  — no transcript, or no usable ticker string.
+
+    Same weak-hint caveats as its companion, plus one of its own: a short symbol can
+    collide with a common word (a two-letter ticker especially), so a `yes` on a
+    tiny symbol means little. Advisory only.
+    """
+    if not transcript:
+        return None
+    t = (ticker or "").strip().lower()
+    if not t or is_unknown_ticker(ticker):
+        return None
+    words = set(re.sub(r"[^a-z0-9]+", " ", transcript.lower()).split())
+    return t in words
+
+
 def _tok_match(x: str, y: str) -> bool:
     """One token against one, allowing a clear abbreviation.
 
@@ -2710,14 +2732,19 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         except Exception:
             sym_cache = {}
     for r in rows:
-        # Does the stored name appear in any episode it was mentioned in? True in at
-        # least one wins; False only if every checkable episode says no; None when no
-        # transcript is on hand. (A name can be garbled in one episode and clear in
-        # another, so a single hit is enough to call it grounded.)
-        verdicts = [company_in_transcript(r["company"], transcripts_by_date.get(d))
-                    for d in {m[0] for m in r.get("mentions", [])}]
-        verdicts = [v for v in verdicts if v is not None]
-        r["in_tx"] = True if any(verdicts) else (False if verdicts else None)
+        # Do the stored name and symbol appear in any episode they were mentioned in?
+        # True in at least one wins; False only if every checkable episode says no;
+        # None when no transcript is on hand. (Either can be garbled in one episode
+        # and clear in another, so a single hit is enough to call it grounded.)
+        dates = {m[0] for m in r.get("mentions", [])}
+
+        def _any(fn, val):
+            vs = [fn(val, transcripts_by_date.get(d)) for d in dates]
+            vs = [v for v in vs if v is not None]
+            return True if any(vs) else (False if vs else None)
+
+        r["name_tx"] = _any(company_in_transcript, r["company"])
+        r["sym_tx"] = _any(ticker_in_transcript, r["ticker"])
         # Strip an alias clause first: Yahoo's search does better on "Strategy" than
         # on "Strategy (formerly MicroStrategy)".
         query = (_name_aliases(r["company"]) or [r["company"]])[0]
@@ -2787,15 +2814,18 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
             "(`date · segment · timestamp`) so you can confirm the call by ear. A "
             "timestamp that resolves to the episode start means that section has no "
             "timing on disk yet — the same fallback the unknown-ticker queue uses.\n",
-            "**In transcript?** asks whether the stored company name appears in the "
-            "episode(s) it was mentioned in — `yes` / `✗ no` / `—` (no transcript). "
-            "**Treat it as a weak hint, not a verdict.** Testing showed it is wrong "
-            "as often as right on the hard cases, in *both* directions: a correct pick "
-            "spoken only as its ticker reads `✗ no` (nobody said \"GoodRx\", the caller "
-            "said \"GDRX\"), and a caption garble that became the stored name reads "
-            "`yes` (\"AEVEX\" mis-heard as \"Aeva\"). A `✗ no` is worth a glance, "
-            "nothing more. Note too that a handful of early-2026 episodes have a stale "
-            "transcript stored in the DB, so their answer here is unreliable.\n",
+            "**Said? sym/name** is two hints: did the **symbol** and did the **company "
+            "name** each appear in the episode(s) it was mentioned in — `yes` / `✗` / "
+            "`—` (no transcript). Read together they suggest where a bad row came from: "
+            "`✗ / yes` = symbol inferred from a spoken name; `yes / ✗` = symbol was "
+            "said but the name looks invented; `✗ / ✗` = neither was said (a caption "
+            "garble, like Sterling's \"STRL\" heard as \"SPRL\"). **Weak hints, not "
+            "verdicts.** They misfire in both directions: a correct pick spoken only "
+            "as its ticker shows `yes / ✗` (the caller said \"GDRX\", never \"GoodRx\"), "
+            "and a garble that became the stored name shows a false `yes` (\"AEVEX\" "
+            "mis-heard as \"Aeva\"). A short symbol can also match a common word. And a "
+            "handful of early-2026 episodes have a stale transcript in the DB, so their "
+            "answer is unreliable. Worth a glance, nothing more.\n",
         ]
 
         # One section-index cache shared by every row, so an episode's timing is
@@ -2806,8 +2836,10 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
             return _mention_locations(r.get("mentions", []), loc_cache)
 
         def _intx(r):
-            # ✗ (absent from every episode) is the loud one — the name may be invented.
-            return {True: "yes", False: "**✗ no**", None: "—"}[r.get("in_tx")]
+            # Two flags, sym / name. ✗ (absent from every episode) is the loud one:
+            # a symbol nobody said may be inferred; a name nobody said may be invented.
+            m = {True: "yes", False: "**✗**", None: "—"}
+            return f"{m[r.get('sym_tx')]} / {m[r.get('name_tx')]}"
 
         def _table(section, blurb, items, suggest_col):
             out.append(f"\n## {section}\n")
@@ -2817,7 +2849,7 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
                 return
             if suggest_col == "hint":
                 out.append("\n| Ticker | We stored it as | Yahoo's name | Similar? "
-                           "| In transcript? | Where — date · segment · time |")
+                           "| Said? sym/name | Where — date · segment · time |")
                 out.append("|--------|-----------------|--------------|----------|"
                            "----------------|-------------------------------|")
                 for r in items:
@@ -2825,7 +2857,7 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
                                f"| {'~' if r.get('related') else '**no**'} | {_intx(r)} | {_where(r)} |")
             elif suggest_col:
                 out.append("\n| Ticker | We stored it as | That name is probably "
-                           "| But this symbol is | In transcript? | Where — date · segment · time |")
+                           "| But this symbol is | Said? sym/name | Where — date · segment · time |")
                 out.append("|--------|-----------------|----------------------|"
                            "--------------------|----------------|-------------------------------|")
                 for r in items:
@@ -2833,7 +2865,7 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
                                f"| {r['actual']} | {_intx(r)} | {_where(r)} |")
             else:
                 out.append("\n| Ticker | We stored it as | Yahoo's name "
-                           "| In transcript? | Where — date · segment · time |")
+                           "| Said? sym/name | Where — date · segment · time |")
                 out.append("|--------|-----------------|--------------|"
                            "----------------|-------------------------------|")
                 for r in items:
