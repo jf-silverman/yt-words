@@ -21,7 +21,6 @@ has no timing on disk. Timestamps are section starts, so scrub forward a little.
 
 | Ticker | Where — date · segment · time | Stored as | Why it's held |
 |--------|-------------------------------|-----------|---------------|
-| `AVX` | 2026-04-17 · in_depth_analysis · [21:20](https://youtu.be/HYRppgkEDXc?t=1280) | Aeva Technologies | Transcript literally says *"drone maker Aeva"* — but Aeva Technologies is a **lidar** company, public since 2021, and the note describes a **fresh IPO** ("IPO'd at $20, +35% to $27 on day one"). Either the caption garbled a different drone IPO's name, or Cramer misspoke. `AEVA` is a portfolio holding, so a wrong move here corrupts a chart you actually read. |
 | `AX` | 2026-07-21 · opening_commentary · [episode](https://youtu.be/ShGPsBV3YZA) | Axiom (Defense Technology) | Flagged by the ingest validator on its first production run. `AX` is **Axos Financial**, a bank. Which defense company "Axiom" refers to is unclear — Axiom Space is private; there may be a recent listing. |
 | `BDN` | 2026-03-03 · closing_commentary · [39:00](https://youtu.be/ISGe21_RSYs?t=2340) | "Blue (implied Blackstone or similar…)" | The stored company name is itself a guess, not a company. Needs the audio. |
 | `SPRL` | 2026-05-12 · lightning_round · [37:26](https://youtu.be/RDTfIM7usu4?t=2246) | "Spirail (exact company uncertain)" | Same — the name is admitted-uncertain at source. |
@@ -76,26 +75,35 @@ the five were checked against the transcript; two were applied.
 |--------|-------------------------------|---------|---------------------|
 | `CPK` &rarr; `CPB` | 2026-03-12 · closing_commentary · [39:57](https://youtu.be/MsK1NxlzwvY?t=2397) | **applied** | *"Yesterday, Campbell's reported one of the worst quarters I've seen in ages… Stock hit a 17-year low."* Was sitting on Chesapeake Utilities at $129.22; correct close is $21.65. |
 | `USA` &rarr; `USAR` | 2026-05-05 · lightning_round · [32:32](https://youtu.be/stBiW-NPi9E?t=1952) | **applied** | Caller asks about USA Rare Earth, Cramer answers *"the only one we're recommending in that area is MP Materials."* Was on Liberty All-Star Equity Fund at $5.81; correct close is $27.42. |
-| `AVX` | 2026-04-17 · in_depth_analysis · [21:20](https://youtu.be/HYRppgkEDXc?t=1280) | **HELD — do not apply the suggestion** | See below. |
+| `AVX` &rarr; `AVEX` | 2026-04-17 · in_depth_analysis · [21:20](https://youtu.be/HYRppgkEDXc?t=1280) | **RESOLVED 2026-07-23** | See below — *both* halves of the pair were wrong. |
 
-### `AVX` — the suggestion was actively dangerous
+### `AVX` &rarr; `AVEX` — both halves were wrong, and why the suggestion was dangerous
 
-The queue suggested `AVX` &rarr; `AEVA`, because the stored company name is
-"Aeva Technologies" and Yahoo maps that name to `AEVA`. The transcript says the
-opposite — the **ticker is right and the name is the hallucination**:
+**Resolution (2026-07-23):** the call is **AEVEX Corp.**, ticker **`AVEX`**, a drone
+defense contractor that IPO'd that very day. Yahoo confirms `AVEX` → "AEVEX Corp.",
+and `AVEX` has *no* close on 04-16 but $26.93 on 04-17 — an IPO-day print that matches
+the note's *"IPO'd at $20, +35% to $27 on day one"* exactly. Applied: mention retargeted
+`AVX` → `AVEX`, company set to "AEVEX Corp.", price corrected from the inherited $7.68
+(Avax One Technology) to **$26.93**.
+
+The queue suggested `AVX` &rarr; `AEVA`, because the stored company name was
+"Aeva Technologies" and Yahoo maps that name to `AEVA`. That was doubly wrong —
+**neither half of the pair was right**:
 
 > [21:08] *"today I want to talk about a new IPO that really excites me. It's called
 > **AVX**. It's a defense contractor focused on drones… It rallied nearly 35% out of
 > the gate."* (2026-04-17, also called "Avex" at [20:30])
 
-So this is a genuinely new listing Cramer named on air. Applying `AEVA` would have
-filed a drone-IPO call onto Aeva Technologies — a **held position**, whose chart and
-backtest would then be wrong. Left alone until the real symbol is confirmed; Yahoo
-currently reports `AVX` as "Avax One Technology Ltd.", which does not match either.
+The caption garbled "AEVEX" to "AVX"/"Avex", and the model then invented "Aeva
+Technologies" for the name. Applying the suggested `AEVA` would have filed a drone-IPO
+call onto Aeva Technologies — a **held position**, whose chart and backtest would then
+be wrong.
 
 This is the concrete case behind the standing rule: **the suggestion assumes the
-company name is the correct half.** When the name is the hallucination, the
-suggestion points confidently at the wrong company.
+company name is the correct half.** When the name is *also* a hallucination, the
+suggestion points confidently at the wrong company — and the true answer (`AVEX`)
+was neither the filed ticker nor the suggested one. It took a human who knew the
+company to close it.
 
 `AX` ("Axiom (Defense Technology)" &rarr; `AXIN`) and `BDN` (stored as the prose
 "Blue (implied Blackstone or similar…)") are unchecked and likely have the same
