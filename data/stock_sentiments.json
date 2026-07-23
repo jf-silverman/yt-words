@@ -19034,8 +19034,6 @@
           "sentiment": "strong_buy",
           "segment": "in_depth_analysis",
           "note": "Blowout quarter with 41% EPS growth, raised guidance to $12-14 (23% YoY), strong pickup dominance; trades 6.2x forward earnings with $119 upside at 8x multiple rerate.",
-          "price_target": 119,
-          "price_level": 82,
           "closing_price": 82.13
         }
       ],
@@ -30437,16 +30435,17 @@
         }
       ]
     },
-    "KEL": {
+    "KEEL": {
       "company": "Keel Infrastructure",
+      "sector": "",
+      "style": "",
       "mentions": [
         {
           "date": "2026-07-22",
           "sentiment": "buy",
           "segment": "closing_commentary",
           "note": "Speculative data center play (formerly Bit Farms) with 650MW approved power, no hyperscaler customer yet; Situational Awareness hedge fund backing; could double to $8 per BTI research.",
-          "price_target": 8,
-          "price_level": 4
+          "closing_price": 4.69
         }
       ]
     }
