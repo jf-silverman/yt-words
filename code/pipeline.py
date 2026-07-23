@@ -2618,6 +2618,16 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
               for r in conn.execute("SELECT ticker, company FROM stocks WHERE company != ''")}
     counts = {r["ticker"]: (r["n"], r["lo"], r["hi"]) for r in conn.execute(
         "SELECT ticker, COUNT(*) n, MIN(date) lo, MAX(date) hi FROM mentions GROUP BY ticker")}
+    # Per-mention (date, segment, video_id) so the queue can point at the exact spot
+    # in the video for each call, not just a date span. Resolved to a timestamp by
+    # _mention_locations() at render time.
+    mentions_by_ticker: dict[str, list[tuple[str, str, str]]] = {}
+    for r in conn.execute(
+        "SELECT m.ticker, m.date, m.segment, e.video_id "
+        "FROM mentions m JOIN episodes e ON e.id = m.episode_id ORDER BY m.date, m.segment"
+    ):
+        mentions_by_ticker.setdefault(r["ticker"], []).append(
+            (r["date"], r["segment"] or "", r["video_id"] or ""))
     conn.close()
     # Only tickers that still have mentions are worth reviewing.
     stocks = {t: v for t, v in stocks.items() if t in counts}
@@ -2639,7 +2649,8 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         if actual and not names_agree(company, actual):
             n, lo, hi = counts.get(ticker, (0, "", ""))
             rows.append({"ticker": ticker, "company": company, "actual": actual,
-                         "n": n, "lo": lo, "hi": hi})
+                         "n": n, "lo": lo, "hi": hi,
+                         "mentions": mentions_by_ticker.get(ticker, [])})
 
     # Classify each flagged row by asking the question in reverse: forget the symbol
     # we filed it under — what symbol does Yahoo give for the company name we stored?
@@ -2723,10 +2734,18 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
             "python3 code/pipeline.py --rebuild-shards",
             "python3 code/pipeline.py --backfill-prices --tickers CORRECT",
             "```\n",
+            "The **Where** column links each mention to its spot in the episode "
+            "(`date · segment · timestamp`) so you can confirm the call by ear. A "
+            "timestamp that resolves to the episode start means that section has no "
+            "timing on disk yet — the same fallback the unknown-ticker queue uses.\n",
         ]
 
-        def _span(r):
-            return r["lo"] if r["lo"] == r["hi"] else f"{r['lo']} … {r['hi']}"
+        # One section-index cache shared by every row, so an episode's timing is
+        # parsed from disk once even when several flagged tickers share a date.
+        loc_cache: dict = {}
+
+        def _where(r):
+            return _mention_locations(r.get("mentions", []), loc_cache)
 
         def _table(section, blurb, items, suggest_col):
             out.append(f"\n## {section}\n")
@@ -2735,25 +2754,29 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
                 out.append("\n_None._\n")
                 return
             if suggest_col == "hint":
-                out.append("\n| Ticker | Mentions | Dates | We stored it as | Yahoo's name | Similar? |")
-                out.append("|--------|---------:|-------|-----------------|--------------|----------|")
+                out.append("\n| Ticker | We stored it as | Yahoo's name | Similar? "
+                           "| Where — date · segment · time |")
+                out.append("|--------|-----------------|--------------|----------|"
+                           "-------------------------------|")
                 for r in items:
-                    out.append(f"| `{r['ticker']}` | {r['n']} | {_span(r)} | **{r['company']}** "
-                               f"| {r['actual']} | {'~' if r.get('related') else '**no**'} |")
+                    out.append(f"| `{r['ticker']}` | **{r['company']}** | {r['actual']} "
+                               f"| {'~' if r.get('related') else '**no**'} | {_where(r)} |")
             elif suggest_col:
-                out.append("\n| Ticker | Mentions | Dates | We stored it as | "
-                           "That name is probably | But this symbol is |")
-                out.append("|--------|---------:|-------|-----------------|"
-                           "----------------------|--------------------|")
+                out.append("\n| Ticker | We stored it as | That name is probably "
+                           "| But this symbol is | Where — date · segment · time |")
+                out.append("|--------|-----------------|----------------------|"
+                           "--------------------|-------------------------------|")
                 for r in items:
-                    out.append(f"| `{r['ticker']}` | {r['n']} | {_span(r)} | **{r['company']}** "
-                               f"| `{r['suggest']}` | {r['actual']} |")
+                    out.append(f"| `{r['ticker']}` | **{r['company']}** | `{r['suggest']}` "
+                               f"| {r['actual']} | {_where(r)} |")
             else:
-                out.append("\n| Ticker | Mentions | Dates | We stored it as | Yahoo's name |")
-                out.append("|--------|---------:|-------|-----------------|--------------|")
+                out.append("\n| Ticker | We stored it as | Yahoo's name "
+                           "| Where — date · segment · time |")
+                out.append("|--------|-----------------|--------------|"
+                           "-------------------------------|")
                 for r in items:
-                    out.append(f"| `{r['ticker']}` | {r['n']} | {_span(r)} "
-                               f"| **{r['company']}** | {r['actual']} |")
+                    out.append(f"| `{r['ticker']}` | **{r['company']}** | {r['actual']} "
+                               f"| {_where(r)} |")
             out.append("")
 
         _table(
@@ -2874,6 +2897,39 @@ def _section_index(date_str: str) -> dict[str, list[tuple[str, int]]]:
             _add(title, secs)
 
     return out
+
+
+def _mention_locations(mentions, idx_cache: dict | None = None) -> str:
+    """Render one markdown cell of `date · segment · [time](jump link)` per mention.
+
+    Recovers each mention's start-second from _section_index() — the same
+    archived-summary/redirect source the unknown-ticker queue uses — so a reviewer
+    can jump straight to the spot in the video to confirm the call. A date with two
+    sections of the same kind (e.g. two interviews) lists every candidate rather
+    than guessing. When no section timing exists on disk the link falls back to the
+    episode start, matching the unknown-ticker queue's behaviour.
+
+    `mentions` is an iterable of (date, segment, video_id). Multiple mentions are
+    joined with <br>, which GitHub renders as separate lines inside the cell.
+    """
+    idx_cache = {} if idx_cache is None else idx_cache
+    cells = []
+    for date_str, seg, vid in mentions:
+        if date_str not in idx_cache:
+            idx_cache[date_str] = _section_index(date_str)
+        cands = idx_cache[date_str].get(_norm_segment(seg or ""), [])
+        seg_label = seg or "—"
+        if cands:
+            parts = [
+                f"[{_fmt_seconds(secs)}](https://youtu.be/{vid}?t={secs})" if vid
+                else _fmt_seconds(secs)
+                for _title, secs in sorted(cands, key=lambda c: c[1])
+            ]
+            loc = " / ".join(parts)
+        else:
+            loc = f"[episode](https://youtu.be/{vid})" if vid else "—"
+        cells.append(f"{date_str} · {seg_label} · {loc}")
+    return "<br>".join(cells) if cells else "—"
 
 
 def build_unknown_ticker_report(write: bool = True) -> str:
