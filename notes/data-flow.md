@@ -178,6 +178,12 @@ the external referee. It can't be the owner either: it has no entry for
 `PRIVATE_COMPANIES`, returns bare numbers as names for some symbols, and knows
 nothing about the ~200 hallucinated tickers.
 
+**A renamed company keeps both names.** Store it as `New Name (formerly Old
+Name)` — `MSTR` is `Strategy (formerly MicroStrategy)`. Site search is a
+substring match, so both names find the ticker; `names_agree()` splits the
+parenthetical so Yahoo's current-name-only answer doesn't re-flag the row every
+night. Guarded by `code/test_names_agree.py`.
+
 **A wrong ticker is worse than a missing one.** It attaches the call to a real,
 unrelated company and silently inherits that company's price history.
 `validate_analysis_tickers()` checks every (ticker, company) pair against Yahoo at
