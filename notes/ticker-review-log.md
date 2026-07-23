@@ -21,7 +21,6 @@ has no timing on disk. Timestamps are section starts, so scrub forward a little.
 
 | Ticker | Where — date · segment · time | Stored as | Why it's held |
 |--------|-------------------------------|-----------|---------------|
-| `AX` | 2026-07-21 · opening_commentary · [episode](https://youtu.be/ShGPsBV3YZA) | Axiom (Defense Technology) | Flagged by the ingest validator on its first production run. `AX` is **Axos Financial**, a bank. Which defense company "Axiom" refers to is unclear — Axiom Space is private; there may be a recent listing. |
 | `BDN` | 2026-03-03 · closing_commentary · [39:00](https://youtu.be/ISGe21_RSYs?t=2340) | "Blue (implied Blackstone or similar…)" | The stored company name is itself a guess, not a company. Needs the audio. |
 | `SPRL` | 2026-05-12 · lightning_round · [37:26](https://youtu.be/RDTfIM7usu4?t=2246) | "Spirail (exact company uncertain)" | Same — the name is admitted-uncertain at source. |
 | `URG` | 2026-01-20 · in_depth_analysis · [episode](https://youtu.be/tKgYSl5KSq0) | "US Anamoney (United States Rare Earth…)" | Garbled name. `URG` is Ur-Energy. Candidate is `USAR` (USA Rare Earth) but unconfirmed. |
@@ -105,10 +104,18 @@ suggestion points confidently at the wrong company — and the true answer (`AVE
 was neither the filed ticker nor the suggested one. It took a human who knew the
 company to close it.
 
-`AX` ("Axiom (Defense Technology)" &rarr; `AXIN`) and `BDN` (stored as the prose
-"Blue (implied Blackstone or similar…)") are unchecked and likely have the same
-shape — a stored name that was never a real company name. Check the transcript
-before touching either.
+**`AX` (2026-07-21) was the same company** — resolved 2026-07-23. The caller says
+he *"purchased the stock for 34 after the IPO in April and attended the earnings
+call in May… the stock I'm calling about is AX,"* and Cramer answers *"defense
+technology."* Same drone-defense IPO, same caption garble of "AEVEX" → "AX".
+Retargeted `AX` &rarr; `AVEX`; price corrected from Axos Financial's inherited
+$97.42 to AEVEX's real 07-21 close of **$14.75** (down from the $26.93 IPO-day pop,
+consistent with the caller's $34 cost basis and the sector selloff). AEVEX now has
+a genuine two-point history.
+
+`BDN` (stored as the prose "Blue (implied Blackstone or similar…)") is still
+unchecked and likely has the same shape — a stored name that was never a real
+company name. Check the transcript before touching it.
 
 ### Also noted
 
