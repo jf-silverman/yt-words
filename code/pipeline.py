@@ -25,12 +25,14 @@ Environment variables:
 import argparse
 import base64
 import csv
+import html as html_lib
 import io
 import json
 from collections import Counter
 import os
 import re
 import smtplib
+import sys
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, date, timezone, timedelta
@@ -2188,6 +2190,43 @@ def send_email(html: str, subject: str, mode: str = "smtp",
         raise ValueError(f"Unknown email mode: {mode!r}")
 
 
+def send_failure_notice(failures: list[dict], mode: str = "smtp") -> None:
+    """Email a short notice when a run found episodes but processed none of them.
+
+    A run that discovers nothing (weekend, holiday, no upload yet) is normal and
+    silent. A run that discovers episodes and then fails on every one of them is
+    NOT normal, and used to be indistinguishable from a quiet night: the log said
+    "nothing to email" and no email arrived, which looks exactly like "Cramer was
+    off tonight". Two consecutive nights (2026-07-21, 07-22) were lost that way,
+    when the claude CLI could not read its credentials under cron.
+
+    Deliberately plain: no charts, no DB queries, no analysis. Whatever broke the
+    run may well break those too, and a notice that fails to send is no notice.
+    """
+    rows = "".join(
+        f"<tr>"
+        f"<td style='padding:6px 12px 6px 0;white-space:nowrap;'><code>{html_lib.escape(f['video_id'])}</code></td>"
+        f"<td style='padding:6px 12px 6px 0;'>{html_lib.escape(f['title'])}</td>"
+        f"<td style='padding:6px 0;color:#b3261e;'>{html_lib.escape(f['error'])}</td>"
+        f"</tr>"
+        for f in failures
+    )
+    body = f"""\
+<html><body style="font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:14px;color:#1a1a1a;">
+  <h2 style="margin:0 0 4px;font-size:17px;">Mad Money pipeline — no episodes processed</h2>
+  <p style="margin:0 0 16px;color:#555;">
+    {len(failures)} episode(s) were discovered but every one failed. Nothing was written
+    to the database and nothing was published; they stay unprocessed and the next run
+    will retry them.
+  </p>
+  <table style="border-collapse:collapse;font-size:13px;">{rows}</table>
+  <p style="margin:20px 0 0;color:#555;font-size:13px;">
+    Log: <code>/tmp/mad_money_cron.log</code>
+  </p>
+</body></html>"""
+    send_email(body, f"⚠️ Mad Money pipeline failed — {len(failures)} episode(s)", mode=mode)
+
+
 # ── 9. Git commit + push ──────────────────────────────────────────────────────
 
 PAGES_BRANCH = "main"   # GitHub Pages publishes from main
@@ -3110,6 +3149,7 @@ def main() -> None:
         print(f"  {ep['id']} — {ep['title']}")
 
     summaries = []
+    failures: list[dict] = []
     processed = load_processed()
 
     analyze_fn = analyze_with_claude_code if args.backend == "claude-code" else analyze_with_haiku
@@ -3199,13 +3239,29 @@ def main() -> None:
             # Don't let one bad episode (e.g. captions not ready yet) block the
             # rest of the queue — skip it and leave it unprocessed for next run.
             print(f"  Skipping {video_id}: {e}")
+            # str(e) can be empty (the claude CLI failed this way on 2026-07-21,
+            # printing a bare "rc=1" with no detail), so fall back to the type name
+            # rather than mailing a blank cell.
+            failures.append({
+                "video_id": video_id,
+                "title": ep.get("title", ""),
+                "error": str(e).strip() or f"{type(e).__name__} (no message)",
+            })
             continue
 
     if not summaries:
         print("\nNo episodes processed successfully — nothing to email.")
         if not args.dry_run:
             save_processed(processed)
-        return
+            # Every discovered episode failed. Say so out loud — see
+            # send_failure_notice() for why silence here is dangerous.
+            try:
+                send_failure_notice(failures, mode=args.email_mode)
+            except Exception as e:
+                print(f"  Could not send failure notice: {e}")
+        # Non-zero so launchd/CI records the run as failed even if the notice
+        # itself could not be delivered.
+        sys.exit(1)
 
     dates = [s["date_str"] for s in summaries]
 
