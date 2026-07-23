@@ -2425,8 +2425,38 @@ def _yahoo_ticker_name(ticker: str, cache: dict) -> str | None:
     return name
 
 
-def suggest_ticker(company: str) -> str | None:
+COMPANY_SYMBOL_CACHE = ROOT / "data" / "company_symbols.json"
+
+
+def suggest_ticker(company: str, cache: dict | None = None) -> str | None:
     """Ask Yahoo which symbol a company name belongs to."""
+    return suggest_ticker_detail(company, cache)[0]
+
+
+def suggest_ticker_detail(company: str, cache: dict | None = None) -> tuple[str | None, str | None]:
+    """As suggest_ticker, but also returns the name Yahoo attached to that symbol.
+
+    The name matters: Yahoo's search index matches on *historical* ticker
+    associations, so querying "Barrick Gold" returns `ABX` — Barrick's ticker until
+    2019 — while itself reporting that symbol's name as "Abacus Global Management".
+    Taking the symbol alone would read that as confirmation and mark a genuine
+    mis-ticker cosmetic. Callers should check the returned name is related to what
+    they asked for.
+
+    Pass `cache` (company name -> [symbol, name]) when looking up many names in a
+    row; the review-queue build does ~65 of these and Yahoo rate-limits.
+    """
+    if cache is not None and company in cache:
+        got = cache[company]
+        # Tolerate the older cache format, which stored a bare symbol.
+        return tuple(got) if isinstance(got, list) else (got, None)
+    result = _suggest_ticker_uncached(company)
+    if cache is not None:
+        cache[company] = list(result)
+    return result
+
+
+def _suggest_ticker_uncached(company: str) -> tuple[str | None, str | None]:
     try:
         r = requests.get(
             "https://query2.finance.yahoo.com/v1/finance/search",
@@ -2434,16 +2464,16 @@ def suggest_ticker(company: str) -> str | None:
             headers={"User-Agent": "Mozilla/5.0"}, timeout=8,
         )
         if not r.ok:
-            return None
+            return (None, None)
         for q in r.json().get("quotes", []):
             # US listings only — the same company lists in a dozen places
             if q.get("quoteType") == "EQUITY" and q.get("exchange") in {
                 "NYQ", "NMS", "NGM", "NCM", "ASE", "PCX", "BTS", "NYS"
             }:
-                return q.get("symbol")
+                return (q.get("symbol"), q.get("shortname") or q.get("longname"))
     except Exception:
         pass
-    return None
+    return (None, None)
 
 
 def validate_analysis_tickers(analysis: dict, suggest: bool = True) -> list[dict]:
@@ -2502,6 +2532,26 @@ def report_ticker_flags(flags: list[dict], date_str: str) -> None:
     print(f"  {'!' * 60}\n")
 
 
+def _looks_related(a: str | None, b: str | None) -> bool:
+    """Weak hint: do two names resemble each other at all?
+
+    Strictly a triage aid for rows where Yahoo's search recognises neither name, and
+    deliberately NOT used to decide anything. There is no reliable string rule here:
+    "Inspira Technologies" vs "Inspire Medical" are different companies but score like
+    "Snapchat" vs "Snap Inc", and "Eagle Gold" vs "Eagle Cement" share a token exactly
+    the way "D-Wave Systems" vs "D-Wave Quantum" do. Treat a True as "check this one
+    last", never as "this one is fine".
+    """
+    ta, tb = _name_tokens(a), _name_tokens(b)
+    if not ta or not tb:
+        return False
+    if ta & tb or _subsumes(ta, tb):
+        return True
+    import difflib
+    ca, cb = "".join(_name_token_list(a)), "".join(_name_token_list(b))
+    return difflib.SequenceMatcher(None, ca, cb).ratio() >= 0.7
+
+
 def build_name_mismatch_report(write: bool = True) -> list[dict]:
     """Regenerate notes/ticker-name-mismatches.md from the whole DB.
 
@@ -2551,6 +2601,46 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
             n, lo, hi = counts.get(ticker, (0, "", ""))
             rows.append({"ticker": ticker, "company": company, "actual": actual,
                          "n": n, "lo": lo, "hi": hi})
+
+    # Classify each flagged row by asking the question in reverse: forget the symbol
+    # we filed it under — what symbol does Yahoo give for the company name we stored?
+    #
+    #   same symbol back  -> the ticker is right, our name is just informal or dated
+    #                        ("Snapchat" for Snap Inc). Cosmetic; no data is wrong.
+    #   different symbol  -> the call is probably filed on the wrong company, where it
+    #                        inherits that company's price history. This is the one
+    #                        that corrupts returns, and now we can name the fix.
+    #   nothing back      -> Yahoo doesn't recognise the stored name at all — usually a
+    #                        caption garble ("Kagra", "Verdiv") needing the transcript.
+    sym_cache = {}
+    if COMPANY_SYMBOL_CACHE.exists():
+        try:
+            sym_cache = json.loads(COMPANY_SYMBOL_CACHE.read_text())
+        except Exception:
+            sym_cache = {}
+    for r in rows:
+        # Strip an alias clause first: Yahoo's search does better on "Strategy" than
+        # on "Strategy (formerly MicroStrategy)".
+        query = (_name_aliases(r["company"]) or [r["company"]])[0]
+        sug, sug_name = suggest_ticker_detail(query, sym_cache)
+        r["suggest"] = sug
+        # A suggestion is only evidence if Yahoo's own name for that symbol resembles
+        # what we asked about. Without this check "Barrick Gold" -> ABX reads as
+        # confirmation that ABX is right, when ABX is now Abacus Global Management.
+        if sug and not _looks_related(query, sug_name):
+            sug = r["suggest"] = None
+        if sug and sug == r["ticker"]:
+            r["kind"] = "variant"
+        elif sug:
+            r["kind"] = "misticker"
+        else:
+            r["kind"] = "unknown"
+            r["related"] = _looks_related(r["company"], r["actual"])
+    try:
+        COMPANY_SYMBOL_CACHE.write_text(json.dumps(sym_cache, indent=0, sort_keys=True))
+    except Exception:
+        pass
+
     try:
         TICKER_NAME_CACHE.write_text(json.dumps(cache, indent=0, sort_keys=True))
     except Exception:
@@ -2558,12 +2648,24 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
 
     rows.sort(key=lambda r: (-r["n"], r["ticker"]))
     if write:
+        mis = [r for r in rows if r["kind"] == "misticker"]
+        var = [r for r in rows if r["kind"] == "variant"]
+        unk = [r for r in rows if r["kind"] == "unknown"]
+        unk.sort(key=lambda r: (r.get("related", False), -r["n"], r["ticker"]))
         out = [
             "# Ticker / Company Name Mismatches — Review Queue\n",
-            f"**{len(rows)} ticker(s)** hold a company that Yahoo Finance says belongs to a",
-            "*different* company. Each is a likely mis-ticker: the call is probably about the",
-            "company in the last column, filed under the wrong symbol — where it silently",
-            "inherits that symbol's real price history.\n",
+            f"**{len(rows)} ticker(s)** hold a company name that Yahoo Finance says belongs to",
+            "a different company. These are not all the same problem — some are wrong data,",
+            "most are a name we wrote informally — so they are split by **what can actually be",
+            "proved**, not by what they look like.\n",
+            "The test is the question in reverse: ignoring the symbol we filed it under, what",
+            "symbol does Yahoo return for the company name we stored? A different symbol back",
+            "means the call is sitting on the wrong company; the same symbol means our name is",
+            "merely informal.\n",
+            f"That settles **{len(mis) + len(var)} of {len(rows)}**. It cannot settle the other",
+            f"**{len(unk)}**, because Yahoo's search only matches *current legal* names — it",
+            "returns nothing for \"Snapchat\", \"Burlington Coat Factory\" or \"D-Wave Systems\"",
+            "exactly as it returns nothing for a caption garble. Those need the transcript.\n",
             "> **Generated file — do not edit by hand.**",
             ">",
             "> ```bash",
@@ -2582,12 +2684,75 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
             "python3 code/pipeline.py --rebuild-shards",
             "python3 code/pipeline.py --backfill-prices --tickers CORRECT",
             "```\n",
-            "| Ticker | Mentions | Dates | Yahoo says the symbol is | We stored it as |",
-            "|--------|---------:|-------|--------------------------|-----------------|",
         ]
-        for r in rows:
-            span = r["lo"] if r["lo"] == r["hi"] else f"{r['lo']} … {r['hi']}"
-            out.append(f"| `{r['ticker']}` | {r['n']} | {span} | {r['actual']} | **{r['company']}** |")
+
+        def _span(r):
+            return r["lo"] if r["lo"] == r["hi"] else f"{r['lo']} … {r['hi']}"
+
+        def _table(section, blurb, items, suggest_col):
+            out.append(f"\n## {section}\n")
+            out.extend(blurb)
+            if not items:
+                out.append("\n_None._\n")
+                return
+            if suggest_col == "hint":
+                out.append("\n| Ticker | Mentions | Dates | We stored it as | Yahoo's name | Similar? |")
+                out.append("|--------|---------:|-------|-----------------|--------------|----------|")
+                for r in items:
+                    out.append(f"| `{r['ticker']}` | {r['n']} | {_span(r)} | **{r['company']}** "
+                               f"| {r['actual']} | {'~' if r.get('related') else '**no**'} |")
+            elif suggest_col:
+                out.append("\n| Ticker | Mentions | Dates | We stored it as | "
+                           "That name is probably | But this symbol is |")
+                out.append("|--------|---------:|-------|-----------------|"
+                           "----------------------|--------------------|")
+                for r in items:
+                    out.append(f"| `{r['ticker']}` | {r['n']} | {_span(r)} | **{r['company']}** "
+                               f"| `{r['suggest']}` | {r['actual']} |")
+            else:
+                out.append("\n| Ticker | Mentions | Dates | We stored it as | Yahoo's name |")
+                out.append("|--------|---------:|-------|-----------------|--------------|")
+                for r in items:
+                    out.append(f"| `{r['ticker']}` | {r['n']} | {_span(r)} "
+                               f"| **{r['company']}** | {r['actual']} |")
+            out.append("")
+
+        _table(
+            f"1. Likely mis-tickers — {len(mis)} ticker(s), the data is wrong",
+            ["**This is the section that matters.** Yahoo maps our stored company name to a",
+             "*different* symbol than the one we filed the call under, so the call is most",
+             "likely attached to an unrelated company and has inherited its price history.",
+             "Every return, chart and backtest for both tickers is affected.\n",
+             "The suggested symbol is advisory — Yahoo's search picks the first US listing and",
+             "can be wrong, and the *company* half of the pair may be the mistaken one.",
+             "Confirm against the transcript before changing anything."],
+            mis, suggest_col=True,
+        )
+        _table(
+            f"2. Undecidable without the transcript — {len(unk)} ticker(s)",
+            ["Yahoo's search recognises neither name, so there is no evidence either way. This",
+             "bucket genuinely mixes both problems: harmless old names (\"Burlington Coat",
+             "Factory\", \"Snapchat\") sit next to real mis-tickers (\"Kagra\" filed on Kinross",
+             "Gold, \"Verdiv\" on a Vanguard ETF). Read the transcript.\n",
+             "**`Similar?` is a weak triage hint, not a verdict.** `no` means the two names",
+             "share nothing and is worth looking at first; `~` means they resemble each other",
+             "and is worth looking at last. No string rule does better than this — \"Inspira",
+             "Technologies\" vs \"Inspire Medical\" are different companies but score like",
+             "\"Snapchat\" vs \"Snap Inc\", and \"Eagle Gold\" vs \"Eagle Cement\" share a word",
+             "exactly the way \"D-Wave Systems\" vs \"D-Wave Quantum\" do. Sorted hint-first."],
+            unk, suggest_col="hint",
+        )
+        _table(
+            f"3. Name variants — {len(var)} ticker(s), cosmetic only",
+            ["Yahoo maps our stored name back to the *same* symbol, so the ticker is correct",
+             "and no price history is affected. Our name is just informal (\"Snapchat\"),",
+             "shortened (\"Petco\"), dated (\"Burlington Coat Factory\"), or a caption",
+             "misspelling. Safe to leave alone; fix only if the wording bothers you on the",
+             "site. For a genuine rename, prefer `New Name (formerly Old Name)` — see the",
+             "renamed-companies note in CLAUDE.md."],
+            var, suggest_col=False,
+        )
+
         out.append("")
         out.append(f"_Checked {checked} tickers with a stored company name. Tickers Yahoo does not")
         out.append("recognise at all (hallucinated, private, OTC) are not listed here — see the")
@@ -2598,7 +2763,9 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         out.append("`Marriott International`. Missing a real mis-ticker costs a corrupted price")
         out.append("history; a false positive costs one glance._")
         NAME_MISMATCH_DOC.write_text("\n".join(out) + "\n")
-        print(f"  {len(rows)} name mismatch(es) out of {checked} checked → {NAME_MISMATCH_DOC}")
+        print(f"  {len(rows)} name mismatch(es) out of {checked} checked "
+              f"({len(mis)} proven mis-ticker, {len(var)} proven cosmetic, "
+              f"{len(unk)} need the transcript) → {NAME_MISMATCH_DOC}")
     return rows
 
 
