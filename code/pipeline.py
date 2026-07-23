@@ -2331,6 +2331,37 @@ def _name_tokens(s: str | None) -> set[str]:
     return set(_name_token_list(s))
 
 
+def company_in_transcript(company: str | None, transcript: str | None) -> bool | None:
+    """Does the stored company name have any footing in what was actually said?
+
+    Returns:
+      True  — at least one distinctive word of the company name (or of an alias in
+              a "(formerly X)" clause) appears in the transcript, so the name is at
+              least derivable from the audio.
+      False — none of them appear. This is the highest-value hallucination signal
+              we have: the model named a company nobody on the show did. `AVX`
+              stored as "Aeva Technologies", `BDN` as "Blue" — the name is invented.
+      None  — can't say. No transcript on hand, or the name reduces to no
+              significant words (a bare ticker, or only legal-suffix noise). Never
+              flagged, so the check can't cry wolf on missing data.
+
+    Deliberately lenient toward True: auto-captions garble spelling, so one matching
+    distinctive word is enough to clear a name. A wrong True (hiding a hallucinated
+    name) is the costly direction and stays rare; a wrong False only adds one row to
+    eyeball, matching the queue's standing "a false positive costs one glance" bias.
+    Advisory only — like the rest of validate_analysis_tickers, it never edits.
+    """
+    if not transcript:
+        return None
+    tokens = set()
+    for name in (_name_aliases(company) or [company]):
+        tokens |= _name_tokens(name)
+    if not tokens:
+        return None
+    words = set(re.sub(r"[^a-z0-9]+", " ", transcript.lower()).split())
+    return any(t in words for t in tokens)
+
+
 def _tok_match(x: str, y: str) -> bool:
     """One token against one, allowing a clear abbreviation.
 
@@ -2520,6 +2551,12 @@ def validate_analysis_tickers(analysis: dict, suggest: bool = True) -> list[dict
 
     Returns one dict per suspicious pair. Never raises and never edits the
     analysis — a bad network day should cost us a warning, not an episode.
+
+    Deliberately does NOT flag on company_in_transcript: testing showed that signal
+    cries wolf (a correct pick spoken only as its ticker, e.g. "GDRX" for GoodRx,
+    has no name in the transcript) and misses the real thing (a caption garble that
+    becomes the stored name reads as "present"). It survives only as an advisory
+    column in the --check-ticker-names queue, never as a nightly alarm.
     """
     cache = {}
     if TICKER_NAME_CACHE.exists():
@@ -2628,6 +2665,10 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
     ):
         mentions_by_ticker.setdefault(r["ticker"], []).append(
             (r["date"], r["segment"] or "", r["video_id"] or ""))
+    # Episode transcripts, keyed by date, so a flagged name can be checked against
+    # what was actually said in the episode(s) it was mentioned in.
+    transcripts_by_date = {r["date"]: (r["transcript_text"] or "")
+                           for r in conn.execute("SELECT date, transcript_text FROM episodes")}
     conn.close()
     # Only tickers that still have mentions are worth reviewing.
     stocks = {t: v for t, v in stocks.items() if t in counts}
@@ -2669,6 +2710,14 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         except Exception:
             sym_cache = {}
     for r in rows:
+        # Does the stored name appear in any episode it was mentioned in? True in at
+        # least one wins; False only if every checkable episode says no; None when no
+        # transcript is on hand. (A name can be garbled in one episode and clear in
+        # another, so a single hit is enough to call it grounded.)
+        verdicts = [company_in_transcript(r["company"], transcripts_by_date.get(d))
+                    for d in {m[0] for m in r.get("mentions", [])}]
+        verdicts = [v for v in verdicts if v is not None]
+        r["in_tx"] = True if any(verdicts) else (False if verdicts else None)
         # Strip an alias clause first: Yahoo's search does better on "Strategy" than
         # on "Strategy (formerly MicroStrategy)".
         query = (_name_aliases(r["company"]) or [r["company"]])[0]
@@ -2738,6 +2787,15 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
             "(`date · segment · timestamp`) so you can confirm the call by ear. A "
             "timestamp that resolves to the episode start means that section has no "
             "timing on disk yet — the same fallback the unknown-ticker queue uses.\n",
+            "**In transcript?** asks whether the stored company name appears in the "
+            "episode(s) it was mentioned in — `yes` / `✗ no` / `—` (no transcript). "
+            "**Treat it as a weak hint, not a verdict.** Testing showed it is wrong "
+            "as often as right on the hard cases, in *both* directions: a correct pick "
+            "spoken only as its ticker reads `✗ no` (nobody said \"GoodRx\", the caller "
+            "said \"GDRX\"), and a caption garble that became the stored name reads "
+            "`yes` (\"AEVEX\" mis-heard as \"Aeva\"). A `✗ no` is worth a glance, "
+            "nothing more. Note too that a handful of early-2026 episodes have a stale "
+            "transcript stored in the DB, so their answer here is unreliable.\n",
         ]
 
         # One section-index cache shared by every row, so an episode's timing is
@@ -2747,6 +2805,10 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         def _where(r):
             return _mention_locations(r.get("mentions", []), loc_cache)
 
+        def _intx(r):
+            # ✗ (absent from every episode) is the loud one — the name may be invented.
+            return {True: "yes", False: "**✗ no**", None: "—"}[r.get("in_tx")]
+
         def _table(section, blurb, items, suggest_col):
             out.append(f"\n## {section}\n")
             out.extend(blurb)
@@ -2755,28 +2817,28 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
                 return
             if suggest_col == "hint":
                 out.append("\n| Ticker | We stored it as | Yahoo's name | Similar? "
-                           "| Where — date · segment · time |")
+                           "| In transcript? | Where — date · segment · time |")
                 out.append("|--------|-----------------|--------------|----------|"
-                           "-------------------------------|")
+                           "----------------|-------------------------------|")
                 for r in items:
                     out.append(f"| `{r['ticker']}` | **{r['company']}** | {r['actual']} "
-                               f"| {'~' if r.get('related') else '**no**'} | {_where(r)} |")
+                               f"| {'~' if r.get('related') else '**no**'} | {_intx(r)} | {_where(r)} |")
             elif suggest_col:
                 out.append("\n| Ticker | We stored it as | That name is probably "
-                           "| But this symbol is | Where — date · segment · time |")
+                           "| But this symbol is | In transcript? | Where — date · segment · time |")
                 out.append("|--------|-----------------|----------------------|"
-                           "--------------------|-------------------------------|")
+                           "--------------------|----------------|-------------------------------|")
                 for r in items:
                     out.append(f"| `{r['ticker']}` | **{r['company']}** | `{r['suggest']}` "
-                               f"| {r['actual']} | {_where(r)} |")
+                               f"| {r['actual']} | {_intx(r)} | {_where(r)} |")
             else:
                 out.append("\n| Ticker | We stored it as | Yahoo's name "
-                           "| Where — date · segment · time |")
+                           "| In transcript? | Where — date · segment · time |")
                 out.append("|--------|-----------------|--------------|"
-                           "-------------------------------|")
+                           "----------------|-------------------------------|")
                 for r in items:
                     out.append(f"| `{r['ticker']}` | **{r['company']}** | {r['actual']} "
-                               f"| {_where(r)} |")
+                               f"| {_intx(r)} | {_where(r)} |")
             out.append("")
 
         _table(
