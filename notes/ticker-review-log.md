@@ -113,9 +113,16 @@ $97.42 to AEVEX's real 07-21 close of **$14.75** (down from the $26.93 IPO-day p
 consistent with the caller's $34 cost basis and the sector selloff). AEVEX now has
 a genuine two-point history.
 
-`BDN` (stored as the prose "Blue (implied Blackstone or similar…)") is still
-unchecked and likely has the same shape — a stored name that was never a real
-company name. Check the transcript before touching it.
+**`BDN` (2026-03-03) was deleted** — resolved 2026-07-23. It was not a stock call
+at all: the closing commentary was about how private-equity/credit funds are
+affecting public markets, and the reference was to **Blue Owl**, a Blackstone-run
+private credit fund (blocked redemptions, 30% liquidity offers). No public-equity
+call was being made, so the mention was removed rather than retargeted. It had been
+sitting on Brandywine Realty Trust's inherited $3.12.
+
+With that, **section 1 of the mismatch queue (proven mis-tickers) is empty** — the
+`AVX`/`AX` → `AVEX` fixes and this deletion cleared all three that carried a
+provably-wrong symbol.
 
 ### Also noted
 
