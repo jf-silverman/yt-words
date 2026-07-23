@@ -2179,6 +2179,31 @@ def send_email_mcp(html: str, subject: str) -> None:
     )
 
 
+def _inject_backfill_note(html: str, note: tuple | None) -> str:
+    """Append a one-line footer about the episode backfilled this run.
+
+    `note` is (date_str, n_stocks) or None. The backfilled historical episode gets
+    no email of its own — this line on tonight's email is the only mention of it.
+    Inserted before </body> when present so it lands at the foot of the message.
+    """
+    if not note:
+        return html
+    date_str, n = note
+    try:
+        pretty = datetime.fromisoformat(date_str).strftime("%a %b %-d, %Y")
+    except Exception:
+        pretty = date_str
+    picks = f"{n} pick{'' if n == 1 else 's'}"
+    site = "https://jf-silverman.github.io/yt-words/stocks.html"
+    row = (
+        '<p style="font:13px -apple-system,Helvetica,Arial,sans-serif;color:#666;'
+        'border-top:1px solid #e5e5e5;padding-top:10px;margin:20px 0 0;">'
+        f'↩ Also backfilled an older episode tonight: <b>{pretty}</b> ({picks}), '
+        f'now on the <a href="{site}" style="color:#666;">site</a>.</p>'
+    )
+    return html.replace("</body>", row + "</body>", 1) if "</body>" in html else html + row
+
+
 def send_email(html: str, subject: str, mode: str = "smtp",
                recipient: str | None = None,
                chart_attachments: list[tuple[str, bytes]] | None = None) -> None:
@@ -2329,6 +2354,59 @@ def _name_token_list(s: str | None) -> list[str]:
 
 def _name_tokens(s: str | None) -> set[str]:
     return set(_name_token_list(s))
+
+
+def company_in_transcript(company: str | None, transcript: str | None) -> bool | None:
+    """Does the stored company name have any footing in what was actually said?
+
+    Returns:
+      True  — at least one distinctive word of the company name (or of an alias in
+              a "(formerly X)" clause) appears in the transcript, so the name is at
+              least derivable from the audio.
+      False — none of them appear. This is the highest-value hallucination signal
+              we have: the model named a company nobody on the show did. `AVX`
+              stored as "Aeva Technologies", `BDN` as "Blue" — the name is invented.
+      None  — can't say. No transcript on hand, or the name reduces to no
+              significant words (a bare ticker, or only legal-suffix noise). Never
+              flagged, so the check can't cry wolf on missing data.
+
+    Deliberately lenient toward True: auto-captions garble spelling, so one matching
+    distinctive word is enough to clear a name. A wrong True (hiding a hallucinated
+    name) is the costly direction and stays rare; a wrong False only adds one row to
+    eyeball, matching the queue's standing "a false positive costs one glance" bias.
+    Advisory only — like the rest of validate_analysis_tickers, it never edits.
+    """
+    if not transcript:
+        return None
+    tokens = set()
+    for name in (_name_aliases(company) or [company]):
+        tokens |= _name_tokens(name)
+    if not tokens:
+        return None
+    words = set(re.sub(r"[^a-z0-9]+", " ", transcript.lower()).split())
+    return any(t in words for t in tokens)
+
+
+def ticker_in_transcript(ticker: str | None, transcript: str | None) -> bool | None:
+    """Companion to company_in_transcript: was the *symbol* itself spoken?
+
+    True  — the ticker appears verbatim in the transcript (a caller or Cramer said
+            "GDRX"), so the symbol came from the audio, not the model's inference.
+    False — it does not appear. Either the symbol was inferred from a spoken company
+            name, or the caption garbled it (Sterling's "STRL" was heard as "SPRL").
+    None  — no transcript, or no usable ticker string.
+
+    Same weak-hint caveats as its companion, plus one of its own: a short symbol can
+    collide with a common word (a two-letter ticker especially), so a `yes` on a
+    tiny symbol means little. Advisory only.
+    """
+    if not transcript:
+        return None
+    t = (ticker or "").strip().lower()
+    if not t or is_unknown_ticker(ticker):
+        return None
+    words = set(re.sub(r"[^a-z0-9]+", " ", transcript.lower()).split())
+    return t in words
 
 
 def _tok_match(x: str, y: str) -> bool:
@@ -2520,6 +2598,12 @@ def validate_analysis_tickers(analysis: dict, suggest: bool = True) -> list[dict
 
     Returns one dict per suspicious pair. Never raises and never edits the
     analysis — a bad network day should cost us a warning, not an episode.
+
+    Deliberately does NOT flag on company_in_transcript: testing showed that signal
+    cries wolf (a correct pick spoken only as its ticker, e.g. "GDRX" for GoodRx,
+    has no name in the transcript) and misses the real thing (a caption garble that
+    becomes the stored name reads as "present"). It survives only as an advisory
+    column in the --check-ticker-names queue, never as a nightly alarm.
     """
     cache = {}
     if TICKER_NAME_CACHE.exists():
@@ -2628,6 +2712,10 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
     ):
         mentions_by_ticker.setdefault(r["ticker"], []).append(
             (r["date"], r["segment"] or "", r["video_id"] or ""))
+    # Episode transcripts, keyed by date, so a flagged name can be checked against
+    # what was actually said in the episode(s) it was mentioned in.
+    transcripts_by_date = {r["date"]: (r["transcript_text"] or "")
+                           for r in conn.execute("SELECT date, transcript_text FROM episodes")}
     conn.close()
     # Only tickers that still have mentions are worth reviewing.
     stocks = {t: v for t, v in stocks.items() if t in counts}
@@ -2669,6 +2757,19 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         except Exception:
             sym_cache = {}
     for r in rows:
+        # Do the stored name and symbol appear in any episode they were mentioned in?
+        # True in at least one wins; False only if every checkable episode says no;
+        # None when no transcript is on hand. (Either can be garbled in one episode
+        # and clear in another, so a single hit is enough to call it grounded.)
+        dates = {m[0] for m in r.get("mentions", [])}
+
+        def _any(fn, val):
+            vs = [fn(val, transcripts_by_date.get(d)) for d in dates]
+            vs = [v for v in vs if v is not None]
+            return True if any(vs) else (False if vs else None)
+
+        r["name_tx"] = _any(company_in_transcript, r["company"])
+        r["sym_tx"] = _any(ticker_in_transcript, r["ticker"])
         # Strip an alias clause first: Yahoo's search does better on "Strategy" than
         # on "Strategy (formerly MicroStrategy)".
         query = (_name_aliases(r["company"]) or [r["company"]])[0]
@@ -2738,6 +2839,18 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
             "(`date · segment · timestamp`) so you can confirm the call by ear. A "
             "timestamp that resolves to the episode start means that section has no "
             "timing on disk yet — the same fallback the unknown-ticker queue uses.\n",
+            "**Said? sym/name** is two hints: did the **symbol** and did the **company "
+            "name** each appear in the episode(s) it was mentioned in — `yes` / `✗` / "
+            "`—` (no transcript). Read together they suggest where a bad row came from: "
+            "`✗ / yes` = symbol inferred from a spoken name; `yes / ✗` = symbol was "
+            "said but the name looks invented; `✗ / ✗` = neither was said (a caption "
+            "garble, like Sterling's \"STRL\" heard as \"SPRL\"). **Weak hints, not "
+            "verdicts.** They misfire in both directions: a correct pick spoken only "
+            "as its ticker shows `yes / ✗` (the caller said \"GDRX\", never \"GoodRx\"), "
+            "and a garble that became the stored name shows a false `yes` (\"AEVEX\" "
+            "mis-heard as \"Aeva\"). A short symbol can also match a common word. And a "
+            "handful of early-2026 episodes have a stale transcript in the DB, so their "
+            "answer is unreliable. Worth a glance, nothing more.\n",
         ]
 
         # One section-index cache shared by every row, so an episode's timing is
@@ -2747,6 +2860,12 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
         def _where(r):
             return _mention_locations(r.get("mentions", []), loc_cache)
 
+        def _intx(r):
+            # Two flags, sym / name. ✗ (absent from every episode) is the loud one:
+            # a symbol nobody said may be inferred; a name nobody said may be invented.
+            m = {True: "yes", False: "**✗**", None: "—"}
+            return f"{m[r.get('sym_tx')]} / {m[r.get('name_tx')]}"
+
         def _table(section, blurb, items, suggest_col):
             out.append(f"\n## {section}\n")
             out.extend(blurb)
@@ -2755,28 +2874,28 @@ def build_name_mismatch_report(write: bool = True) -> list[dict]:
                 return
             if suggest_col == "hint":
                 out.append("\n| Ticker | We stored it as | Yahoo's name | Similar? "
-                           "| Where — date · segment · time |")
+                           "| Said? sym/name | Where — date · segment · time |")
                 out.append("|--------|-----------------|--------------|----------|"
-                           "-------------------------------|")
+                           "----------------|-------------------------------|")
                 for r in items:
                     out.append(f"| `{r['ticker']}` | **{r['company']}** | {r['actual']} "
-                               f"| {'~' if r.get('related') else '**no**'} | {_where(r)} |")
+                               f"| {'~' if r.get('related') else '**no**'} | {_intx(r)} | {_where(r)} |")
             elif suggest_col:
                 out.append("\n| Ticker | We stored it as | That name is probably "
-                           "| But this symbol is | Where — date · segment · time |")
+                           "| But this symbol is | Said? sym/name | Where — date · segment · time |")
                 out.append("|--------|-----------------|----------------------|"
-                           "--------------------|-------------------------------|")
+                           "--------------------|----------------|-------------------------------|")
                 for r in items:
                     out.append(f"| `{r['ticker']}` | **{r['company']}** | `{r['suggest']}` "
-                               f"| {r['actual']} | {_where(r)} |")
+                               f"| {r['actual']} | {_intx(r)} | {_where(r)} |")
             else:
                 out.append("\n| Ticker | We stored it as | Yahoo's name "
-                           "| Where — date · segment · time |")
+                           "| Said? sym/name | Where — date · segment · time |")
                 out.append("|--------|-----------------|--------------|"
-                           "-------------------------------|")
+                           "----------------|-------------------------------|")
                 for r in items:
                     out.append(f"| `{r['ticker']}` | **{r['company']}** | {r['actual']} "
-                               f"| {_where(r)} |")
+                               f"| {_intx(r)} | {_where(r)} |")
             out.append("")
 
         _table(
@@ -3101,6 +3220,149 @@ def _cookie_age_days() -> int | None:
         return None
 
 
+# Nightly backfill walks history backward one episode per run, starting just before
+# our current oldest (~2026-01-02) and continuing until it reaches this floor. Set
+# generously — "extend back quite a ways" — and trivially changed if you want more or
+# less. At one episode per weeknight, a year of history is ~250 runs.
+BACKFILL_STOP_DATE = "2024-01-01"
+
+
+def _process_episode(ep: dict, args) -> dict:
+    """Fetch, analyze, persist and generate artifacts for one episode.
+
+    The shared body of both the nightly new-episode loop and the backfill step.
+    Returns the summary dict the caller appends to `summaries`; raises on any
+    failure so the caller decides whether to skip (new-episode loop) or just log
+    (backfill). Does NOT touch `processed` or send email — those are the caller's.
+    """
+    video_id = ep["id"]
+    print("  Fetching transcript...")
+    date_str, snippets, transcript_text = fetch_transcript(video_id, ep.get("upload_date", ""))
+    print(f"  Date: {date_str}  Lines: {len(snippets)}")
+
+    if args.backend == "claude-code":
+        print("  Analyzing with claude CLI (Claude Code subscription)...")
+        analysis = analyze_with_claude_code(date_str, transcript_text)
+    else:
+        print("  Analyzing with Claude Haiku...")
+        analysis = analyze_with_haiku(date_str, transcript_text)
+    n_stocks = len(analysis.get("stocks", []))
+    n_sections = len(analysis.get("sections", []))
+    print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
+
+    # A real episode always names stocks. Sections-but-no-stocks means the model
+    # returned a structurally valid but empty result (this happened on 2026-07-17,
+    # which then sent a "0 stocks" email and marked itself processed, so it never
+    # retried). Treat it as a failure so the next run picks it up again.
+    if n_sections and not n_stocks:
+        raise RuntimeError(
+            f"analysis returned {n_sections} sections but 0 stocks — "
+            "treating as a failed analysis so it retries next run"
+        )
+
+    # Catch mis-tickered calls at the moment they enter the DB, while the transcript
+    # is right there to check against. Advisory only — a flagged call is still stored,
+    # because the model is more often right than not and silently dropping calls would
+    # be worse than a noisy warning.
+    print("  Checking tickers against Yahoo...")
+    report_ticker_flags(validate_analysis_tickers(analysis), date_str)
+
+    print("  Updating stock_sentiments.json...")
+    update_stock_sentiments(analysis, video_id=video_id)
+
+    print("  Looking up podcast episode in RSS feed...")
+    audio_url = find_podcast_episode(date_str)
+
+    print("  Looking up Overcast episode ID...")
+    overcast_episode_id = fetch_overcast_episode_id(date_str)
+
+    upsert_episode(date=date_str, video_id=video_id, transcript_text=transcript_text,
+                   overcast_episode_id=overcast_episode_id)
+
+    if overcast_episode_id:
+        link_mode = "Overcast universal links (https://overcast.fm/+ID/MM:SS)"
+    elif audio_url:
+        link_mode = "GitHub Pages redirect (audio URL)"
+    else:
+        link_mode = "YouTube fallback"
+    print(f"  Links: {link_mode}")
+
+    print("  Generating redirect pages...")
+    redirect_pages = generate_redirect_pages(
+        analysis, date_str, overcast_episode_id=overcast_episode_id, audio_url=audio_url)
+    print(f"  Redirect pages: {len(redirect_pages)}")
+
+    return {
+        "date_str": date_str,
+        "analysis": analysis,
+        "audio_url": audio_url,
+        "video_id": video_id,
+        "redirect_pages": redirect_pages,
+        "overcast_episode_id": overcast_episode_id,
+    }
+
+
+# The CNBC channel's /videos feed is flooded with short clips (~13 uploads/day), so
+# full "Audio Only" episodes sit deep: ~3.2k entries back to reach Jan 2026, ~6k to
+# reach late 2025. Discovery pulls only as deep as it must, escalating through these
+# depths until the window reaches past our current oldest. The ceiling bounds a
+# nightly run's cost; reaching deep-2024 history would need a larger cap or a
+# different source (the podcast RSS lists every episode but gives no YouTube id).
+_BACKFILL_PULL_DEPTHS = (4000, 8000, 12000)
+
+
+def _channel_mm_entries(depth: int) -> list[dict]:
+    """Flat channel listing → [{id, title, date}] for Mad Money episodes, newest first."""
+    opts = {"quiet": True, "no_warnings": True, "extract_flat": True, "playlistend": depth}
+    with yt_dlp.YoutubeDL(opts) as ydl:
+        result = ydl.extract_info(
+            f"https://www.youtube.com/channel/{CNBC_CHANNEL_ID}/videos", download=False)
+    out = []
+    for entry in result.get("entries", []):
+        title = entry.get("title") or ""
+        if "Mad Money" not in title:
+            continue
+        raw = entry.get("upload_date", "")
+        date = f"{raw[:4]}-{raw[4:6]}-{raw[6:]}" if raw else _date_from_title(title)
+        if date:
+            out.append({"id": entry.get("id"), "title": title, "date": date})
+    return out
+
+
+def discover_backfill_episode(stop_date: str = BACKFILL_STOP_DATE) -> dict | None:
+    """The newest not-yet-processed Mad Money episode older than our current oldest.
+
+    Returns one episode dict {id, title, upload_date} to extend coverage back by a
+    single step, or None once we've walked back to `stop_date` (inclusive), caught up
+    to processed history, or run past the deepest pull. Run nightly, it reaches
+    steadily further into the past, one episode at a time.
+    """
+    processed = load_processed()
+    processed_ids = {r["video_id"] for r in processed}
+    processed_dates = [r["date"] for r in processed if r.get("date")]
+    if not processed_dates:
+        return None
+    oldest = min(processed_dates)
+    if oldest <= stop_date:
+        return None
+
+    for depth in _BACKFILL_PULL_DEPTHS:
+        entries = _channel_mm_entries(depth)
+        cands = [{"id": e["id"], "title": e["title"], "upload_date": e["date"]}
+                 for e in entries
+                 if e["id"] not in processed_ids and stop_date <= e["date"] < oldest]
+        if cands:
+            # Newest of the older-than-oldest set: extend back exactly one per run.
+            cands.sort(key=lambda e: e["upload_date"], reverse=True)
+            return cands[0]
+        # No candidate. If the window already reaches past `oldest`, then everything
+        # older is processed or below the floor — we're genuinely done, no deeper pull.
+        if entries and min(e["date"] for e in entries) < oldest:
+            return None
+        # Otherwise the window stopped short of `oldest`; go deeper.
+    return None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--max-episodes", type=int, default=5,
@@ -3112,6 +3374,9 @@ def main() -> None:
                              "uses your subscription (default); 'api' spends Haiku API credits")
     parser.add_argument("--dry-run", action="store_true",
                         help="Analyze and format but do not send email")
+    parser.add_argument("--no-backfill", action="store_true",
+                        help=f"Skip the nightly one-older-episode backfill "
+                             f"(which walks history back toward {BACKFILL_STOP_DATE})")
     parser.add_argument("--fix-redirects", metavar="DATE",
                         help="Re-generate existing redirect pages for DATE (YYYY-MM-DD) "
                              "with correct Overcast universal links")
@@ -3208,89 +3473,11 @@ def main() -> None:
     failures: list[dict] = []
     processed = load_processed()
 
-    analyze_fn = analyze_with_claude_code if args.backend == "claude-code" else analyze_with_haiku
-    backend_label = "Claude Code session" if args.backend == "claude-code" else "Claude Haiku"
-
     for ep in episodes:
         video_id = ep["id"]
         print(f"\n── Processing {video_id} ──")
-
         try:
-            print("  Fetching transcript...")
-            date_str, snippets, transcript_text = fetch_transcript(
-                video_id, ep.get("upload_date", "")
-            )
-            print(f"  Date: {date_str}  Lines: {len(snippets)}")
-
-            if args.backend == "claude-code":
-                print("  Analyzing with claude CLI (Claude Code subscription)...")
-                analysis = analyze_with_claude_code(date_str, transcript_text)
-            else:
-                print("  Analyzing with Claude Haiku...")
-                analysis = analyze_with_haiku(date_str, transcript_text)
-            n_stocks = len(analysis.get("stocks", []))
-            n_sections = len(analysis.get("sections", []))
-            print(f"  Sections: {n_sections}  Stocks: {n_stocks}")
-
-            # A real episode always names stocks. Sections-but-no-stocks means the model
-            # returned a structurally valid but empty result (this happened on 2026-07-17,
-            # which then sent a "0 stocks" email and marked itself processed, so it never
-            # retried). Treat it as a failure so the next run picks it up again.
-            if n_sections and not n_stocks:
-                raise RuntimeError(
-                    f"analysis returned {n_sections} sections but 0 stocks — "
-                    "treating as a failed analysis so it retries next run"
-                )
-
-            # Catch mis-tickered calls at the moment they enter the DB, while the
-            # transcript is right there to check against. Advisory only — a flagged
-            # call is still stored, because the model is more often right than not
-            # and silently dropping calls would be worse than a noisy warning.
-            print("  Checking tickers against Yahoo...")
-            report_ticker_flags(validate_analysis_tickers(analysis), date_str)
-
-            print("  Updating stock_sentiments.json...")
-            update_stock_sentiments(analysis, video_id=video_id)
-
-            print("  Looking up podcast episode in RSS feed...")
-            audio_url = find_podcast_episode(date_str)
-
-            print("  Looking up Overcast episode ID...")
-            overcast_episode_id = fetch_overcast_episode_id(date_str)
-
-            # Update episode row with transcript and overcast ID now that we have them
-            upsert_episode(
-                date=date_str,
-                video_id=video_id,
-                transcript_text=transcript_text,
-                overcast_episode_id=overcast_episode_id,
-            )
-
-            if overcast_episode_id:
-                link_mode = "Overcast universal links (https://overcast.fm/+ID/MM:SS)"
-            elif audio_url:
-                link_mode = "GitHub Pages redirect (audio URL)"
-            else:
-                link_mode = "YouTube fallback"
-            print(f"  Links: {link_mode}")
-
-            print("  Generating redirect pages...")
-            redirect_pages = generate_redirect_pages(
-                analysis, date_str,
-                overcast_episode_id=overcast_episode_id,
-                audio_url=audio_url,
-            )
-            print(f"  Redirect pages: {len(redirect_pages)}")
-
-            summaries.append({
-                "date_str": date_str,
-                "analysis": analysis,
-                "audio_url": audio_url,
-                "video_id": video_id,
-                "redirect_pages": redirect_pages,
-                "overcast_episode_id": overcast_episode_id,
-            })
-            processed.append({"video_id": video_id, "date": date_str})
+            summary = _process_episode(ep, args)
         except Exception as e:
             # Don't let one bad episode (e.g. captions not ready yet) block the
             # rest of the queue — skip it and leave it unprocessed for next run.
@@ -3304,6 +3491,28 @@ def main() -> None:
                 "error": str(e).strip() or f"{type(e).__name__} (no message)",
             })
             continue
+        summaries.append(summary)
+        processed.append({"video_id": video_id, "date": summary["date_str"]})
+
+    # ── Backfill one older episode per run, walking back toward BACKFILL_STOP_DATE.
+    # Only when tonight already has a real episode (so its one-line note has an email
+    # to ride on) and never on a dry run. A failure here must not sink the night.
+    backfill_note = None
+    backfill_summary = None
+    if summaries and not args.dry_run and not args.no_backfill:
+        bf = discover_backfill_episode()
+        if bf is None:
+            print(f"\nBackfill: nothing older to fetch (reached {BACKFILL_STOP_DATE} "
+                  "or none in the channel's recent listing).")
+        else:
+            print(f"\n── Backfilling older episode {bf['id']} ({bf['upload_date']}) ──")
+            try:
+                backfill_summary = _process_episode(bf, args)
+                processed.append({"video_id": bf["id"], "date": backfill_summary["date_str"]})
+                n = len(backfill_summary["analysis"].get("stocks", []))
+                backfill_note = (backfill_summary["date_str"], n)
+            except Exception as e:
+                print(f"  Backfill skipped: {e}")
 
     if not summaries:
         print("\nNo episodes processed successfully — nothing to email.")
@@ -3319,7 +3528,10 @@ def main() -> None:
         # itself could not be delivered.
         sys.exit(1)
 
-    dates = [s["date_str"] for s in summaries]
+    # The backfilled episode publishes and archives exactly like a new one — it just
+    # gets no email of its own (only the one-line note on tonight's).
+    archive_set = summaries + ([backfill_summary] if backfill_summary else [])
+    dates = [s["date_str"] for s in archive_set]
 
     # Push redirect pages to GitHub Pages (needed before email so links are live)
     if not args.dry_run:
@@ -3328,13 +3540,16 @@ def main() -> None:
 
     # Archive one HTML summary per episode date (no holdings highlighting, no charts needed)
     SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
-    for ep_summary in summaries:
+    for ep_summary in archive_set:
         # all_stocks=True: the archive is the permanent full record of the episode,
         # not a per-recipient email.
         ep_html, _ = build_email_html([ep_summary], highlight_tickers=set(), all_stocks=True)
         arc = SUMMARIES_DIR / f"{ep_summary['date_str']}_summary.html"
         arc.write_text(ep_html)
         print(f"  Archived summary → {arc.name}")
+
+    # The backfill note rides on the newest episode's email only.
+    newest_date = max(s["date_str"] for s in summaries)
 
     # One email per episode — if we fell behind a day or two, this sends several
     # separate emails in one run rather than bundling multiple episodes together.
@@ -3347,9 +3562,13 @@ def main() -> None:
         ep_tickers = {s.get("ticker", "").upper() for s in ep_summary["analysis"].get("stocks", [])}
         brother_hits = ep_tickers & BROTHER_TICKERS
 
+        # Only the newest email carries the backfill note.
+        note = backfill_note if date_str == newest_date else None
+
         if args.dry_run:
             # base64 so the standalone preview file is viewable in a browser
             html, _ = build_email_html([ep_summary], embed_charts="base64")
+            html = _inject_backfill_note(html, note)
             EMAIL_PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
             out = EMAIL_PREVIEW_DIR / f"{date_str}_email_preview.html"
             out.write_text(html)
@@ -3357,17 +3576,19 @@ def main() -> None:
             if brother_hits:
                 bro_html, _ = build_email_html([ep_summary], highlight_tickers=BROTHER_TICKERS, embed_charts="base64")
                 bro_out = EMAIL_PREVIEW_DIR / f"{date_str}_email_preview_brother.html"
-                bro_out.write_text(bro_html)
+                bro_out.write_text(_inject_backfill_note(bro_html, note))
                 print(f"Brother preview saved to {bro_out} (hits: {', '.join(sorted(brother_hits))})")
         else:
             # cid: attachments render more reliably than inline base64 in most email clients
             html, chart_attachments = build_email_html([ep_summary], embed_charts="cid")
+            html = _inject_backfill_note(html, note)
             print(f"\nSending email: {subject}")
             send_email(html, subject, mode=args.email_mode, chart_attachments=chart_attachments)
             if brother_hits:
                 print(f"  Brother's tickers mentioned: {', '.join(sorted(brother_hits))} — sending copy to {BROTHER_TO}")
                 bro_html, bro_charts = build_email_html([ep_summary], highlight_tickers=BROTHER_TICKERS, embed_charts="cid")
-                send_email(bro_html, subject, mode=args.email_mode, recipient=BROTHER_TO, chart_attachments=bro_charts)
+                send_email(_inject_backfill_note(bro_html, note), subject,
+                           mode=args.email_mode, recipient=BROTHER_TO, chart_attachments=bro_charts)
 
     # Dry runs must not mark episodes as processed — no email was actually sent,
     # so a real run later should still discover and send for these dates.
