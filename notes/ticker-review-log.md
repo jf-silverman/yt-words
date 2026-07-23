@@ -21,8 +21,6 @@ has no timing on disk. Timestamps are section starts, so scrub forward a little.
 
 | Ticker | Where — date · segment · time | Stored as | Why it's held |
 |--------|-------------------------------|-----------|---------------|
-| `BDN` | 2026-03-03 · closing_commentary · [39:00](https://youtu.be/ISGe21_RSYs?t=2340) | "Blue (implied Blackstone or similar…)" | The stored company name is itself a guess, not a company. Needs the audio. |
-| `SPRL` | 2026-05-12 · lightning_round · [37:26](https://youtu.be/RDTfIM7usu4?t=2246) | "Spirail (exact company uncertain)" | Same — the name is admitted-uncertain at source. |
 | `URG` | 2026-01-20 · in_depth_analysis · [episode](https://youtu.be/tKgYSl5KSq0) | "US Anamoney (United States Rare Earth…)" | Garbled name. `URG` is Ur-Energy. Candidate is `USAR` (USA Rare Earth) but unconfirmed. |
 | `MIND` | 2026-04-20 · interview · [28:08](https://youtu.be/-kPm8LikEBI?t=1688) | Biphenium Therapeutics | `MIND` is MIND Technology (marine tech). "Biphenium" doesn't resolve to a known issuer. |
 | `PBR` | 2026-04-02 · lightning_round · [36:20](https://youtu.be/3nt_bL2oclU?t=2180) | Polarcoin | `PBR` is Petrobras. "Polarcoin" doesn't resolve. |
@@ -123,6 +121,22 @@ sitting on Brandywine Realty Trust's inherited $3.12.
 With that, **section 1 of the mismatch queue (proven mis-tickers) is empty** — the
 `AVX`/`AX` → `AVEX` fixes and this deletion cleared all three that carried a
 provably-wrong symbol.
+
+### `SPRL` &rarr; `STRL` — and a two-callers-in-a-row trap
+
+Resolved 2026-07-23. `SPRL` (2026-05-12 lightning round) is **Sterling
+Infrastructure** (`STRL`), a small-cap infrastructure name whose CEO Cramer had
+interviewed; the caption garbled "STRL"/"Sterling" into "SPRL." Retargeted; the
+5/12 close is **$851.35** (was a bogus $0.00).
+
+Worth recording because the first read was wrong: this lightning round has **two
+adjacent callers** — Mike (East Boston) asks about *"beat and raise guidance from
+GDRX"* at [37:55], and Dennis (Cherry Hill) asks about *"SPRL stock… small-volume…
+monster move"* at [39:38]. `GDRX` (GoodRx) was already stored correctly as its own
+row; it is a **different call** from `SPRL`. Retargeting `SPRL` → `GDRX` (the
+initial hunch) would have collided on `UNIQUE(episode, ticker, segment)` and
+misfiled Dennis's call onto GoodRx. Lesson: when a lightning round has back-to-back
+callers, confirm *which caller* a row belongs to before moving it.
 
 ### Also noted
 
