@@ -1,6 +1,6 @@
 # Ticker / Company Name Mismatches — Review Queue
 
-**62 ticker(s)** hold a company name that Yahoo Finance says belongs to
+**61 ticker(s)** hold a company name that Yahoo Finance says belongs to
 a different company. These are not all the same problem — some are wrong data,
 most are a name we wrote informally — so they are split by **what can actually be
 proved**, not by what they look like.
@@ -10,7 +10,7 @@ symbol does Yahoo return for the company name we stored? A different symbol back
 means the call is sitting on the wrong company; the same symbol means our name is
 merely informal.
 
-That settles **8 of 62**. It cannot settle the other
+That settles **7 of 61**. It cannot settle the other
 **54**, because Yahoo's search only matches *current legal* names — it
 returns nothing for "Snapchat", "Burlington Coat Factory" or "D-Wave Systems"
 exactly as it returns nothing for a caption garble. Those need the transcript.
@@ -39,7 +39,7 @@ python3 code/pipeline.py --backfill-prices --tickers CORRECT
 The **Where** column links each mention to its spot in the episode (`date · segment · timestamp`) so you can confirm the call by ear. A timestamp that resolves to the episode start means that section has no timing on disk yet — the same fallback the unknown-ticker queue uses.
 
 
-## 1. Likely mis-tickers — 3 ticker(s), the data is wrong
+## 1. Likely mis-tickers — 2 ticker(s), the data is wrong
 
 **This is the section that matters.** Yahoo maps our stored company name to a
 *different* symbol than the one we filed the call under, so the call is most
@@ -52,7 +52,6 @@ Confirm against the transcript before changing anything.
 
 | Ticker | We stored it as | That name is probably | But this symbol is | Where — date · segment · time |
 |--------|-----------------|----------------------|--------------------|-------------------------------|
-| `AVX` | **Aeva Technologies** | `AEVA` | Avax One Technology Ltd. | 2026-04-17 · in_depth_analysis · [21:20](https://youtu.be/HYRppgkEDXc?t=1280) |
 | `AX` | **Axiom (Defense Technology)** | `AXIN` | Axos Financial, Inc. | 2026-07-21 · opening_commentary · [0:17](https://youtu.be/ShGPsBV3YZA?t=17) |
 | `BDN` | **Blue (implied Blackstone or similar; context suggests private credit entity)** | `OBDC` | Brandywine Realty Trust | 2026-03-03 · closing_commentary · [39:00](https://youtu.be/ISGe21_RSYs?t=2340) |
 

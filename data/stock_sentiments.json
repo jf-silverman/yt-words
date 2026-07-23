@@ -28679,24 +28679,6 @@
         }
       ]
     },
-    "AVX": {
-      "company": "Aeva Technologies",
-      "mentions": [
-        {
-          "date": "2026-04-17",
-          "sentiment": "buy",
-          "segment": "in_depth_analysis",
-          "note": "Drone maker IPO'd at $20, +35% to $27 on day one; $8B+ pipeline, $645M EUCOM Deep Strike contract (4,800+ drones); Q1 '26 revenue 4x YoY, returning to profitability; $3B valuation too cheap at 7x sales, 38x PE.",
-          "closing_price": 7.68
-        }
-      ],
-      "sector": "Technology",
-      "industry": "Software - Infrastructure",
-      "style": "",
-      "pe_ratio": null,
-      "market_cap": 25465942,
-      "market_cap_category": "nano"
-    },
     "IMTX": {
       "company": "Immunity Bio",
       "mentions": [
@@ -30446,6 +30428,20 @@
           "segment": "closing_commentary",
           "note": "Speculative data center play (formerly Bit Farms) with 650MW approved power, no hyperscaler customer yet; Situational Awareness hedge fund backing; could double to $8 per BTI research.",
           "closing_price": 4.69
+        }
+      ]
+    },
+    "AVEX": {
+      "company": "AEVEX Corp.",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-04-17",
+          "sentiment": "buy",
+          "segment": "in_depth_analysis",
+          "note": "Drone maker IPO'd at $20, +35% to $27 on day one; $8B+ pipeline, $645M EUCOM Deep Strike contract (4,800+ drones); Q1 '26 revenue 4x YoY, returning to profitability; $3B valuation too cheap at 7x sales, 38x PE.",
+          "closing_price": 26.93
         }
       ]
     }
