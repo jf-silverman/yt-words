@@ -197,6 +197,34 @@ model just reached for a same-theme ETF ticker (quantum / tech) instead of the
 company's own symbol. `PBR` is the mirror image of `AVX`: there the *name* was the good
 half, here the *ticker* was — so the fix was name-only and the price never moved.
 
+### `BWX` on 1/15 was two nuclear-defense companies × two analysis passes (4 rows)
+
+Resolved 2026-07-23 (user identified both from audio; the in-depth segment was a
+nuclear-tech-for-defense roundup). The queue flagged `BWX`, but episode 92 held **four**
+rows for two real companies, each analyzed twice — once with a proper
+`in_depth_analysis` segment and once with an **empty** segment (a second-pass artifact;
+the empty string is a distinct value, so `UNIQUE(episode_id, ticker, segment)` never
+caught the duplicate `BWX`):
+
+| id | ticker | segment | price | which company (by note) |
+|----|--------|---------|-------|-------------------------|
+| 4270 | `BWC` | in_depth | — | Babcock & Wilcox — "$0.22→$8, 360%, coal-to-gas for data centers" |
+| 7615 | `BWX` | *(empty)* | 22.32 | Babcock & Wilcox — same turnaround thesis |
+| 4271 | `BWX` | in_depth | 22.32 | BWX Technologies — "80% Navy, 30-yr shipbuilding" |
+| 7525 | `BWXT` | *(empty)* | 213.25 | BWX Technologies — "$76→$213" |
+
+Both `BWX`-tickered rows had inherited the **SPDR Bloomberg International Treasury Bond
+ETF** price ($22.32) — `BWX` is that ETF, not either company. Consolidated to two clean
+`buy_on_pullback` in-depth rows: deleted the two empty-segment duplicates (7525, 7615),
+retargeted 4271 `BWX`→**`BWXT`** (BWX Technologies, $213.25), and 4270 `BWC`→**`BW`**
+(Babcock & Wilcox, $8.31, sentiment caution→buy_on_pullback per the note's "wait for
+pullback"). Yahoo confirms `BW` $8.31 (matches the "$8+" note) and `BWXT` $213.25.
+
+Two lessons: (1) an **empty segment value slips past the UNIQUE guard** — a duplicate
+mention can hide as `(ep, ticker, '')` alongside `(ep, ticker, 'in_depth_analysis')`;
+(2) `BW` vs `BWXT` vs the `BWX` ETF is a three-way ticker trap where the caption-garbled
+`BWX` grabbed a *bond fund's* price for both companies.
+
 ---
 
 ## Method notes
