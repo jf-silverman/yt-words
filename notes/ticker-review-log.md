@@ -21,7 +21,6 @@ has no timing on disk. Timestamps are section starts, so scrub forward a little.
 
 | Ticker | Where — date · segment · time | Stored as | Why it's held |
 |--------|-------------------------------|-----------|---------------|
-| `URG` | 2026-01-20 · in_depth_analysis · [episode](https://youtu.be/tKgYSl5KSq0) | "US Anamoney (United States Rare Earth…)" | Garbled name. `URG` is Ur-Energy. Candidate is `USAR` (USA Rare Earth) but unconfirmed. |
 | `MIND` | 2026-04-20 · interview · [28:08](https://youtu.be/-kPm8LikEBI?t=1688) | Biphenium Therapeutics | `MIND` is MIND Technology (marine tech). "Biphenium" doesn't resolve to a known issuer. |
 | `PBR` | 2026-04-02 · lightning_round · [36:20](https://youtu.be/3nt_bL2oclU?t=2180) | Polarcoin | `PBR` is Petrobras. "Polarcoin" doesn't resolve. |
 | `QTUM` / `QTEC` | 2026-06-04 · in_depth_analysis · [21:00](https://youtu.be/2KJ4PtpX3Wk?t=1260)<br>2026-03-25 · lightning_round · [56:00](https://youtu.be/V9apPO6VXII?t=3360) | Quantinium / Quantee Electronics | Both stored tickers are **ETFs**. The underlying companies don't resolve to a listed symbol; these may belong in the `????` queue instead. |
@@ -158,6 +157,30 @@ counts mentions straight from the DB without that filter.
 This is the validator working as designed on the same night it ran, rather than a
 row aging in the queue — the opposite failure mode from `AVX`, where the stored
 *name* was the hallucination.
+
+### `URG` → `UAMY` **and** `CKML` → `CRML` — two sell calls in one sentence
+
+Resolved 2026-07-23 (user listened to the audio). The 2026-01-20 in-depth segment
+names **two** rare-earth/critical-minerals speculation plays in the same breath, both
+sell/avoid:
+
+> [20:55] *"United States **Anamoney** up nearly 85%. **Critical Metals Corp** 147%
+> for the year… that's a rare earth elements producer. You got to be kidding."*
+
+- `URG` (id 7597) → **`UAMY`**, **U.S. Antimony Corporation**. "Anamoney" is the
+  caption garble of *Antimony*; `URG` is Ur-Energy, unrelated. The earlier `USAR`
+  (USA Rare Earth) guess in the Held table was wrong — the "85%" name is Antimony,
+  not rare earth. Price corrected from Ur-Energy's inherited $1.92 to UAMY's real
+  01-20 close **$9.27**. (UAMY already had a separate 03-12 lightning-round row, so
+  no UNIQUE clash.)
+- `CKML` (id 7598) → **`CRML`**, **Critical Metals Corp** — the row was already the
+  right *company*, just filed under the wrong symbol (`CKML` is not Critical Metals).
+  Price filled from none to CRML's 01-20 close **$17.17**; seeded `daily_prices` too.
+
+Two traps this row illustrates: (1) two adjacent sell calls in one sentence read as a
+single garbled mention until you separate them by company; (2) the Held-table
+candidate (`USAR`) attached the wrong company to the wrong percentage — the "up 85%"
+name was Antimony, and it took the audio to split them.
 
 ---
 
