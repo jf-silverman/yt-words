@@ -1954,19 +1954,32 @@ def build_email_html(summaries: list[dict],
                 if not custom_segs:
                     return ""
                 segs = custom_segs
-            needs_name_match = "interview" in segs
-            matched = []
-            for s in stocks:
-                if _norm_segment(s.get("segment", "")) not in segs:
-                    continue
+            in_seg = [s for s in stocks
+                      if _norm_segment(s.get("segment", "")) in segs and s.get("ticker")]
+
+            def _named_in_title(s: dict) -> bool:
                 ticker = s.get("ticker", "")
-                if not ticker:
-                    continue
-                if needs_name_match:
-                    company = s.get("company", "")
-                    if ticker.lower() not in name_lower and (not company or company.lower() not in name_lower):
-                        continue
-                matched.append(s)
+                company = s.get("company", "")
+                return (ticker.lower() in name_lower
+                        or bool(company and company.lower() in name_lower))
+
+            if "interview" in segs:
+                # Multiple interviews per episode share one segment value, so
+                # only the company named in the title belongs to this section.
+                matched = [s for s in in_seg if _named_in_title(s)]
+            elif "in_depth_analysis" in segs:
+                # An "In-Depth: Company (TICKER)" deep dive names its one stock
+                # in the title. Several in-depth sections share the same segment
+                # value, so a bare segment match lists every in-depth ticker
+                # under each section (GEV and GM both showed under both the GE
+                # Vernova and the GM deep dive on 2026-07-22). Restrict to the
+                # titled stock. A *thematic* in-depth roundup names no ticker in
+                # its title, so name-matching finds nothing — fall back to the
+                # whole in-depth bucket there so those pills still render.
+                named = [s for s in in_seg if _named_in_title(s)]
+                matched = named if named else in_seg
+            else:
+                matched = list(in_seg)
             # Closing Commentary usually recaps names already discussed earlier
             # in the episode (under their original segment, e.g. an interview)
             # rather than introducing new closing_commentary-tagged mentions —
