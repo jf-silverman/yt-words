@@ -1,6 +1,6 @@
 # Ticker / Company Name Mismatches — Review Queue
 
-**57 ticker(s)** hold a company name that Yahoo Finance says belongs to
+**54 ticker(s)** hold a company name that Yahoo Finance says belongs to
 a different company. These are not all the same problem — some are wrong data,
 most are a name we wrote informally — so they are split by **what can actually be
 proved**, not by what they look like.
@@ -10,8 +10,8 @@ symbol does Yahoo return for the company name we stored? A different symbol back
 means the call is sitting on the wrong company; the same symbol means our name is
 merely informal.
 
-That settles **5 of 57**. It cannot settle the other
-**52**, because Yahoo's search only matches *current legal* names — it
+That settles **5 of 54**. It cannot settle the other
+**49**, because Yahoo's search only matches *current legal* names — it
 returns nothing for "Snapchat", "Burlington Coat Factory" or "D-Wave Systems"
 exactly as it returns nothing for a caption garble. Those need the transcript.
 
@@ -55,7 +55,7 @@ Confirm against the transcript before changing anything.
 _None._
 
 
-## 2. Undecidable without the transcript — 52 ticker(s)
+## 2. Undecidable without the transcript — 49 ticker(s)
 
 Yahoo's search recognises neither name, so there is no evidence either way. This
 bucket genuinely mixes both problems: harmless old names ("Burlington Coat
@@ -88,14 +88,11 @@ exactly the way "D-Wave Systems" vs "D-Wave Quantum" do. Sorted hint-first.
 | `KGC` | **Kagra** | Kinross Gold Corporation | **no** | **✗** / yes | 2026-03-27 · opening_commentary · [0:17](https://youtu.be/aK5g9aWVbWU?t=17) |
 | `KMG` | **Kimcor** | KMG Chemicals, Inc. | **no** | **✗** / **✗** | 2026-03-26 · opening_commentary · [0:18](https://youtu.be/LPnGGW9Dm48?t=18) |
 | `MDLM` | **Medline Industries** | MEDLEY MANAGEMENT INC | **no** | **✗** / yes | 2026-01-16 · lightning_round · [episode](https://youtu.be/3qf_h8DXLyY) |
-| `MIND` | **Biphenium Therapeutics** | MIND Technology, Inc. | **no** | yes / yes | 2026-04-20 · interview · [28:08](https://youtu.be/-kPm8LikEBI?t=1688) |
 | `NU` | **Nubank** | Nu Holdings Ltd. | **no** | **✗** / **✗** | 2026-01-23 · lightning_round · [episode](https://youtu.be/rzJfXrAjODY) |
-| `PBR` | **Polarcoin Beverage / Polar Bear (PBR stock ticker context unclear)** | Petroleo Brasileiro S.A. Petrob | **no** | yes / yes | 2026-04-02 · lightning_round · [36:20](https://youtu.be/3nt_bL2oclU?t=2180) |
+| `PBR` | **Petrobras** | Petroleo Brasileiro S.A. Petrob | **no** | yes / **✗** | 2026-04-02 · lightning_round · [36:20](https://youtu.be/3nt_bL2oclU?t=2180) |
 | `PCG` | **PG&E Corporation** | Pacific Gas & Electric Co. | **no** | yes / yes | 2026-04-23 · interview · [10:51](https://youtu.be/4AOW-E3MQLY?t=651) / [21:05](https://youtu.be/4AOW-E3MQLY?t=1265) / [28:54](https://youtu.be/4AOW-E3MQLY?t=1734) |
 | `PDYN` | **Paladin** | Palladyne AI Corp. | **no** | yes / yes | 2026-03-24 · lightning_round · [36:15](https://youtu.be/WIdKqDtRhRg?t=2175) |
 | `PLC` | **Power & Light Company** | Principal U.S. Large-Cap Multi-Factor ETF | **no** | yes / yes | 2026-07-06 · lightning_round · [36:30](https://youtu.be/UjZ1MYcw2OA?t=2190) |
-| `QTEC` | **Quantee Electronics** | First Trust NASDAQ-100-Technolo | **no** | **✗** / yes | 2026-03-25 · lightning_round · [56:00](https://youtu.be/V9apPO6VXII?t=3360) |
-| `QTUM` | **Quantinium** | Defiance Quantum ETF | **no** | **✗** / yes | 2026-06-04 · in_depth_analysis · [21:00](https://youtu.be/2KJ4PtpX3Wk?t=1260) |
 | `RAN` | **Ramco Resources** | RanMarine Technology B.V. | **no** | yes / yes | 2026-01-27 · lightning_round · [episode](https://youtu.be/VqOMrFKSevs) |
 | `SLS` | **Selecta Biosciences** | SELLAS Life Sciences Group, Inc | **no** | yes / **✗** | 2026-05-28 · lightning_round · [35:08](https://youtu.be/G_nPvcsM8LA?t=2108) |
 | `THO` | **Tenneco (Thomas Oil)** | THOR Industries, Inc. | **no** | **✗** / yes | 2026-06-23 · opening_commentary · [0:17](https://youtu.be/TW-oqAAfZDY?t=17) |
