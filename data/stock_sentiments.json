@@ -13786,13 +13786,6 @@
       "company": "Babcock & Wilcox",
       "mentions": [
         {
-          "date": "2026-01-15",
-          "sentiment": "caution_concern",
-          "segment": "in_depth_analysis",
-          "note": "Pure speculation after 360% rally from $0.22 lows; converts coal plants to natural gas for AI data centers; high debt, losses, unproven execution; wait for pullback before buying.",
-          "closing_price": null
-        },
-        {
           "date": "2026-05-15",
           "sentiment": "strong_buy",
           "segment": "interview",
@@ -23499,8 +23492,8 @@
         {
           "date": "2026-01-15",
           "sentiment": "buy_on_pullback",
-          "segment": "",
-          "note": "Nuclear and defense supplier, 80% Navy business; rallied $76\u2192$213 on 30-year Navy ship building plan; commercial nuclear up 122% last quarter; trades 50x forward earnings \u2014 too rich, wait for pullback.",
+          "segment": "in_depth_analysis",
+          "note": "Nuclear/defense supplier (80% government/Navy); commercial nuclear up 122% (data center demand), government +10%; 30-year Navy shipbuilding visibility; 50x earnings too rich\u2014wait for pullback.",
           "closing_price": 213.25
         },
         {
@@ -25500,31 +25493,6 @@
       "market_cap": 12140724224,
       "market_cap_category": "large"
     },
-    "BWX": {
-      "company": "Babcock and Wilcox Enterprises",
-      "mentions": [
-        {
-          "date": "2026-01-15",
-          "sentiment": "buy_on_pullback",
-          "segment": "in_depth_analysis",
-          "note": "Nuclear/defense supplier (80% government/Navy); commercial nuclear up 122% (data center demand), government +10%; 30-year Navy shipbuilding visibility; 50x earnings too rich\u2014wait for pullback.",
-          "closing_price": 22.32
-        },
-        {
-          "date": "2026-01-15",
-          "sentiment": "buy_on_pullback",
-          "segment": "",
-          "note": "Surged 360% from $0.22 lows to $8+; too expensive now after 30% YTD run; wait for pullback; converts coal to gas for data centers, diversifying power solutions.",
-          "closing_price": 22.32
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
     "GD": {
       "company": "General Dynamics",
       "mentions": [
@@ -25642,6 +25610,13 @@
           "segment": "lightning_round",
           "note": "Legitimate spec on power-plant construction demand, up 30% this year; wait for a dip before buying.",
           "closing_price": 8.22
+        },
+        {
+          "date": "2026-01-15",
+          "sentiment": "buy_on_pullback",
+          "segment": "in_depth_analysis",
+          "note": "Pure speculation after 360% rally from $0.22 lows; converts coal plants to natural gas for AI data centers; high debt, losses, unproven execution; wait for pullback before buying.",
+          "closing_price": 8.31
         }
       ],
       "sector": "Industrials",

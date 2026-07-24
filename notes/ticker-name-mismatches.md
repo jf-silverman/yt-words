@@ -1,6 +1,6 @@
 # Ticker / Company Name Mismatches — Review Queue
 
-**54 ticker(s)** hold a company name that Yahoo Finance says belongs to
+**53 ticker(s)** hold a company name that Yahoo Finance says belongs to
 a different company. These are not all the same problem — some are wrong data,
 most are a name we wrote informally — so they are split by **what can actually be
 proved**, not by what they look like.
@@ -10,8 +10,8 @@ symbol does Yahoo return for the company name we stored? A different symbol back
 means the call is sitting on the wrong company; the same symbol means our name is
 merely informal.
 
-That settles **5 of 54**. It cannot settle the other
-**49**, because Yahoo's search only matches *current legal* names — it
+That settles **5 of 53**. It cannot settle the other
+**48**, because Yahoo's search only matches *current legal* names — it
 returns nothing for "Snapchat", "Burlington Coat Factory" or "D-Wave Systems"
 exactly as it returns nothing for a caption garble. Those need the transcript.
 
@@ -55,7 +55,7 @@ Confirm against the transcript before changing anything.
 _None._
 
 
-## 2. Undecidable without the transcript — 49 ticker(s)
+## 2. Undecidable without the transcript — 48 ticker(s)
 
 Yahoo's search recognises neither name, so there is no evidence either way. This
 bucket genuinely mixes both problems: harmless old names ("Burlington Coat
@@ -71,7 +71,6 @@ exactly the way "D-Wave Systems" vs "D-Wave Quantum" do. Sorted hint-first.
 
 | Ticker | We stored it as | Yahoo's name | Similar? | Said? sym/name | Where — date · segment · time |
 |--------|-----------------|--------------|----------|----------------|-------------------------------|
-| `BWX` | **Babcock and Wilcox Enterprises** | State Street SPDR Bloomberg Int | **no** | yes / yes | 2026-01-15 · — · [episode](https://youtu.be/-dnfldqfazA)<br>2026-01-15 · in_depth_analysis · [episode](https://youtu.be/-dnfldqfazA) |
 | `ABX` | **Barrick Gold** | Abacus Global Management, Inc. | **no** | **✗** / yes | 2026-01-28 · opening_commentary · [episode](https://youtu.be/UxsosXoIT9E) |
 | `ACOM` | **Acorn Realty Trust** | Harbor Active Commodity ETF | **no** | yes / yes | 2026-03-06 · lightning_round · [35:07](https://youtu.be/OLHPn2XxtzQ?t=2107) |
 | `AHCO` | **Acuity Electronics** | AdaptHealth Corp. | **no** | **✗** / yes | 2026-04-27 · in_depth_analysis · [11:11](https://youtu.be/HhPaoUmAoJA?t=671) / [23:57](https://youtu.be/HhPaoUmAoJA?t=1437) / [26:04](https://youtu.be/HhPaoUmAoJA?t=1564) |
@@ -140,7 +139,7 @@ renamed-companies note in CLAUDE.md.
 | `WOOF` | **Petco** | Petco Health and Wellness Compa | yes / yes | 2026-06-05 · opening_commentary · [0:17](https://youtu.be/LDtdnZddg-k?t=17) |
 
 
-_Checked 807 tickers with a stored company name. Tickers Yahoo does not
+_Checked 806 tickers with a stored company name. Tickers Yahoo does not
 recognise at all (hallucinated, private, OTC) are not listed here — see the
 'Hallucinated tickers' note in CLAUDE.md._
 
