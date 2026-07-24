@@ -25109,42 +25109,6 @@
       "market_cap": null,
       "market_cap_category": ""
     },
-    "URG": {
-      "company": "US Anamoney (United States Rare Earth & Critical Materials)",
-      "mentions": [
-        {
-          "date": "2026-01-20",
-          "sentiment": "sell_avoid",
-          "segment": "in_depth_analysis",
-          "note": "Rare earth play up nearly 85% YTD; speculative froth with no near-term production catalysts.",
-          "closing_price": 1.92
-        }
-      ],
-      "sector": "Energy",
-      "style": "",
-      "industry": "Uranium",
-      "pe_ratio": null,
-      "market_cap": 536397984,
-      "market_cap_category": "small"
-    },
-    "CKML": {
-      "company": "Critical Metals Corp",
-      "mentions": [
-        {
-          "date": "2026-01-20",
-          "sentiment": "sell_avoid",
-          "segment": "in_depth_analysis",
-          "note": "Rare earth elements producer up 147% YTD in 3 weeks; 'you've got to be kidding' level of speculation.",
-          "closing_price": null
-        }
-      ],
-      "sector": "",
-      "style": "",
-      "industry": "",
-      "pe_ratio": null,
-      "market_cap": null,
-      "market_cap_category": ""
-    },
     "RVMD": {
       "company": "Revolution Medicine",
       "mentions": [
@@ -30408,6 +30372,34 @@
           "segment": "opening_commentary",
           "note": "Defense tech stock (caller Randy). Sector under pressure: investors turned against defense due to budget concerns. Iran geopolitical spending likely to continue weighing on sector. Cramer disagrees with thesis but acknowledges headwinds.",
           "closing_price": 14.75
+        }
+      ]
+    },
+    "CRML": {
+      "company": "Critical Metals Corp",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-20",
+          "sentiment": "sell_avoid",
+          "segment": "in_depth_analysis",
+          "note": "Rare earth elements producer up 147% YTD in 3 weeks; 'you've got to be kidding' level of speculation.",
+          "closing_price": 17.17
+        }
+      ]
+    },
+    "UAMY": {
+      "company": "U.S. Antimony Corporation",
+      "sector": "",
+      "style": "",
+      "mentions": [
+        {
+          "date": "2026-01-20",
+          "sentiment": "sell_avoid",
+          "segment": "in_depth_analysis",
+          "note": "Antimony/critical minerals play up nearly 85% YTD; speculative froth with no near-term production catalysts.",
+          "closing_price": 9.27
         }
       ]
     }
