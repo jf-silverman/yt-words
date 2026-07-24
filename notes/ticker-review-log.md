@@ -19,11 +19,7 @@ Jump-to-video links (`date · segment · time`) come from the same section timin
 the review queue uses; a link that lands on the episode start means that section
 has no timing on disk. Timestamps are section starts, so scrub forward a little.
 
-| Ticker | Where — date · segment · time | Stored as | Why it's held |
-|--------|-------------------------------|-----------|---------------|
-| `MIND` | 2026-04-20 · interview · [28:08](https://youtu.be/-kPm8LikEBI?t=1688) | Biphenium Therapeutics | `MIND` is MIND Technology (marine tech). "Biphenium" doesn't resolve to a known issuer. |
-| `PBR` | 2026-04-02 · lightning_round · [36:20](https://youtu.be/3nt_bL2oclU?t=2180) | Polarcoin | `PBR` is Petrobras. "Polarcoin" doesn't resolve. |
-| `QTUM` / `QTEC` | 2026-06-04 · in_depth_analysis · [21:00](https://youtu.be/2KJ4PtpX3Wk?t=1260)<br>2026-03-25 · lightning_round · [56:00](https://youtu.be/V9apPO6VXII?t=3360) | Quantinium / Quantee Electronics | Both stored tickers are **ETFs**. The underlying companies don't resolve to a listed symbol; these may belong in the `????` queue instead. |
+_All previously-held rows were resolved 2026-07-23 (see below). The table is empty._
 
 ---
 
@@ -181,6 +177,25 @@ Two traps this row illustrates: (1) two adjacent sell calls in one sentence read
 single garbled mention until you separate them by company; (2) the Held-table
 candidate (`USAR`) attached the wrong company to the wrong percentage — the "up 85%"
 name was Antimony, and it took the audio to split them.
+
+### Held table cleared — the last four (all user-confirmed from audio)
+
+Resolved 2026-07-23. Each Yahoo close matched the confirmed company on the call date,
+so all four were applied. Two were caption garbles of a *company* name onto an
+unrelated real ticker; two had the model file a real company under an **ETF** symbol.
+
+| Was | Now | Company | Close (date) | Note |
+|-----|-----|---------|--------------|------|
+| `MIND` | `DFTX` | Definium Therapeutics | $23.18 (04-20) | `MIND` is MIND Technology (marine); "Biphenium" was a garble of the psychedelics biotech. |
+| `PBR` | `PBR` | **Petrobras** | $20.56 (04-02) | Ticker was right all along — only the company name ("Polarcoin") was hallucinated, so the stored close was already Petrobras'. Name-only fix. |
+| `QTUM` | `QNT` | Quantinuum Inc. | $60.38 (06-04) | Model filed the quantum IPO under the **Defiance Quantum ETF** symbol. "Quantinium" → Quantinuum. |
+| `QTEC` | `Q` | Qnity Electronics | $120.26 (03-25) | Model filed the DuPont electronics spin-off under the **First Trust Tech ETF** symbol. "Quantee" → Qnity; ticker is the single letter `Q`. |
+
+The `QTUM`/`QTEC` pair is the concrete case behind the Held note's worry that these
+"may belong in the `????` queue" — they didn't. Both were real, listed companies; the
+model just reached for a same-theme ETF ticker (quantum / tech) instead of the
+company's own symbol. `PBR` is the mirror image of `AVX`: there the *name* was the good
+half, here the *ticker* was — so the fix was name-only and the price never moved.
 
 ---
 
